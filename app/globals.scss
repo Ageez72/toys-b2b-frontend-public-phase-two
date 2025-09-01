@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@import "../src/assets/sass/base/icons.scss";
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/grid';
+
+@import "../src/assets/sass/main.scss";
+
+@font-face {
+  font-family: 'TheSans Bold';
+  src: url('../src/assets/fonts/TheSans-Bold.eot');
+  src: url('../src/assets/fonts/TheSans-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../src/assets/fonts/TheSans-Bold.woff2') format('woff2'),
+      url('../src/assets/fonts/TheSans-Bold.woff') format('woff'),
+      url('../src/assets/fonts/TheSans-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TheSans';
+  src: url('../src/assets/fonts/TheSans-Plain.eot');
+  src: url('../src/assets/fonts/TheSans-Plain.eot?#iefix') format('embedded-opentype'),
+      url('../src/assets/fonts/TheSans-Plain.woff2') format('woff2'),
+      url('../src/assets/fonts/TheSans-Plain.woff') format('woff'),
+      url('../src/assets/fonts/TheSans-Plain.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+
+

@@ -1,0 +1,214 @@
+.grid-card-container {
+    // margin-top: 70px;
+    margin-bottom: 0;
+
+    .grid-header {
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+        gap: 15px;
+
+        .grid-header-title {
+            font-size: 28px;
+            color: #000;
+            font-weight: bold;
+        }
+    }
+}
+
+.product-card {
+    &.list-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &.grid-card {
+        @media screen and (max-width: 650px) {
+            flex-wrap: wrap;
+
+            .product-card-image {
+                margin: auto;
+                // img {}
+            }
+        }
+    }
+
+    .product-card-image {
+        min-width: 250px;
+        max-width: 250px;
+        overflow: hidden;
+
+        img {
+            transition: all 0.4s ease-in-out;
+
+            &:hover {
+                transform: scale(1.15);
+            }
+        }
+    }
+
+    .product-card-content {
+        width: 100%;
+
+        a {
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    .product-card-title {
+        font-size: 18px;
+        font-weight: 400;
+        color: #1E1E1E;
+        margin-bottom: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+
+        @media (min-width: 640px) {
+            // min-height: 48px;
+            max-height: 48px;
+        }
+    }
+
+    .sku-number {
+        margin-bottom: 8px;
+    }
+
+    .product-card-description {
+        font-size: 14px;
+        color: #666876;
+        margin-bottom: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        // min-height: 21px;
+        max-height: 21px;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .stars {
+        margin-bottom: 10px;
+
+        i {
+            font-size: 13px;
+        }
+    }
+
+    .price {
+        margin-bottom: 16px;
+    }
+
+    .product-card-price {
+        font-size: 16px;
+        font-weight: 700;
+        color: #8D1A14;
+
+        &.details-product-card-price {
+            font-size: 20px;
+        }
+    }
+
+    .discount {
+        font-size: 16px;
+        font-weight: 700;
+        color: #C2C5D2;
+        text-decoration: line-through;
+    }
+
+
+    .out-stock-btn {
+        color: #666876;
+        font-size: 16px;
+        padding: 12px 5px;
+        background: #6A6E8329;
+        border-radius: 6px;
+        text-align: center;
+        margin-bottom: 0;
+
+        &.yellow {
+            color: #d8a343;
+            background-color: #d8a3431f;
+        }
+    }
+}
+
+.add-to-cart {
+    display: flex;
+    align-items: center;
+
+    @media screen and (max-width: 380px) {
+        flex-direction: column;
+    }
+
+    .product-card-quantity {
+        height: 48px;
+        border: 1px solid #C2C5D2;
+        border-radius: 6px;
+        font-size: 16px;
+        color: #4A4A49;
+
+        @media screen and (max-width: 380px) {
+            width: 100%;
+        }
+
+        input {
+            width: 60px;
+            text-align: center;
+        }
+
+        .btn {
+            flex: 1;
+            cursor: pointer;
+
+            i {
+                &::before {
+                    color: #4A4A49;
+                }
+            }
+        }
+    }
+
+    .add-to-cart-btn {
+        @media screen and (max-width: 380px) {
+            width: 100%;
+        }
+    }
+}
+
+.products-page-listing {
+    .product-card .product-card-image {
+        min-width: auto;
+        max-width: 250px;
+        margin: 0 auto 15px;
+    }
+}
+
+.discount {
+    font-size: 16px;
+    font-weight: 700;
+    color: #C2C5D2;
+    text-decoration: line-through;
+
+    &.sm {
+        font-size: 14px;
+    }
+}
+
+.required {
+    color: #e82832;
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0;
+}
+
+
+.related-listing {
+    .product-card-title {
+        font-size: 16px;
+    }
+}
