@@ -222,7 +222,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     const fetchCatalogsOptions = async () => {
         const lang = Cookies.get('lang') || 'AR';
         try {
-            if (isProductsPage) {
+            if (!isProductsPage) {
                 const res = await axios.get(`${BASE_API}${catalogEndpoint}&lang=${lang}&token=${Cookies.get('token')}`, {});
                 setCatalogsAllOptions(res.data);
                 const arr = res?.data?.catalogs?.filter(item => catalog.includes(item.code));

@@ -1,5 +1,6 @@
 .search-results-listing {
     position: absolute;
+    z-index: 2;
     margin-top: 5px;
     width: 560px;
     background-color: #fff;
@@ -8,7 +9,7 @@
     padding: 15px 0;
     border: 1px solid #ccc;
     @media (max-width: 660px) {
-        width: 91%;
+        width: 100%;
     }
 
     &.no-results {
