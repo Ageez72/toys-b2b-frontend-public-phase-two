@@ -148,7 +148,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             query.set('page', '1');
             // Reset all filters
             setFromPrice(0);
-            setToPrice(1600);
+            setToPrice(0);
             setItemType("");
             setItemStatus("");
             setBrand([]);
@@ -287,6 +287,11 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         };
     }, []);
 
+
+    useEffect(() => {
+        isProductsPage && handleApplyFilters();
+    }, [itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);
+
     return (
         <>
             <div className={`filter-bar card ${isProductsPage ? "filter-products-page" : "hero-filter"}`}>
@@ -320,18 +325,18 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                             <>
                                 <BrandsFilters selected={brand} parentOptions={parentOptions} brandsOptions={filtersSections?.brands} isFiltersPage={true} />
                                 {
-                                    categoryOpen && (
+                                    // categoryOpen && (
                                         <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0} />
-                                    )
+                                    // )
                                 }
                                 <FilterSingleItem title={translation.sectors} selected={itemType} options={filtersSections?.types} name="itemType" handleSingleItem={changeSingleItem} />
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSlider title={translation.priceRange} min={filtersSections?.price_min} max={filtersSections?.price_max} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} />
+                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} />
                                 </Suspense>
                                 {
-                                    catalogOpen && (
+                                    // catalogOpen && (
                                         <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
-                                    )
+                                    // )
                                 }
                                 <FilterSingleItem title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
                                 <div className="action-btns flex gap-3 mt-4">
