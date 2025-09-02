@@ -12,10 +12,12 @@ import ar from "../../../locales/ar.json";
 import { useAppContext } from '../../../context/AppContext';
 import { useSearchParams } from "next/navigation";
 
-const MultiRangeSlider = ({ min, max, selectedFrom, selectedTo, title, initiallyOpen = false, handlePriceFrom, handlePriceTo }) => {
+const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, selectedFrom, selectedTo, title, initiallyOpen = false, handlePriceFrom, handlePriceTo }) => {
   const searchParams = useSearchParams();
   const fromPrice = Number(searchParams?.get("fromPrice"));
   const toPrice = Number(searchParams?.get("toPrice"));
+
+  console.log(typeof fromPrice, typeof toPrice);
 
   const STORAGE_KEY = "price_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -57,6 +59,7 @@ const MultiRangeSlider = ({ min, max, selectedFrom, selectedTo, title, initially
   const updateRangeBar = useCallback(() => {
     const minPercent = getPercent(minValRef.current);
     const maxPercent = getPercent(maxValRef.current);
+    
 
     if (range.current) {
       range.current.style.left = `${minPercent}%`;
@@ -140,6 +143,11 @@ const MultiRangeSlider = ({ min, max, selectedFrom, selectedTo, title, initially
                 </div>
               </div>
             </div>
+            {
+              isProductsPage && (
+                <button className="primary-btn flex-1 sm-primary-btn" onClick={() => onSubmitRange()}>{translation.apply}</button>
+              )
+            }
           </DisclosurePanel>
         </div>
       )}

@@ -326,27 +326,27 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 <BrandsFilters selected={brand} parentOptions={parentOptions} brandsOptions={filtersSections?.brands} isFiltersPage={true} />
                                 {
                                     // categoryOpen && (
-                                        <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0} />
+                                    <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0} />
                                     // )
                                 }
                                 <FilterSingleItem title={translation.sectors} selected={itemType} options={filtersSections?.types} name="itemType" handleSingleItem={changeSingleItem} />
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} />
+                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} />
                                 </Suspense>
                                 {
                                     // catalogOpen && (
-                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
+                                    <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
                                     // )
                                 }
                                 <FilterSingleItem title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
-                                <div className="action-btns flex gap-3 mt-4">
-                                    <button className="primary-btn flex-1" onClick={handleApplyFilters}>{translation.apply}</button>
-                                    {showClearButton && (
+                                {showClearButton && (
+                                    <div className="action-btns flex gap-3 mt-4">
+                                        {/* <button className="primary-btn flex-1" onClick={handleApplyFilters}>{translation.apply}</button> */}
                                         <button className="gray-btn flex-1" onClick={handleClearFilter}>
                                             {translation.clear}
                                         </button>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </>
                         ) : !isProductsPage ? (
                             <>
