@@ -120,10 +120,10 @@ export default function Page() {
               )
             }
             {
-              details?.netWeightKg && (
+              details?.grossWeightKg && (
                 <div className="item flex w-full">
                   <div className="title w-1/2"><strong>{translation.weight}</strong></div>
-                  <div className="info w-1/2">{details?.netWeightKg} {translation.kg}</div>
+                  <div className="info w-1/2">{details?.grossWeightKg} {translation.kg}</div>
                 </div>
               )
             }

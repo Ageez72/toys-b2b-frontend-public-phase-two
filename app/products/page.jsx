@@ -25,49 +25,17 @@ export default function Page() {
   }, [state.LANG]);
 
   let sortingOptions = [
-    {
-      id: 1,
-      title: translation.products.sorting.default,
-      value: ""
-    },
-    {
-      id: 2,
-      title: translation.products.sorting.nameFrom,
-      value: "NAMEA"
-    },
-    {
-      id: 3,
-      title: translation.products.sorting.nameTo,
-      value: "NAMED"
-    },
-    {
-      id: 4,
-      title: translation.products.sorting.priceFrom,
-      value: "PRICEA"
-    },
-    {
-      id: 5,
-      title: translation.products.sorting.priceTo,
-      value: "PRICED"
-    },
+    { id: 1, title: translation.products.sorting.default, value: "" },
+    { id: 2, title: translation.products.sorting.nameFrom, value: "NAMEA" },
+    { id: 3, title: translation.products.sorting.nameTo, value: "NAMED" },
+    { id: 4, title: translation.products.sorting.priceFrom, value: "PRICEA" },
+    { id: 5, title: translation.products.sorting.priceTo, value: "PRICED" },
   ]
 
   const displayOptions = [
-    {
-      id: 1,
-      title: translation.products.pageSize["12"],
-      value: 12
-    },
-    {
-      id: 2,
-      title: translation.products.pageSize["24"],
-      value: 24
-    },
-    {
-      id: 3,
-      title: translation.products.pageSize["36"],
-      value: 36
-    }
+    { id: 1, title: translation.products.pageSize["12"], value: 12 },
+    { id: 2, title: translation.products.pageSize["24"], value: 24 },
+    { id: 3, title: translation.products.pageSize["36"], value: 36 }
   ]
   const lang = Cookies.get('lang') || 'AR';
   // Get search params from URL
@@ -116,6 +84,10 @@ export default function Page() {
   }, [apiParams]);
 
   async function fetchProducts() {
+    if (searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge")) {
+      const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
+      return res;
+    }
     const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
     return res;
   }
@@ -177,6 +149,9 @@ export default function Page() {
     retry: false,
   });
 
+  if(data?.data?.pagesToken){
+    Cookies.set('b2bPagesToken', data?.data?.pagesToken);
+  }
   // if (isLoading) return <VerticalLoader />;
   if (error instanceof Error) return push("/");
 
@@ -213,7 +188,7 @@ export default function Page() {
         </div>
         <div className="w-1/4 products-filter-side">
           <Suspense fallback={<div>Loading filters...</div>}>
-            <FilterBar key={queryString} isProductsPage={true} searchParams={queryString || []} catalogEndpoint={`${endpoints.products.catalogList}`} categoriesEndpoint={`${endpoints.products.categoriesList}`} searchTerm={searchTerm} sortItem={sortItem} pageSizeItem={pageSizeItem} resetUpperFilters={handleSortingPageSize} count={result} filtersSections={data?.data?.filters}/>
+            <FilterBar key={queryString} isProductsPage={true} searchParams={queryString || []} catalogEndpoint={`${endpoints.products.catalogList}`} categoriesEndpoint={`${endpoints.products.categoriesList}`} searchTerm={searchTerm} sortItem={sortItem} pageSizeItem={pageSizeItem} resetUpperFilters={handleSortingPageSize} count={result} filtersSections={data?.data?.filters} />
           </Suspense>
           <div className="back" onClick={() => handleFilterOnMobile("close")}></div>
         </div>

@@ -3,6 +3,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import FilterSingleItem from './FilterSingleItem';
 import Select2Form from './Select2Form';
 import MultiRangeSlider from './MultiRangeSlider';
+import MultiRangeSliderAge from './MultiRangeSliderAge';
 import BrandsFilters from './BrandsFilters';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
@@ -68,6 +69,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
 
     const [fromPrice, setFromPrice] = useState(useParams.get('fromPrice') || 0); // نطاق السعر
     const [toPrice, setToPrice] = useState(useParams.get('toPrice') || 0); // نطاق السعر
+    const [fromAge, setFromAge] = useState(useParams.get('fromAge') || 0); // نطاق العمر
+    const [toAge, setToAge] = useState(useParams.get('toAge') || 0); // نطاق العمر
     const [itemType, setItemType] = useState(useParams.get('itemType') || ""); // الاقسام
     const [brand, setBrand] = useState(() => {
         const value = useParams.get('brand');
@@ -108,6 +111,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
 
             if (fromPrice) query.set('fromPrice', fromPrice);
             if (toPrice) query.set('toPrice', toPrice);
+            if (fromAge) query.set('fromAge', fromAge);
+            if (toAge) query.set('toAge', toAge);
             if (itemType) query.set('itemType', itemType);
             if (itemStatus) query.set('itemStatus', itemStatus);
             if (sortItem) query.set('sort', sortItem);
@@ -124,8 +129,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             const searchParams = new URLSearchParams(); // This will be used for building query
             let searchItems = '';
 
-            if (fromPrice) searchParams.append('fromPrice', fromPrice);
-            if (toPrice) searchParams.append('toPrice', toPrice);
+            if (fromAge) searchParams.append('fromAge', fromAge);
+            if (toAge) searchParams.append('toAge', toAge);
             if (itemType) searchParams.append('itemType', itemType);
             if (itemStatus) searchParams.append('itemStatus', itemStatus);
             if (sortItem) searchParams.append('sort', sortItem);
@@ -149,6 +154,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             // Reset all filters
             setFromPrice(0);
             setToPrice(0);
+            setFromAge(0);
+            setToAge(0);
             setItemType("");
             setItemStatus("");
             setBrand([]);
@@ -175,6 +182,14 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         setToPrice(to)
     }
 
+    const changeAgeFrom = (from) => {
+        setFromAge(from);
+    }
+
+    const changeAgeTo = (to) => {
+        setToAge(to)
+    }
+
     const changeSingleItem = (name, value) => {
         if (name === "itemType") {
             setItemType(value)
@@ -199,16 +214,28 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     // get all options
     const fetchCategoriesOptions = async (ch, brands = []) => {
         try {
-            const res = await axios.get(`${BASE_API}${categoriesEndpoint}&brand=${brands?.join(',')}&lang=${lang}&token=${Cookies.get('token')}`, {});
-            setCategoriesAllOptions(res.data);
-            const arr = res.data.filter(item => category.includes(item.categoryId));
-            let selected = [];
-            arr?.map(item => (
-                selected.push({
-                    label: item.description,
-                    value: item.categoryId
-                })
-            ))
+            if (!isProductsPage){
+                const res = await axios.get(`${BASE_API}${categoriesEndpoint}&brand=${brands?.join(',')}&lang=${lang}&token=${Cookies.get('token')}`, {});
+                setCategoriesAllOptions(res.data);
+                const arr = res.data.filter(item => category.includes(item.categoryId));
+                let selected = [];
+                arr?.map(item => (
+                    selected.push({
+                        label: item.description,
+                        value: item.categoryId
+                    })
+                ))
+            } else {
+                setCategoriesAllOptions(filtersSections?.categories);                
+                const arr = filtersSections?.categories?.filter(item => category.includes(item.categoryId));
+                let selected = [];
+                arr?.map(item => (
+                    selected.push({
+                        label: item.description,
+                        value: item.categoryId
+                    })
+                ))
+            }
             if (!ch) {
                 setCategoryOpen(true)
             }
@@ -258,7 +285,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         }
         // if(brand.length){
         // }else {
-        //     fetchCategoriesOptions(true, brand)
+            fetchCategoriesOptions(true, brand)
         // }
     }, [filtersSections])
 
@@ -286,7 +313,6 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             });
         };
     }, []);
-
 
     useEffect(() => {
         isProductsPage && handleApplyFilters();
@@ -330,12 +356,18 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                     // )
                                 }
                                 <FilterSingleItem title={translation.sectors} selected={itemType} options={filtersSections?.types} name="itemType" handleSingleItem={changeSingleItem} />
+                                
                                 <Suspense fallback={<div>Loading...</div>}>
                                     <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} />
                                 </Suspense>
+
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <MultiRangeSliderAge title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} />
+                                </Suspense>
+                                
                                 {
                                     // catalogOpen && (
-                                    <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
+                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
                                     // )
                                 }
                                 <FilterSingleItem title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
