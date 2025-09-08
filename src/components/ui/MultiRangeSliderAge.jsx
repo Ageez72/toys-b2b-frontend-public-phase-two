@@ -67,7 +67,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, selectedFro
 
   // Update range visually when min or max changes
   useLayoutEffect(() => {
-    updateRangeBar();
+    setTimeout(() => updateRangeBar(), 0);
   }, [minVal, maxVal, updateRangeBar]);;
 
   // Update again when accordion opens
@@ -133,11 +133,9 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, selectedFro
                 <div ref={range} className="slider__range" />
                 <div className="slider__right-value">
                   <span>{maxVal}</span>
-                  <span> {translation.jod}</span>
                 </div>
                 <div className="slider__left-value">
                   <span>{minVal}</span>
-                  <span> {translation.jod}</span>
                 </div>
               </div>
             </div>

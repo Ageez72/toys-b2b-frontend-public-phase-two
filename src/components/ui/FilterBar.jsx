@@ -367,13 +367,21 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                     {
                         filtersSections ? (
                             <>
-                                <BrandsFilters selected={brand} parentOptions={parentOptions} brandsOptions={filtersSections?.brands} isFiltersPage={true} />
+                                {
+                                    filtersSections?.brands?.length > 0 && (
+                                        <BrandsFilters selected={brand} parentOptions={parentOptions} brandsOptions={filtersSections?.brands} isFiltersPage={true} />
+                                    )
+                                }
                                 {
                                     // categoryOpen && (
                                     <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0} />
                                     // )
                                 }
-                                <FilterSingleItem title={translation.sectors} selected={itemType} options={filtersSections?.types} name="itemType" handleSingleItem={changeSingleItem} />
+                                {
+                                    filtersSections?.types.length > 0 && (
+                                        <FilterSingleItem title={translation.sectors} selected={itemType} options={filtersSections?.types} name="itemType" handleSingleItem={changeSingleItem} />
+                                    )
+                                }
 
                                 <Suspense fallback={<div>Loading...</div>}>
                                     <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
