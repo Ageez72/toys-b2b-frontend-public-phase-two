@@ -164,7 +164,7 @@ function Cart() {
                     </div>
                     <div className="info flex-1 px-4">
                   <h3 className="font-bold sku-number">{item.id}</h3>
-                      <p className="name font-medium mb-0"><Link href={`/products/${item.id}`}>{item.name}</Link></p>
+                      <p className="name font-medium"><Link href={`/products/${item.id}`}>{item.name}</Link></p>
                       <div className="flex items-center gap-2">
                         <p className="price flex items-center gap-1 mb-0 text-sm text-gray-700">
                           <span>{Number(item.NET).toFixed(2)}</span>

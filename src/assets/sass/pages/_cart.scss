@@ -18,12 +18,12 @@
 
         .name {
             color: #1E1E1E;
-            margin-bottom: 10px;
             text-overflow: ellipsis;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             display: -webkit-box;
             overflow: hidden;
+            margin: 4px 0;
         }
 
         .price {
