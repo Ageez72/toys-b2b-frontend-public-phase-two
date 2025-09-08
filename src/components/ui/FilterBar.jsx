@@ -243,6 +243,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                         value: item.categoryId
                     })
                 ))
+                setSelectedCategoriesOptions(selected)
             } else {
                 setCategoriesAllOptions(filtersSections?.categories);
                 const arr = filtersSections?.categories?.filter(item => category.includes(item.categoryId));
@@ -253,11 +254,11 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                         value: item.categoryId
                     })
                 ))
+                setSelectedCategoriesOptions(selected)
             }
             if (!ch) {
                 setCategoryOpen(true)
             }
-            setSelectedCategoriesOptions(selected)
         } catch (error) {
             error.status === 401 && router.push("/");
         }
@@ -333,7 +334,10 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     }, []);
 
     useEffect(() => {
-        isProductsPage && handleApplyFilters();
+        const filterstatus = Cookies.get('filterstatus');
+        if (isProductsPage && filterstatus && filterstatus === "filter") {
+            handleApplyFilters();
+        }
     }, [itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);
 
     return (
@@ -373,28 +377,36 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                     )
                                 }
                                 {
-                                    // categoryOpen && (
-                                    <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0} />
-                                    // )
+                                    categoriesAllOptions?.length > 0 && (
+                                        // categoryOpen && (
+                                        <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0} />
+                                        // )
+                                    )
                                 }
                                 {
-                                    filtersSections?.types.length > 0 && (
+                                    filtersSections?.types?.length > 0 && (
                                         <FilterSingleItem title={translation.sectors} selected={itemType} options={filtersSections?.types} name="itemType" handleSingleItem={changeSingleItem} />
                                     )
                                 }
 
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
-                                </Suspense>
-
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSliderAge title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
+                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min)) || 0} max={Math.floor(parseFloat(filtersSections?.price_max)) || 1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                 </Suspense>
 
                                 {
-                                    // catalogOpen && (
-                                    <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
-                                    // )
+                                    filtersSections?.age_min && filtersSections?.age_max && (
+                                        <Suspense fallback={<div>Loading...</div>}>
+                                            <MultiRangeSliderAge title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
+                                        </Suspense>
+                                    )
+                                }
+
+                                {
+                                    catalogsAllOptions?.length > 0 && (
+                                        // catalogOpen && (
+                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
+                                        // )
+                                    )
                                 }
                                 <FilterSingleItem title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
                                 {showClearButton && (
@@ -419,7 +431,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                     <MultiRangeSlider title={translation.priceRange} min={0} max={1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={false} />
                                 </Suspense>
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSliderAge title={translation.ageRange} min={0} max={17} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} />
+                                    <MultiRangeSliderAge title={translation.ageRange} min={0} max={18} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} />
                                 </Suspense>
                                 {
                                     catalogOpen && (

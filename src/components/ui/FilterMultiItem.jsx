@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 
 export default function FilterMultiItem({
@@ -23,6 +24,7 @@ export default function FilterMultiItem({
         const newSelected = selected.includes(value)
             ? selected.filter((v) => v !== value)
             : [...selected, value];
+        Cookies.set('filterstatus', "filter");
 
         onOptionsChange(title, newSelected);
     };

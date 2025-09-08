@@ -111,8 +111,9 @@ export default function BrandsFilters({ selected = [], parentOptions, brandsOpti
                                             options={brand.brands}
                                             name="brand"
                                             selected={selectedMap[brand.code] || []}
-                                            onOptionsChange={(code, selectedItems) =>
+                                            onOptionsChange={(code, selectedItems) => {
                                                 handleOptionsChange(code, selectedItems)
+                                            }
                                             }
                                         />
                                     )

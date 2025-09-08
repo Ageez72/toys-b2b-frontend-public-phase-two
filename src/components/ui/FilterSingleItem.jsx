@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import Cookies from 'js-cookie';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 
 export default function FilterSingleItem({
@@ -15,6 +16,7 @@ export default function FilterSingleItem({
 
   const handleCheck = (value) => {
     const newValue = selectedValue === value ? null : value; // toggle behavior
+    Cookies.set('filterstatus', "filter");
     setSelectedValue(newValue);
     handleSingleItem(name, newValue); // send null if unselected
   };
