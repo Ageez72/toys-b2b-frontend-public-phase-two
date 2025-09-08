@@ -146,7 +146,24 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         }
     };
 
-    const handleClearFilter = () => {
+    const handleClearFilter = (range) => {
+        if (range) {
+            const query = new URLSearchParams(window.location.search);
+            if (range === "price") {
+                query.delete('fromPrice');
+                query.delete('toPrice');
+                setFromPrice(0);
+                setToPrice(0);
+            } else if (range === "age") {
+                query.delete('fromAge');
+                query.delete('toAge');
+                setFromAge(0);
+                setToAge(0);
+            }
+            router.push(`/products?${query.toString()}`);
+            return;
+        }
+
         if (isProductsPage) {
             const query = new URLSearchParams();
             Cookies.remove('pagesToken');
@@ -172,6 +189,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             Cookies.remove('store_filters');
             onClose && onClose()
         }
+
     }
 
     const changePriceFrom = (from) => {
@@ -214,7 +232,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     // get all options
     const fetchCategoriesOptions = async (ch, brands = []) => {
         try {
-            if (!isProductsPage){
+            if (!isProductsPage) {
                 const res = await axios.get(`${BASE_API}${categoriesEndpoint}&brand=${brands?.join(',')}&lang=${lang}&token=${Cookies.get('token')}`, {});
                 setCategoriesAllOptions(res.data);
                 const arr = res.data.filter(item => category.includes(item.categoryId));
@@ -226,7 +244,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                     })
                 ))
             } else {
-                setCategoriesAllOptions(filtersSections?.categories);                
+                setCategoriesAllOptions(filtersSections?.categories);
                 const arr = filtersSections?.categories?.filter(item => category.includes(item.categoryId));
                 let selected = [];
                 arr?.map(item => (
@@ -285,7 +303,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         }
         // if(brand.length){
         // }else {
-            fetchCategoriesOptions(true, brand)
+        fetchCategoriesOptions(true, brand)
         // }
     }, [filtersSections])
 
@@ -356,25 +374,25 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                     // )
                                 }
                                 <FilterSingleItem title={translation.sectors} selected={itemType} options={filtersSections?.types} name="itemType" handleSingleItem={changeSingleItem} />
-                                
+
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} />
+                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min))} max={Math.floor(parseFloat(filtersSections?.price_max))} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                 </Suspense>
 
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSliderAge title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} />
+                                    <MultiRangeSliderAge title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                 </Suspense>
-                                
+
                                 {
                                     // catalogOpen && (
-                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
+                                    <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
                                     // )
                                 }
                                 <FilterSingleItem title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
                                 {showClearButton && (
                                     <div className="action-btns flex gap-3 mt-4">
                                         {/* <button className="primary-btn flex-1" onClick={handleApplyFilters}>{translation.apply}</button> */}
-                                        <button className="gray-btn flex-1" onClick={handleClearFilter}>
+                                        <button className="gray-btn flex-1" onClick={() => handleClearFilter(null)}>
                                             {translation.clear}
                                         </button>
                                     </div>
@@ -390,7 +408,10 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 }
                                 <FilterSingleItem title={translation.sectors} selected={itemType} options={itemTypeOptions} name="itemType" handleSingleItem={changeSingleItem} />
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSlider title={translation.priceRange} min={0} max={1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} />
+                                    <MultiRangeSlider title={translation.priceRange} min={0} max={1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={false} />
+                                </Suspense>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <MultiRangeSliderAge title={translation.ageRange} min={0} max={17} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} />
                                 </Suspense>
                                 {
                                     catalogOpen && (
@@ -402,7 +423,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 <div className="action-btns flex gap-3 mt-4">
                                     <button className="primary-btn flex-1" onClick={handleApplyFilters}>{translation.apply}</button>
                                     {showClearButton && (
-                                        <button className="gray-btn flex-1" onClick={handleClearFilter}>
+                                        <button className="gray-btn flex-1" onClick={() => handleClearFilter(null)}>
                                             {translation.clear}
                                         </button>
                                     )}

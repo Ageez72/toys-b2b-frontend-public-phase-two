@@ -17,8 +17,6 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, selectedFro
   const fromAge = Number(searchParams?.get("fromAge"));
   const toAge = Number(searchParams?.get("toAge"));
 
-  console.log(typeof fromAge, typeof toAge);
-
   const STORAGE_KEY = "age_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // default fallback
