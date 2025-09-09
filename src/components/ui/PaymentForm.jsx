@@ -11,6 +11,8 @@ export default function PaymentForm() {
     setTranslation(state.LANG === "EN" ? en : ar);
   }, [state.LANG]);
 
+  const dir = document.documentElement.dir || "rtl";
+
   const [cardNumber, setCardNumber] = useState("4256 4256 4256 4256");
   const [expDate, setExpDate] = useState("12/24");
   const [ccv, setCcv] = useState("342");
@@ -39,13 +41,19 @@ export default function PaymentForm() {
 
 
   return (
-    <main className="payment-form-wrapper flex flex-col items-center justify-between">
-      <form className="bg-white w-full max-w-3xl mx-auto px-4 lg:px-6 py-8 shadow-md rounded-md flex flex-col lg:flex-row">
+    <main dir={dir} className="payment-form-wrapper flex flex-col items-center justify-between">
+      <form className={`bg-white w-full max-w-3xl mx-auto px-4 lg:px-6 py-8 shadow-md rounded-md flex flex-col lg:flex-row ${
+          dir === "rtl" ? "text-right" : "text-left"
+        }`}>
         {/* Form Section */}
-        <div className="w-full lg:w-1/2 lg:pr-8 lg:border-r-2 lg:border-slate-300">
+        <div className={`w-full lg:w-1/2 ${
+            dir === "rtl"
+              ? "lg:pl-8 lg:border-l-2"
+              : "lg:pr-8 lg:border-r-2"
+          } lg:border-slate-300`} >
           <div className="mb-4">
             <label className="text-neutral-800 font-bold text-sm mb-2 block" htmlFor="card-number">
-              Card number:
+              {translation.cardName}
             </label>
             <input
               type="text"
@@ -61,7 +69,7 @@ export default function PaymentForm() {
 
           <div className="mb-4">
             <label className="text-neutral-800 font-bold text-sm mb-2 block" htmlFor="card-name">
-              Card holder:
+              {translation.cardHolder}
             </label>
             <input
               type="text"
@@ -77,7 +85,7 @@ export default function PaymentForm() {
           <div className="flex gap-x-2 mb-4">
             <div>
               <label className="text-neutral-800 font-bold text-sm mb-2 block" htmlFor="exp-date">
-                Exp. date:
+                {translation.expDate}
               </label>
               <input
                 type="text"
@@ -92,7 +100,7 @@ export default function PaymentForm() {
             </div>
             <div>
               <label className="text-neutral-800 font-bold text-sm mb-2 block" htmlFor="ccv">
-                CCV:
+               {translation.ccv}
               </label>
               <input
                 type="text"
@@ -109,7 +117,9 @@ export default function PaymentForm() {
         </div>
 
         {/* Card Preview */}
-        <div className="card-preview w-full lg:w-1/2 lg:pl-8">
+        <div className={`card-preview w-full lg:w-1/2 ${
+            dir === "rtl" ? "lg:pr-8" : "lg:pl-8"
+          }`}>
           <div className="w-full max-w-sm h-56" style={{ perspective: "1000px" }}>
             <div
               className={`relative cursor-pointer transition-transform duration-500`}
@@ -161,7 +171,7 @@ export default function PaymentForm() {
                     <p className="font-light">Card Number</p>
                     <p className="font-medium tracking-wider h-6">{cardNumber}</p>
                   </div>
-                  <div className="pt-6 flex justify-between">
+                  <div className={`pt-6 flex justify-between ${dir === "rtl" ? "flex-row-reverse text-end" : ""}`}>
                     <div>
                       <p className="font-light">Name</p>
                       <p className="font-medium tracking-widest h-6">{cardName}</p>
@@ -186,10 +196,10 @@ export default function PaymentForm() {
                 />
                 <div className="w-full absolute top-8">
                   <div className="bg-black h-10"></div>
-                  <div className="px-8 mt-5 flex justify-end">
+                  <div className={`px-8 mt-5 flex ${dir === "rtl" ? "justify-start" : "justify-end"}`}>
                     <p className="bg-white text-black px-3 py-1">{ccv}</p>
                   </div>
-                  <p className="font-light text-xs text-right mt-2 px-2">security code</p>
+                  <p className={`font-light text-xs mt-2 px-2 ${dir === "rtl" ? "text-right" : "text-right"}`}>security code</p>
                 </div>
               </div>
             </div>

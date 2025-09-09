@@ -237,5 +237,10 @@
   "colors": "Color",
   "language": "Language",
   "year": "Year",
-  "yearss": "Years"
+  "yearss": "Years",
+  "cardName": "Card number:",
+  "expDate": "Expiration date:",
+  "ccv": "CCV:",
+  "cardHolder": "Card holder:",
+  "": ""
 }
