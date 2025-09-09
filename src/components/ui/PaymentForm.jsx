@@ -199,7 +199,7 @@ export default function PaymentForm() {
                   <div className={`px-8 mt-5 flex ${dir === "rtl" ? "justify-start" : "justify-end"}`}>
                     <p className="bg-white text-black px-3 py-1">{ccv}</p>
                   </div>
-                  <p className={`font-light text-xs mt-2 px-2 ${dir === "rtl" ? "text-right" : "text-right"}`}>security code</p>
+                  <p className={`font-light text-xs mt-2 px-2 ${dir === "rtl" ? "text-right" : "text-right"}`}>Security Code</p>
                 </div>
               </div>
             </div>
