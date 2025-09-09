@@ -30,7 +30,16 @@
   font-display: swap;
 }
 
-
-
+@font-face {
+    font-family: 'TheSansArabic';
+    src: url('../src/assets/fonts/TheSansArabic-Light.eot');
+    src: url('../src/assets/fonts/TheSansArabic-Light.eot?#iefix') format('embedded-opentype'),
+        url('../src/assets/fonts/TheSansArabic-Light.woff2') format('woff2'),
+        url('../src/assets/fonts/TheSansArabic-Light.woff') format('woff'),
+        url('../src/assets/fonts/TheSansArabic-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
 
 

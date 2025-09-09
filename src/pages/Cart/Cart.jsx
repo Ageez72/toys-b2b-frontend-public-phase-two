@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 import Loader from "@/components/ui/Loaders/Loader";
 import { showWarningToast } from "@/actions/toastUtils";
 import ErrorOrderResModal from "@/components/ui/ErrorOrderResModal";
+import PaymentForm from "@/components/ui/PaymentForm";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -145,6 +146,7 @@ function Cart() {
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
       {/* {loading && <Loader />} */}
       <Breadcrumb items={breadcrumbItems} />
+      <PaymentForm />
       <div className="flex gap-7 mt-5 pt-5 flex-col lg:flex-row">
         <div className="order-side">
           <div className="flex justify-between items-center mb-5">
