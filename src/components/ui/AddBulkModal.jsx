@@ -123,59 +123,117 @@ export default function AddBulkModal({ open, onClose }) {
   // Import Excel Handler
   // ------------------------
   const fetchProductBySku = async (sku) => {
-  try {
-    const token = Cookies.get("token");
-    const lang = Cookies.get("lang") || "AR";
+    try {
+      const token = Cookies.get("token");
+      const lang = Cookies.get("lang") || "AR";
 
-    const url = `${BASE_API}${endpoints.products.list}&search=${encodeURIComponent(
-      sku
-    )}&pageSize=1&itemStatus=AVAILABLE&lang=${lang}&token=${token}`;
+      const url = `${BASE_API}${endpoints.products.list}&search=${encodeURIComponent(
+        sku
+      )}&pageSize=1&itemStatus=AVAILABLE&lang=${lang}&token=${token}`;
 
-    const res = await axios.get(url);
-    return res.data?.items?.[0] || null;
-  } catch (err) {
-    console.error("❌ Error fetching product by SKU:", sku, err);
-    return null;
-  }
-};
-const handleImport = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = async (event) => {
-    const data = new Uint8Array(event.target.result);
-    const workbook = XLSX.read(data, { type: "array" });
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet);    
-
-    const importedItems = [];
-
-    for (let row of jsonData) {
-      const sku = row.sku;
-      const qty = row.quantity;      
-
-      if (!sku) continue;
-
-      const product = await fetchProductBySku(sku);      
-
-      if (product) {
-        importedItems.push({
-          ...product,
-          qty,
-          total: product.priceAfterDisc * qty,
-          isConfirmed: true,
-        });
-      }
+      const res = await axios.get(url);
+      return res.data?.items?.[0] || null;
+    } catch (err) {
+      console.error("❌ Error fetching product by SKU:", sku, err);
+      return null;
     }
-
-    // Merge into bulkItems
-    setBulkItems((prev) => [...prev, ...importedItems, { isConfirmed: false }]);
   };
 
-  reader.readAsArrayBuffer(file);
-};
+
+  const handleImport = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(worksheet);
+
+        // 1) Aggregate quantities by SKU (handle different column names)
+        const skuQtyMap = {};
+        for (const row of rows) {
+          const sku = String(row.sku ?? row.SKU ?? row.Sku ?? '').trim();
+          const qty = Number(row.quantity ?? row.Quantity ?? row.qty ?? 0);
+          if (!sku || qty <= 0) continue;
+          skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
+        }
+
+        const skus = Object.keys(skuQtyMap);
+        if (skus.length === 0) {
+          showToastError(translation.noProductsSelected || 'No valid SKU/quantity found in file.');
+          return;
+        }
+
+        // 2) Fetch products in parallel for all SKUs
+        const productFetches = skus.map(sku => fetchProductBySku(sku));
+        const fetchedProducts = await Promise.all(productFetches);
+
+        // 3) Build importedItems list (normalize unitPrice)
+        const importedItems = [];
+        for (let i = 0; i < skus.length; i++) {
+          const sku = skus[i];
+          const product = fetchedProducts[i];
+          const qty = skuQtyMap[sku];
+          if (!product) {
+            // you may want to notify user about missing SKUs
+            console.warn(`Product not found for SKU: ${sku}`);
+            continue;
+          }
+          const unitPrice = Number(product.priceAfterDisc ?? product.price ?? 0);
+          importedItems.push({
+            ...product,
+            qty,
+            unitPrice,
+            total: unitPrice * qty,
+            isConfirmed: true,
+          });
+        }
+
+        // 4) Merge into state: keep existing confirmed items, add qty for duplicates
+        setBulkItems((prev) => {
+          // copy confirmed items only (clone to avoid mutating original objects)
+          const confirmed = prev
+            .filter((it) => it.isConfirmed)
+            .map((it) => ({ ...it, qty: Number(it.qty || 0) }));
+
+          for (const newItem of importedItems) {
+            const idx = confirmed.findIndex((it) => it.id === newItem.id);
+            if (idx >= 0) {
+              // Add old qty + new qty
+              const oldQty = Number(confirmed[idx].qty || 0);
+              const addedQty = Number(newItem.qty || 0);
+              const updatedQty = oldQty + addedQty;
+              confirmed[idx].qty = updatedQty;
+
+              // Choose the unit price consistently:
+              const unit = Number(confirmed[idx].priceAfterDisc ?? confirmed[idx].unitPrice ?? confirmed[idx].price ?? newItem.unitPrice ?? 0);
+              confirmed[idx].total = unit * updatedQty;
+            } else {
+              // push new item (ensure we store unitPrice and numeric qty)
+              confirmed.push({
+                ...newItem,
+                qty: Number(newItem.qty || 0),
+                unitPrice: Number(newItem.unitPrice || 0),
+                total: Number(newItem.total || 0),
+              });
+            }
+          }
+
+          // keep a single empty row for manual additions
+          return [...confirmed, { isConfirmed: false }];
+        });
+      } catch (err) {
+        console.error('Import failed', err);
+        showToastError(translation.importFailed || 'Import failed');
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
 
   return (
     <Dialog open={open} onClose={onClose} className="relative z-999">
@@ -255,7 +313,7 @@ const handleImport = async (e) => {
                           <div className="item delete">
                             <button className="delete-btn" onClick={() => removeRow(index)}>
                               <i className="icon-minus"></i>
-                              <span readOnly>dd</span>
+                              <span className='hidden'>Delete</span>
                             </button>
                           </div>
                         </div>

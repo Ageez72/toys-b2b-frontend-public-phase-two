@@ -242,5 +242,5 @@
   "expDate": "Expiration date:",
   "ccv": "CCV:",
   "cardHolder": "Card holder:",
-  "": ""
+  "importFailed": "Import Failed"
 }
