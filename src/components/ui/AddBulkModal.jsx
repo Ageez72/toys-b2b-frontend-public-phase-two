@@ -140,100 +140,125 @@ export default function AddBulkModal({ open, onClose }) {
   };
 
 
-  const handleImport = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+const handleImport = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      try {
-        const data = new Uint8Array(event.target.result);
-        const workbook = XLSX.read(data, { type: "array" });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const rows = XLSX.utils.sheet_to_json(worksheet);
+  const reader = new FileReader();
+  reader.onload = async (event) => {
+    try {
+      const data = new Uint8Array(event.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const rows = XLSX.utils.sheet_to_json(worksheet);
 
-        // 1) Aggregate quantities by SKU (handle different column names)
-        const skuQtyMap = {};
-        for (const row of rows) {
-          const sku = String(row.sku ?? row.SKU ?? row.Sku ?? '').trim();
-          const qty = Number(row.quantity ?? row.Quantity ?? row.qty ?? 0);
-          if (!sku || qty <= 0) continue;
-          skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
-        }
-
-        const skus = Object.keys(skuQtyMap);
-        if (skus.length === 0) {
-          showToastError(translation.noProductsSelected || 'No valid SKU/quantity found in file.');
-          return;
-        }
-
-        // 2) Fetch products in parallel for all SKUs
-        const productFetches = skus.map(sku => fetchProductBySku(sku));
-        const fetchedProducts = await Promise.all(productFetches);
-
-        // 3) Build importedItems list (normalize unitPrice)
-        const importedItems = [];
-        for (let i = 0; i < skus.length; i++) {
-          const sku = skus[i];
-          const product = fetchedProducts[i];
-          const qty = skuQtyMap[sku];
-          if (!product) {
-            // you may want to notify user about missing SKUs
-            console.warn(`Product not found for SKU: ${sku}`);
-            continue;
-          }
-          const unitPrice = Number(product.priceAfterDisc ?? product.price ?? 0);
-          importedItems.push({
-            ...product,
-            qty,
-            unitPrice,
-            total: unitPrice * qty,
-            isConfirmed: true,
-          });
-        }
-
-        // 4) Merge into state: keep existing confirmed items, add qty for duplicates
-        setBulkItems((prev) => {
-          // copy confirmed items only (clone to avoid mutating original objects)
-          const confirmed = prev
-            .filter((it) => it.isConfirmed)
-            .map((it) => ({ ...it, qty: Number(it.qty || 0) }));
-
-          for (const newItem of importedItems) {
-            const idx = confirmed.findIndex((it) => it.id === newItem.id);
-            if (idx >= 0) {
-              // Add old qty + new qty
-              const oldQty = Number(confirmed[idx].qty || 0);
-              const addedQty = Number(newItem.qty || 0);
-              const updatedQty = oldQty + addedQty;
-              confirmed[idx].qty = updatedQty;
-
-              // Choose the unit price consistently:
-              const unit = Number(confirmed[idx].priceAfterDisc ?? confirmed[idx].unitPrice ?? confirmed[idx].price ?? newItem.unitPrice ?? 0);
-              confirmed[idx].total = unit * updatedQty;
-            } else {
-              // push new item (ensure we store unitPrice and numeric qty)
-              confirmed.push({
-                ...newItem,
-                qty: Number(newItem.qty || 0),
-                unitPrice: Number(newItem.unitPrice || 0),
-                total: Number(newItem.total || 0),
-              });
-            }
-          }
-
-          // keep a single empty row for manual additions
-          return [...confirmed, { isConfirmed: false }];
-        });
-      } catch (err) {
-        console.error('Import failed', err);
-        showToastError(translation.importFailed || 'Import failed');
+      // 1) Aggregate quantities by SKU
+      const skuQtyMap = {};
+      for (const row of rows) {
+        const sku = String(row.sku ?? row.SKU ?? row.Sku ?? "").trim();
+        const qty = Number(row.quantity ?? row.Quantity ?? row.qty ?? 0);
+        if (!sku || qty <= 0) continue;
+        skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
       }
-    };
 
-    reader.readAsArrayBuffer(file);
+      const skus = Object.keys(skuQtyMap);
+      if (skus.length === 0) {
+        showToastError(
+          translation.noProductsSelected ||
+            "No valid SKU/quantity found in file."
+        );
+        return;
+      }
+
+      // 2) Fetch products
+      const productFetches = skus.map((sku) => fetchProductBySku(sku));
+      const fetchedProducts = await Promise.all(productFetches);
+
+      // 3) Build importedItems list
+      const importedItems = [];
+      for (let i = 0; i < skus.length; i++) {
+        const sku = skus[i];
+        const product = fetchedProducts[i];
+        const qty = skuQtyMap[sku];
+        if (!product) {
+          console.warn(`Product not found for SKU: ${sku}`);
+          continue;
+        }
+        const unitPrice = Number(
+          product.priceAfterDisc ?? product.price ?? 0
+        );
+
+        // Clamp qty here too
+        let finalQty = Number(qty);
+        const maxAllowed = Math.min(product.avlqty, 10);
+        if (finalQty > maxAllowed) {
+          showWarningToast(
+            `${translation.quantityExceeded} ${maxAllowed}`,
+            lang,
+            translation.warning
+          );
+          finalQty = maxAllowed;
+        }
+
+        importedItems.push({
+          ...product,
+          qty: finalQty,
+          unitPrice,
+          total: unitPrice * finalQty,
+          isConfirmed: true,
+        });
+      }
+
+      // 4) Merge into state
+      setBulkItems((prev) => {
+        const confirmed = prev
+          .filter((it) => it.isConfirmed)
+          .map((it) => ({ ...it, qty: Number(it.qty || 0) }));
+
+        for (const newItem of importedItems) {
+          const idx = confirmed.findIndex((it) => it.id === newItem.id);
+          if (idx >= 0) {
+            // Add old qty + new qty
+            const oldQty = Number(confirmed[idx].qty || 0);
+            let updatedQty = oldQty + newItem.qty;
+
+            // Clamp to avlqty and 10
+            const maxAllowed = Math.min(confirmed[idx].avlqty, 10);
+            if (updatedQty > maxAllowed) {
+              showWarningToast(
+                `${translation.quantityExceeded} ${maxAllowed}`,
+                lang,
+                translation.warning
+              );
+              updatedQty = maxAllowed;
+            }
+
+            confirmed[idx].qty = updatedQty;
+            const unit = Number(
+              confirmed[idx].priceAfterDisc ??
+                confirmed[idx].unitPrice ??
+                confirmed[idx].price ??
+                newItem.unitPrice ??
+                0
+            );
+            confirmed[idx].total = unit * updatedQty;
+          } else {
+            confirmed.push(newItem);
+          }
+        }
+
+        return [...confirmed, { isConfirmed: false }];
+      });
+    } catch (err) {
+      console.error("Import failed", err);
+      showToastError(translation.importFailed || "Import failed");
+    }
   };
+
+  reader.readAsArrayBuffer(file);
+};
+
 
   return (
     <Dialog open={open} onClose={onClose} className="relative z-999">
@@ -323,7 +348,14 @@ export default function AddBulkModal({ open, onClose }) {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="action-btns flex gap-3 mt-4">
+                <div className="action-btns flex flex-wrap gap-3 mt-4">
+                  <button
+                    className={`primary-btn ${isSubmitDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={handleSubmit}
+                    disabled={isSubmitDisabled}
+                  >
+                    {translation.add}
+                  </button>
                   <div>
                     <input
                       type="file"
@@ -333,19 +365,12 @@ export default function AddBulkModal({ open, onClose }) {
                       onChange={handleImport}
                     />
                     <button
-                      className="primary-btn"
+                      className="outline-btn cursor-pointer"
                       onClick={() => document.getElementById("importExcel").click()}
                     >
-                      Import
+                      {translation.importExcel}
                     </button>
                   </div>
-                  <button
-                    className={`primary-btn ${isSubmitDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    onClick={handleSubmit}
-                    disabled={isSubmitDisabled}
-                  >
-                    {translation.add}
-                  </button>
                   <button className="gray-btn" onClick={onClose}>
                     {translation.cancel}
                   </button>

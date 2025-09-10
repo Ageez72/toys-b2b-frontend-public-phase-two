@@ -242,5 +242,8 @@
   "expDate": "Expiration date:",
   "ccv": "CCV:",
   "cardHolder": "Card holder:",
-  "importFailed": "Import Failed"
+  "importExcel": "Import Excel file",
+  "importFailed": "Import Failed",
+  "importSuccess": "Import Successful",
+  "fileTypeError": "Invalid file type. Please upload a CSV or Excel file."
 }

@@ -242,5 +242,8 @@
     "expDate": "تاريخ الانتهاء:",
     "ccv": "رمز الأمان:",
     "cardHolder": "اسم صاحب البطاقة:",
-    "importFailed": "فشل الاستيراد"
+    "importFailed": "فشل الاستيراد",
+    "importExcel": "استيراد ملف Excel",
+    "importSuccess": "تم الاستيراد بنجاح",
+    "fileTypeError": "نوع ملف غير صالح. يرجى تحميل ملف CSV أو Excel."
 }

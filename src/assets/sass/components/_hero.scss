@@ -333,7 +333,10 @@
 
         .action-btns {
             margin-top: 32px;
-            justify-content: end;
+            
+            @media (min-width: 600px) {
+                justify-content: end;
+            }
         }
 
         .mobile-title {
