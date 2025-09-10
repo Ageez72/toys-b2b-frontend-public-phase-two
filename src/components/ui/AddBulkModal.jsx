@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import * as XLSX from "xlsx";
 import SearchInput from './SearchInput';
 import {
   Dialog,
@@ -11,6 +12,9 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { useAppContext } from '../../../context/AppContext';
 import { showSuccessToast, showWarningToast, showErrorToast } from '@/actions/toastUtils';
+import axios from "axios";
+import Cookies from "js-cookie";
+import { BASE_API, endpoints } from "../../../constant/endpoints";
 
 export default function AddBulkModal({ open, onClose }) {
   const [bulkItems, setBulkItems] = useState([{ isConfirmed: false }]);
@@ -115,6 +119,64 @@ export default function AddBulkModal({ open, onClose }) {
     item.isConfirmed && (!item.qty || item.qty <= 0 || item.qty > item.avlqty)
   );
 
+  // ------------------------
+  // Import Excel Handler
+  // ------------------------
+  const fetchProductBySku = async (sku) => {
+  try {
+    const token = Cookies.get("token");
+    const lang = Cookies.get("lang") || "AR";
+
+    const url = `${BASE_API}${endpoints.products.list}&search=${encodeURIComponent(
+      sku
+    )}&pageSize=1&itemStatus=AVAILABLE&lang=${lang}&token=${token}`;
+
+    const res = await axios.get(url);
+    return res.data?.items?.[0] || null;
+  } catch (err) {
+    console.error("❌ Error fetching product by SKU:", sku, err);
+    return null;
+  }
+};
+const handleImport = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (event) => {
+    const data = new Uint8Array(event.target.result);
+    const workbook = XLSX.read(data, { type: "array" });
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);    
+
+    const importedItems = [];
+
+    for (let row of jsonData) {
+      const sku = row.sku;
+      const qty = row.quantity;      
+
+      if (!sku) continue;
+
+      const product = await fetchProductBySku(sku);      
+
+      if (product) {
+        importedItems.push({
+          ...product,
+          qty,
+          total: product.priceAfterDisc * qty,
+          isConfirmed: true,
+        });
+      }
+    }
+
+    // Merge into bulkItems
+    setBulkItems((prev) => [...prev, ...importedItems, { isConfirmed: false }]);
+  };
+
+  reader.readAsArrayBuffer(file);
+};
+
   return (
     <Dialog open={open} onClose={onClose} className="relative z-999">
       <DialogBackdrop className="fixed inset-0 bg-gray-500/75" />
@@ -124,6 +186,7 @@ export default function AddBulkModal({ open, onClose }) {
             <div className="p-32">
               <h2 className="modal-title">{translation.oneClick}</h2>
               <div className="add-bulk-table">
+                {/* Table Head */}
                 <div className="table-head flex gap-4">
                   <div className="name-qty flex items-center justify-between">
                     <div className="name mb-3 lg:mb-0">{translation.name}</div>
@@ -139,12 +202,12 @@ export default function AddBulkModal({ open, onClose }) {
                   </div>
                 </div>
 
+                {/* Table Body */}
                 <div className="table-body">
                   {bulkItems.map((item, index) => (
                     <div key={index} className="product-row flex items-center gap-4">
                       <div className="name-qty flex items-center justify-between">
                         <div className="name">
-                          <label className="mobile-title hidden">{translation.name}</label>
                           {item.isConfirmed ? (
                             <input
                               type="text"
@@ -166,7 +229,6 @@ export default function AddBulkModal({ open, onClose }) {
                           )}
                         </div>
                         <div className="qty">
-                          <label className="mobile-title hidden">{translation.qty}</label>
                           <input
                             type="number"
                             min="1"
@@ -183,39 +245,17 @@ export default function AddBulkModal({ open, onClose }) {
 
                       {item.isConfirmed && (
                         <div className="info flex items-center justify-between">
+                          <div className="item flex-1">{item.id}</div>
                           <div className="item flex-1">
-                            <label className="mobile-title hidden">{translation.productNumber}</label>
-                            <span className="mobile-box">{item.id}</span>
+                            {item.status === 'AVAILABLE' ? translation.available : translation.notAvailable}
                           </div>
-                          <div className="item flex-1">
-                            <label className="mobile-title hidden">{translation.availablity}</label>
-                            <span className="mobile-box">
-                              {item.status === 'AVAILABLE' ? translation.available : translation.notAvailable}
-                            </span>
-                          </div>
-                          <div className="item flex-1">
-                              <label className="mobile-title hidden">{translation.totalItems}</label>
-                              <span className="mobile-box">{item.avlqty > 10 ? 10 : item.avlqty}</span>
-                            </div>
-                          <div className="item flex-1">
-                            <label className="mobile-title hidden">{translation.itemPrice}</label>
-                            <span className="mobile-box">
-                              {item.price?.toFixed(2)} {translation.jod}
-                            </span>
-                          </div>
-                          <div className="item flex-1">
-                            <label className="mobile-title hidden">{translation.totalPrice}</label>
-                            <span className="mobile-box">
-                              {item.total?.toFixed(2)} {translation.jod}
-                            </span>
-                          </div>
+                          <div className="item flex-1">{item.avlqty > 10 ? 10 : item.avlqty}</div>
+                          <div className="item flex-1">{item.price?.toFixed(2)} {translation.jod}</div>
+                          <div className="item flex-1">{item.total?.toFixed(2)} {translation.jod}</div>
                           <div className="item delete">
-                            <button
-                              className="delete-btn"
-                              onClick={() => removeRow(index)}
-                            >
+                            <button className="delete-btn" onClick={() => removeRow(index)}>
                               <i className="icon-minus"></i>
-                              <span className="mobile-title hidden">{translation.delete}</span>
+                              <span readOnly>dd</span>
                             </button>
                           </div>
                         </div>
@@ -224,7 +264,23 @@ export default function AddBulkModal({ open, onClose }) {
                   ))}
                 </div>
 
+                {/* Action Buttons */}
                 <div className="action-btns flex gap-3 mt-4">
+                  <div>
+                    <input
+                      type="file"
+                      accept=".xlsx,.xls"
+                      id="importExcel"
+                      style={{ display: "none" }}
+                      onChange={handleImport}
+                    />
+                    <button
+                      className="primary-btn"
+                      onClick={() => document.getElementById("importExcel").click()}
+                    >
+                      Import
+                    </button>
+                  </div>
                   <button
                     className={`primary-btn ${isSubmitDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={handleSubmit}
