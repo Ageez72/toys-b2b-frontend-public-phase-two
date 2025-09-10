@@ -47,7 +47,6 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
     Cookies?.set(STORAGE_KEY, JSON.stringify({ minVal, maxVal }));
     minValRef.current = minVal;
     maxValRef.current = maxVal;
-    console.log(minVal, maxVal);
   }, [minVal, maxVal]);
 
   const getPercent = useCallback(

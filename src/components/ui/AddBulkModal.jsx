@@ -163,8 +163,6 @@ export default function AddBulkModal({ open, onClose }) {
         const worksheet = workbook.Sheets[sheetName];
         const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-        console.log("📊 Rows (header:1):", rows);
-
         // First row is headers -> find indexes
         const header = rows[0].map((h) => String(h).toLowerCase().trim());
         const skuIndex = header.findIndex((h) => h === "sku");

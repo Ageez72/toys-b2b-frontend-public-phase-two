@@ -50,7 +50,7 @@ export default ({ title, route, badgeType, type, id }) => {
         const hasItems = data?.data?.items?.length > 0;
 
         Cookies.set(cookieKey, hasItems.toString());
-    }    
+    }
 
     return (
         <>
@@ -60,7 +60,7 @@ export default ({ title, route, badgeType, type, id }) => {
                         <div className="grid-card-container" id={id}>
                             <div className="grid-header w-full flex items-center justify-between">
                                 <h2 className='grid-header-title'>{title}</h2>
-                                <Link href={route} className="outline-btn flex items-center gap-2">
+                                <Link href={route} className="outline-btn hidden md:flex items-center gap-2">
                                     {state.LANG === "EN" ? (
                                         <>
                                             <i className="icon-arrow-right-01-round"></i>
@@ -116,6 +116,19 @@ export default ({ title, route, badgeType, type, id }) => {
                                     ))
                                 }
                             </Swiper>
+                            <Link href={route} className="outline-btn inline-flex md:hidden items-center gap-2 mt-4">
+                                {state.LANG === "EN" ? (
+                                    <>
+                                        <i className="icon-arrow-right-01-round"></i>
+                                        <span>{translation.viewMore}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>{translation.viewMore}</span>
+                                        <i className="icon-arrow-left-01-round"></i>
+                                    </>
+                                )}
+                            </Link>
                         </div>
                     </div>
                 ) : ""
