@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import * as XLSX from "xlsx";
 import SearchInput from './SearchInput';
+import SuccessModal from './SuccessModal';
+import ErrorModal from './ErrorModal';
 import {
   Dialog,
   DialogBackdrop,
@@ -17,6 +19,12 @@ import Cookies from "js-cookie";
 import { BASE_API, endpoints } from "../../../constant/endpoints";
 
 export default function AddBulkModal({ open, onClose }) {
+  const [isImporting, setIsImporting] = useState(false);
+  const [importPopup, setImportPopup] = useState({
+    open: false,
+    success: false,
+    message: "",
+  });
   const [bulkItems, setBulkItems] = useState([{ isConfirmed: false }]);
   const [resetTriggers, setResetTriggers] = useState({});
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -57,7 +65,7 @@ export default function AddBulkModal({ open, onClose }) {
   const updateQty = (index, qty) => {
     let parsedQty = Math.max(0, parseInt(qty || 0));
     const updated = [...bulkItems];
-    const maxQty = updated[index].avlqty> 10 ? 10 : updated[index].avlqty;
+    const maxQty = updated[index].avlqty > 10 ? 10 : updated[index].avlqty;
 
     if (parsedQty > maxQty) {
       showErrorToast(`${translation.quantityExceeded} ${maxQty}`, lang, translation.error);
@@ -140,246 +148,300 @@ export default function AddBulkModal({ open, onClose }) {
   };
 
 
-const handleImport = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const handleImport = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = async (event) => {
-    try {
-      const data = new Uint8Array(event.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const rows = XLSX.utils.sheet_to_json(worksheet);
+    setIsImporting(true);
 
-      // 1) Aggregate quantities by SKU
-      const skuQtyMap = {};
-      for (const row of rows) {
-        const sku = String(row.sku ?? row.SKU ?? row.Sku ?? "").trim();
-        const qty = Number(row.quantity ?? row.Quantity ?? row.qty ?? 0);
-        if (!sku || qty <= 0) continue;
-        skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
-      }
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-      const skus = Object.keys(skuQtyMap);
-      if (skus.length === 0) {
-        showToastError(
-          translation.noProductsSelected ||
-            "No valid SKU/quantity found in file."
-        );
-        return;
-      }
+        console.log("📊 Rows (header:1):", rows);
 
-      // 2) Fetch products
-      const productFetches = skus.map((sku) => fetchProductBySku(sku));
-      const fetchedProducts = await Promise.all(productFetches);
+        // First row is headers -> find indexes
+        const header = rows[0].map((h) => String(h).toLowerCase().trim());
+        const skuIndex = header.findIndex((h) => h === "sku");
+        const qtyIndex = header.findIndex((h) => h === "quantity");
 
-      // 3) Build importedItems list
-      const importedItems = [];
-      for (let i = 0; i < skus.length; i++) {
-        const sku = skus[i];
-        const product = fetchedProducts[i];
-        const qty = skuQtyMap[sku];
-        if (!product) {
-          console.warn(`Product not found for SKU: ${sku}`);
-          continue;
-        }
-        const unitPrice = Number(
-          product.priceAfterDisc ?? product.price ?? 0
-        );
-
-        // Clamp qty here too
-        let finalQty = Number(qty);
-        const maxAllowed = Math.min(product.avlqty, 10);
-        if (finalQty > maxAllowed) {
-          showWarningToast(
-            `${translation.quantityExceeded} ${maxAllowed}`,
-            lang,
-            translation.warning
-          );
-          finalQty = maxAllowed;
+        if (skuIndex === -1 || qtyIndex === -1) {
+          showToastError("Invalid file format: must contain sku and quantity columns");
+          setIsImporting(false);
+          return;
         }
 
-        importedItems.push({
-          ...product,
-          qty: finalQty,
-          unitPrice,
-          total: unitPrice * finalQty,
-          isConfirmed: true,
+        // 1) Aggregate quantities by SKU
+        const skuQtyMap = {};
+        rows.slice(1).forEach((row) => {
+          const rawSku = row[skuIndex];
+          const rawQty = row[qtyIndex];
+          if (!rawSku) return;
+
+          const sku = String(rawSku).trim().toUpperCase();
+          const qty = Number(rawQty) || 0;
+          if (qty <= 0) return;
+
+          skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
         });
-      }
 
-      // 4) Merge into state
-      setBulkItems((prev) => {
-        const confirmed = prev
-          .filter((it) => it.isConfirmed)
-          .map((it) => ({ ...it, qty: Number(it.qty || 0) }));
+        const skus = Object.keys(skuQtyMap);
+        if (skus.length === 0) {
+          showToastError(
+            translation.noProductsSelected ||
+            "No valid SKU/quantity found in file."
+          );
+          setIsImporting(false);
+          return;
+        }
 
-        for (const newItem of importedItems) {
-          const idx = confirmed.findIndex((it) => it.id === newItem.id);
-          if (idx >= 0) {
-            // Add old qty + new qty
-            const oldQty = Number(confirmed[idx].qty || 0);
-            let updatedQty = oldQty + newItem.qty;
+        // 2) Fetch products
+        const productFetches = skus.map((sku) => fetchProductBySku(sku));
+        const fetchedProducts = await Promise.all(productFetches);
 
-            // Clamp to avlqty and 10
-            const maxAllowed = Math.min(confirmed[idx].avlqty, 10);
-            if (updatedQty > maxAllowed) {
-              showWarningToast(
-                `${translation.quantityExceeded} ${maxAllowed}`,
-                lang,
-                translation.warning
-              );
-              updatedQty = maxAllowed;
-            }
+        // 3) Build importedItems list
+        const importedItems = [];
+        for (let i = 0; i < skus.length; i++) {
+          const sku = skus[i];
+          const product = fetchedProducts[i];
+          const qty = skuQtyMap[sku];
 
-            confirmed[idx].qty = updatedQty;
-            const unit = Number(
-              confirmed[idx].priceAfterDisc ??
+          if (!product) {
+            console.warn(`❌ Product not found for SKU: ${sku}`);
+            continue;
+          }
+
+          const unitPrice = Number(product.priceAfterDisc ?? product.price ?? 0);
+
+          // Clamp qty
+          let finalQty = Number(qty);
+          const maxAllowed = Math.min(product.avlqty, 10);
+          if (finalQty > maxAllowed) {
+            showWarningToast(
+              `${translation.quantityExceeded} ${maxAllowed}`,
+              lang,
+              translation.warning
+            );
+            finalQty = maxAllowed;
+          }
+
+          importedItems.push({
+            ...product,
+            qty: finalQty,
+            unitPrice,
+            total: unitPrice * finalQty,
+            isConfirmed: true,
+          });
+        }
+
+        // 4) Merge into state (add old qty + new qty)
+        setBulkItems((prev) => {
+          const confirmed = prev
+            .filter((it) => it.isConfirmed)
+            .map((it) => ({ ...it, qty: Number(it.qty || 0) }));
+
+          for (const newItem of importedItems) {
+            const idx = confirmed.findIndex((it) => it.id === newItem.id);
+            if (idx >= 0) {
+              // Add old qty + new qty
+              const oldQty = Number(confirmed[idx].qty || 0);
+              let updatedQty = oldQty + newItem.qty;
+
+              const maxAllowed = Math.min(confirmed[idx].avlqty, 10);
+              if (updatedQty > maxAllowed) {
+                showWarningToast(
+                  `${translation.quantityExceeded} ${maxAllowed}`,
+                  lang,
+                  translation.warning
+                );
+                updatedQty = maxAllowed;
+              }
+
+              confirmed[idx].qty = updatedQty;
+              const unit = Number(
+                confirmed[idx].priceAfterDisc ??
                 confirmed[idx].unitPrice ??
                 confirmed[idx].price ??
                 newItem.unitPrice ??
                 0
-            );
-            confirmed[idx].total = unit * updatedQty;
-          } else {
-            confirmed.push(newItem);
+              );
+              confirmed[idx].total = unit * updatedQty;
+            } else {
+              confirmed.push(newItem);
+            }
           }
-        }
 
-        return [...confirmed, { isConfirmed: false }];
-      });
-    } catch (err) {
-      console.error("Import failed", err);
-      showToastError(translation.importFailed || "Import failed");
-    }
+          return [...confirmed, { isConfirmed: false }];
+        });
+
+        setIsImporting(false);
+        setImportPopup({
+          open: true,
+          success: true,
+          message: translation.importSuccess || "Products imported successfully!",
+        });
+      } catch (err) {
+        console.error("❌ Import failed", err);
+        setIsImporting(false);
+        setImportPopup({
+          open: true,
+          success: false,
+          message: translation.importFailed || "Import failed. Please try again.",
+        });
+        showToastError(translation.importFailed || "Import failed");
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
   };
 
-  reader.readAsArrayBuffer(file);
-};
 
 
   return (
-    <Dialog open={open} onClose={onClose} className="relative z-999">
-      <DialogBackdrop className="fixed inset-0 bg-gray-500/75" />
-      <div className="fixed inset-0 z-99999999 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0 w-full">
-          <DialogPanel className="relative add-bulk-modal transform overflow-hidden rounded-lg bg-white text-start shadow-xl transition-all my-25">
-            <div className="p-32">
-              <h2 className="modal-title">{translation.oneClick}</h2>
-              <div className="add-bulk-table">
-                {/* Table Head */}
-                <div className="table-head flex gap-4">
-                  <div className="name-qty flex items-center justify-between">
-                    <div className="name mb-3 lg:mb-0">{translation.name}</div>
-                    <div className="qty">{translation.qty}</div>
-                  </div>
-                  <div className="info flex items-center justify-between gap-1">
-                    <div className="item flex-1">{translation.productNumber}</div>
-                    <div className="item flex-1">{translation.availablity}</div>
-                    <div className="item flex-1">{translation.totalItems}</div>
-                    <div className="item flex-1">{translation.itemPrice}</div>
-                    <div className="item flex-1">{translation.totalPrice}</div>
-                    <div className="item delete"></div>
-                  </div>
-                </div>
-
-                {/* Table Body */}
-                <div className="table-body">
-                  {bulkItems.map((item, index) => (
-                    <div key={index} className="product-row flex items-center gap-4">
-                      <div className="name-qty flex items-center justify-between">
-                        <div className="name">
-                          {item.isConfirmed ? (
-                            <input
-                              type="text"
-                              value={item.name}
-                              title={item.name}
-                              readOnly
-                              className="w-full mobile-box"
-                            />
-                          ) : (
-                            <SearchInput
-                              bulk={true}
-                              onCollectBulkItems={(selectedItem) =>
-                                handleProductSelect(selectedItem, index)
-                              }
-                              pageSize="10"
-                              resetTrigger={resetTriggers[index] || false}
-                              onResetDone={() => handleResetDone(index)}
-                            />
-                          )}
-                        </div>
-                        <div className="qty">
-                          <input
-                            type="number"
-                            min="1"
-                            placeholder={translation.qty}
-                            value={item.qty || ''}
-                            onChange={(e) =>
-                              updateQty(index, parseInt(e.target.value || '0'))
-                            }
-                            className="w-full mobile-box"
-                            disabled={!item.isConfirmed}
-                          />
-                        </div>
-                      </div>
-
-                      {item.isConfirmed && (
-                        <div className="info flex items-center justify-between">
-                          <div className="item flex-1">{item.id}</div>
-                          <div className="item flex-1">
-                            {item.status === 'AVAILABLE' ? translation.available : translation.notAvailable}
-                          </div>
-                          <div className="item flex-1">{item.avlqty > 10 ? 10 : item.avlqty}</div>
-                          <div className="item flex-1">{item.price?.toFixed(2)} {translation.jod}</div>
-                          <div className="item flex-1">{item.total?.toFixed(2)} {translation.jod}</div>
-                          <div className="item delete">
-                            <button className="delete-btn" onClick={() => removeRow(index)}>
-                              <i className="icon-minus"></i>
-                              <span className='hidden'>Delete</span>
-                            </button>
-                          </div>
-                        </div>
-                      )}
+    <>
+      {importPopup.success && importPopup.open && (
+        <SuccessModal
+          open={importPopup.success}
+          message={importPopup.message}
+          onClose={() => setImportPopup({ open: false, success: false, message: "" })}
+        />
+      )}
+      {!importPopup.success && importPopup.open && (
+        <ErrorModal
+          open={!importPopup.success}
+          message={importPopup.message}
+          onClose={() => setImportPopup({ open: false, success: false, message: "" })}
+        />
+      )}
+      <Dialog open={open} onClose={onClose} className="relative z-999">
+        <DialogBackdrop className="fixed inset-0 bg-gray-500/75" />
+        <div className="fixed inset-0 z-99999999 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0 w-full">
+            <DialogPanel className="relative add-bulk-modal transform overflow-hidden rounded-lg bg-white text-start shadow-xl transition-all my-25">
+              <div className="p-32">
+                <h2 className="modal-title">{translation.oneClick}</h2>
+                <div className="add-bulk-table">
+                  {/* Table Head */}
+                  <div className="table-head flex gap-4">
+                    <div className="name-qty flex items-center justify-between">
+                      <div className="name mb-3 lg:mb-0">{translation.name}</div>
+                      <div className="qty">{translation.qty}</div>
                     </div>
-                  ))}
-                </div>
+                    <div className="info flex items-center justify-between gap-1">
+                      <div className="item flex-1">{translation.productNumber}</div>
+                      <div className="item flex-1">{translation.availablity}</div>
+                      <div className="item flex-1">{translation.totalItems}</div>
+                      <div className="item flex-1">{translation.itemPrice}</div>
+                      <div className="item flex-1">{translation.totalPrice}</div>
+                      <div className="item delete"></div>
+                    </div>
+                  </div>
 
-                {/* Action Buttons */}
-                <div className="action-btns flex flex-wrap gap-3 mt-4">
-                  <button
-                    className={`primary-btn ${isSubmitDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    onClick={handleSubmit}
-                    disabled={isSubmitDisabled}
-                  >
-                    {translation.add}
-                  </button>
-                  <div>
-                    <input
-                      type="file"
-                      accept=".xlsx,.xls"
-                      id="importExcel"
-                      style={{ display: "none" }}
-                      onChange={handleImport}
-                    />
+                  {/* Table Body */}
+                  <div className="table-body">
+                    {bulkItems.map((item, index) => (
+                      <div key={index} className="product-row flex items-center gap-4">
+                        <div className="name-qty flex items-center justify-between">
+                          <div className="name">
+                            {item.isConfirmed ? (
+                              <input
+                                type="text"
+                                value={item.name}
+                                title={item.name}
+                                readOnly
+                                className="w-full mobile-box"
+                              />
+                            ) : (
+                              <SearchInput
+                                bulk={true}
+                                onCollectBulkItems={(selectedItem) =>
+                                  handleProductSelect(selectedItem, index)
+                                }
+                                pageSize="10"
+                                resetTrigger={resetTriggers[index] || false}
+                                onResetDone={() => handleResetDone(index)}
+                              />
+                            )}
+                          </div>
+                          <div className="qty">
+                            <input
+                              type="number"
+                              min="1"
+                              placeholder={translation.qty}
+                              value={item.qty || ''}
+                              onChange={(e) =>
+                                updateQty(index, parseInt(e.target.value || '0'))
+                              }
+                              className="w-full mobile-box"
+                              disabled={!item.isConfirmed}
+                            />
+                          </div>
+                        </div>
+
+                        {item.isConfirmed && (
+                          <div className="info flex items-center justify-between">
+                            <div className="item flex-1">{item.id}</div>
+                            <div className="item flex-1">
+                              {item.status === 'AVAILABLE' ? translation.available : translation.notAvailable}
+                            </div>
+                            <div className="item flex-1">{item.avlqty > 10 ? 10 : item.avlqty}</div>
+                            <div className="item flex-1">{item.price?.toFixed(2)} {translation.jod}</div>
+                            <div className="item flex-1">{item.total?.toFixed(2)} {translation.jod}</div>
+                            <div className="item delete">
+                              <button className="delete-btn" onClick={() => removeRow(index)}>
+                                <i className="icon-minus"></i>
+                                <span className='hidden'>Delete</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="action-btns flex flex-wrap gap-3 mt-4">
                     <button
-                      className="outline-btn cursor-pointer"
-                      onClick={() => document.getElementById("importExcel").click()}
+                      className={`primary-btn ${isSubmitDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      onClick={handleSubmit}
+                      disabled={isSubmitDisabled}
                     >
-                      {translation.importExcel}
+                      {translation.add}
+                    </button>
+                    <div>
+                      <label className="import-btn">
+                        <input
+                          type="file"
+                          accept=".xlsx,.xls"
+                          onChange={handleImport}
+                          disabled={isImporting}
+                          style={{ display: "none" }}
+                          id="importExcel"
+                        />
+                      </label>
+                      <button
+                        className="outline-btn cursor-pointer"
+                        onClick={() => document.getElementById("importExcel").click()}
+                      >
+                        {isImporting && <span className="spinner"></span>}
+                        {translation.importExcel}
+                      </button>
+                    </div>
+                    <button className="gray-btn" onClick={onClose}>
+                      {translation.cancel}
                     </button>
                   </div>
-                  <button className="gray-btn" onClick={onClose}>
-                    {translation.cancel}
-                  </button>
                 </div>
               </div>
-            </div>
-          </DialogPanel>
+            </DialogPanel>
+          </div>
         </div>
-      </div>
-    </Dialog>
+      </Dialog>
+    </>
   );
 }

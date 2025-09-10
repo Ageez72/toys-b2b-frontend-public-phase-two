@@ -243,7 +243,7 @@
   "ccv": "CCV:",
   "cardHolder": "Card holder:",
   "importExcel": "Import Excel file",
-  "importFailed": "Import Failed",
+  "importFailed": "Import failed. Please try again.",
   "importSuccess": "Import Successful",
   "fileTypeError": "Invalid file type. Please upload a CSV or Excel file."
 }
