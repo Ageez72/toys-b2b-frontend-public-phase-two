@@ -57,7 +57,7 @@ export default function AddBulkModal({ open, onClose }) {
   const updateQty = (index, qty) => {
     let parsedQty = Math.max(0, parseInt(qty || 0));
     const updated = [...bulkItems];
-    const maxQty = updated[index].avlqty;
+    const maxQty = updated[index].avlqty> 10 ? 10 : updated[index].avlqty;
 
     if (parsedQty > maxQty) {
       showErrorToast(`${translation.quantityExceeded} ${maxQty}`, lang, translation.error);
