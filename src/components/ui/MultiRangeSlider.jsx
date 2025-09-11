@@ -30,7 +30,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
   const range = useRef(null);
 
   const [minVal, setMinVal] = useState(() => {
-    if (toPrice) {
+    if (fromPrice) {
       return fromPrice ?? min;
     }
     return min;

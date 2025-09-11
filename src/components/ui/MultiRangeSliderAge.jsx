@@ -30,7 +30,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
   const range = useRef(null);
 
   const [minVal, setMinVal] = useState(() => {
-    if (toAge) {
+    if (fromAge) {
       return fromAge ?? min;
     }
     return min;
