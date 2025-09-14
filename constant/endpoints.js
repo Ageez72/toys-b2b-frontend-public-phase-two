@@ -25,6 +25,8 @@ export const endpoints = {
     myorders: "?action=MYORDERS",
     removeReview: "?action=DELETE.REVIEW",
     homeImages: "?action=home.images",
+    getCart: "?action=get.cart",
+    setCart: "?action=set.cart&cart=json",
   },
 
 };

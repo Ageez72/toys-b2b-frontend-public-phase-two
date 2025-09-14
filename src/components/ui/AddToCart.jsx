@@ -6,10 +6,13 @@ import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { showSuccessToast, showErrorToast } from '@/actions/toastUtils';
+import { BASE_API, endpoints } from '../../../constant/endpoints';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function AddToCart({ item }) {
   const [count, setCount] = useState(1);
-  const { state = {}, dispatch = () => {} } = useAppContext() || {};
+  const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // default fallback
 
   const lang = state.LANG || 'EN';
@@ -42,7 +45,7 @@ export default function AddToCart({ item }) {
     setCount(value);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const result = addToCart({
       id: item.id,
       item: item.id,
@@ -55,15 +58,33 @@ export default function AddToCart({ item }) {
 
     if (!result.success) {
       showErrorToast(result.message || translation.defaultError, lang, translation.error);
-    } else {
-      setCount(1);
-      const storedCart = getCart();
-      if (storedCart) {
-        dispatch({ type: 'STORED-ITEMS', payload: storedCart });
-      }
+      return;
+    }
+
+    setCount(1);
+
+    const storedCart = getCart();
+    if (storedCart) {
+      dispatch({ type: 'STORED-ITEMS', payload: storedCart });
+    }
+
+    try {
+      // Send updated cart to backend
+      const res = await axios.post(
+        `${BASE_API}${endpoints.products.setCart}?lang=${lang}&token=${Cookies.get('token')}`,
+        {
+          "items": storedCart
+        }
+      );
+
+      console.log(res.data);
       showSuccessToast(translation.addedToCart, lang, translation.success);
+    } catch (error) {
+      console.error(error);
+      showErrorToast(translation.defaultError, lang, translation.error);
     }
   };
+
 
   return (
     <div className="add-to-cart flex items-center gap-3 w-full">
