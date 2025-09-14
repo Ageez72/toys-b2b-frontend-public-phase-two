@@ -338,7 +338,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         if (isProductsPage && filterstatus && filterstatus === "filter") {
             handleApplyFilters();
         }
-    }, [itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);
+    }, [itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);    
 
     return (
         <>
@@ -404,7 +404,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 {
                                     catalogsAllOptions?.length > 0 && (
                                         // catalogOpen && (
-                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
+                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} isProductsPage={isProductsPage}/>
                                         // )
                                     )
                                 }
