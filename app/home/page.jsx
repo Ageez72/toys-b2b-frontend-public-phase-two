@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../../src/assets/js/main";
 import BrandsSwiper from "@/components/ui/BrandsSwiper";
 import GridSwiper from "@/components/ui/GridSwiper";
+import ColumnsGridSwiper from "@/components/ui/ColumnsGridSwiper";
 import Hero from "@/components/ui/Hero";
 import { useAppContext } from "../../context/AppContext";
 import en from "../../locales/en.json";
@@ -56,6 +57,19 @@ export default function Home() {
       id: "clearance",
     },
   ];
+
+  const mostSelling = {
+    title: translation.mostSelling,
+    badgeType: "yellow",
+    type: "y",
+    id: "most-selling",
+  }
+  const featuredProducts = {
+    title: translation.featuredProducts,
+    badgeType: "yellow",
+    type: "y",
+    id: "featured-products",
+  }
 
   const fetchHomeImages = async () => {
     const res = await axios.get(
@@ -113,6 +127,13 @@ export default function Home() {
         <BrandsSwiper />
       </div>
 
+      <ColumnsGridSwiper
+        title={mostSelling.title}
+        badgeType={mostSelling.badgeType}
+        type={mostSelling.type}
+        id={mostSelling.id}
+      />
+
       {searchTypes.map((grid, i) => (
         <GridSwiper
           key={i}
@@ -123,6 +144,13 @@ export default function Home() {
           id={grid.id}
         />
       ))}
+
+      <ColumnsGridSwiper
+        title={featuredProducts.title}
+        badgeType={featuredProducts.badgeType}
+        type={featuredProducts.type}
+        id={featuredProducts.id}
+      />
     </>
   );
 }

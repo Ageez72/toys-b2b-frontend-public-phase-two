@@ -92,7 +92,11 @@ export default function DetailsProductCard({ item }) {
                     item?.status === "AVAILABLE" && !item.commingSoon ? (
                         <AddToCart item={item} />
                     ) : (
-                        <p className={`out-stock-btn ${!item.commingSoon ? '' : 'yellow'}`}>{!item.commingSoon ? translation.notAvailable : translation.availableSoon}</p>
+                        <>
+                            {/* <p className={`out-stock-btn ${!item.commingSoon ? '' : 'yellow'}`}>{!item.commingSoon ? translation.notAvailable : translation.availableSoon}</p> */}
+                            <p className={`out-stock-btn-new ${!item.commingSoon ? 'not-exist' : 'yellow'}`}>{!item.commingSoon ? translation.notAvailable : translation.availableSoon}</p>
+                            <button className='primary-btn'>أبلغني عند التوفر</button>
+                        </>
                     )
                 }
             </div>
