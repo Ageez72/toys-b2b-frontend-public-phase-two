@@ -102,6 +102,7 @@
     "all": "الكل",
     "available": "متوفر",
     "notAvailable": "غير متوفر",
+    "notAvailable2": "المنتج غير متاح حاليًا",
     "availableSoon": "قريباً",
     "totalItems": "عدد القطع المتوفرة",
     "itemPrice": "سعر القطعة",
@@ -247,5 +248,10 @@
     "importFailed": "فشل الاستيراد. يرجى المحاولة مرة أخرى.",
     "importExcel": "استيراد ملف Excel",
     "importSuccess": "تم الاستيراد بنجاح",
-    "fileTypeError": "نوع ملف غير صالح. يرجى تحميل ملف CSV أو Excel."
+    "fileTypeError": "نوع ملف غير صالح. يرجى تحميل ملف CSV أو Excel.",
+    "productRequest": "تم تسجيل طلبك بنجاح",
+    "already requested": "لقد تم تسجيل طلبك من قبل",
+    "Request was sent successfully": "تم تسجيل طلبك بنجاح", 
+    "informYou": "سنقوم بإعلامك فور توفر هذا المنتج",
+    "errorHappened": "حدث خطأ يرجى المحاولة في وقتٍ لاحق"
 }

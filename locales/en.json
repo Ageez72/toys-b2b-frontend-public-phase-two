@@ -102,6 +102,7 @@
   "all": "All",
   "available": "In Stock",
   "notAvailable": "Out of Stock",
+  "notAvailable2": "The product is currently unavailable",
   "availableSoon": "Available Soon",
   "totalItems": "Total Items",
   "itemPrice": "Item Price",
@@ -247,5 +248,10 @@
   "importExcel": "Import Excel file",
   "importFailed": "Import failed. Please try again.",
   "importSuccess": "Import Successful",
-  "fileTypeError": "Invalid file type. Please upload a CSV or Excel file."
+  "fileTypeError": "Invalid file type. Please upload a CSV or Excel file.",
+  "productRequest": "Your request has been registered successfully", 
+  "already requested": "Your request has already been registered",
+  "Request was sent successfully": "Your request has been registered successfully",
+  "informYou": "We will inform you as soon as this product is available",
+  "errorHappened": "An error occurred, please try again later"
 }

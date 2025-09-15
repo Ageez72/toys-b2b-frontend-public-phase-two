@@ -7,9 +7,19 @@ import Badge from './Badge';
 import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
+import axios from 'axios';
+import { BASE_API, endpoints } from '../../../constant/endpoints';
+import Cookies from 'js-cookie';
+import SuccessModal from './SuccessModal';
+import ErrorModal from './ErrorModal';
 
 export default function DetailsProductCard({ item }) {
     const { state = {} } = useAppContext() || {};
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalmessage] = useState("");
+    const [isRequestBtnActive, setIsRequestBtnActive] = useState(true);
     const [translation, setTranslation] = useState(ar); // fallback to Arabic
 
     useEffect(() => {
@@ -21,9 +31,48 @@ export default function DetailsProductCard({ item }) {
         document.title = state.LANG === 'AR' ? item.name : item.name;
     }, [state.LANG]);
 
+    useEffect(() => {
+        if (item?.productRequested) {
+            setIsRequestBtnActive(false)
+        }
+    }, [item])
+
+    const lang = state.LANG || 'EN';
+
     const rate = item?.reviews.rating || 0;
+
+
+    const requestOutofStock = async (id) => {
+        const res = await axios.get(
+            `${BASE_API}${endpoints.products.requestOutOfStock}&itemid=${id}&lang=${lang}&token=${Cookies.get('token')}`
+        );
+        try {
+            if (!res.data.error) {
+                setModalTitle(translation[res.data.message] || translation.productRequest)
+                setIsModalOpen(true);
+                setIsRequestBtnActive(false);
+            } else {
+                setIsErrorModalOpen(true)
+            }
+        } catch (error) {
+            setIsModalOpen(false);
+        }
+
+    }
     return (
         <div className="card product-card">
+            <SuccessModal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title={modalTitle}
+                message={translation.informYou}
+            />
+            <ErrorModal
+                open={isErrorModalOpen}
+                onClose={() => setIsErrorModalOpen(false)}
+                title={translation.error}
+                message={translation.errorHappened}
+            />
             <div className="product-card-content">
                 {
                     item.isNew && (
@@ -94,8 +143,8 @@ export default function DetailsProductCard({ item }) {
                     ) : (
                         <>
                             {/* <p className={`out-stock-btn ${!item.commingSoon ? '' : 'yellow'}`}>{!item.commingSoon ? translation.notAvailable : translation.availableSoon}</p> */}
-                            <p className={`out-stock-btn-new ${!item.commingSoon ? 'not-exist' : 'yellow'}`}>{!item.commingSoon ? translation.notAvailable : translation.availableSoon}</p>
-                            <button className='primary-btn'>أبلغني عند التوفر</button>
+                            <p className={`out-stock-btn-new flex items-center gap-2 ${!item.commingSoon ? 'not-exist' : 'yellow'}`}><span className="icon-tick-circle"></span> {!item.commingSoon ? translation.notAvailable2 : translation.availableSoon}</p>
+                            <button className={`primary-btn ${isRequestBtnActive ? '' : 'disabled'}`} onClick={() => requestOutofStock(item?.id)}>أبلغني عند التوفر</button>
                         </>
                     )
                 }
