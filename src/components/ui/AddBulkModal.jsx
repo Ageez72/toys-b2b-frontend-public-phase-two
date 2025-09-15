@@ -430,6 +430,9 @@ export default function AddBulkModal({ open, onClose }) {
                         {translation.importExcel}
                       </button>
                     </div>
+                    <a className="outline-btn cursor-pointer" href="https://alekha-dev.s3.amazonaws.com/bulk_add_items_import_templates.xlsx" download>
+                      {translation.downloadExcel}
+                    </a>
                     <button className="gray-btn" onClick={onClose}>
                       {translation.cancel}
                     </button>

@@ -247,6 +247,7 @@
     "cardHolder": "اسم صاحب البطاقة:",
     "importFailed": "فشل الاستيراد. يرجى المحاولة مرة أخرى.",
     "importExcel": "استيراد ملف Excel",
+    "downloadExcel": "تحميل ملف Excel",
     "importSuccess": "تم الاستيراد بنجاح",
     "fileTypeError": "نوع ملف غير صالح. يرجى تحميل ملف CSV أو Excel.",
     "productRequest": "تم تسجيل طلبك بنجاح",
