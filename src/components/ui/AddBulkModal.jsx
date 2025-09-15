@@ -135,7 +135,7 @@ export default function AddBulkModal({ open, onClose }) {
       const token = Cookies.get("token");
       const lang = Cookies.get("lang") || "AR";
 
-      const url = `${BASE_API}${endpoints.products.list}&search=${encodeURIComponent(
+      const url = `${BASE_API}${endpoints.products.list}&id=${encodeURIComponent(
         sku
       )}&pageSize=1&itemStatus=AVAILABLE&lang=${lang}&token=${token}`;
 
