@@ -10,6 +10,10 @@
     overflow-y: auto;
 
     &.filter-products-page {
+        overflow-y: visible;
+    }
+
+    &.filter-products-page {
         height: auto;
         // position: sticky;
         top: 105px;
@@ -203,6 +207,7 @@
         }
 
         .css-1nmdiq5-menu {
+            z-index: 9;
 
             .css-10wo9uf-option {
                 font-size: 14px;

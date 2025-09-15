@@ -156,41 +156,41 @@ function Cart() {
           <button className="outline-btn">تصدير</button>
         </div>
 
-        <div class="relative overflow-x-auto mb-5">
-          <table class="checkout-table w-full text-sm text-left rtl:text-right text-gray-500">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <div className="relative overflow-x-auto mb-5">
+          <table className="checkout-table w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   الصورة
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   رقم المنتج (SKU)
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   باركود
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   اسم المنتج
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   سعر البيع (RSP)
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   السعر
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   التكلفة
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   الضريبة
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   العلامة التجارية - التصنيف
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   الكمية
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   الإجمالي
                 </th>
               </tr>
@@ -199,37 +199,37 @@ function Cart() {
               {cartItems.length ? (
                 <>
                   {orderSummary?.ITEMS?.map((item) => (
-                    <tr class="bg-white">
-                      <td class="px-6 py-4">
+                    <tr className="bg-white">
+                      <td className="px-6 py-4">
                         <Link href={`/products/${item.id}`} className="w-full h-full flex justify-center items-center">
                           <img src={item.images["800"].main} width={52} height={52} alt={item.name || "Product"} />
                         </Link>
                       </td>
-                      <td scope="row" class="px-6 py-4">
+                      <td scope="row" className="px-6 py-4">
                         {item.id}
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         {item.barcode}
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         <Link href={`/products/${item.id}`}>{item.name}</Link>
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         {item.priceAfterDisc}
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         {item.price}
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         Laptop
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         1%
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         {item.brand.description}
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         <InlineAddToCart
                           itemId={item.id}
                           avlqty={item.avlqty}
@@ -237,7 +237,7 @@ function Cart() {
                           onRefresh={handleRefresh}
                         />
                       </td>
-                      <td class="px-6 py-4">
+                      <td className="px-6 py-4">
                         {Number(item.NET).toFixed(2)}
                         <span className="ms-1">{translation.jod}</span>
                       </td>
@@ -245,7 +245,7 @@ function Cart() {
                   ))}
                 </>
               ) : (
-                <tr class="bg-white">
+                <tr className="bg-white">
                   <td colSpan="11">
                     <div className='card empty-state flex justify-center items-center'>
                       <div className="text-center">
