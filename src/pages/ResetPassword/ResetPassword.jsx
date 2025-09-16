@@ -22,7 +22,6 @@ function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const translation = state.LANG === "EN" ? en : ar;
   const router = useRouter()
@@ -41,13 +40,12 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const username = encodeURIComponent(data.identifier);
-      const password = encodeURIComponent(data.password);
-      const res = await axios.get(`${BASE_API + endpoints.auth.login}&username=${username}&password=${password}`)
-
+      const res = await axios.get(`${BASE_API + endpoints.auth.login}&username=${username}}`)
+      
       if (res.data.error === true) {
         setIsModalOpen(true);
         setModalMessage(state.LANG === "EN" ? res.data.messageEN : res.data.messageAR)
-      } else {
+      } else {        
         Cookies.set('token', res.data.token);
         router.push('/home')
       }
@@ -82,8 +80,8 @@ function Login() {
             />
           </div>
           <LangSwitcher />
-          <h2 className='section-title'>{translation.login.title}</h2>
-          <p>{translation.login.desc}</p>
+          <h2 className='section-title'>{translation.forgetPassword}</h2>
+          <p className='reset-password-form-desc'>{translation.forgetPasswordDesc}</p>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='form-group'>
@@ -111,45 +109,11 @@ function Login() {
               {errors.identifier && <span className="error-msg text-red-500">{errors.identifier.message}</span>}
             </div>
 
-            <div className='form-group'>
-              <label className='block mb-2'>{translation.login.password} <span className='required'>*</span></label>
-              <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                  <i className="icon-shield-security"></i>
-                </div>
-                <div className="absolute inset-y-0 start-0 flex items-center pe-3.5 password-icon" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? (
-                    <i className="icon-view-on"></i>
-                  ) : (
-                    <i className="icon-view-off"></i>
-                  )}
-                </div>
-                <input
-                  className='w-full ps-10 pe-10 p-2.5'
-                  type={`${showPassword ? 'text' : 'password'}`}
-                  placeholder={translation.login.password}
-                  {...register('password', {
-                    required: translation.login.errors.password.required,
-                    minLength: {
-                      value: 3,
-                      message: translation.login.errors.password.min_length,
-                    },
-                  })}
-                />
-              </div>
-              {errors.password && <span className="error-msg text-red-500">{errors.password.message}</span>}
-            </div>
-
-            <div className='form-group form-blow'>
-              <Link className='ms-1' href="/reset-password">{translation.forgetPassword}</Link>
-            </div>
-
-            <button className='primary-btn w-full' type="submit">{translation.login.login_btn}</button>
+            <button className='primary-btn w-full' type="submit">{translation.send}</button>
           </form>
 
           <div className='form-blow'>
-            <span className=''>{translation.login.have_account}</span>
-            <Link className='ms-1' href="/register">{translation.login.register}</Link>
+            <Link className='ms-1' href="/">{translation.backLogin}</Link>
           </div>
         </div>
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>

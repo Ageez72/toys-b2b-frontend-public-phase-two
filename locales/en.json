@@ -256,5 +256,8 @@
   "already requested": "Your request has already been registered",
   "Request was sent successfully": "Your request has been registered successfully",
   "informYou": "We will inform you as soon as this product is available",
-  "errorHappened": "An error occurred, please try again later"
+  "errorHappened": "An error occurred, please try again later",
+  "forgetPassword": "Forgot your password?",
+  "forgetPasswordDesc": "Please enter the email or username registered with us to send a password reset link.",
+  "backLogin": "Back to Login"
 }

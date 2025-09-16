@@ -15,7 +15,7 @@ export default function MainLayout({ children }) {
   const [isSearch, setSearch] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  const pathname = usePathname();
+  const pathname = usePathname();  
 
   useEffect(() => {
     setLang(Cookies.get('lang') || 'AR');
@@ -39,8 +39,9 @@ export default function MainLayout({ children }) {
 
   const handleOffCanvas = () => setOffCanvas(!isOffCanvas);
   const handleSearch = () => setSearch(!isSearch);
+  
 
-  const isAuthPage = pathname === '/' || pathname === '/register';
+  const isAuthPage = pathname === '/' || pathname === '/register' || pathname === '/reset-password';
 
   // Prevent mismatch by not rendering layout until mounted
   if (!isMounted) return null;

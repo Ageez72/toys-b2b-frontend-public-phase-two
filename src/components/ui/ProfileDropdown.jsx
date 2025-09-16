@@ -74,7 +74,14 @@ export default function ProfileDropdown({ onGoTo }) {
         Cookies.set('profile', JSON.stringify(profile));
     }
     if (isLoading) return <Loader />;
-    if (error instanceof Error) return push("/");    
+    if (error instanceof Error) {
+        if (window.location.pathname.includes("/reset-password")) {
+            push("/reset-password");
+        } else {
+            push("/");
+        }
+        return null; // prevent rendering further
+    }
 
     const getInitials = (str) => {
         if (!str) return ['', ''];
@@ -84,7 +91,7 @@ export default function ProfileDropdown({ onGoTo }) {
         return [first.toUpperCase(), last.toUpperCase()];
     };
 
-    if(!data?.data?.name || !JSON.parse(Cookies.get('profile'))?.name ){
+    if (!data?.data?.name || !JSON.parse(Cookies.get('profile'))?.name) {
         location.reload()
     }
     const [firstInitial, lastInitial] = getInitials(data?.data?.name || JSON.parse(Cookies.get('profile'))?.name || '');
