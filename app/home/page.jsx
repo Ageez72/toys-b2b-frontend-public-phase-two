@@ -67,7 +67,7 @@ export default function Home() {
   const featuredProducts = {
     title: translation.featuredProducts,
     badgeType: "yellow",
-    type: "y",
+    type: "FEATURED",
     id: "featured-products",
   }
 

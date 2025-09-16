@@ -204,10 +204,21 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 
+    @media (min-width: 1200px) {
+        width: 100%;
+    }
+
     thead {
         color: #fff;
         background-color: var(--primary-color);
+
+        th.cel {
+            height: 52px;
+            text-align: center;
+        }
     }
+
+
 
     tbody {
         color: rgba(30, 30, 30, 1);
