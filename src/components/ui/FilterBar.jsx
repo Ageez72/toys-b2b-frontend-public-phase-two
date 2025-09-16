@@ -279,6 +279,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                         value: item.categoryId
                     })
                 ))
+                setCatalogOpen(true)
+                setSelectedCatalogsOptions(selected)
             } else {
                 setCatalogsAllOptions(filtersSections?.catalogs);
                 const arr = filtersSections?.catalogs?.filter(item => catalog.includes(item.code));
@@ -289,9 +291,10 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                         value: item.categoryId
                     })
                 ))
+                setCatalogOpen(true)
+                setSelectedCatalogsOptions(selected)
             }
-            setCatalogOpen(true)
-            setSelectedCatalogsOptions(selected)
+
         } catch (error) {
             error.status === 401 && router.push("/");
         }
@@ -338,7 +341,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         if (isProductsPage && filterstatus && filterstatus === "filter") {
             handleApplyFilters();
         }
-    }, [itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);    
+    }, [itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);
 
     return (
         <>
@@ -404,7 +407,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 {
                                     catalogsAllOptions?.length > 0 && (
                                         // catalogOpen && (
-                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} isProductsPage={isProductsPage}/>
+                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} isProductsPage={isProductsPage} />
                                         // )
                                     )
                                 }

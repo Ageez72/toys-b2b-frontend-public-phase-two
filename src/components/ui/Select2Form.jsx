@@ -13,6 +13,8 @@ export default function Select2Form({ title, name, initiallyOpen = false, isProd
     setHydrated(true);
   }, []);
 
+  console.log(initSelected);
+  
   // Ensure selectedOptions is initialized correctly
   const [selectedOptions, setSelectedOptions] = useState(initSelected || []);
   useEffect(() => {
