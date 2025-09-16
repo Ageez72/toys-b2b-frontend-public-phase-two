@@ -149,61 +149,9 @@ function Cart() {
       {/* <PaymentForm /> */}
       <div className="flex gap-7 mt-5 pt-5 flex-col lg:flex-row">
         <div className="order-side">
-          <div className="flex justify-between items-center mb-5">
-            <h3 className="sub-title">{translation.addedProducts}</h3>
-            <div className="items-count flex justify-center items-center">{cartItems.length}</div>
-          </div>
-
           {cartItems.length ? (
             <>
-              {orderSummary?.ITEMS?.map((item) => (
-                <div key={item.id} className="card space-y-4 mb-5">
-                  <div className="cart-item flex items-center">
-                    <div className="image-container flex justify-center items-center w-16">
-                      <Link href={`/products/${item.id}`} className="w-full h-full flex justify-center items-center">
-                        <img src={item.images["800"].main} width={52} height={52} alt={item.name || "Product"} />
-                      </Link>
-                    </div>
-                    <div className="info flex-1 px-4">
-                  <h3 className="font-bold sku-number">{item.id}</h3>
-                      <p className="name font-medium"><Link href={`/products/${item.id}`}>{item.name}</Link></p>
-                      <div className="flex items-center gap-2">
-                        <p className="price flex items-center gap-1 mb-0 text-sm text-gray-700">
-                          <span>{Number(item.NET).toFixed(2)}</span>
-                          <span>{translation.jod}</span>
-                        </p>
-                        {
-                          Number(item.NET).toFixed(2) !== Number(item.SUBTOTALWITHTAX).toFixed(2) && (
-                            <p className="flex gap-1 discount sm mb-0">
-                              <span>{Number(item.SUBTOTALWITHTAX).toFixed(2)}</span>
-                              <span>{translation.jod}</span>
-                            </p>
-                          )
-                        }
-                      </div>
-                    </div>
-                    <div className="actions w-48">
-                      <InlineAddToCart
-                        itemId={item.id}
-                        avlqty={item.avlqty}
-                        onQtyChange={loadCart}
-                        onRefresh={handleRefresh}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
-              <div className="card">
-                <textarea
-                  className="w-full h-full notes-text"
-                  name="notes"
-                  placeholder={translation.addNotes}
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                />
-              </div>
-              <h3 className="sub-title mb-4 mt-8">{translation.shippingAddress} <span className="required">*</span></h3>
+              <h3 className="sub-title mb-4">{translation.shippingAddress} <span className="required">*</span></h3>
               <div className="addresses">
                 {addressesItems.length ? (
                   addressesItems?.map((add, index) => (
@@ -233,6 +181,16 @@ function Cart() {
                   </p>
                 )
                 }
+              </div>
+              <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
+              <div className="card">
+                <textarea
+                  className="w-full h-full notes-text"
+                  name="notes"
+                  placeholder={translation.addNotes}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                />
               </div>
             </>
           ) : (

@@ -147,14 +147,17 @@ function Cart() {
       {/* {loading && <Loader />} */}
       <Breadcrumb items={breadcrumbItems} />
       {/* <PaymentForm /> */}
-      <div className="mt-5 pt-5">
-        <div className="flex justify-between items-center mb-5">
-          <h3 className="sub-title">{translation.addedProducts}</h3>
-          <div className="items-count flex justify-center items-center">{cartItems.length}</div>
+      <div className="order-side mt-5 pt-5">
+        <div className="flex justify-between items-center gap-5 mb-5">
+          <div className="flex items-center gap-5">
+            <h3 className="sub-title">{translation.addedProducts}</h3>
+            <div className="items-count flex justify-center items-center">{cartItems.length}</div>
+          </div>
+          <button className="outline-btn">تصدير</button>
         </div>
 
         <div className="relative overflow-x-auto mb-5">
-          <table className="checkout-table text-center w-full text-sm text-left rtl:text-right text-gray-500 mb-5">
+          <table className="checkout-table text-center w-full text-sm text-left rtl:text-right text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" className="px-3 py-3 text-center">
@@ -269,100 +272,51 @@ function Cart() {
             </tbody>
           </table>
         </div>
-        <div className="flex gap-7 flex-col lg:flex-row">
-          <div className="order-side">
-            {
-              cartItems.length && (
-                <>
-                  <h3 className="sub-title mb-4">{translation.shippingAddress} <span className="required">*</span></h3>
-                  <div className="addresses">
-                    {addressesItems.length ? (
-                      addressesItems?.map((add, index) => (
-                        <div className="card mb-3" key={add.id}>
-                          <div className="address-item">
-                            <input
-                              type="radio"
-                              name="address"
-                              id={`address-${index}`}
-                              value={add.id}
-                              checked={selectedAddressId === add.address}
-                              onChange={() => setSelectedAddressId(add.address)}
-                            />
-                            <label htmlFor={`address-${index}`} className="flex justify-between items-center">
-                              <span className="flex items-center gap-2">
-                                <i className="icon-location location"></i>
-                                <span>{add["branch name"]} - {add.address}</span>
-                              </span>
-                              <i className="icon-tick-circle check"></i>
-                            </label>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="">
-                        {translation.noAddressesMessage}
-                      </p>
-                    )
-                    }
-                  </div>
-                  <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
-                  <div className="card">
-                    <textarea
-                      className="w-full h-full notes-text"
-                      name="notes"
-                      placeholder={translation.addNotes}
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                    />
-                  </div>
-                </>
-              )
-            }
-          </div>
-
-          <div className="order-summary">
-            <div className="card p-4">
-              <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
-              <div className="order-item flex justify-between items-center mb-4">
-                <p className="mb-0">{translation.itemCount}</p>
-                <p className="mb-0">{cartItems.length}</p>
-              </div>
-              <div className="order-item flex justify-between items-center mb-4">
-                <p className="mb-0">{translation.subtotal}</p>
-                <p className="mb-0 flex items-center gap-1">
-                  <span>{cartItems.length ? Number(orderSummary?.SUBTOTAL).toFixed(2) : 0}</span>
-                  <span>{translation.jod}</span>
-                </p>
-              </div>
-              <div className="order-item flex justify-between items-center mb-4">
-                <p className="mb-0">{translation.tax}</p>
-                <p className="mb-0 flex items-center gap-1">
-                  <span>{cartItems.length ? Number(orderSummary?.TAX).toFixed(2) : 0}</span>
-                  <span>{translation.jod}</span>
-                </p>
-              </div>
-              <div className="order-item flex justify-between items-center mb-4">
-                <p className="mb-0">{translation.discount}</p>
-                <p className="mb-0 flex items-center gap-1">
-                  <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span>
-                  <span>{translation.jod}</span>
-                </p>
-              </div>
-              <hr />
-              <div className="order-item flex justify-between items-center mb-4">
-                <h3 className="sub-title">{translation.total}</h3>
-                <p className="mb-0 flex items-center gap-1 price">
-                  <span>{cartItems.length ? Number(orderSummary?.TOTAL).toFixed(2) : 0}</span>
-                  <span>{translation.jod}</span>
-                </p>
-              </div>
-              <button
-                className={`primary-btn w-full ${cartItems.length ? '' : 'disabled'}`}
-                onClick={handleSubmitChecker}
-              >
-                {translation.confirmOrder}
-              </button>
+      </div>
+      <div className="flex justify-end">
+        <div className="order-summary half-width">
+          <div className="card p-4">
+            <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
+            <div className="order-item flex justify-between items-center mb-4">
+              <p className="mb-0">{translation.itemCount}</p>
+              <p className="mb-0">{cartItems.length}</p>
             </div>
+            <div className="order-item flex justify-between items-center mb-4">
+              <p className="mb-0">{translation.subtotal}</p>
+              <p className="mb-0 flex items-center gap-1">
+                <span>{cartItems.length ? Number(orderSummary?.SUBTOTAL).toFixed(2) : 0}</span>
+                <span>{translation.jod}</span>
+              </p>
+            </div>
+            <div className="order-item flex justify-between items-center mb-4">
+              <p className="mb-0">{translation.tax}</p>
+              <p className="mb-0 flex items-center gap-1">
+                <span>{cartItems.length ? Number(orderSummary?.TAX).toFixed(2) : 0}</span>
+                <span>{translation.jod}</span>
+              </p>
+            </div>
+            <div className="order-item flex justify-between items-center mb-4">
+              <p className="mb-0">{translation.discount}</p>
+              <p className="mb-0 flex items-center gap-1">
+                <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span>
+                <span>{translation.jod}</span>
+              </p>
+            </div>
+            <hr />
+            <div className="order-item flex justify-between items-center mb-4">
+              <h3 className="sub-title">{translation.total}</h3>
+              <p className="mb-0 flex items-center gap-1 price">
+                <span>{cartItems.length ? Number(orderSummary?.TOTAL).toFixed(2) : 0}</span>
+                <span>{translation.jod}</span>
+              </p>
+            </div>
+            <Link
+              href="/checkout"
+              className={`primary-btn w-full text-center block ${cartItems.length ? '' : 'disabled'}`}
+            // onClick={handleSubmitChecker}
+            >
+              {translation.confirmOrder}
+            </Link>
           </div>
         </div>
       </div>
