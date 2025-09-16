@@ -223,12 +223,26 @@
     }
 }
 
-.columnGridSwiper {
-    .swiper {
-        .swiper-slide {
-            height: auto;
-            .product-card.list-card {
-                height: 100%;
+.columnGridSwiper-container {
+    position: relative;
+    background-color: #fff;
+
+    .logo-pattern {
+        width: 500px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .columnGridSwiper {
+        .swiper {
+            .swiper-slide {
+                height: auto;
+
+                .product-card.list-card {
+                    height: 100%;
+                    border: 1px solid rgba(228, 229, 232, 1);
+                }
             }
         }
     }

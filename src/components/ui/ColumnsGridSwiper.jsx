@@ -13,6 +13,7 @@ import { BASE_API, endpoints } from '../../../constant/endpoints';
 import HorizontalLoader from './Loaders/HorizontalLoader';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
+import logoPattern from "../../assets/imgs/logo-pattern.svg"
 
 export default ({ title, route, badgeType, type, id }) => {
     const { push } = useRouter();
@@ -56,48 +57,51 @@ export default ({ title, route, badgeType, type, id }) => {
         <>
             {
                 data?.data?.items.length ? (
-                    <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
-                        <div className="grid-card-container columnGridSwiper" id={id}>
-                            <div className="grid-header w-full flex items-center justify-between">
-                                <h2 className='grid-header-title'>{title}</h2>
+                    <div className='columnGridSwiper-container'>
+                        <img className='logo-pattern' src={logoPattern.src} alt="logo Pattern" />
+                        <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
+                            <div className="grid-card-container columnGridSwiper" id={id}>
+                                <div className="grid-header w-full flex items-center justify-between">
+                                    <h2 className='grid-header-title'>{title}</h2>
+                                </div>
+                                <Swiper
+                                    dir={state.LANG === "AR" ? "rtl" : "ltr"}
+                                    modules={[Navigation]}
+                                    navigation
+                                    spaceBetween={10}
+                                    slidesPerView={1}
+                                    slidesPerGroup={1}
+                                    className={`${data?.data?.items?.length === 4 && "just-four-items"}`}
+                                    breakpoints={{
+                                        320: {    // screens >= 320px
+                                            slidesPerView: 1,
+                                            spaceBetween: 10,
+                                        },
+                                        760: {    // screens >= 640px
+                                            slidesPerView: 2,
+                                            spaceBetween: 10,
+                                        },
+                                        1024: {   // screens >= 1024px
+                                            slidesPerView: 2,
+                                            spaceBetween: 10,
+                                        },
+                                        1160: {   // screens >= 1024px
+                                            slidesPerView: 3,
+                                            spaceBetween: 20,
+                                        },
+                                        1320: {   // screens >= 1024px
+                                            slidesPerView: 4,
+                                            spaceBetween: 20,
+                                        },
+                                    }}
+                                >
+                                    {
+                                        data?.data?.items?.map((item, i) => (
+                                            <SwiperSlide key={item.id}><ProductCard item={item} type="h" badgeType={badgeType} /></SwiperSlide>
+                                        ))
+                                    }
+                                </Swiper>
                             </div>
-                            <Swiper
-                                dir={state.LANG === "AR" ? "rtl" : "ltr"}
-                                modules={[Navigation]}
-                                navigation
-                                spaceBetween={10}
-                                slidesPerView={1}
-                                slidesPerGroup={1}
-                                className={`${data?.data?.items?.length === 4 && "just-four-items"}`}
-                                breakpoints={{
-                                    320: {    // screens >= 320px
-                                        slidesPerView: 1,
-                                        spaceBetween: 10,
-                                    },
-                                    760: {    // screens >= 640px
-                                        slidesPerView: 2,
-                                        spaceBetween: 10,
-                                    },
-                                    1024: {   // screens >= 1024px
-                                        slidesPerView: 2,
-                                        spaceBetween: 10,
-                                    },
-                                    1160: {   // screens >= 1024px
-                                        slidesPerView: 3,
-                                        spaceBetween: 20,
-                                    },
-                                    1320: {   // screens >= 1024px
-                                        slidesPerView: 4,
-                                        spaceBetween: 20,
-                                    },
-                                }}
-                            >
-                                {
-                                    data?.data?.items?.map((item, i) => (
-                                        <SwiperSlide key={item.id}><ProductCard item={item} type="h" badgeType={badgeType} /></SwiperSlide>
-                                    ))
-                                }
-                            </Swiper>
                         </div>
                     </div>
                 ) : ""
