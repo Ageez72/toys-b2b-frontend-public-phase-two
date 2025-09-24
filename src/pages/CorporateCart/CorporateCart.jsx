@@ -351,7 +351,7 @@ function Cart() {
               className={`primary-btn w-full text-center block ${cartItems.length ? '' : 'disabled'}`}
             // onClick={handleSubmitChecker}
             >
-              {translation.confirmOrder}
+              {translation.goTopayment}
             </Link>
           </div>
         </div>

@@ -266,5 +266,6 @@
   "costPrice":"Cost",
   "export": "Export",
   "errorImportingFile": "Invalid file format: must contain sku and quantity columns",
-  "sku": "SKU"
+  "sku": "SKU",
+  "goTopayment": "Complete Your Order"
 }
