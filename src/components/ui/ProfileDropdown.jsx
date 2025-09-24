@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { BASE_API, endpoints } from '../../../constant/endpoints';
 import Loader from './Loaders/Loader';
-import { logout } from '@/actions/utils';
+import { logout, getCartItems } from '@/actions/utils';
 import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
@@ -20,6 +20,30 @@ export default function ProfileDropdown({ onGoTo }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar);
     const [openLogoutModal, setOpenLogoutModal] = useState(false);
+
+
+    const getCartItems = async () => {
+        const langCookie = Cookies.get("lang") || "AR";
+        const token = Cookies.get("token");
+
+        const res = await axios.get(
+            `${BASE_API}${endpoints.products.getCart}&lang=${langCookie}&token=${token}`
+        );
+
+        const items = res.data?.cart?.[0]?.items || [];
+
+        // keep cookie in sync
+        Cookies.set("cart", JSON.stringify(items), { expires: 7, path: "/" });
+
+        // update context so UI reacts instantly
+        dispatch({ type: "STORED-ITEMS", payload: items });
+
+        return items;
+    };
+
+    useEffect(() => {
+        getCartItems();
+    }, []);
 
     useEffect(() => {
         setTranslation(state.LANG === "EN" ? en : ar);
@@ -46,6 +70,12 @@ export default function ProfileDropdown({ onGoTo }) {
 
     const fetchProfile = async () => {
         const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
+        console.log(res);
+        if (res?.data?.isCorporate) {
+            dispatch({ type: "IS-CORPORATE", payload: true });
+        } else {
+            dispatch({ type: "IS-CORPORATE", payload: false });
+        }
         return res;
     };
 
@@ -56,9 +86,8 @@ export default function ProfileDropdown({ onGoTo }) {
         retry: (failureCount, error) => {
             if (error?.response?.status === 401) return false;
             return failureCount < 3;
-        },
+        }
     });
-
 
     if (data?.data) {
         const profile = {
@@ -70,6 +99,9 @@ export default function ProfileDropdown({ onGoTo }) {
             business: data?.data?.business,
             contactPhone: data?.data?.contactPhone,
             username: data?.data?.username,
+            isActive: data?.data?.active,
+            isCorporate: data?.data?.isCorporate,
+            corporateImage: data?.data?.corporateImage,
         }
         Cookies.set('profile', JSON.stringify(profile));
     }

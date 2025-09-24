@@ -140,7 +140,7 @@
   "addNotes": "Add your notes...",
   "shippingAddress": "Shipping Address",
   "orderSummary": "Order Summary",
-  "itemCount": "Item Count",
+  "itemCount": "Total Quantities",
   "shipping": "Shipping",
   "tax": "Tax",
   "discount": "Discount",
@@ -260,12 +260,14 @@
   "forgetPassword": "Forgot your password?",
   "forgetPasswordDesc": "Please enter the email or username registered with us to send a password reset link.",
   "backLogin": "Back to Login",
-  "image":"Image",
-  "sellingPrice":"Selling Price (RSP)",
-  "price":"Price",
-  "costPrice":"Cost",
+  "image": "Image",
+  "sellingPrice": "Selling Price (RSP)",
+  "price": "Price",
+  "costPrice": "Cost",
   "export": "Export",
   "errorImportingFile": "Invalid file format: must contain sku and quantity columns",
   "sku": "SKU",
-  "goTopayment": "Complete Your Order"
+  "goTopayment": "Complete Your Order",
+  "corporate_login_success": "Your account has been successfully activated. You can now log in.",
+  "corporate_login_error": "Your activation link has expired. Please register again."
 }

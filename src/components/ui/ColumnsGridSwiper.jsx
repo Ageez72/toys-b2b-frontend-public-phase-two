@@ -63,7 +63,7 @@ export default ({ title, route, badgeType, type, id }) => {
         <>
             {
                 data?.data?.items.length ? (
-                    <div className='columnGridSwiper-container mt-40'>
+                    <div className={`${data?.data?.items?.length === 3 && "just-four-items"} columnGridSwiper-container mt-40`}>
                         <img className='logo-pattern' src={logoPattern.src} alt="logo Pattern" />
                         <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
                             <div className="grid-card-container columnGridSwiper" id={id}>
@@ -77,7 +77,7 @@ export default ({ title, route, badgeType, type, id }) => {
                                     spaceBetween={10}
                                     slidesPerView={1}
                                     slidesPerGroup={1}
-                                    className={`${data?.data?.items?.length === 4 && "just-four-items"}`}
+                                    className={`${data?.data?.items?.length <= 4 && "just-four-items"}`}
                                     breakpoints={{
                                         320: {    // screens >= 320px
                                             slidesPerView: 1,

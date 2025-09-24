@@ -8,6 +8,9 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { Toaster } from 'react-hot-toast';
 import { showSuccessToast, showWarningToast, showErrorToast } from '@/actions/toastUtils';
+import { BASE_API, endpoints } from '../../../constant/endpoints';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function QuickAdd({ openSidebar }) {
     const [count, setCount] = useState('');
@@ -40,7 +43,7 @@ export default function QuickAdd({ openSidebar }) {
         setSelectedItem(item);
     };
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         if (!selectedItem?.id) {
             showWarningToast(translation.chooseItem, lang, translation.warning);
             return;
@@ -69,6 +72,13 @@ export default function QuickAdd({ openSidebar }) {
             setResetSearch(true);
             const storedCart = getCart();
             if (storedCart) {
+                // Send updated cart to backend
+                const res = await axios.post(
+                    `${BASE_API}${endpoints.products.setCart}?lang=${lang}&token=${Cookies.get('token')}`,
+                    {
+                        "items": storedCart
+                    }
+                );
                 dispatch({ type: 'STORED-ITEMS', payload: storedCart });
             }
             showSuccessToast(translation.addedToCart, lang, translation.success);

@@ -89,7 +89,7 @@ export default function AddToCart({ item }) {
   return (
     <div className="add-to-cart flex items-center gap-3 w-full">
       <div className="product-card-quantity flex items-center gap-1 w-1/2">
-        <button onClick={decrease} className="btn btn-secondary w-fit">
+        <button onClick={decrease} className="btn btn-secondary w-fit" aria-label='Decrease quantity'>
           <i className="icon-minus"></i>
         </button>
         <input
@@ -100,7 +100,7 @@ export default function AddToCart({ item }) {
           value={count}
           onChange={handleQuantityChange}
         />
-        <button onClick={increase} className="btn btn-secondary w-fit">
+        <button onClick={increase} className="btn btn-secondary w-fit" aria-label='Increase quantity'>
           <i className="icon-add"></i>
         </button>
       </div>

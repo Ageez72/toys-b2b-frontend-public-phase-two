@@ -83,7 +83,7 @@ export default function AddBulkModal({ open, onClose }) {
     setBulkItems(updated);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const hasInvalidItem = bulkItems.some(item =>
       item.isConfirmed &&
       (!item.qty || item.qty <= 0 || item.qty > item.avlqty)
@@ -115,6 +115,13 @@ export default function AddBulkModal({ open, onClose }) {
 
     const storedCart = getCart();
     if (storedCart) {
+      // Send updated cart to backend
+      const res = await axios.post(
+        `${BASE_API}${endpoints.products.setCart}?lang=${lang}&token=${Cookies.get('token')}`,
+        {
+          "items": storedCart
+        }
+      );
       dispatch({ type: 'STORED-ITEMS', payload: storedCart });
     }
 

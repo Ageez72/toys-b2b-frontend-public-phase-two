@@ -40,7 +40,7 @@ function Cart() {
   }, [state.LANG]);
 
   const loadCart = () => {
-    const items = getCart();
+    const items = state.STOREDITEMS;
     setCartItems(items);
   };
 
@@ -62,7 +62,7 @@ function Cart() {
   };
 
   const handleGetOrder = async () => {
-    const items = getCart();
+    const items = state.STOREDITEMS;
     try {
       setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.checkout}&lang=${state.LANG}&token=${Cookies.get('token')}`, items, {});
@@ -77,15 +77,15 @@ function Cart() {
   useEffect(() => {
     loadCart();
     fetchProfile();
-  }, []);
+  }, [state.STOREDITEMS]);
 
   useEffect(() => {
     handleGetOrder();
     loadCart();
-  }, [refresh]);
+  }, [refresh, state.STOREDITEMS]);
 
   const handleSubmitChecker = () => {
-    const storedCart = getCart();
+    const storedCart = state.STOREDITEMS;
 
     if (!storedCart.length) {
       showWarningToast(translation.noProducts, state.LANG, translation.warning);
@@ -101,7 +101,7 @@ function Cart() {
   };
 
   const handleSubmitOrder = async () => {
-    const storedCart = getCart();
+    const storedCart = state.STOREDITEMS;
 
     const data = {
       notes: notes,
@@ -235,7 +235,7 @@ function Cart() {
               {cartItems.length ? (
                 <>
                   {orderSummary?.ITEMS?.map((item) => (
-                    <tr className="bg-white">
+                    <tr className="bg-white" key={item.id}>
                       <td className="px-3 py-3 text-center">
                         <Link href={`/products/${item.id}`} className="w-full h-full flex justify-center items-center">
                           <img src={item.images["800"].main} width={80} alt={item.name || "Product"} />

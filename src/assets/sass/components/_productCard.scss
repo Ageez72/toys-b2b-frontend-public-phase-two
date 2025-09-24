@@ -227,6 +227,21 @@
     position: relative;
     background-color: #fff;
 
+    .just-four-items {
+        &.swiper {
+
+            @media (min-width:1160px) {
+                padding-bottom: 23px !important;
+            }
+
+            &::after {
+                @media (min-width:1160px) {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+
     .logo-pattern {
         width: 500px;
         position: absolute;
@@ -245,11 +260,13 @@
                 }
             }
 
-            .swiper-button-prev, 
+            .swiper-button-prev,
             .swiper-button-next {
                 background-color: var(--body-bg);
             }
         }
+
+
     }
 }
 

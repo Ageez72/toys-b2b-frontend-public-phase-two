@@ -47,6 +47,8 @@ export default function BrandsSwiper() {
     setActiveTooltip(activeTooltip === key ? null : key);
   };
 
+  if(data?.data.length === 0) return null;
+
   return (
     <Swiper
       dir={state.LANG === "AR" ? "rtl" : "ltr"}

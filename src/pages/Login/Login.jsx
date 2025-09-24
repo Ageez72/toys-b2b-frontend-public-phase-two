@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import img1 from "../../assets/imgs/auth-bg.svg";
@@ -11,6 +11,7 @@ import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json"
 import ar from "../../../locales/ar.json";
 import Loader from '@/components/ui/Loaders/Loader';
+import SuccessModal from '@/components/ui/SuccessModal';
 import ErrorModal from '@/components/ui/ErrorModal';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -20,7 +21,11 @@ import axios from 'axios';
 
 function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCorpSuccessModalOpen, setIsCorpSuccessModalOpen] = useState(false);
+  const [isCorpErrorModalOpen, setIsCorpErrorModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [corpSuccessMessage, setCorpSuccessMessage] = useState('');
+  const [corpErrorMessage, setCorpErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -57,8 +62,50 @@ function Login() {
     }
   };
 
+  const handleCorporateLogin = () => {
+    // Get the current URL
+    const url = new URL(window.location.href);
+
+    // Get all query parameters
+    const params = new URLSearchParams(url.search);
+
+    // Convert to an object
+    const queryParams = {};
+    for (const [key, value] of params.entries()) {
+      queryParams[key] = value;
+    }
+    
+    if (queryParams.isCorporate == 1 && queryParams.expired == 0) {
+      console.log('Corporate login valid');
+      setIsCorpSuccessModalOpen(true);
+      setCorpSuccessMessage(translation.corporate_login_success);
+    } else if (queryParams.isCorporate == 1 && queryParams.expired == 1) {
+      setIsCorpErrorModalOpen(true);
+      setCorpErrorMessage(translation.corporate_login_error);
+    }
+
+  };
+
+  useEffect(() => {
+    handleCorporateLogin();
+  }, []);
+
   return (
     <div className="container auth-wrapper">
+      <SuccessModal
+        open={isCorpSuccessModalOpen}
+        onClose={() => setIsCorpSuccessModalOpen(false)}
+        title={translation.success}
+        message={corpSuccessMessage}
+      />
+
+      <ErrorModal
+        open={isCorpErrorModalOpen}
+        onClose={() => setIsCorpErrorModalOpen(false)}
+        title={translation.error}
+        message={corpErrorMessage}
+      />
+
       <ErrorModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}

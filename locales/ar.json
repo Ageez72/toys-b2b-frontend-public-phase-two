@@ -140,7 +140,7 @@
     "addNotes": "قم بإضافة ملاحظاتك ..",
     "shippingAddress": "عنوان الشحن",
     "orderSummary": "ملخص الطلب",
-    "itemCount": "عدد المنتجات",
+    "itemCount": "الكمية الإجمالية",
     "shipping": "التوصيل",
     "tax": "الضريبة",
     "discount": "الخصم",
@@ -269,6 +269,6 @@
     "errorImportingFile": "تنسيق الملف غير صالح: يجب أن يحتوي على أعمدة sku و quantity",
     "sku": "رقم المنتج (SKU)",
     "goTopayment": "إتمام الطلب",
-    "": "",
-    "": ""
+    "corporate_login_success": "تم تفعيل حسابك بنجاح. يمكنك الآن تسجيل الدخول.",
+    "corporate_login_error": "انتهت صلاحية رابط التفعيل. يرجى إعادة التسجيل."
 }

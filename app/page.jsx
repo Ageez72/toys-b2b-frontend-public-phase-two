@@ -25,7 +25,7 @@ export default function Home() {
         const response = await axios.get(url);
         const data = response?.data;
         console.log(response);
-        
+
 
         if (data) {
           const profile = {
@@ -50,7 +50,7 @@ export default function Home() {
       } catch (error) {
         console.error("Profile fetch failed:", error);
         setShowLogin(true);
-        router.push("/");
+        router.push(`/${location.search}`);
       } finally {
         setLoading(false);
       }

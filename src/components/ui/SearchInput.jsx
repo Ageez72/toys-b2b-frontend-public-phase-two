@@ -97,7 +97,7 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
                                 <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
                             </span>
                             <span className='title' onClick={() => handleSelectProduct(item)}>{item.name}</span>
-                            <span className='price'>{Number(item.priceAfterDisc).toFixed(2)} {translation.jod}</span>
+                            <span className='price'>{Number(item.price).toFixed(2)} {translation.jod}</span>
                             <Link href={`products/${item.id}`} className='view-details flex items-center'>
                                 <span className="icon-arrow-left-01-round"></span>
                             </Link>
