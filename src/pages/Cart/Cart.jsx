@@ -148,7 +148,7 @@ function Cart() {
 
     // Map the data you want to export
     const exportData = orderSummary.ITEMS.map((item) => ({
-      [translation.productNumber]: item.id,
+      [translation.sku]: item.id,
       [translation.barcode]: item.barcode,
       [translation.productName]: item.name,
       [translation.sellingPrice]: item.RSP,
@@ -237,7 +237,7 @@ function Cart() {
                     <tr className="bg-white">
                       <td className="px-3 py-3 text-center">
                         <Link href={`/products/${item.id}`} className="w-full h-full flex justify-center items-center">
-                          <img src={item.images["800"].main} width={144} height={144} alt={item.name || "Product"} />
+                          <img src={item.images["800"].main} width={80} alt={item.name || "Product"} />
                         </Link>
                       </td>
                       <td scope="row" className="px-3 py-3 text-center">
@@ -259,7 +259,7 @@ function Cart() {
                         {item.PRICEAFTERDISCOUNT}
                       </td>
                       <td className="px-3 py-3 text-center">
-                        {Number(item.TAX).toFixed(2)}%
+                        {item.TAX}
                       </td>
                       <td className="px-3 py-3 text-center">
                         {item.brand.description} - {item.category.description}

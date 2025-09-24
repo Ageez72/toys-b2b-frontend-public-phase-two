@@ -143,37 +143,37 @@ function Cart() {
     { label: translation.cart }
   ];
 
-    const handleExport = () => {
-      if (!orderSummary?.ITEMS?.length) return;
-  
-      // Map the data you want to export
-      const exportData = orderSummary.ITEMS.map((item) => ({
-        [translation.productNumber]: item.id,
-        [translation.barcode]: item.barcode,
-        [translation.productName]: item.name,
-        [translation.sellingPrice]: item.RSP,
-        [translation.price]: item.LPRICE,
-        [translation.costPrice]: item.PRICEAFTERDISCOUNT,
-        [translation.tax]: `${Number(item.TAX).toFixed(2)}%`,
-        [`${translation.brand} - ${translation.type}`]: `${item.brand.description} - ${item.category.description}`,
-        [translation.qty]: item.qty || item.QTY,
-        [translation.totalPrice]: Number(item.NET).toFixed(2),
-      }));
-  
-      // Create a worksheet
-      const worksheet = XLSX.utils.json_to_sheet(exportData);
-  
-      // Create a workbook
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "CartItems");
-  
-      // Convert to Excel file
-      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-  
-      // Save file
-      const file = new Blob([excelBuffer], { type: "application/octet-stream" });
-      saveAs(file, "corporate_cart_items.xlsx");
-    };
+  const handleExport = () => {
+    if (!orderSummary?.ITEMS?.length) return;
+
+    // Map the data you want to export
+    const exportData = orderSummary.ITEMS.map((item) => ({
+      [translation.sku]: item.id,
+      [translation.barcode]: item.barcode,
+      [translation.productName]: item.name,
+      [translation.sellingPrice]: item.RSP,
+      [translation.price]: item.LPRICE,
+      [translation.costPrice]: item.PRICEAFTERDISCOUNT,
+      [translation.tax]: `${Number(item.TAX).toFixed(2)}%`,
+      [`${translation.brand} - ${translation.type}`]: `${item.brand.description} - ${item.category.description}`,
+      [translation.qty]: item.qty || item.QTY,
+      [translation.totalPrice]: Number(item.NET).toFixed(2),
+    }));
+
+    // Create a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+    // Create a workbook
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "CartItems");
+
+    // Convert to Excel file
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+    // Save file
+    const file = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(file, "corporate_cart_items.xlsx");
+  };
 
   return (
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
@@ -238,7 +238,7 @@ function Cart() {
                     <tr className="bg-white">
                       <td className="px-3 py-3 text-center">
                         <Link href={`/products/${item.id}`} className="w-full h-full flex justify-center items-center">
-                          <img src={item.images["800"].main} width={144} height={144} alt={item.name || "Product"} />
+                          <img src={item.images["800"].main} width={80} alt={item.name || "Product"} />
                         </Link>
                       </td>
                       <td scope="row" className="px-3 py-3 text-center">
@@ -260,7 +260,7 @@ function Cart() {
                         {item.PRICEAFTERDISCOUNT}
                       </td>
                       <td className="px-3 py-3 text-center">
-                        {Number(item.TAX).toFixed(2)}%
+                        {item.TAX}
                       </td>
                       <td className="px-3 py-3 text-center">
                         {item.brand.description} - {item.category.description}

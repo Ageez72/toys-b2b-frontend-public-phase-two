@@ -87,12 +87,12 @@
     }
 
     .items-count {
-        padding: 5px;
+        padding: 0;
         color: var(--primary-color);
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 700;
-        min-width: 47px;
-        min-height: 47px;
+        min-width: 40px;
+        min-height: 40px;
         border-radius: 6px;
         background-color: #8D1A141F;
     }
@@ -211,6 +211,9 @@
     thead {
         color: #fff;
         background-color: var(--primary-color);
+        th {
+            text-transform: capitalize;
+        }
 
         th.cel {
             height: 52px;

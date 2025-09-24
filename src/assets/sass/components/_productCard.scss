@@ -244,6 +244,11 @@
                     border: 1px solid rgba(228, 229, 232, 1);
                 }
             }
+
+            .swiper-button-prev, 
+            .swiper-button-next {
+                background-color: var(--body-bg);
+            }
         }
     }
 }

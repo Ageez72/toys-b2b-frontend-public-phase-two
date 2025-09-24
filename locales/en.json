@@ -88,7 +88,7 @@
   "clearance": "Clearance",
   "viewMore": "View More",
   "copyrights": "All Rights Reserved to Arabian Al-Ekha © ",
-  "heroTitle": "Save time and bulk add your products in seconds",
+  "heroTitle": "Save Time and Bulk Add Your Products in Seconds",
   "bulkTitle": "Quick Bulk Add",
   "add": "Add",
   "addCart": "Add",
@@ -247,8 +247,8 @@
   "tellMe": "Request When Available",
   "toldMe": "You'll Be Notified When Available",
   "cardHolder": "Card holder:",
-  "importExcel": "Import Excel File",
-  "downloadExcel": "Download Excel File",
+  "importExcel": "Import File",
+  "downloadExcel": "Download Template File",
   "importFailed": "Import failed. Please try again.",
   "importSuccess": "Import Successful",
   "fileTypeError": "Invalid file type. Please upload a CSV or Excel File.",
@@ -265,5 +265,6 @@
   "price":"Price",
   "costPrice":"Cost",
   "export": "Export",
-  "errorImportingFile": "Invalid file format: must contain sku and quantity columns"
+  "errorImportingFile": "Invalid file format: must contain sku and quantity columns",
+  "sku": "SKU"
 }

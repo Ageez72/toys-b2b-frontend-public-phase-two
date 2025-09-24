@@ -248,8 +248,8 @@
     "toldMe": "سيتم إشعارك عند التوفر",
     "cardHolder": "اسم صاحب البطاقة:",
     "importFailed": "فشل الاستيراد. يرجى المحاولة مرة أخرى.",
-    "importExcel": "استيراد ملف Excel",
-    "downloadExcel": "تحميل ملف Excel",
+    "importExcel": "استيراد ملف",
+    "downloadExcel": "تحميل النموذج",
     "importSuccess": "تم الاستيراد بنجاح",
     "fileTypeError": "نوع ملف غير صالح. يرجى تحميل ملف CSV أو Excel.",
     "productRequest": "تم تسجيل طلبك بنجاح",
@@ -267,6 +267,7 @@
     "price": "السعر",
     "export": "تصدير",
     "errorImportingFile": "تنسيق الملف غير صالح: يجب أن يحتوي على أعمدة sku و quantity",
+    "sku": "رقم المنتج (SKU)",
     "": "",
     "": "",
     "": ""
