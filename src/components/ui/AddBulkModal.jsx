@@ -149,6 +149,7 @@ export default function AddBulkModal({ open, onClose }) {
 
 
   const handleImport = async (e) => {
+    const fileInput = e.target;
     const file = e.target.files[0];
     if (!file) return;
 
@@ -292,6 +293,9 @@ export default function AddBulkModal({ open, onClose }) {
           message: translation.importFailed || "Import failed. Please try again.",
         });
         showToastError(translation.importFailed || "Import failed");
+      } finally {
+        // ✅ Clear the input value so the same file can be selected again
+        fileInput.value = "";
       }
     };
 
@@ -423,14 +427,16 @@ export default function AddBulkModal({ open, onClose }) {
                         />
                       </label>
                       <button
-                        className="outline-btn cursor-pointer"
+                        className="flex items-center gap-1 outline-btn cursor-pointer"
                         onClick={() => document.getElementById("importExcel").click()}
                       >
+                        <i className="icon-export text-lg"></i>
                         {isImporting && <span className="spinner"></span>}
                         {translation.importExcel}
                       </button>
                     </div>
-                    <a className="outline-btn cursor-pointer" href="https://alekha-dev.s3.amazonaws.com/bulk_add_items_import_templates.xlsx" download>
+                    <a className="flex items-center gap-1 outline-btn cursor-pointer" href="https://alekha-dev.s3.amazonaws.com/bulk_add_items_import_templates.xlsx" download>
+                      <i className="icon-import text-lg"></i>
                       {translation.downloadExcel}
                     </a>
                     <button className="gray-btn" onClick={onClose}>

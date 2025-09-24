@@ -259,5 +259,9 @@
   "errorHappened": "An error occurred, please try again later",
   "forgetPassword": "Forgot your password?",
   "forgetPasswordDesc": "Please enter the email or username registered with us to send a password reset link.",
-  "backLogin": "Back to Login"
+  "backLogin": "Back to Login",
+  "image":"Image",
+  "sellingPrice":"Selling Price (RSP)",
+  "price":"Price",
+  "costPrice":"Cost"
 }

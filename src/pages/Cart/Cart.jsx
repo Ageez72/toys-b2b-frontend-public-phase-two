@@ -148,9 +148,15 @@ function Cart() {
       <Breadcrumb items={breadcrumbItems} />
       {/* <PaymentForm /> */}
       <div className="mt-5 pt-5">
-        <div className="flex justify-between items-center mb-5">
-          <h3 className="sub-title">{translation.addedProducts}</h3>
-          <div className="items-count flex justify-center items-center">{cartItems.length}</div>
+        <div className="flex justify-between items-center gap-5 mb-5">
+          <div className="flex items-center gap-5">
+            <h3 className="sub-title">{translation.addedProducts}</h3>
+            <div className="items-count flex justify-center items-center">{cartItems.length}</div>
+          </div>
+          <button className="flex items-center gap-1 outline-btn cursor-pointer">
+            <i className="icon-export text-lg"></i>
+            تصدير
+          </button>
         </div>
 
         <div className="relative overflow-x-auto mb-5">
@@ -158,37 +164,37 @@ function Cart() {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" className="px-3 py-3 text-center">
-                  الصورة
+                  {translation.image}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  رقم المنتج (SKU)
+                  {translation.productNumber}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  باركود
+                  {translation.barcode}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  اسم المنتج
+                  {translation.productName}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  سعر البيع (RSP)
+                  {translation.sellingPrice}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  السعر
+                  {translation.price}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  التكلفة
+                  {translation.costPrice}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  الضريبة
+                  {translation.tax}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  العلامة التجارية - التصنيف
+                  {translation.brand} - {translation.type}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  الكمية
+                  {translation.qty}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  الإجمالي
+                  {translation.totalPrice}
                 </th>
               </tr>
             </thead>
@@ -199,7 +205,7 @@ function Cart() {
                     <tr className="bg-white">
                       <td className="px-3 py-3 text-center">
                         <Link href={`/products/${item.id}`} className="w-full h-full flex justify-center items-center">
-                          <img src={item.images["800"].main} width={52} height={52} alt={item.name || "Product"} />
+                          <img src={item.images["800"].main} width={144} height={144} alt={item.name || "Product"} />
                         </Link>
                       </td>
                       <td scope="row" className="px-3 py-3 text-center">
@@ -212,16 +218,16 @@ function Cart() {
                         <Link href={`/products/${item.id}`}>{item.name}</Link>
                       </td>
                       <td className="px-3 py-3 text-center">
-                        {item.priceAfterDisc}
+                        {item.RSP}
                       </td>
                       <td className="px-3 py-3 text-center">
-                        {item.price}
+                        {item.LPRICE}
                       </td>
                       <td className="px-3 py-3 text-center">
-                        Laptop
+                        {item.PRICEAFTERDISCOUNT}
                       </td>
                       <td className="px-3 py-3 text-center">
-                        1%
+                        {Number(item.TAX).toFixed(2)}%
                       </td>
                       <td className="px-3 py-3 text-center">
                         {item.brand.description} - {item.category.description}
