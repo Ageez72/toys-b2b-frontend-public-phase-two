@@ -227,7 +227,7 @@ function Cart() {
                   {translation.qty}
                 </th>
                 <th scope="col" className="px-3 py-3 text-center">
-                  {translation.total}
+                  {translation.totalPrice}
                 </th>
               </tr>
             </thead>

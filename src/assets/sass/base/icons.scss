@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('../../fonts/icomoon/icomoon.eot?vw4y7j');
-  src: url('../../fonts/icomoon/icomoon.eot?vw4y7j#iefix') format('embedded-opentype'),
-    url('../../fonts/icomoon/icomoon.ttf?vw4y7j') format('truetype'),
-    url('../../fonts/icomoon/icomoon.woff?vw4y7j') format('woff'),
-    url('../../fonts/icomoon/icomoon.svg?vw4y7j#icomoon') format('svg');
+  src: url('../../fonts/icomoon/icomoon.eot?t45865');
+  src: url('../../fonts/icomoon/icomoon.eot?t45865#iefix') format('embedded-opentype'),
+    url('../../fonts/icomoon/icomoon.ttf?t45865') format('truetype'),
+    url('../../fonts/icomoon/icomoon.woff?t45865') format('woff'),
+    url('../../fonts/icomoon/icomoon.svg?t45865#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,6 +24,10 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-box1:before {
+  content: "\e94c";
 }
 
 .icon-export:before {

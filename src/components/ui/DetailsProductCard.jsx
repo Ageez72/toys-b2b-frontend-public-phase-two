@@ -62,6 +62,7 @@ export default function DetailsProductCard({ item }) {
     return (
         <div className="card product-card">
             <SuccessModal
+                icon="icon-box1"
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 title={modalTitle}

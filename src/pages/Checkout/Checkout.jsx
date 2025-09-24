@@ -221,7 +221,7 @@ function Cart() {
             <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
             <div className="order-item flex justify-between items-center mb-4">
               <p className="mb-0">{translation.itemCount}</p>
-              <p className="mb-0">{cartItems.length}</p>
+              <p className="mb-0">{orderSummary?.CNT}</p>
             </div>
             <div className="order-item flex justify-between items-center mb-4">
               <p className="mb-0">{translation.subtotal}</p>

@@ -307,6 +307,7 @@ export default function AddBulkModal({ open, onClose }) {
     <>
       {importPopup.success && importPopup.open && (
         <SuccessModal
+          icon="icon-document-download"
           open={importPopup.success}
           message={importPopup.message}
           onClose={() => setImportPopup({ open: false, success: false, message: "" })}
@@ -429,8 +430,8 @@ export default function AddBulkModal({ open, onClose }) {
                         className="flex items-center gap-1 outline-btn cursor-pointer"
                         onClick={() => document.getElementById("importExcel").click()}
                       >
-                        <i className="icon-export text-lg"></i>
                         {isImporting && <span className="spinner"></span>}
+                        <i className="icon-export text-lg"></i>
                         {translation.importExcel}
                       </button>
                     </div>
