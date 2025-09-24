@@ -76,6 +76,12 @@ export default function ProfileDropdown({ onGoTo }) {
         } else {
             dispatch({ type: "IS-CORPORATE", payload: false });
         }
+
+        if (res?.data?.active === 'Y') {
+            dispatch({ type: "IS-ACTIVE", payload: true });
+        } else {
+            dispatch({ type: "IS-ACTIVE", payload: false });
+        }
         return res;
     };
 

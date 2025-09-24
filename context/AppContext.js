@@ -9,6 +9,7 @@ const initialState = {
   LANG: initialLang,
   STOREDITEMS: [],
   isCorporate: false,
+  isActive: false,
   DIRECTION: initialLang === "EN" ? "ltr" : "rtl",
 };
 
@@ -40,6 +41,9 @@ const appReducer = (state, action) => {
 
     case "IS-CORPORATE":
       return { ...state, isCorporate: action.payload };
+
+    case "IS-ACTIVE":
+      return { ...state, isActive: action.payload };
 
     default:
       return state;
