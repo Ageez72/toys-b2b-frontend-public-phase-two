@@ -170,7 +170,7 @@ export default function AddBulkModal({ open, onClose }) {
         const qtyIndex = header.findIndex((h) => h === "quantity");
 
         if (skuIndex === -1 || qtyIndex === -1) {
-          showToastError("Invalid file format: must contain sku and quantity columns");
+          showToastError(translation.errorImportingFile);
           setIsImporting(false);
           return;
         }
@@ -192,8 +192,7 @@ export default function AddBulkModal({ open, onClose }) {
         const skus = Object.keys(skuQtyMap);
         if (skus.length === 0) {
           showToastError(
-            translation.noProductsSelected ||
-            "No valid SKU/quantity found in file."
+            translation.noProductsSelected
           );
           setIsImporting(false);
           return;

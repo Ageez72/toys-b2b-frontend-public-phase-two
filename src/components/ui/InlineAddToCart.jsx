@@ -110,7 +110,7 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
   return (
     <div className="add-to-cart flex gap-3">
       <div className="product-card-quantity flex items-center gap-1 w-3/4">
-        <button onClick={decrease} className="btn btn-secondary w-fit">
+        <button onClick={decrease} className="btn btn-secondary w-fit" aria-label="minus icon">
           <i className="icon-minus"></i>
         </button>
 
@@ -124,6 +124,7 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
         />
 
         <button
+          aria-label="add icon"
           onClick={increase}
           className="btn btn-secondary w-fit"
         // disabled={count >= Math.min(avlqty, MAX_QTY)}

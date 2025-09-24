@@ -224,10 +224,19 @@
     font-size: 16px;
     transition: all 0.3s ease-in-out;
     background-color: #fff;
-
+    
     &:hover {
         background-color: #8D1A14;
         color: #fff;
+    }
+
+    &.no-bg {
+        background-color: transparent;
+
+        &:hover {
+            background-color: #8D1A14;
+            color: #fff;
+        }
     }
 }
 

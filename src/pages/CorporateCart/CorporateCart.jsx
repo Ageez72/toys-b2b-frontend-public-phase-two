@@ -15,7 +15,8 @@ import Cookies from 'js-cookie';
 import Loader from "@/components/ui/Loaders/Loader";
 import { showWarningToast } from "@/actions/toastUtils";
 import ErrorOrderResModal from "@/components/ui/ErrorOrderResModal";
-import PaymentForm from "@/components/ui/PaymentForm";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -142,6 +143,38 @@ function Cart() {
     { label: translation.cart }
   ];
 
+    const handleExport = () => {
+      if (!orderSummary?.ITEMS?.length) return;
+  
+      // Map the data you want to export
+      const exportData = orderSummary.ITEMS.map((item) => ({
+        [translation.productNumber]: item.id,
+        [translation.barcode]: item.barcode,
+        [translation.productName]: item.name,
+        [translation.sellingPrice]: item.RSP,
+        [translation.price]: item.LPRICE,
+        [translation.costPrice]: item.PRICEAFTERDISCOUNT,
+        [translation.tax]: `${Number(item.TAX).toFixed(2)}%`,
+        [`${translation.brand} - ${translation.type}`]: `${item.brand.description} - ${item.category.description}`,
+        [translation.qty]: item.qty || item.QTY,
+        [translation.totalPrice]: Number(item.NET).toFixed(2),
+      }));
+  
+      // Create a worksheet
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+  
+      // Create a workbook
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "CartItems");
+  
+      // Convert to Excel file
+      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+  
+      // Save file
+      const file = new Blob([excelBuffer], { type: "application/octet-stream" });
+      saveAs(file, "corporate_cart_items.xlsx");
+    };
+
   return (
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
       {/* {loading && <Loader />} */}
@@ -153,9 +186,9 @@ function Cart() {
             <h3 className="sub-title">{translation.addedProducts}</h3>
             <div className="items-count flex justify-center items-center">{cartItems.length}</div>
           </div>
-          <button className="flex items-center gap-1 outline-btn cursor-pointer">
+          <button className="flex items-center gap-1 outline-btn cursor-pointer no-bg" onClick={handleExport}>
             <i className="icon-export text-lg"></i>
-            تصدير
+            {translation.export}
           </button>
         </div>
 

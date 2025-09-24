@@ -244,14 +244,14 @@
   "cardName": "Card number:",
   "expDate": "Expiration date:",
   "ccv": "CCV:",
-  "tellMe": "Request when available",
+  "tellMe": "Request When Available",
   "toldMe": "You'll Be Notified When Available",
   "cardHolder": "Card holder:",
-  "importExcel": "Import Excel file",
-  "downloadExcel": "Download Excel file",
+  "importExcel": "Import Excel File",
+  "downloadExcel": "Download Excel File",
   "importFailed": "Import failed. Please try again.",
   "importSuccess": "Import Successful",
-  "fileTypeError": "Invalid file type. Please upload a CSV or Excel file.",
+  "fileTypeError": "Invalid file type. Please upload a CSV or Excel File.",
   "productRequest": "Your request has been registered successfully",
   "already requested": "Your request has already been registered",
   "Request was sent successfully": "Your request has been registered successfully",
@@ -263,5 +263,7 @@
   "image":"Image",
   "sellingPrice":"Selling Price (RSP)",
   "price":"Price",
-  "costPrice":"Cost"
+  "costPrice":"Cost",
+  "export": "Export",
+  "errorImportingFile": "Invalid file format: must contain sku and quantity columns"
 }
