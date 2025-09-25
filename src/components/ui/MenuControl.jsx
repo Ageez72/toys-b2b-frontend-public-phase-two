@@ -4,7 +4,7 @@ import { useAppContext } from '../../../context/AppContext';
 import LangSwitcher from './LangSwitcher';
 import ProfileDropdown from './ProfileDropdown';
 import Link from 'next/link';
-import { getProfile } from '@/actions/utils';
+import Image from 'next/image';
 
 export default function MenuControl({ onGoTo }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -29,6 +29,13 @@ export default function MenuControl({ onGoTo }) {
           </div>
         </Link>
         <ProfileDropdown onGoTo={onGoTo} />
+        <Image
+          className={`corporate-img`}
+          src={state.corporateImage}
+          alt="My Image"
+          width={60}
+          height={54}
+        />
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ const initialState = {
   STOREDITEMS: [],
   isCorporate: false,
   isActive: false,
+  corporateImage: "/imgs/corporate-default.png",
   DIRECTION: initialLang === "EN" ? "ltr" : "rtl",
 };
 
@@ -44,6 +45,9 @@ const appReducer = (state, action) => {
 
     case "IS-ACTIVE":
       return { ...state, isActive: action.payload };
+
+    case "CORPORATE-IMAGE":
+      return { ...state, corporateImage: action.payload };
 
     default:
       return state;

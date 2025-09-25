@@ -11,7 +11,7 @@ export default function Header({ scroll, handleOffCanvas }) {
   const pathname = usePathname();
   const isActive = (path) => {
     return pathname === path ? "active" : "";
-  };  
+  };
 
   return (
     <>
@@ -23,20 +23,20 @@ export default function Header({ scroll, handleOffCanvas }) {
           <nav className="bg-white light:bg-gray-900 z-20 top-0 start-0 shadow-sm">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
               <div className="flex flex-wrap items-center gap-4" style={{ gap: "2.5rem" }}>
-                  <Link
+                <Link
                   href="/home"
                   className={`flex items-center space-x-3 rtl:space-x-reverse`}
-                  >
+                >
                   {
-                      <Image
-                        className={`logo-img`}
-                        src={logo}
-                        alt="My Image"
-                        width={166}
-                        height={54}
-                      />
-                }
-                    </Link>
+                    <Image
+                      className={`logo-img`}
+                      src={logo}
+                      alt="My Image"
+                      width={166}
+                      height={54}
+                    />
+                  }
+                </Link>
 
                 <div className="hidden w-full lg:block lg:w-auto" id="navbar-default">
                   <Suspense fallback={<div>Loading menu...</div>}>

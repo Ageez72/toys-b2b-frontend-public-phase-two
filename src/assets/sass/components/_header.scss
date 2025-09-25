@@ -6,6 +6,11 @@
         li {
 
             a {
+                @media (min-width: 992px) and (max-width: 1160px) {
+                    font-size: 15px;
+                    padding-inline-start: 0;
+                }
+
                 &:hover {
                     color: var(--primary-color);
                 }
@@ -24,7 +29,7 @@
     }
 
     .hide-logo {
-        @media (min-width: 1024px) {   
+        @media (min-width: 1024px) {
             width: 0;
         }
     }
@@ -72,9 +77,10 @@ footer {
 
     li {
         margin-bottom: 24px;
+
         &.active a {
-    color: var(--primary-color);
-}
+            color: var(--primary-color);
+        }
     }
 }
 
@@ -85,15 +91,18 @@ footer {
 }
 
 header {
-    .circle-icon-container, .lang-switcher  {
+
+    .circle-icon-container,
+    .lang-switcher {
         transition: all 0.3s ease-in-out;
-        
+
         i::before {
             transition: all 0.3s ease-in-out;
         }
 
         &:hover {
             background-color: var(--primary-color);
+
             i::before {
                 color: #fff;
             }
