@@ -35,7 +35,7 @@ function Cart() {
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
-    document.title = state.LANG === 'AR' ? ar.cart : en.cart;
+    document.title = state.LANG === 'AR' ? ar.goTopayment : en.goTopayment;
   }, [state.LANG]);
 
   const loadCart = () => {
@@ -139,7 +139,8 @@ function Cart() {
 
   const breadcrumbItems = [
     { label: translation.home, href: '/home' },
-    { label: translation.cart }
+    { label: translation.cart, href: '/corporate-cart' },
+    { label: translation.goTopayment }
   ];
 
   return (

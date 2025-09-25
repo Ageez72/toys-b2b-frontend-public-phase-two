@@ -6,8 +6,10 @@ import { profileTabs } from './tabs';
 import TabPanel from './TabPanel';
 import MyProfile from './Tabs/MyProfile';
 import MyOrders from './Tabs/MyOrders';
-import Adressess from './Tabs/Adressess';
+import Addresses from './Tabs/Addresses';
 import Security from './Tabs/Security';
+import StatementOfAccount from './Tabs/StatementOfAccount';
+import SellingGoals from './Tabs/SellingGoals';
 import { getProfile } from '@/actions/utils';
 import { useAppContext } from '../../../../context/AppContext';
 import en from "../../../../locales/en.json";
@@ -52,7 +54,7 @@ export default function ProfileTabs() {
         setTimeout(() => {
             const profile = getProfile();
             setProfileData(profile ? profile : []);
-            
+
             const [firstInitial, lastInitial] = getInitials(profile?.name);
             setFirstLetter(firstInitial)
             setLastLetter(lastInitial)
@@ -89,9 +91,9 @@ export default function ProfileTabs() {
                                 </p>
                             </div>
                         </div>
-                        <ul className="pt-3">
+                        <ul className={`pt-3 profile-tabs-links ${state.isCorporate && state.isActive ? 'is-corporate-account' : ''}`}>
                             {profileTabs.map((tab) => (
-                                <li key={tab.id}>
+                                <li key={tab.id} className={tab.id}>
                                     <button
                                         onClick={() => handleTabClick(tab.id)}
                                         className={`flex items-center justify-between w-full text-right cursor-pointer px-2 py-2 rounded-md ${activeTab === tab.id ? 'active' : 'hover:bg-gray-100'}`}
@@ -129,8 +131,20 @@ export default function ProfileTabs() {
                         <MyOrders />
                     </TabPanel>
                     <TabPanel id="addresses" activeTab={activeTab}>
-                        <Adressess />
+                        <Addresses />
                     </TabPanel>
+                    {
+                        state.isCorporate && state.isActive && (
+                            <>
+                                <TabPanel id="statementOfAccount" activeTab={activeTab}>
+                                    <StatementOfAccount />
+                                </TabPanel>
+                                <TabPanel id="sellingGoals" activeTab={activeTab}>
+                                    <SellingGoals />
+                                </TabPanel>
+                            </>
+                        )
+                    }
                 </div>
             </div>
         </>

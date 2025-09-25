@@ -192,6 +192,27 @@
     &:hover {
         background-color: var(--primary-color-hover);
     }
+
+    &.green-btn {
+        min-width: 160px;
+        background-color: rgba(40, 141, 20, 1);
+
+        @media (max-width: 450px) {
+            min-width: auto;
+        }
+
+        &:hover {
+            background-color: rgba(30, 101, 15, 1);
+        }
+    }
+
+    &.red-btn {
+        min-width: 160px;
+                @media (max-width: 450px) {
+            min-width: auto;
+        }
+
+    }
 }
 
 .disabled {
@@ -224,7 +245,7 @@
     font-size: 16px;
     transition: all 0.3s ease-in-out;
     background-color: #fff;
-    
+
     &:hover {
         background-color: #8D1A14;
         color: #fff;
@@ -730,4 +751,20 @@ img {
 
 .corporate-img {
     border-radius: 4px;
+}
+
+.profile-tabs-links {
+
+    .sellingGoals,
+    .statementOfAccount {
+        display: none;
+    }
+
+    &.is-corporate-account {
+
+        .sellingGoals,
+        .statementOfAccount {
+            display: block;
+        }
+    }
 }
