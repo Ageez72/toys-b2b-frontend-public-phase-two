@@ -39,7 +39,7 @@ function Cart() {
     document.title = state.LANG === 'AR' ? ar.cart : en.cart;
   }, [state.LANG]);
 
-const loadCart = () => {
+  const loadCart = () => {
     const items = state.STOREDITEMS;
     setCartItems(items);
   };
@@ -82,7 +82,7 @@ const loadCart = () => {
   useEffect(() => {
     handleGetOrder();
     loadCart();
-  }, [refresh,state.STOREDITEMS]);
+  }, [refresh, state.STOREDITEMS]);
 
   const handleSubmitChecker = () => {
     const storedCart = state.STOREDITEMS;
@@ -117,6 +117,13 @@ const loadCart = () => {
       const response = await axios.post(`${BASE_API}${endpoints.products.order}&token=${Cookies.get('token')}`, data, {});
       if (response.data && !response.data.ERROR) {
         Cookies.set('cart', "[]", { expires: 7, path: '/' });
+        // Send updated cart to backend
+        const res = await axios.post(
+          `${BASE_API}${endpoints.products.setCart}?lang=${state.LANG}&token=${Cookies.get('token')}`,
+          {
+            "items": []
+          }
+        );
         dispatch({ type: 'STORED-ITEMS', payload: [] });
         setOpenSureOrder(false);
         setOpenConfirmOrder(true);

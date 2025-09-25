@@ -287,9 +287,9 @@
     "accountName": "اسم الحساب",
     "from": "من",
     "to": "إلى",
-    "": "",
-    "": "",
-    "": "",
+    "paymentMethod": "طريقة الدفع",
+    "cashOnDelivery": "الدفع عند الاستلام",
+    "creditCardPayment": "الدفع بالبطاقات الائتمانية ( Master Card - Visa)",
     "": "",
     "": ""
 }

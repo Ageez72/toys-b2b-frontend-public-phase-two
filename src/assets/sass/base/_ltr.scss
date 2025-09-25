@@ -141,4 +141,9 @@
     .filter-mobile.has-filters .red-filter {
         left: 10px;
     }
+
+    .payment-methods .card.selected .icon-tick-circle {
+        left: auto;
+        right: 10px;
+    }
 }

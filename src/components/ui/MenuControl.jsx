@@ -29,13 +29,17 @@ export default function MenuControl({ onGoTo }) {
           </div>
         </Link>
         <ProfileDropdown onGoTo={onGoTo} />
-        <Image
-          className={`corporate-img`}
-          src={state.corporateImage}
-          alt="My Image"
-          width={60}
-          height={54}
-        />
+        {
+          state.isCorporate && state.isActive && state.corporateImage && (
+            <Image
+              className={`corporate-img`}
+              src={state.corporateImage}
+              alt="My Image"
+              width={60}
+              height={54}
+            />
+          )
+        }
       </div>
     </div>
   );

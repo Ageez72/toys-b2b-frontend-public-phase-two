@@ -29,6 +29,7 @@ function Cart() {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [orderSummary, setOrderSummary] = useState(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("cashOnDelivery");
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
@@ -106,6 +107,7 @@ function Cart() {
       notes: notes,
       deliveryDate: "",
       address: selectedAddressId,
+      paymentMethod: selectedPaymentMethod,
       items: storedCart.map(item => ({
         item: item.id,
         qty: item.qty
@@ -116,6 +118,13 @@ function Cart() {
       const response = await axios.post(`${BASE_API}${endpoints.products.order}&token=${Cookies.get('token')}`, data, {});
       if (response.data && !response.data.ERROR) {
         Cookies.set('cart', "[]", { expires: 7, path: '/' });
+        // Send updated cart to backend
+        const res = await axios.post(
+          `${BASE_API}${endpoints.products.setCart}?lang=${state.LANG}&token=${Cookies.get('token')}`,
+          {
+            "items": []
+          }
+        );
         dispatch({ type: 'STORED-ITEMS', payload: [] });
         setOpenSureOrder(false);
         setOpenConfirmOrder(true);
@@ -144,7 +153,7 @@ function Cart() {
   ];
 
   return (
-    <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
+    <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page checkout-page section-min">
       {/* {loading && <Loader />} */}
       <Breadcrumb items={breadcrumbItems} />
       {/* <PaymentForm /> */}
@@ -183,6 +192,47 @@ function Cart() {
                 )
                 }
               </div>
+
+              <h3 className="sub-title mb-4 mt-8">{translation.paymentMethod}</h3>
+              <div className="payment-methods flex flex-wrap md:flex-nowrap gap-3">
+                <label htmlFor="cashOnDelivery" className="block w-full md:w-1/2">
+                  <div className={`card ${selectedPaymentMethod === "cashOnDelivery" ? 'selected' : ''}`}>
+                    <div className="payment-method">
+                      <i class="icon-money-3"></i>
+                      <span class="icon-tick-circle"></span>
+                      <input
+                        className="hidden"
+                        type="radio"
+                        name="paymentMethod"
+                        id="cashOnDelivery"
+                        value="cashOnDelivery"
+                        checked={selectedPaymentMethod === "cashOnDelivery"}
+                        onChange={() => setSelectedPaymentMethod("cashOnDelivery")}
+                      />
+                      <span className="block mt-2">{translation.cashOnDelivery}</span>
+                    </div>
+                  </div>
+                </label>
+                <label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
+                  <div className={`card ${selectedPaymentMethod === "creditCardPayment" ? 'selected' : ''}`}>
+                    <div className="payment-method">
+                      <i class="icon-cards"></i>
+                      <span class="icon-tick-circle"></span>
+                      <input
+                        className="hidden"
+                        type="radio"
+                        name="paymentMethod"
+                        id="creditCardPayment"
+                        value="creditCardPayment"
+                        checked={selectedPaymentMethod === "creditCardPayment"}
+                        onChange={() => setSelectedPaymentMethod("creditCardPayment")}
+                      />
+                      <span className="block mt-2">{translation.creditCardPayment}</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
               <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
               <div className="card">
                 <textarea

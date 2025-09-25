@@ -209,6 +209,7 @@
         }
     }
 }
+
 .selling-target-table {
     min-width: 860px;
 
@@ -232,6 +233,7 @@
             p {
                 font-size: 14px;
             }
+
             .progress-bar {
                 margin: 10px 0;
                 background-color: rgba(141, 26, 20, 0.12);
@@ -256,6 +258,40 @@
                     color: var(--primary-color);
                 }
             }
+        }
+    }
+}
+
+.payment-methods {
+    label {
+        cursor: pointer;
+    }
+
+    .card {
+        position: relative;
+        height: 100%;
+        border-radius: 8px;
+        border: 2px solid transparent;
+
+        i {
+            font-size: 54px;
+        }
+
+        .icon-tick-circle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            opacity: 0;
+            font-size: 20px;
+        }
+
+        &.selected {
+            color: #8d1a14;
+            background-color: #8d1a141f;
+            border: 2px solid var(--primary-color);
+             .icon-tick-circle {
+                opacity: 1;
+             }
         }
     }
 }
