@@ -84,7 +84,7 @@ export default function SellingGoals({ order }) {
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <h2 className='sub-title'>{translation.products.resultsNotFound}</h2>
+                        <h2 className='sub-title mt-5'>{translation.noData}</h2>
                     </div>
                 ) : (
 
