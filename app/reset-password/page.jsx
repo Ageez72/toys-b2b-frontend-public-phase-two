@@ -45,12 +45,12 @@ export default function page() {
         } else {
           console.warn("Profile data missing. Redirecting to /");
           setShowResetPassword(true);
-          router.push("/reset-password");
+          router.push(`/reset-password?${location.search}`);
         }
       } catch (error) {
         console.error("Profile fetch failed:", error);
         setShowResetPassword(true);
-        router.push("/reset-password");
+        router.push(`/reset-password${location.search}`);
       } finally {
         setLoading(false);
       }
