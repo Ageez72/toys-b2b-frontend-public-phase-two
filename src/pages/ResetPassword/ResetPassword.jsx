@@ -56,7 +56,7 @@ function ResetPassword() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        `${BASE_API + endpoints.auth.resetPassword}`,
+        `${BASE_API + endpoints.auth.resetPassword}&token=${location.search.split('token=')[1]}`,
         {pwd: data.password},
       );
 
