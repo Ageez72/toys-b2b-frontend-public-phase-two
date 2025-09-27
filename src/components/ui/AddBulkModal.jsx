@@ -20,6 +20,7 @@ import { BASE_API, endpoints } from "../../../constant/endpoints";
 
 export default function AddBulkModal({ open, onClose }) {
   const [isImporting, setIsImporting] = useState(false);
+  const [importSummary, setImportSummary] = useState(null);
   const [importPopup, setImportPopup] = useState({
     open: false,
     success: false,
@@ -171,7 +172,6 @@ export default function AddBulkModal({ open, onClose }) {
         const worksheet = workbook.Sheets[sheetName];
         const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-        // First row is headers -> find indexes
         const header = rows[0].map((h) => String(h).toLowerCase().trim());
         const skuIndex = header.findIndex((h) => h === "sku");
         const qtyIndex = header.findIndex((h) => h === "quantity");
@@ -182,7 +182,6 @@ export default function AddBulkModal({ open, onClose }) {
           return;
         }
 
-        // 1) Aggregate quantities by SKU
         const skuQtyMap = {};
         rows.slice(1).forEach((row) => {
           const rawSku = row[skuIndex];
@@ -198,40 +197,38 @@ export default function AddBulkModal({ open, onClose }) {
 
         const skus = Object.keys(skuQtyMap);
         if (skus.length === 0) {
-          showToastError(
-            translation.noProductsSelected
-          );
+          showToastError(translation.noProductsSelected);
           setIsImporting(false);
           return;
         }
 
-        // 2) Fetch products
         const productFetches = skus.map((sku) => fetchProductBySku(sku));
         const fetchedProducts = await Promise.all(productFetches);
 
-        // 3) Build importedItems list
         const importedItems = [];
+        const errors = [];
+        let successCount = 0;
+
         for (let i = 0; i < skus.length; i++) {
           const sku = skus[i];
           const product = fetchedProducts[i];
           const qty = skuQtyMap[sku];
 
           if (!product) {
-            console.warn(`❌ Product not found for SKU: ${sku}`);
+            errors.push({
+              index: i + 1, // الصنف رقم
+              sku,
+              reason: "غير متوفر أو رقم المنتج غير صحيح",
+            });
             continue;
           }
 
           const unitPrice = Number(product.priceAfterDisc ?? product.price ?? 0);
 
-          // Clamp qty
           let finalQty = Number(qty);
           const maxAllowed = Math.min(product.avlqty, 10);
           if (finalQty > maxAllowed) {
-            showWarningToast(
-              `${translation.quantityExceeded} ${maxAllowed}`,
-              lang,
-              translation.warning
-            );
+            showWarningToast(`${translation.quantityExceeded} ${maxAllowed}`, lang, translation.warning);
             finalQty = maxAllowed;
           }
 
@@ -242,39 +239,25 @@ export default function AddBulkModal({ open, onClose }) {
             total: unitPrice * finalQty,
             isConfirmed: true,
           });
+          successCount++;
         }
 
-        // 4) Merge into state (add old qty + new qty)
+        // merge with state
         setBulkItems((prev) => {
-          const confirmed = prev
-            .filter((it) => it.isConfirmed)
-            .map((it) => ({ ...it, qty: Number(it.qty || 0) }));
+          const confirmed = prev.filter((it) => it.isConfirmed).map((it) => ({ ...it, qty: Number(it.qty || 0) }));
 
           for (const newItem of importedItems) {
             const idx = confirmed.findIndex((it) => it.id === newItem.id);
             if (idx >= 0) {
-              // Add old qty + new qty
               const oldQty = Number(confirmed[idx].qty || 0);
               let updatedQty = oldQty + newItem.qty;
-
               const maxAllowed = Math.min(confirmed[idx].avlqty, 10);
               if (updatedQty > maxAllowed) {
-                showWarningToast(
-                  `${translation.quantityExceeded} ${maxAllowed}`,
-                  lang,
-                  translation.warning
-                );
+                showWarningToast(`${translation.quantityExceeded} ${maxAllowed}`, lang, translation.warning);
                 updatedQty = maxAllowed;
               }
-
               confirmed[idx].qty = updatedQty;
-              const unit = Number(
-                confirmed[idx].priceAfterDisc ??
-                confirmed[idx].unitPrice ??
-                confirmed[idx].price ??
-                newItem.unitPrice ??
-                0
-              );
+              const unit = Number(confirmed[idx].priceAfterDisc ?? confirmed[idx].unitPrice ?? confirmed[idx].price ?? newItem.unitPrice ?? 0);
               confirmed[idx].total = unit * updatedQty;
             } else {
               confirmed.push(newItem);
@@ -284,12 +267,20 @@ export default function AddBulkModal({ open, onClose }) {
           return [...confirmed, { isConfirmed: false }];
         });
 
+        // ✅ Build summary
+        const summaryArray = [
+          `تم استيراد ${successCount} منتج بنجاح، و${errors.length} منتجات فيها أخطاء:`,
+          ...errors.map(err => `- الصنف ${err.index}: ${err.reason}`)
+        ];
+
+        setImportSummary(summaryArray);
         setIsImporting(false);
         setImportPopup({
           open: true,
           success: true,
           message: translation.importSuccess || "Products imported successfully!",
         });
+
       } catch (err) {
         console.error("❌ Import failed", err);
         setIsImporting(false);
@@ -300,14 +291,12 @@ export default function AddBulkModal({ open, onClose }) {
         });
         showToastError(translation.importFailed || "Import failed");
       } finally {
-        // ✅ Clear the input value so the same file can be selected again
         fileInput.value = "";
       }
     };
 
     reader.readAsArrayBuffer(file);
   };
-
 
 
   return (
@@ -317,6 +306,7 @@ export default function AddBulkModal({ open, onClose }) {
           icon="icon-document-download"
           open={importPopup.success}
           message={importPopup.message}
+          summary={importSummary}
           onClose={() => setImportPopup({ open: false, success: false, message: "" })}
         />
       )}

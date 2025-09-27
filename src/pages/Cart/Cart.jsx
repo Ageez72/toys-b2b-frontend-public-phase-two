@@ -103,6 +103,9 @@ function Cart() {
   const handleSubmitOrder = async () => {
     const storedCart = state.STOREDITEMS;
 
+    console.log(selectedAddressId);
+    
+
     const data = {
       notes: notes,
       deliveryDate: "",

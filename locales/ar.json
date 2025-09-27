@@ -290,6 +290,11 @@
     "paymentMethod": "طريقة الدفع",
     "cashOnDelivery": "الدفع عند الاستلام",
     "creditCardPayment": "الدفع بالبطاقات الائتمانية ( Master Card - Visa)",
+    "noFileFound": "لا توجد بيانات للتصدير في هذا التاريخ",
+    "errorDownload": "فشل في تنزيل الملف.",
+    "fromDateRequired": "من فضلك حدد تاريخ البدء.",
+    "toDateRequired": "من فضلك حدد تاريخ الانتهاء.",
+    "invalidDateRange": "لا يمكن أن يكون تاريخ البدء بعد تاريخ الانتهاء.",
     "": "",
     "": ""
 }

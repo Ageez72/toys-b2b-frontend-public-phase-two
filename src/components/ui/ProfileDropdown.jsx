@@ -109,6 +109,8 @@ export default function ProfileDropdown({ onGoTo }) {
             isActive: data?.data?.active,
             isCorporate: data?.data?.isCorporate,
             corporateImage: data?.data?.corporateImage,
+            account: data?.data?.account,
+            accountName: data?.data?.accountName,
         }
         Cookies.set('profile', JSON.stringify(profile));
     }
@@ -208,6 +210,28 @@ export default function ProfileDropdown({ onGoTo }) {
                                             </span>
                                         </Link>
                                     </MenuItem>
+                                    {
+                                        state.isCorporate && state.isActive && (
+                                            <>
+                                                <MenuItem>
+                                                    <Link onClick={() => onGoTo && onGoTo()} href="/profile?statementOfAccount" className='profile-item flex items-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900'>
+                                                        <i className="icon-user-tick1"></i>
+                                                        <span className="flex items-center justify-between block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden">
+                                                            {translation.statementOfAccount}
+                                                        </span>
+                                                    </Link>
+                                                </MenuItem>
+                                                <MenuItem>
+                                                    <Link onClick={() => onGoTo && onGoTo()} href="/profile?sellingGoals" className='profile-item flex items-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900'>
+                                                        <i className="icon-graph"></i>
+                                                        <span className="flex items-center justify-between block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden">
+                                                            {translation.sellingTargetsProgress}
+                                                        </span>
+                                                    </Link>
+                                                </MenuItem>
+                                            </>
+                                        )
+                                    }
                                     <MenuItem>
                                         <button className='logout profile-item flex items-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full cursor-pointer' onClick={() => {
                                             onGoTo && onGoTo()

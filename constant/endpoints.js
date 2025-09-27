@@ -28,6 +28,8 @@ export const endpoints = {
     getCart: "?action=get.cart",
     setCart: "?action=set.cart&cart=json",
     requestOutOfStock: "?action=request.outofstock",
+    getStatement: "?action=get.statement",
+    getTarget: "?action=get.target&type=html&month=1"
   },
 
 };
