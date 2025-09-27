@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
   const [isSearch, setSearch] = useState(false);
   const pathname = usePathname();
 
-  const isAuthPage = pathname === "/" || pathname === "/register" || pathname === '/reset-password';
+  const isAuthPage = pathname === "/" || pathname === "/register" || pathname === '/reset-password' || pathname === '/forget-password';
 
   const handleOffCanvas = () => setOffCanvas(!isOffCanvas);
   const handleSearch = () => setSearch(!isSearch);

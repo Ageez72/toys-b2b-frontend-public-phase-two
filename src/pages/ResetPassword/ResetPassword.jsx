@@ -11,17 +11,24 @@ import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json"
 import ar from "../../../locales/ar.json";
 import Loader from '@/components/ui/Loaders/Loader';
+import SuccessModal from '@/components/ui/SuccessModal';
 import ErrorModal from '@/components/ui/ErrorModal';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { endpoints } from '../../../constant/endpoints';
-import { BASE_API } from '../../../constant/endpoints';
+import { endpoints, BASE_API } from '../../../constant/endpoints';
 import axios from 'axios';
 
-function Login() {
+function ResetPassword() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [corpSuccessMessage, setCorpSuccessMessage] = useState('');
+  const [corpErrorMessage, setCorpErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [matchPassword, setMatchPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const translation = state.LANG === "EN" ? en : ar;
   const router = useRouter()
@@ -34,29 +41,56 @@ function Login() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
+  const password = watch("password");
+
   const onSubmit = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      setMatchPassword(true);
+      return
+    }
+
     try {
-      const username = encodeURIComponent(data.identifier);
-      const res = await axios.get(`${BASE_API + endpoints.auth.login}&username=${username}}`)
-      
-      if (res.data.error === true) {
-        setIsModalOpen(true);
-        setModalMessage(state.LANG === "EN" ? res.data.messageEN : res.data.messageAR)
-      } else {        
-        Cookies.set('token', res.data.token);
-        router.push('/home')
+      setIsLoading(true);
+      const res = await axios.post(
+        `${BASE_API + endpoints.auth.resetPassword}`,
+        {pwd: data.password},
+      );
+
+      setIsLoading(false);
+      if (res.data?.success) {
+        setCorpSuccessMessage(translation.passwordChangeSuccess);
+        setIsSuccessModalOpen(true);
+      } else {
+        setCorpErrorMessage(res.data?.message || translation.errorHappened);
+        setIsErrorModalOpen(true);
       }
     } catch (err) {
-      console.error('Error registering user:', err);
-      setIsModalOpen(true);
+      setIsLoading(false);
+      setCorpErrorMessage(err.response?.data?.message || translation.errorHappened);
+      setIsErrorModalOpen(true);
     }
   };
 
   return (
     <div className="container auth-wrapper">
+      <SuccessModal
+        open={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        title={translation.success}
+        message={corpSuccessMessage}
+      />
+
+      <ErrorModal
+        open={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        title={translation.error}
+        message={corpErrorMessage}
+      />
+
       <ErrorModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -80,41 +114,69 @@ function Login() {
             />
           </div>
           <LangSwitcher />
-          <h2 className='section-title'>{translation.forgetPassword}</h2>
-          <p className='reset-password-form-desc'>{translation.forgetPasswordDesc}</p>
+          <h2 className='section-title'>{translation.newPassword}</h2>
+          <p>{translation.resetPasswordDesc}</p>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='form-group'>
-              <label className='block mb-2'>{translation.login.username} <span className='required'>*</span></label>
+              <label className='block mb-2'>{translation.newPassword} <span className='required'>*</span></label>
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                  <i className="icon-sms"></i>
+                  <i className="icon-shield-security"></i>
+                </div>
+                <div className="absolute inset-y-0 start-0 flex items-center pe-3.5 password-icon" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? (
+                    <i className="icon-view-on"></i>
+                  ) : (
+                    <i className="icon-view-off"></i>
+                  )}
                 </div>
                 <input
-                  className='w-full ps-10 p-2.5'
-                  placeholder={translation.login.username}
-                  {...register('identifier', {
-                    required: translation.login.errors.username.required,
-                    pattern: {
-                      value: /^(?!.*[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF])[\w@.\- ]+$/,
-                      message: translation.login.errors.username.invalid,
+                  className='w-full ps-10 pe-10 p-2.5'
+                  type={`${showPassword ? 'text' : 'password'}`}
+                  placeholder={translation.newPassword}
+                  {...register('password', {
+                    required: translation.login.errors.password.required,
+                    minLength: {
+                      value: 6,
+                      message: translation.login.errors.password.min_length,
                     },
                   })}
-                  onInput={e => {
-                    // Remove Arabic letters as user types
-                    e.target.value = e.target.value.replace(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]+/g, '');
-                  }}
                 />
               </div>
-              {errors.identifier && <span className="error-msg text-red-500">{errors.identifier.message}</span>}
+              {errors.password && <span className="error-msg text-red-500">{errors.password.message}</span>}
             </div>
 
-            <button className='primary-btn w-full' type="submit">{translation.send}</button>
-          </form>
+            <div className='form-group'>
+              <label className='block mb-2'>{translation.confirmPassword} <span className='required'>*</span></label>
+              <div className="relative">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                  <i className="icon-shield-security"></i>
+                </div>
+                <div className="absolute inset-y-0 start-0 flex items-center pe-3.5 password-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  {showConfirmPassword ? (
+                    <i className="icon-view-on"></i>
+                  ) : (
+                    <i className="icon-view-off"></i>
+                  )}
+                </div>
+                <input
+                  className='w-full ps-10 pe-10 p-2.5'
+                  type={`${showConfirmPassword ? 'text' : 'password'}`}
+                  placeholder={translation.confirmPassword}
+                  {...register('confirmPassword', {
+                    required: translation.login.errors.password.required,
+                    validate: value =>
+                      value === password || translation.login.errors.password.match,
+                  })}
+                />
+              </div>
+              {errors.confirmPassword && <span className="error-msg text-red-500">{errors.confirmPassword.message}</span>}
+              {matchPassword && <span className="error-msg text-red-500">{translation.notMatch}</span>}
+            </div>
 
-          <div className='form-blow'>
-            <Link className='ms-1' href="/">{translation.backLogin}</Link>
-          </div>
+            <button className='primary-btn w-full' type="submit">{translation.resetPassword}</button>
+          </form>
         </div>
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -132,4 +194,4 @@ function Login() {
   )
 }
 
-export default Login
+export default ResetPassword

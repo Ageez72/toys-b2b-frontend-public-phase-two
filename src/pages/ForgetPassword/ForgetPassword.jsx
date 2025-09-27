@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import img1 from "../../assets/imgs/auth-bg.svg";
@@ -11,7 +11,6 @@ import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json"
 import ar from "../../../locales/ar.json";
 import Loader from '@/components/ui/Loaders/Loader';
-import SuccessModal from '@/components/ui/SuccessModal';
 import ErrorModal from '@/components/ui/ErrorModal';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -21,20 +20,15 @@ import axios from 'axios';
 
 function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isCorpSuccessModalOpen, setIsCorpSuccessModalOpen] = useState(false);
-  const [isCorpErrorModalOpen, setIsCorpErrorModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [corpSuccessMessage, setCorpSuccessMessage] = useState('');
-  const [corpErrorMessage, setCorpErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const translation = state.LANG === "EN" ? en : ar;
   const router = useRouter()
 
   useEffect(() => {
     setIsLoading(false);
-    document.title = state.LANG === 'AR' ? ar.register.login : en.register.login;
+    document.title = state.LANG === 'AR' ? ar.forgetPassword : en.forgetPassword;
   }, []);
 
   const {
@@ -43,69 +37,23 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onForgetPassword = async (data) => {
     try {
       const username = encodeURIComponent(data.identifier);
-      const password = encodeURIComponent(data.password);
-      const res = await axios.get(`${BASE_API + endpoints.auth.login}&username=${username}&password=${password}`)
-
+      const res = await axios.get(`${BASE_API + endpoints.auth.forgotPassword}&username=${username}`)
+      
       if (res.data.error === true) {
         setIsModalOpen(true);
         setModalMessage(state.LANG === "EN" ? res.data.messageEN : res.data.messageAR)
-      } else {
-        Cookies.set('token', res.data.token);
-        router.push('/home')
-      }
+      } 
     } catch (err) {
       console.error('Error registering user:', err);
       setIsModalOpen(true);
     }
   };
 
-  const handleCorporateLogin = () => {
-    // Get the current URL
-    const url = new URL(window.location.href);
-
-    // Get all query parameters
-    const params = new URLSearchParams(url.search);
-
-    // Convert to an object
-    const queryParams = {};
-    for (const [key, value] of params.entries()) {
-      queryParams[key] = value;
-    }
-    
-    if (queryParams.isCorporate == 1 && queryParams.expired == 0) {
-      console.log('Corporate login valid');
-      setIsCorpSuccessModalOpen(true);
-      setCorpSuccessMessage(translation.corporate_login_success);
-    } else if (queryParams.isCorporate == 1 && queryParams.expired == 1) {
-      setIsCorpErrorModalOpen(true);
-      setCorpErrorMessage(translation.corporate_login_error);
-    }
-
-  };
-
-  useEffect(() => {
-    handleCorporateLogin();
-  }, []);
-
   return (
     <div className="container auth-wrapper">
-      <SuccessModal
-        open={isCorpSuccessModalOpen}
-        onClose={() => setIsCorpSuccessModalOpen(false)}
-        title={translation.success}
-        message={corpSuccessMessage}
-      />
-
-      <ErrorModal
-        open={isCorpErrorModalOpen}
-        onClose={() => setIsCorpErrorModalOpen(false)}
-        title={translation.error}
-        message={corpErrorMessage}
-      />
-
       <ErrorModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -129,10 +77,10 @@ function Login() {
             />
           </div>
           <LangSwitcher />
-          <h2 className='section-title'>{translation.login.title}</h2>
-          <p>{translation.login.desc}</p>
+          <h2 className='section-title'>{translation.forgetPassword}</h2>
+          <p className='reset-password-form-desc'>{translation.forgetPasswordDesc}</p>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onForgetPassword)}>
             <div className='form-group'>
               <label className='block mb-2'>{translation.login.username} <span className='required'>*</span></label>
               <div className="relative">
@@ -158,45 +106,11 @@ function Login() {
               {errors.identifier && <span className="error-msg text-red-500">{errors.identifier.message}</span>}
             </div>
 
-            <div className='form-group'>
-              <label className='block mb-2'>{translation.login.password} <span className='required'>*</span></label>
-              <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                  <i className="icon-shield-security"></i>
-                </div>
-                <div className="absolute inset-y-0 start-0 flex items-center pe-3.5 password-icon" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? (
-                    <i className="icon-view-on"></i>
-                  ) : (
-                    <i className="icon-view-off"></i>
-                  )}
-                </div>
-                <input
-                  className='w-full ps-10 pe-10 p-2.5'
-                  type={`${showPassword ? 'text' : 'password'}`}
-                  placeholder={translation.login.password}
-                  {...register('password', {
-                    required: translation.login.errors.password.required,
-                    minLength: {
-                      value: 3,
-                      message: translation.login.errors.password.min_length,
-                    },
-                  })}
-                />
-              </div>
-              {errors.password && <span className="error-msg text-red-500">{errors.password.message}</span>}
-            </div>
-
-            <div className='form-group form-blow'>
-              <Link className='ms-1' href="/forget-password">{translation.forgetPassword}</Link>
-            </div>
-
-            <button className='primary-btn w-full' type="submit">{translation.login.login_btn}</button>
+            <button className='primary-btn w-full' type="submit">{translation.send}</button>
           </form>
 
           <div className='form-blow'>
-            <span className=''>{translation.login.have_account}</span>
-            <Link className='ms-1' href="/register">{translation.login.register}</Link>
+            <Link className='ms-1' href="/">{translation.backLogin}</Link>
           </div>
         </div>
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>
