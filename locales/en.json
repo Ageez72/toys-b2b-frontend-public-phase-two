@@ -293,5 +293,6 @@
   "errorDownload": "Failed to download file.",
   "fromDateRequired": "Please select From date.",
   "toDateRequired": "Please select To date.",
-  "invalidDateRange": "From date cannot be after To date."
+  "invalidDateRange": "From date cannot be after To date.",
+  "noData": "No Data Found"
 }
