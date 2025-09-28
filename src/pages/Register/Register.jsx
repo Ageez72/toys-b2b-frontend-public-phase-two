@@ -23,6 +23,7 @@ export default function Register() {
   const [modalErrorMessage, setModalErrorMessage] = useState('');
   const [modalSuccessMessage, setModalSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -41,6 +42,7 @@ export default function Register() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setIsSubmitting(true)
     const userData = {
       username: data.username,
       password: data.password,
@@ -66,6 +68,8 @@ export default function Register() {
       console.error('Error registering user:', err);
       setModalErrorMessage(state.LANG === "EN" ? err.response.data.messageEN : err.response.data.messageAR);
       setIsErrorModalOpen(true);
+    } finally {
+      setIsSubmitting(false)
     }
   };
 
@@ -241,7 +245,9 @@ export default function Register() {
               {errors.password && <span className="error-msg text-red-500">{errors.password.message}</span>}
             </div>
 
-            <button type='submit' className='primary-btn w-full'>{translation.register.register_btn}</button>
+            <button type='submit' className='primary-btn w-full flex items-center justify-center gap-2'>
+              {isSubmitting && <span className="spinner"></span>}
+              {translation.register.register_btn}</button>
           </form>
 
           <div className='form-blow'>
