@@ -308,5 +308,6 @@
         "success": "تم استيراد {success} منتج بنجاح، و{errors} منتجات فيها أخطاء",
         "errorItem": "- الصنف {sku}: غير متوفر أو رقم المنتج غير صحيح"
     },
-    "deliveryFees": "رسوم التوصيل"
+    "deliveryFees": "رسوم التوصيل",
+    "achievedTarget": "تم تحقيق {achieved} {jod} من {target} {jod}"
 }

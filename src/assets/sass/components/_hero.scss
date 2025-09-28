@@ -439,6 +439,10 @@
     height: 14px;
     display: inline-block;
     animation: spin 1s linear infinite;
+    
+    &.green {
+        border-top: 2px solid #288d14;
+    }
 }
 
 @keyframes spin {

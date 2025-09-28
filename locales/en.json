@@ -305,5 +305,6 @@
     "success": "Successfully imported {success} product(s), with {errors} error(s).",
     "errorItem": "- SKU {sku}: Not available or invalid product number"
   },
-  "deliveryFees": "Delivery Fees"
+  "deliveryFees": "Delivery Fees",
+  "achievedTarget": "Achieved {achieved} {jod} out of {target} {jod}"
 }

@@ -222,11 +222,50 @@
     .selling-table-container {
         .table-head {
             color: #fff;
-            padding: 20px 15px;
+            padding: 20px 0;
             border-top-right-radius: 8px;
             border-top-left-radius: 8px;
-            margin-bottom: 20px;
+            // margin-bottom: 20px;
             background-color: var(--primary-color);
+
+            .width-10 {
+                width: 10%;
+            }
+
+            .width-65 {
+                width: 65%;
+            }
+
+            >div {
+                padding: 0 20px;
+            }
+        }
+
+        .table-item {
+            border: 1px solid #ccc;
+            border-top: none;
+
+            &:last-of-type {
+                border-bottom-right-radius: 8px;
+                border-bottom-left-radius: 8px;
+            }
+
+            .border-center {
+                border-right: 1px solid #ccc;
+                border-left: 1px solid #ccc;
+            }
+
+            .width-10 {
+                width: 10%;
+            }
+
+            .width-65 {
+                width: 65%;
+            }
+
+            >div {
+                padding: 20px;
+            }
         }
 
         .target-content {
@@ -289,9 +328,10 @@
             color: #8d1a14;
             background-color: #8d1a141f;
             border: 2px solid var(--primary-color);
-             .icon-tick-circle {
+
+            .icon-tick-circle {
                 opacity: 1;
-             }
+            }
         }
     }
 }

@@ -48,16 +48,21 @@ export default function SellingGoals({ order }) {
             const formattedData = [];
 
             res.data.forEach((obj) => {
-                const key = Object.keys(obj)[0]; // e.g. "brand", "group brand"
+                const key = Object.keys(obj)[0];
                 formattedData.push({
                     type: key.includes("brand") && !key.includes("group") ? "brand"
                         : key.includes("group brand") ? "group"
-                            : key.includes("product") ? "product"
-                                : key.includes("classification") ? "classification"
+                            : key.includes("group stock") ? "product"
+                                : key.includes("group common") ? "classification"
                                     : "other",
                     items: obj[key]
                 });
             });
+            // Set activeTab to the first object that has items
+            const firstNonEmpty = formattedData.find(item => item.items.length > 0);
+            if (firstNonEmpty) {
+                setActiveTab(`selling-${firstNonEmpty.type}`);
+            }
             setTargetData(formattedData);
             setIsLoading(false);
         } catch (err) {
@@ -69,8 +74,10 @@ export default function SellingGoals({ order }) {
     return (
         <>
             {isLoading ? <Loader /> : null}
+            <h2 className='sub-title mb-6'>{translation.sellingGoals} {currentYear}</h2>
+
             {
-                targetData.length === 0 ? (
+                targetData.length > 0 && targetData.every(obj => obj.items.length === 0) ? (
                     <div className='empty-state text-center my-20'>
                         <svg className='mx-auto' xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260" fill="none">
                             <rect width="260" height="260" rx="130" fill="url(#paint0_linear_1451_4175)" />
@@ -87,42 +94,55 @@ export default function SellingGoals({ order }) {
                         <h2 className='sub-title mt-5'>{translation.noData}</h2>
                     </div>
                 ) : (
-
                     <div className="py-3">
-                        <h2 className='sub-title mb-6'>{translation.sellingGoals} {currentYear}</h2>
                         <ul className={`pt-3 profile-selling-tabs-links ${!state.isCorporate && state.isActive ? 'is-corporate-account' : ''}`}>
-                            {profileTabs.map((tab) => (
-                                <li key={tab.id} className={tab.id}>
-                                    <button
-                                        onClick={() => handleTabClick(tab.id)}
-                                        className={`flex items-center justify-between w-full text-right cursor-pointer px-2 py-2 rounded-md ${activeTab === tab.id ? 'active' : 'hover:bg-gray-100'}`}
-                                    >
-                                        <span className="flex items-center">
-                                            <span className="flex items-center justify-between block px-2 py-2">
-                                                {tab.label}
+                            {profileTabs.map((tab) => {
+                                const items = targetData.find(item => item.type === tab.id.replace("selling-", ""))?.items || [];
+                                if (items.length === 0) return null; // 🔥 Hide tab button if no items
+
+                                return (
+                                    <li key={tab.id} className={tab.id}>
+                                        <button
+                                            onClick={() => handleTabClick(tab.id)}
+                                            className={`flex items-center justify-between w-full text-right cursor-pointer px-2 py-2 rounded-md ${activeTab === tab.id ? 'active' : 'hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            <span className="flex items-center">
+                                                <span className="flex items-center justify-between block px-2 py-2">
+                                                    {tab.label}
+                                                </span>
                                             </span>
-                                        </span>
-                                    </button>
-                                </li>
-                            ))}
+                                        </button>
+                                    </li>
+                                );
+                            })}
                         </ul>
 
                         <div className="responsive-table">
                             <div className="selling-target-table">
-                                <TabPanel id="selling-brand" activeTab={activeTab}>
-                                    <SellingTable data={targetData.find(item => item.type === 'brand')?.items || []} />
-                                </TabPanel>
-                                <TabPanel id="selling-group" activeTab={activeTab}>
-                                    <SellingTable data={targetData.find(item => item.type === 'group')?.items || []} />
-                                </TabPanel>
-                                <TabPanel id="selling-product" activeTab={activeTab}>
-                                    <SellingTable data={targetData.find(item => item.type === 'product')?.items || []} />
-                                </TabPanel>
-                                <TabPanel id="selling-classification" activeTab={activeTab}>
-                                    <SellingTable data={targetData.find(item => item.type === 'classification')?.items || []} />
-                                </TabPanel>
+                                {targetData.find(item => item.type === "brand")?.items?.length > 0 && (
+                                    <TabPanel id="selling-brand" activeTab={activeTab}>
+                                        <SellingTable data={targetData.find(item => item.type === 'brand')?.items || []} />
+                                    </TabPanel>
+                                )}
+                                {targetData.find(item => item.type === "group")?.items?.length > 0 && (
+                                    <TabPanel id="selling-group" activeTab={activeTab}>
+                                        <SellingTable data={targetData.find(item => item.type === 'group')?.items || []} />
+                                    </TabPanel>
+                                )}
+                                {targetData.find(item => item.type === "product")?.items?.length > 0 && (
+                                    <TabPanel id="selling-product" activeTab={activeTab}>
+                                        <SellingTable data={targetData.find(item => item.type === 'product')?.items || []} />
+                                    </TabPanel>
+                                )}
+                                {targetData.find(item => item.type === "classification")?.items?.length > 0 && (
+                                    <TabPanel id="selling-classification" activeTab={activeTab}>
+                                        <SellingTable data={targetData.find(item => item.type === 'classification')?.items || []} />
+                                    </TabPanel>
+                                )}
                             </div>
                         </div>
+
                     </div>
                 )
             }
