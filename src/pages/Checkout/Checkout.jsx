@@ -15,7 +15,7 @@ import Cookies from 'js-cookie';
 import Loader from "@/components/ui/Loaders/Loader";
 import { showWarningToast } from "@/actions/toastUtils";
 import ErrorOrderResModal from "@/components/ui/ErrorOrderResModal";
-import PaymentForm from "@/components/ui/PaymentForm";
+import { useRouter } from 'next/navigation';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -30,6 +30,7 @@ function Cart() {
   const [refresh, setRefresh] = useState(false);
   const [orderSummary, setOrderSummary] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("cashOnDelivery");
+  const router = useRouter()
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
@@ -64,15 +65,23 @@ function Cart() {
   const handleGetOrder = async () => {
     const items = getCart();
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.checkout}&lang=${state.LANG}&token=${Cookies.get('token')}`, items, {});
       setOrderSummary(response.data);
     } catch (error) {
       console.error('Failed to get order summary:', error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!state.isCorporate) {
+      setLoading(true)
+      router.push('/cart');
+      return;
+    }
+  }, []);
 
   useEffect(() => {
     loadCart();
@@ -154,7 +163,7 @@ function Cart() {
 
   return (
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page checkout-page section-min">
-      {/* {loading && <Loader />} */}
+      {loading && <Loader />}
       <Breadcrumb items={breadcrumbItems} />
       {/* <PaymentForm /> */}
       <div className="flex gap-7 mt-5 pt-5 flex-col lg:flex-row">
@@ -198,8 +207,8 @@ function Cart() {
                 <label htmlFor="cashOnDelivery" className="block w-full md:w-1/2">
                   <div className={`card ${selectedPaymentMethod === "cashOnDelivery" ? 'selected' : ''}`}>
                     <div className="payment-method">
-                      <i class="icon-money-3"></i>
-                      <span class="icon-tick-circle"></span>
+                      <i className="icon-money-3"></i>
+                      <span className="icon-tick-circle"></span>
                       <input
                         className="hidden"
                         type="radio"
@@ -213,11 +222,11 @@ function Cart() {
                     </div>
                   </div>
                 </label>
-                <label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
+                {/* <label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
                   <div className={`card ${selectedPaymentMethod === "creditCardPayment" ? 'selected' : ''}`}>
                     <div className="payment-method">
-                      <i class="icon-cards"></i>
-                      <span class="icon-tick-circle"></span>
+                      <i className="icon-cards"></i>
+                      <span className="icon-tick-circle"></span>
                       <input
                         className="hidden"
                         type="radio"
@@ -230,7 +239,7 @@ function Cart() {
                       <span className="block mt-2">{translation.creditCardPayment}</span>
                     </div>
                   </div>
-                </label>
+                </label> */}
               </div>
 
               <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>

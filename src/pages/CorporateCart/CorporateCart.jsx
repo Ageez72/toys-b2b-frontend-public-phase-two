@@ -17,6 +17,7 @@ import { showWarningToast } from "@/actions/toastUtils";
 import ErrorOrderResModal from "@/components/ui/ErrorOrderResModal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { useRouter } from 'next/navigation';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -30,6 +31,7 @@ function Cart() {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [orderSummary, setOrderSummary] = useState(null);
+  const router = useRouter()
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
@@ -64,15 +66,23 @@ function Cart() {
   const handleGetOrder = async () => {
     const items = state.STOREDITEMS;
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.checkout}&lang=${state.LANG}&token=${Cookies.get('token')}`, items, {});
       setOrderSummary(response.data);
     } catch (error) {
       console.error('Failed to get order summary:', error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!state.isCorporate) {
+      setLoading(true)
+      router.push('/cart');
+      return;
+    }
+  }, []);
 
   useEffect(() => {
     loadCart();
@@ -177,7 +187,7 @@ function Cart() {
 
   return (
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
-      {/* {loading && <Loader />} */}
+      {loading && <Loader />}
       <Breadcrumb items={breadcrumbItems} />
       {/* <PaymentForm /> */}
       <div className="order-side mt-5 pt-5">
