@@ -82,7 +82,7 @@ function Cart() {
       router.push('/cart');
       return;
     }
-  }, []);
+  }, [state.isCorporate]);
 
   useEffect(() => {
     loadCart();

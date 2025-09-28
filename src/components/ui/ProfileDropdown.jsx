@@ -69,7 +69,7 @@ export default function ProfileDropdown({ onGoTo }) {
     }, [menuOpen]);
 
     const fetchProfile = async () => {
-        const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
+        const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});        
         if (res?.data?.isCorporate) {
             dispatch({ type: "IS-CORPORATE", payload: true });
             dispatch({ type: "CORPORATE-IMAGE", payload: res?.data?.corporateImage });

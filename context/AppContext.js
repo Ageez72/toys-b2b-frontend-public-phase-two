@@ -40,7 +40,7 @@ const appReducer = (state, action) => {
       Cookies.remove("cart");
       return { ...state, STOREDITEMS: [] };
 
-    case "IS-CORPORATE":
+    case "IS-CORPORATE":      
       return { ...state, isCorporate: action.payload };
 
     case "IS-ACTIVE":
