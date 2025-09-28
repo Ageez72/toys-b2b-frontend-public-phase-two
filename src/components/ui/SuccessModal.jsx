@@ -1,8 +1,7 @@
 'use client'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
-export default function SuccessModal({ open, onClose, message, title, icon, summary }) {
-
+export default function SuccessModal({ open, onClose, message, title, icon, summary, style }) {    
     return (
         <Dialog open={open} onClose={onClose} className="relative z-10000">
             <DialogBackdrop
@@ -26,13 +25,13 @@ export default function SuccessModal({ open, onClose, message, title, icon, summ
                                         <DialogTitle as="h3" className="text-base font-semibold text-gray-900 dialog-title">
                                             {title}
                                         </DialogTitle>
-                                        <p className="text-sm text-gray-500 dialog-desc">
+                                        <p className="text-sm text-gray-500 dialog-desc" style={style}>
                                             {message}
                                         </p>
                                         {summary && Array.isArray(summary) && (
-                                            <div className="import-summary mt-4 text-start">
+                                            <div className="import-summary mt-6 text-start">
                                                 {summary.map((line, idx) => (
-                                                    <p key={idx}>{line}</p>
+                                                    idx > 0 && <p className='mb-0 mt-3' key={idx}>{line}</p>
                                                 ))}
                                             </div>
                                         )}

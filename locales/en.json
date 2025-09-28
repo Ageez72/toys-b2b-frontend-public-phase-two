@@ -300,5 +300,9 @@
   "fromDateRequired": "Please select From date.",
   "toDateRequired": "Please select To date.",
   "invalidDateRange": "From date cannot be after To date.",
-  "noData": "No Data Found"
+  "noData": "No Data Found",
+  "importSummary": {
+    "success": "Successfully imported {success} product(s), with {errors} error(s).",
+    "errorItem": "- SKU {sku}: Not available or invalid product number"
+  }
 }

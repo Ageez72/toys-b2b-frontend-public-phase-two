@@ -1,7 +1,7 @@
 'use client'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
-export default function ErrorModal({title, open, onClose, message }) {
+export default function ErrorModal({title, open, onClose, message, style, summary }) {
 
     return (
         <Dialog open={open} onClose={onClose} className="relative z-10000">
@@ -26,11 +26,18 @@ export default function ErrorModal({title, open, onClose, message }) {
                                         <DialogTitle as="h3" className="text-base font-semibold text-gray-900 dialog-title">
                                         {title}
                                         </DialogTitle>
-                                        <p className="text-sm text-gray-500 dialog-desc">
+                                        <p className="text-sm text-gray-500 dialog-desc" style={style}>
                                             {
                                                 message ? message : " هذا الحساب غير مفعل حتى الآن ، يرجى الانتظار"
                                             }
                                         </p>
+                                        {summary && Array.isArray(summary) && (
+                                            <div className="import-summary mt-6 text-start">
+                                                {summary.map((line, idx) => (
+                                                    idx > 0 && <p className='mb-0 mt-3' key={idx}>{line}</p>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

@@ -146,4 +146,9 @@
         left: auto;
         right: 10px;
     }
+
+    .modal-container:before {
+        right: auto;
+        left: 0;
+    }
 }

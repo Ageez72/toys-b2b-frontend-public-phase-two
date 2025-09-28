@@ -269,17 +269,30 @@ export default function AddBulkModal({ open, onClose }) {
 
         // ✅ Build summary
         const summaryArray = [
-          `تم استيراد ${successCount} منتج بنجاح، و${errors.length} منتجات فيها أخطاء:`,
-          ...errors.map(err => `- الصنف ${err.index}: ${err.reason}`)
+          translation.importSummary.success
+            .replace("{success}", successCount)
+            .replace("{errors}", errors.length),
+          ...errors.map((err) =>
+            translation.importSummary.errorItem.replace("{sku}", err.sku)
+          ),
         ];
+
 
         setImportSummary(summaryArray);
         setIsImporting(false);
-        setImportPopup({
-          open: true,
-          success: true,
-          message: translation.importSuccess || "Products imported successfully!",
-        });
+        if (successCount > 0) {
+          setImportPopup({
+            open: true,
+            success: true,
+            message: translation.importSuccess || "Products imported successfully!",
+          });
+        } else {
+          setImportPopup({
+            open: true,
+            success: false,
+            message: summaryArray[0] || "Import failed. Please try again.",
+          });
+        }
 
       } catch (err) {
         console.error("❌ Import failed", err);
@@ -305,8 +318,10 @@ export default function AddBulkModal({ open, onClose }) {
         <SuccessModal
           icon="icon-document-download"
           open={importPopup.success}
-          message={importPopup.message}
+          // message={importPopup.message}
+          message={importSummary[0]}
           summary={importSummary}
+          style={{ fontWeight: 'bold' }}
           onClose={() => setImportPopup({ open: false, success: false, message: "" })}
         />
       )}
@@ -314,6 +329,8 @@ export default function AddBulkModal({ open, onClose }) {
         <ErrorModal
           open={!importPopup.success}
           message={importPopup.message}
+          summary={importSummary}
+          style={{ fontWeight: 'bold' }}
           onClose={() => setImportPopup({ open: false, success: false, message: "" })}
         />
       )}
@@ -413,55 +430,55 @@ export default function AddBulkModal({ open, onClose }) {
                       {translation.add}
                     </button>
 
-                  <div className="flex flex-wrap gap-3">
-                    <div>
-                      <label className="import-btn">
-                        <input
-                          type="file"
-                          accept=".xlsx,.xls"
-                          onChange={handleImport}
-                          disabled={isImporting}
-                          style={{ display: "none" }}
-                          id="importExcel"
-                        />
-                      </label>
-                      <button
-                        className="flex items-center gap-1 outline-btn cursor-pointer"
-                        onClick={() => document.getElementById("importExcel").click()}
-                      >
-                        {isImporting && <span className="spinner"></span>}
-                        <i className="icon-import text-lg"></i>
-                        {translation.exportExcel}
-                      </button>
-                    </div>
-                    <div>
-                      <label className="import-btn">
-                        <input
-                          type="file"
-                          accept=".xlsx,.xls"
-                          onChange={handleImport}
-                          disabled={isImporting}
-                          style={{ display: "none" }}
-                          id="importExcel"
-                        />
-                      </label>
-                      <button
-                        className="flex items-center gap-1 outline-btn cursor-pointer"
-                        onClick={() => document.getElementById("importExcel").click()}
-                      >
-                        {isImporting && <span className="spinner"></span>}
-                        <i className="icon-export text-lg"></i>
-                        {translation.importExcel}
-                      </button>
-                    </div>
-                    {/* <a className="flex items-center gap-1 outline-btn cursor-pointer" href="https://alekha-dev.s3.amazonaws.com/bulk_add_items_import_templates.xlsx" download>
+                    <div className="flex flex-wrap gap-3">
+                      <div>
+                        <label className="import-btn">
+                          <input
+                            type="file"
+                            accept=".xlsx,.xls"
+                            onChange={handleImport}
+                            disabled={isImporting}
+                            style={{ display: "none" }}
+                            id="importExcel"
+                          />
+                        </label>
+                        <button
+                          className="flex items-center gap-1 outline-btn cursor-pointer"
+                          onClick={() => document.getElementById("importExcel").click()}
+                        >
+                          {isImporting && <span className="spinner"></span>}
+                          <i className="icon-import text-lg"></i>
+                          {translation.exportExcel}
+                        </button>
+                      </div>
+                      <div>
+                        <label className="import-btn">
+                          <input
+                            type="file"
+                            accept=".xlsx,.xls"
+                            onChange={handleImport}
+                            disabled={isImporting}
+                            style={{ display: "none" }}
+                            id="importExcel"
+                          />
+                        </label>
+                        <button
+                          className="flex items-center gap-1 outline-btn cursor-pointer"
+                          onClick={() => document.getElementById("importExcel").click()}
+                        >
+                          {isImporting && <span className="spinner"></span>}
+                          <i className="icon-export text-lg"></i>
+                          {translation.importExcel}
+                        </button>
+                      </div>
+                      {/* <a className="flex items-center gap-1 outline-btn cursor-pointer" href="https://alekha-dev.s3.amazonaws.com/bulk_add_items_import_templates.xlsx" download>
                       <i className="icon-import text-lg"></i>
                       {translation.downloadExcel}
                     </a> */}
-                    <button className="gray-btn" onClick={onClose}>
-                      {translation.cancel}
-                    </button>
-                  </div>
+                      <button className="gray-btn" onClick={onClose}>
+                        {translation.cancel}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
