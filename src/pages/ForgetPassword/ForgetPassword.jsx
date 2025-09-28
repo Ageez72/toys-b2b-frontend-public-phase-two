@@ -12,6 +12,7 @@ import en from "../../../locales/en.json"
 import ar from "../../../locales/ar.json";
 import Loader from '@/components/ui/Loaders/Loader';
 import ErrorModal from '@/components/ui/ErrorModal';
+import SuccessModal from '@/components/ui/SuccessModal';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { endpoints } from '../../../constant/endpoints';
@@ -21,6 +22,8 @@ import axios from 'axios';
 function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [modalSuccessMessage, setModalSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const translation = state.LANG === "EN" ? en : ar;
@@ -40,12 +43,15 @@ function Login() {
   const onForgetPassword = async (data) => {
     try {
       const username = encodeURIComponent(data.identifier);
-      const res = await axios.get(`${BASE_API + endpoints.auth.forgotPassword}&username=${username}`)
-      
+      const res = await axios.get(`${BASE_API + endpoints.auth.forgotPassword}&username=${username}&lang=${state.LANG}`)
+
       if (res.data.error === true) {
         setIsModalOpen(true);
         setModalMessage(state.LANG === "EN" ? res.data.messageEN : res.data.messageAR)
-      } 
+      }else {
+        setIsSuccessModalOpen(true)        
+        setModalSuccessMessage(res.data.response)
+      }
     } catch (err) {
       console.error('Error registering user:', err);
       setIsModalOpen(true);
@@ -53,7 +59,13 @@ function Login() {
   };
 
   return (
-    <div className="container auth-wrapper">
+    <div className="container auth-wrapper">      
+    <SuccessModal
+      open={isSuccessModalOpen}
+      onClose={() => setIsSuccessModalOpen(false)}
+      title={translation.success}
+      message={modalSuccessMessage}
+    />
       <ErrorModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
