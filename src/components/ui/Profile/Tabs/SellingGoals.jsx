@@ -90,7 +90,7 @@ export default function SellingGoals({ order }) {
 
                     <div className="py-3">
                         <h2 className='sub-title mb-6'>{translation.sellingGoals} {currentYear}</h2>
-                        <ul className={`pt-3 profile-selling-tabs-links ${state.isCorporate && state.isActive ? 'is-corporate-account' : ''}`}>
+                        <ul className={`pt-3 profile-selling-tabs-links ${!state.isCorporate && state.isActive ? 'is-corporate-account' : ''}`}>
                             {profileTabs.map((tab) => (
                                 <li key={tab.id} className={tab.id}>
                                     <button

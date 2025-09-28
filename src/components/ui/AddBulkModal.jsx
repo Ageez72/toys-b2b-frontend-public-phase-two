@@ -469,7 +469,7 @@ export default function AddBulkModal({ open, onClose }) {
                           onClick={handleExport}
                           disabled={!hasExportItems}
                         >
-                          <i className="icon-export text-lg"></i>
+                          <i className="icon-import text-lg"></i>
                           {translation.exportExcel}
                         </button>
                       </div>

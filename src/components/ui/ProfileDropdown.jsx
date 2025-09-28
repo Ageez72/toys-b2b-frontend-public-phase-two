@@ -211,7 +211,7 @@ export default function ProfileDropdown({ onGoTo }) {
                                         </Link>
                                     </MenuItem>
                                     {
-                                        state.isCorporate && state.isActive && (
+                                        !state.isCorporate && state.isActive && (
                                             <>
                                                 <MenuItem>
                                                     <Link onClick={() => onGoTo && onGoTo()} href="/profile?statementOfAccount" className='profile-item flex items-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900'>

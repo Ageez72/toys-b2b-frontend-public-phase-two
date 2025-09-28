@@ -29,7 +29,7 @@ function Cart() {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [orderSummary, setOrderSummary] = useState(null);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("cashOnDelivery");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("COD");
   const router = useRouter()
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -116,7 +116,7 @@ function Cart() {
       notes: notes,
       deliveryDate: "",
       address: selectedAddressId,
-      paymentMethod: selectedPaymentMethod,
+      PM: selectedPaymentMethod,
       items: storedCart.map(item => ({
         item: item.id,
         qty: item.qty
@@ -205,7 +205,7 @@ function Cart() {
               <h3 className="sub-title mb-4 mt-8">{translation.paymentMethod}</h3>
               <div className="payment-methods flex flex-wrap md:flex-nowrap gap-3">
                 <label htmlFor="cashOnDelivery" className="block w-full md:w-1/2">
-                  <div className={`card ${selectedPaymentMethod === "cashOnDelivery" ? 'selected' : ''}`}>
+                  <div className={`card ${selectedPaymentMethod === "COD" ? 'selected' : ''}`}>
                     <div className="payment-method">
                       <i className="icon-money-3"></i>
                       <span className="icon-tick-circle"></span>
@@ -214,9 +214,9 @@ function Cart() {
                         type="radio"
                         name="paymentMethod"
                         id="cashOnDelivery"
-                        value="cashOnDelivery"
-                        checked={selectedPaymentMethod === "cashOnDelivery"}
-                        onChange={() => setSelectedPaymentMethod("cashOnDelivery")}
+                        value="COD"
+                        checked={selectedPaymentMethod === "COD"}
+                        onChange={() => setSelectedPaymentMethod("COD")}
                       />
                       <span className="block mt-2">{translation.cashOnDelivery}</span>
                     </div>
@@ -301,6 +301,14 @@ function Cart() {
               <p className="mb-0">{translation.discount}</p>
               <p className="mb-0 flex items-center gap-1">
                 <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span>
+                <span>{translation.jod}</span>
+              </p>
+            </div>
+            <div className="order-item flex justify-between items-center mb-4">
+              <p className="mb-0">{translation.deliveryFees}</p>
+              <p className="mb-0 flex items-center gap-1">
+                {/* <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span> */}
+                <span>0</span>
                 <span>{translation.jod}</span>
               </p>
             </div>

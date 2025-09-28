@@ -30,7 +30,7 @@ export default function MenuControl({ onGoTo }) {
         </Link>
         <ProfileDropdown onGoTo={onGoTo} />
         {
-          state.isCorporate && state.isActive && state.corporateImage && (
+          state.isCorporate && state.corporateImage && (
             <Image
               className={`corporate-img`}
               src={state.corporateImage}

@@ -91,7 +91,7 @@ export default function ProfileTabs() {
                                 </p>
                             </div>
                         </div>
-                        <ul className={`pt-3 profile-tabs-links ${state.isCorporate && state.isActive ? 'is-corporate-account' : ''}`}>
+                        <ul className={`pt-3 profile-tabs-links ${!state.isCorporate && state.isActive ? 'is-corporate-account' : ''}`}>
                             {profileTabs.map((tab) => (
                                 <li key={tab.id} className={tab.id}>
                                     <button
@@ -134,7 +134,7 @@ export default function ProfileTabs() {
                         <Addresses />
                     </TabPanel>
                     {
-                        state.isCorporate && state.isActive && (
+                        !state.isCorporate && state.isActive && (
                             <>
                                 <TabPanel id="statementOfAccount" activeTab={activeTab}>
                                     <StatementOfAccount />
