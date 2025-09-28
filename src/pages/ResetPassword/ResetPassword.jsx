@@ -56,17 +56,17 @@ function ResetPassword() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        `${BASE_API + endpoints.auth.resetPassword}&token=${location.search.split('token=')[1]}`,
-        {pwd: data.password},
+        `${BASE_API + endpoints.auth.resetPassword}&resettoken=${location.search.split('resettoken=')[1]}`,
+        { pwd: data.password },
       );
 
       setIsLoading(false);
-      if (res.data?.success) {
-        setCorpSuccessMessage(translation.passwordChangeSuccess);
-        setIsSuccessModalOpen(true);
-      } else {
+      if (res.data.error === true) {
         setCorpErrorMessage(res.data?.message || translation.errorHappened);
         setIsErrorModalOpen(true);
+      } else {
+        setCorpSuccessMessage(res.data.response || translation.passwordChangeSuccess);
+        setIsSuccessModalOpen(true);
       }
     } catch (err) {
       setIsLoading(false);
