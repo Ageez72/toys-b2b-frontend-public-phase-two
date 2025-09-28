@@ -311,6 +311,28 @@ export default function AddBulkModal({ open, onClose }) {
     reader.readAsArrayBuffer(file);
   };
 
+  const handleExport = () => {
+    // Only export confirmed items
+    const exportItems = bulkItems.filter(item => item.isConfirmed);
+
+    if (exportItems.length === 0) return;
+
+    const worksheetData = exportItems.map(item => ({
+      Name: item.name,
+      SKU: item.id,
+      Quantity: item.qty,
+      Price: item.price,
+      Total: item.total,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Products");
+
+    XLSX.writeFile(workbook, "bulk-items.xlsx");
+  };
+
+  const hasExportItems = bulkItems.some(item => item.isConfirmed);
 
   return (
     <>
@@ -443,11 +465,11 @@ export default function AddBulkModal({ open, onClose }) {
                           />
                         </label>
                         <button
-                          className="flex items-center gap-1 outline-btn cursor-pointer"
-                          onClick={() => document.getElementById("importExcel").click()}
+                          className={`flex items-center gap-1 outline-btn ${!hasExportItems ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          onClick={handleExport}
+                          disabled={!hasExportItems}
                         >
-                          {isImporting && <span className="spinner"></span>}
-                          <i className="icon-import text-lg"></i>
+                          <i className="icon-export text-lg"></i>
                           {translation.exportExcel}
                         </button>
                       </div>
