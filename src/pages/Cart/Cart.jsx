@@ -420,12 +420,12 @@ function Cart() {
                 className="flex items-center gap-1 outline-btn cursor-pointer no-bg"
                 onClick={() => document.getElementById("importExcel").click()}
               >
-                {/* {isImporting && <span className="spinner"></span>} */}
+                {isImporting && <span className="spinner"></span>}
                 <i className="icon-export text-lg"></i>
                 {translation.importCart}
               </button>
             </div>
-            <button className="flex items-center gap-1 outline-btn cursor-pointer no-bg" onClick={handleExport}>
+            <button className={`flex items-center gap-1 outline-btn no-bg ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} onClick={handleExport}>
               <i className="icon-export text-lg"></i>
               {translation.exportCart}
             </button>
