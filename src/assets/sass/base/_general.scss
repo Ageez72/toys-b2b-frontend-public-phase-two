@@ -208,7 +208,8 @@
 
     &.red-btn {
         min-width: 160px;
-                @media (max-width: 450px) {
+
+        @media (max-width: 450px) {
             min-width: auto;
         }
 
@@ -345,7 +346,7 @@
     display: flex;
     gap: 8px;
     overflow: hidden;
-    height: 170px;
+    height: 175px;
     align-items: end;
 
     .circle-icon-container {
@@ -770,10 +771,28 @@ img {
 }
 
 .home-sections-container {
-    > div:nth-child(even) {
+    >div:nth-child(even) {
         background-color: #fff;
+
+        .card,
+        .swiper .swiper-button-prev,
+        .swiper .swiper-button-next {
+            background-color: var(--body-bg)
+        }
+
+    }
+
+    >div:nth-child(odd) {
+
+        .card,
+        .swiper .swiper-button-prev,
+        .swiper .swiper-button-next {
+            background-color: #fff
+        }
+
     }
 }
+
 .forced-bg {
     background-color: var(--body-bg) !important;
 }

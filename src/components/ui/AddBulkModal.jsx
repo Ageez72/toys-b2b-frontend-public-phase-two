@@ -471,11 +471,11 @@ export default function AddBulkModal({ open, onClose }) {
                           />
                         </label>
                         <button
-                          className={`flex items-center gap-1 outline-btn ${!hasExportItems ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          className={`flex items-center gap-1 outline-btn cursor-pointer ${!hasExportItems ? 'opacity-50 cursor-not-allowed' : ''}`}
                           onClick={handleExport}
                           disabled={!hasExportItems}
                         >
-                          <i className="icon-import text-lg"></i>
+                          <i className="icon-export text-lg"></i>
                           {translation.exportExcel}
                         </button>
                       </div>
@@ -495,7 +495,7 @@ export default function AddBulkModal({ open, onClose }) {
                           onClick={() => document.getElementById("importExcel").click()}
                         >
                           {isImporting && <span className="spinner"></span>}
-                          <i className="icon-export text-lg"></i>
+                          <i className="icon-import text-lg"></i>
                           {translation.importExcel}
                         </button>
                       </div>

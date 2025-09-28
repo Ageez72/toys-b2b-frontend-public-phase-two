@@ -32,7 +32,7 @@ export default function MenuControl({ onGoTo }) {
         {
           state.isCorporate && state.corporateImage && (
             <Image
-              className={`corporate-img`}
+              className={`corporate-img hidden lg:block`}
               src={state.corporateImage}
               alt="My Image"
               width={60}

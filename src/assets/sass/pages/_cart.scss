@@ -113,6 +113,11 @@
         &.half-width {
             width: 600px;
             max-width: 600px;
+
+            @media (max-width: 1023px) {
+                width: 100%;
+                max-width: 100%;
+            }
         }
 
         .order-item {
@@ -130,16 +135,18 @@
 
     &.checkout-page {
         .order-side {
-        min-width: calc(100% - 400px);
-    }
-    .order-summary {
-        width: 400px;
-        max-width: 400px;
+            min-width: calc(100% - 400px);
+        }
 
-        @media (max-width: 1023px) {
-            width: 100%;
-            max-width: 100%;
-        }}
+        .order-summary {
+            width: 400px;
+            max-width: 400px;
+
+            @media (max-width: 1023px) {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
     }
 
     .notes-text {
@@ -225,6 +232,7 @@
     thead {
         color: #fff;
         background-color: var(--primary-color);
+
         th {
             text-transform: capitalize;
         }
