@@ -122,35 +122,36 @@ export default function Home() {
           />
         )
       }
+      <div className="home-sections-container">
+        <div className="custom-py-40 pt-0 mt-40">
+          <BrandsSwiper />
+        </div>
 
-      <div className="custom-py-40 pt-0 mt-40">
-        <BrandsSwiper />
-      </div>
-
-      <ColumnsGridSwiper
-        title={mostSelling.title}
-        badgeType={mostSelling.badgeType}
-        type={mostSelling.type}
-        id={mostSelling.id}
-      />
-
-      {searchTypes.map((grid, i) => (
-        <GridSwiper
-          key={i}
-          title={grid.title}
-          badgeType={grid.badgeType}
-          type={grid.type}
-          route={grid.route}
-          id={grid.id}
+        <ColumnsGridSwiper
+          title={mostSelling.title}
+          badgeType={mostSelling.badgeType}
+          type={mostSelling.type}
+          id={mostSelling.id}
         />
-      ))}
 
-      <ColumnsGridSwiper
-        title={featuredProducts.title}
-        badgeType={featuredProducts.badgeType}
-        type={featuredProducts.type}
-        id={featuredProducts.id}
-      />
+        {searchTypes.map((grid, i) => (
+          <GridSwiper
+            key={i}
+            title={grid.title}
+            badgeType={grid.badgeType}
+            type={grid.type}
+            route={grid.route}
+            id={grid.id}
+          />
+        ))}
+
+        <ColumnsGridSwiper
+          title={featuredProducts.title}
+          badgeType={featuredProducts.badgeType}
+          type={featuredProducts.type}
+          id={featuredProducts.id}
+        />
+      </div>
     </>
   );
 }

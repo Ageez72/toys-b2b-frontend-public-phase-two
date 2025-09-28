@@ -27,6 +27,7 @@
     }
 
     &.grid-card {
+            border: 1px solid #e4e5e8;
         @media screen and (max-width: 650px) {
             flex-wrap: wrap;
 
@@ -225,7 +226,7 @@
 
 .columnGridSwiper-container {
     position: relative;
-    background-color: #fff;
+    // background-color: #fff;
 
     .just-four-items {
         &.swiper {
@@ -247,6 +248,7 @@
         position: absolute;
         left: 0;
         top: 0;
+        display: none;
     }
 
     .columnGridSwiper {

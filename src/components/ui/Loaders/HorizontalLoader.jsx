@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function HorizontalLoader() {
     return (
-        <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center flex-wrap lg:w-full xl:w-1/2 mt-90">
+        <div role="status" className="forced-bg space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center flex-wrap lg:w-full xl:w-1/2 mt-90">
             <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-2/5 mb-5 pb-4"></div>
              <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center w-full mt-4">
             <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded-sm sm:w-96 dark:bg-gray-700">

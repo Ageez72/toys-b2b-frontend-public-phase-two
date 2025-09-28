@@ -768,3 +768,12 @@ img {
         }
     }
 }
+
+.home-sections-container {
+    > div:nth-child(even) {
+        background-color: #fff;
+    }
+}
+.forced-bg {
+    background-color: var(--body-bg) !important;
+}
