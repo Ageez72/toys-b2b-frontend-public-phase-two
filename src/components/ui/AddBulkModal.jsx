@@ -223,9 +223,7 @@ export default function AddBulkModal({ open, onClose }) {
             continue;
           }
 
-          const unitPrice = Number(product.price);
-          console.log(product.price);
-          
+          const unitPrice = Number(product.price);          
 
           let finalQty = Number(qty);
           const maxAllowed = Math.min(product.avlqty, 10);
