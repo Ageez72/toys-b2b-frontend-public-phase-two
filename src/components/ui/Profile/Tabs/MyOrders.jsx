@@ -51,7 +51,7 @@ export default function MyOrders() {
 
   return (
     <div className='py-3'>
-      <h2 className='sub-title mb-6'>{translation.theOrders}</h2>
+      <h2 className='sub-title mb-6'>{translation.orders}</h2>
       {loading && <OrdersLoader />}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         {orders.length > 0 &&

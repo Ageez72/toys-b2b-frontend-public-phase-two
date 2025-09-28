@@ -19,7 +19,7 @@ export default function SellingGoals({ order }) {
 
     useEffect(() => {
         setTranslation(state.LANG === "EN" ? en : ar);
-        document.title = state.LANG === 'AR' ? ar.statementOfAccount : en.statementOfAccount;
+        document.title = state.LANG === 'AR' ? ar.sellingTargetsProgress : en.sellingTargetsProgress;
         getTargetData();
     }, [state.LANG]);
 
