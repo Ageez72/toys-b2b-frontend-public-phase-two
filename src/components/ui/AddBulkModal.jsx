@@ -404,14 +404,36 @@ export default function AddBulkModal({ open, onClose }) {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="action-btns flex flex-wrap gap-3 mt-4">
+                  <div className="bulk-action-btns flex justify-between items-center flex-wrap gap-3">
                     <button
-                      className={`primary-btn ${isSubmitDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`submit-bulk-btn primary-btn ${isSubmitDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                       onClick={handleSubmit}
                       disabled={isSubmitDisabled}
                     >
                       {translation.add}
                     </button>
+
+                  <div className="flex flex-wrap gap-3">
+                    <div>
+                      <label className="import-btn">
+                        <input
+                          type="file"
+                          accept=".xlsx,.xls"
+                          onChange={handleImport}
+                          disabled={isImporting}
+                          style={{ display: "none" }}
+                          id="importExcel"
+                        />
+                      </label>
+                      <button
+                        className="flex items-center gap-1 outline-btn cursor-pointer"
+                        onClick={() => document.getElementById("importExcel").click()}
+                      >
+                        {isImporting && <span className="spinner"></span>}
+                        <i className="icon-import text-lg"></i>
+                        {translation.exportExcel}
+                      </button>
+                    </div>
                     <div>
                       <label className="import-btn">
                         <input
@@ -432,13 +454,14 @@ export default function AddBulkModal({ open, onClose }) {
                         {translation.importExcel}
                       </button>
                     </div>
-                    <a className="flex items-center gap-1 outline-btn cursor-pointer" href="https://alekha-dev.s3.amazonaws.com/bulk_add_items_import_templates.xlsx" download>
+                    {/* <a className="flex items-center gap-1 outline-btn cursor-pointer" href="https://alekha-dev.s3.amazonaws.com/bulk_add_items_import_templates.xlsx" download>
                       <i className="icon-import text-lg"></i>
                       {translation.downloadExcel}
-                    </a>
+                    </a> */}
                     <button className="gray-btn" onClick={onClose}>
                       {translation.cancel}
                     </button>
+                  </div>
                   </div>
                 </div>
               </div>

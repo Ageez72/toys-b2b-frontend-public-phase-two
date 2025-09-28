@@ -104,7 +104,6 @@ function Cart() {
     const storedCart = state.STOREDITEMS;
 
     console.log(selectedAddressId);
-    
 
     const data = {
       notes: notes,
@@ -158,16 +157,16 @@ function Cart() {
 
     // Map the data you want to export
     const exportData = orderSummary.ITEMS.map((item) => ({
-      [translation.sku]: item.id,
-      [translation.barcode]: item.barcode,
-      [translation.productName]: item.name,
-      [translation.sellingPrice]: item.RSP,
-      [translation.price]: item.LPRICE,
-      [translation.costPrice]: item.PRICEAFTERDISCOUNT,
-      [translation.tax]: `${Number(item.TAX).toFixed(2)}%`,
-      [`${translation.brand} - ${translation.type}`]: `${item.brand.description} - ${item.category.description}`,
-      [translation.qty]: item.qty || item.QTY,
-      [translation.totalPrice]: Number(item.NET).toFixed(2),
+      ["SKU"]: item.id,
+      ["Barcode"]: item.barcode,
+      ["Product Name"]: item.name,
+      ["Selling Price"]: item.RSP,
+      ["Price"]: item.LPRICE,
+      ["Cost"]: item.PRICEAFTERDISCOUNT,
+      ["Tax"]: `${Number(item.TAX).toFixed(2)}%`,
+      [`Brand - Category`]: `${item.brand.description} - ${item.category.description}`,
+      ["Quantity"]: item.qty || item.QTY,
+      ["Total Price"]: Number(item.NET).toFixed(2),
     }));
 
     // Create a worksheet

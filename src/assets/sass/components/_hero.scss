@@ -344,12 +344,8 @@
             }
         }
 
-        .action-btns {
+        .bulk-action-btns{
             margin-top: 32px;
-
-            @media (min-width: 600px) {
-                justify-content: end;
-            }
         }
 
         .mobile-title {
