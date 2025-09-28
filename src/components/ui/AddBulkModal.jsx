@@ -223,7 +223,7 @@ export default function AddBulkModal({ open, onClose }) {
             continue;
           }
 
-          const unitPrice = Number(product.price);          
+          const unitPrice = Number(product.price);
 
           let finalQty = Number(qty);
           const maxAllowed = Math.min(product.avlqty, 10);
@@ -243,29 +243,35 @@ export default function AddBulkModal({ open, onClose }) {
         }
 
         // merge with state
-        setBulkItems((prev) => {
-          const confirmed = prev.filter((it) => it.isConfirmed).map((it) => ({ ...it, qty: Number(it.qty || 0) }));
+        // setBulkItems((prev) => {
+        //   const confirmed = prev.filter((it) => it.isConfirmed).map((it) => ({ ...it, qty: Number(it.qty || 0) }));
 
-          for (const newItem of importedItems) {
-            const idx = confirmed.findIndex((it) => it.id === newItem.id);
-            if (idx >= 0) {
-              const oldQty = Number(confirmed[idx].qty || 0);
-              let updatedQty = oldQty + newItem.qty;
-              const maxAllowed = Math.min(confirmed[idx].avlqty, 10);
-              if (updatedQty > maxAllowed) {
-                showWarningToast(`${translation.quantityExceeded} ${maxAllowed}`, lang, translation.warning);
-                updatedQty = maxAllowed;
-              }
-              confirmed[idx].qty = updatedQty;              
-              const unit = Number(confirmed[idx].unitPrice ?? confirmed[idx].price ?? newItem.unitPrice ?? 0);
-              confirmed[idx].total = unit * updatedQty;
-            } else {
-              confirmed.push(newItem);
-            }
-          }
+        //   for (const newItem of importedItems) {
+        //     const idx = confirmed.findIndex((it) => it.id === newItem.id);
+        //     if (idx >= 0) {
+        //       const oldQty = Number(confirmed[idx].qty || 0);
+        //       let updatedQty = oldQty + newItem.qty;
+        //       const maxAllowed = Math.min(confirmed[idx].avlqty, 10);
+        //       if (updatedQty > maxAllowed) {
+        //         showWarningToast(`${translation.quantityExceeded} ${maxAllowed}`, lang, translation.warning);
+        //         updatedQty = maxAllowed;
+        //       }
+        //       confirmed[idx].qty = updatedQty;              
+        //       const unit = Number(confirmed[idx].unitPrice ?? confirmed[idx].price ?? newItem.unitPrice ?? 0);
+        //       confirmed[idx].total = unit * updatedQty;
+        //     } else {
+        //       confirmed.push(newItem);
+        //     }
+        //   }
 
-          return [...confirmed, { isConfirmed: false }];
-        });
+        //   return [...confirmed, { isConfirmed: false }];
+        // });
+
+        // replace bulkItems with imported items only
+        setBulkItems([
+          ...importedItems,        // new imported items
+          { isConfirmed: false }   // keep empty row for adding manually
+        ]);
 
         // ✅ Build summary
         const summaryArray = [
