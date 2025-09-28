@@ -75,11 +75,11 @@ function Login() {
       queryParams[key] = value;
     }
     
-    if (queryParams.isCorporate == 1 && queryParams.expired == 0) {
+    if (queryParams.isCorporate == 1 && queryParams.isexpired == 0) {
       console.log('Corporate login valid');
       setIsCorpSuccessModalOpen(true);
       setCorpSuccessMessage(translation.corporate_login_success);
-    } else if (queryParams.isCorporate == 1 && queryParams.expired == 1) {
+    } else if (queryParams.isCorporate == 1 && queryParams.isexpired == 1) {
       setIsCorpErrorModalOpen(true);
       setCorpErrorMessage(translation.corporate_login_error);
     }
