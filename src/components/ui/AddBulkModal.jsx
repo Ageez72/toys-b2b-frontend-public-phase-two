@@ -471,7 +471,7 @@ export default function AddBulkModal({ open, onClose }) {
                           />
                         </label>
                         <button
-                          className={`flex items-center gap-1 outline-btn cursor-pointer ${!hasExportItems ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          className={`flex items-center gap-1 outline-btn ${!hasExportItems ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                           onClick={handleExport}
                           disabled={!hasExportItems}
                         >

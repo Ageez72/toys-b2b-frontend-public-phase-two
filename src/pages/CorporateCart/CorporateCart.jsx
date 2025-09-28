@@ -29,8 +29,8 @@ function Cart() {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [orderSummary, setOrderSummary] = useState(null);
-   const [isImporting, setIsImporting] = useState(false);
-   const [importSummary, setImportSummary] = useState(null);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importSummary, setImportSummary] = useState(null);
   const [importPopup, setImportPopup] = useState({
     open: false,
     success: false,
@@ -46,22 +46,15 @@ function Cart() {
     document.title = state.LANG === 'AR' ? ar.cart : en.cart;
   }, [state.LANG]);
 
+  const showToastError = (message) => {
+    const lang = Cookies.get("lang") || "AR";
+    showWarningToast(message, lang, translation.warning);
+  };
+
   const loadCart = () => {
     const items = state.STOREDITEMS;
     setCartItems(items);
   };
-
-  function getOverQtyItems(data) {
-    if (!data || !Array.isArray(data.items)) return [];
-
-    return data.items.filter(item => {
-      const qty = parseInt(item.QTY, 10);
-      const avlqty = parseInt(item.avlqty ?? item.AQTY, 10); // fallback if `avlqty` is undefined
-
-      return qty > avlqty;
-    });
-  }
-
 
   const fetchProfile = async () => {
     const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${state.LANG}&token=${Cookies.get('token')}`, {});
@@ -183,7 +176,7 @@ function Cart() {
         const qtyIndex = header.findIndex((h) => h === "quantity");
 
         if (skuIndex === -1 || qtyIndex === -1) {
-          // showToastError(translation.errorImportingFile);
+          showToastError(translation.errorImportingFile);
           setIsImporting(false);
           return;
         }
@@ -204,7 +197,7 @@ function Cart() {
         const skus = Object.keys(skuQtyMap);
         if (skus.length === 0) {
           showToastError(translation.noProductsSelected);
-          // setIsImporting(false);
+          setIsImporting(false);
           return;
         }
 
@@ -295,7 +288,7 @@ function Cart() {
           success: false,
           message: translation.importFailed || "Import failed. Please try again.",
         });
-        // showToastError(translation.importFailed || "Import failed");
+        showToastError(translation.importFailed || "Import failed");
       } finally {
         fileInput.value = "";
       }
@@ -336,7 +329,6 @@ function Cart() {
             <div className="items-count flex justify-center items-center">{cartItems.length}</div>
           </div>
           <div className="flex gap-3">
-
             <div>
               <label className="import-btn">
                 <input
@@ -352,12 +344,12 @@ function Cart() {
                 className="flex items-center gap-1 outline-btn cursor-pointer no-bg"
                 onClick={() => document.getElementById("importExcel").click()}
               >
-                {/* {isImporting && <span className="spinner"></span>} */}
+                {isImporting && <span className="spinner"></span>}
                 <i className="icon-export text-lg"></i>
                 {translation.importCart}
               </button>
             </div>
-            <button className="flex items-center gap-1 outline-btn cursor-pointer no-bg" onClick={handleExport}>
+            <button className={`flex items-center gap-1 outline-btn no-bg ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} onClick={handleExport}>
               <i className="icon-export text-lg"></i>
               {translation.exportCart}
             </button>
@@ -507,6 +499,14 @@ function Cart() {
               <p className="mb-0">{translation.discount}</p>
               <p className="mb-0 flex items-center gap-1">
                 <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span>
+                <span>{translation.jod}</span>
+              </p>
+            </div>
+            <div className="order-item flex justify-between items-center mb-4">
+              <p className="mb-0">{translation.deliveryFees}</p>
+              <p className="mb-0 flex items-center gap-1">
+                {/* <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span> */}
+                <span>0</span>
                 <span>{translation.jod}</span>
               </p>
             </div>

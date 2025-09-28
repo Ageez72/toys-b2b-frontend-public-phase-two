@@ -18,6 +18,8 @@ import ErrorOrderResModal from "@/components/ui/ErrorOrderResModal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { useRouter } from 'next/navigation';
+import SuccessModal from "@/components/ui/SuccessModal";
+import ErrorModal from "@/components/ui/ErrorModal";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -31,15 +33,28 @@ function Cart() {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [orderSummary, setOrderSummary] = useState(null);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importSummary, setImportSummary] = useState(null);
+  const [importPopup, setImportPopup] = useState({
+    open: false,
+    success: false,
+    message: "",
+  });
   const router = useRouter()
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
 
+
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
     document.title = state.LANG === 'AR' ? ar.cart : en.cart;
   }, [state.LANG]);
+
+  const showToastError = (message) => {
+    const lang = Cookies.get("lang") || "AR";
+    showWarningToast(message, lang, translation.warning);
+  };
 
   const loadCart = () => {
     const items = state.STOREDITEMS;
@@ -194,8 +209,193 @@ function Cart() {
     saveAs(file, "cart_items.xlsx");
   };
 
+
+  // ------------------------
+  // Import Excel Handler
+  // ------------------------
+  const fetchProductBySku = async (sku) => {
+    try {
+      const token = Cookies.get("token");
+      const lang = Cookies.get("lang") || "AR";
+
+      const url = `${BASE_API}${endpoints.products.list}&id=${encodeURIComponent(
+        sku
+      )}&pageSize=1&itemStatus=AVAILABLE&lang=${lang}&token=${token}`;
+
+      const res = await axios.get(url);
+      return res.data?.items?.[0] || null;
+    } catch (err) {
+      console.error("❌ Error fetching product by SKU:", sku, err);
+      return null;
+    }
+  };
+
+
+  const handleImport = async (e) => {
+    const lang = Cookies.get("lang") || "AR";
+    const fileInput = e.target;
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsImporting(true);
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        const header = rows[0].map((h) => String(h).toLowerCase().trim());
+        const skuIndex = header.findIndex((h) => h === "sku");
+        const qtyIndex = header.findIndex((h) => h === "quantity");
+
+        if (skuIndex === -1 || qtyIndex === -1) {
+          showToastError(translation.errorImportingFile);
+          setIsImporting(false);
+          return;
+        }
+
+        const skuQtyMap = {};
+        rows.slice(1).forEach((row) => {
+          const rawSku = row[skuIndex];
+          const rawQty = row[qtyIndex];
+          if (!rawSku) return;
+
+          const sku = String(rawSku).trim().toUpperCase();
+          const qty = Number(rawQty) || 0;
+          if (qty <= 0) return;
+
+          skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
+        });
+
+        const skus = Object.keys(skuQtyMap);
+        if (skus.length === 0) {
+          showToastError(translation.noProductsSelected);
+          setIsImporting(false);
+          return;
+        }
+
+        const productFetches = skus.map((sku) => fetchProductBySku(sku));
+        const fetchedProducts = await Promise.all(productFetches);
+
+        const importedItems = [];
+        const errors = [];
+        let successCount = 0;
+
+        for (let i = 0; i < skus.length; i++) {
+          const sku = skus[i];
+          const product = fetchedProducts[i];
+          const qty = skuQtyMap[sku];
+
+          if (!product) {
+            errors.push({
+              index: i + 1, // الصنف رقم
+              sku,
+              reason: "غير متوفر أو رقم المنتج غير صحيح",
+            });
+            continue;
+          }
+
+          const unitPrice = Number(product.price);
+
+          let finalQty = Number(qty);
+          const maxAllowed = Math.min(product.avlqty, 10);
+          if (finalQty > maxAllowed) {
+            showWarningToast(`${translation.quantityExceeded} ${maxAllowed}`, lang, translation.warning);
+            finalQty = maxAllowed;
+          }
+
+          importedItems.push({
+            item: product.id,
+            qty
+          });
+          successCount++;
+        }
+
+        // replace bulkItems with imported items only
+        console.log(importedItems);
+
+        if (importedItems.length) {
+          Cookies.set('cart', JSON.stringify(importedItems), { expires: 7, path: '/' });
+          // Send updated cart to backend
+          const res = await axios.post(
+            `${BASE_API}${endpoints.products.setCart}?lang=${lang}&token=${Cookies.get('token')}`,
+            {
+              "items": importedItems
+            }
+          );
+          dispatch({ type: "STORED-ITEMS", payload: importedItems });
+        }
+
+
+        // ✅ Build summary
+        const summaryArray = [
+          translation.importSummary.success
+            .replace("{success}", successCount)
+            .replace("{errors}", errors.length),
+          ...errors.map((err) =>
+            translation.importSummary.errorItem.replace("{sku}", err.sku)
+          ),
+        ];
+
+        setImportSummary(summaryArray);
+        setIsImporting(false);
+        if (successCount > 0) {
+          setImportPopup({
+            open: true,
+            success: true,
+            message: translation.importSuccess || "Products imported successfully!",
+          });
+        } else {
+          setImportPopup({
+            open: true,
+            success: false,
+            message: summaryArray[0] || "Import failed. Please try again.",
+          });
+        }
+
+      } catch (err) {
+        console.error("❌ Import failed", err);
+        setIsImporting(false);
+        setImportPopup({
+          open: true,
+          success: false,
+          message: translation.importFailed || "Import failed. Please try again.",
+        });
+        showToastError(translation.importFailed || "Import failed");
+      } finally {
+        fileInput.value = "";
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
+      {importPopup.success && importPopup.open && (
+        <SuccessModal
+          icon="icon-document-download"
+          open={importPopup.success}
+          // message={importPopup.message}
+          message={importSummary[0]}
+          summary={importSummary}
+          style={{ fontWeight: 'bold' }}
+          onClose={() => setImportPopup({ open: false, success: false, message: "" })}
+        />
+      )}
+      {!importPopup.success && importPopup.open && (
+        <ErrorModal
+          open={!importPopup.success}
+          message={importPopup.message}
+          summary={importSummary}
+          style={{ fontWeight: 'bold' }}
+          onClose={() => setImportPopup({ open: false, success: false, message: "" })}
+        />
+      )}
       {loading && <Loader />}
       <Breadcrumb items={breadcrumbItems} />
       <div className="mt-5 pt-5">
@@ -204,11 +404,27 @@ function Cart() {
             <h3 className="sub-title">{translation.addedProducts}</h3>
             <div className="items-count flex justify-center items-center">{cartItems.length}</div>
           </div>
-          <div>
-            <button className="flex items-center gap-1 outline-btn cursor-pointer no-bg" onClick={handleExport}>
-              <i className="icon-import text-lg"></i>
-              {translation.importCart}
-            </button>
+          <div className="flex gap-3">
+            <div>
+              <label className="import-btn">
+                <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  onChange={handleImport}
+                  // disabled={isImporting}
+                  style={{ display: "none" }}
+                  id="importExcel"
+                />
+              </label>
+              <button
+                className="flex items-center gap-1 outline-btn cursor-pointer no-bg"
+                onClick={() => document.getElementById("importExcel").click()}
+              >
+                {/* {isImporting && <span className="spinner"></span>} */}
+                <i className="icon-export text-lg"></i>
+                {translation.importCart}
+              </button>
+            </div>
             <button className="flex items-center gap-1 outline-btn cursor-pointer no-bg" onClick={handleExport}>
               <i className="icon-export text-lg"></i>
               {translation.exportCart}
