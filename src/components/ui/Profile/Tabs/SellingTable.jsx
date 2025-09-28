@@ -11,9 +11,9 @@ export default function SellingTable({ data }) {
     return (
         <div className="selling-table-container">
             <div className="table-head flex">
-                <div className='w-1/4'>{translation.number}</div>
+                <div className='width-10'>{translation.number}</div>
                 <div className='w-1/4'>{translation.address}</div>
-                <div className='w-1/2'>{translation.target}</div>
+                <div className='width-65'>{translation.target}</div>
             </div>
 
             {data.length === 0 && (
@@ -41,10 +41,10 @@ export default function SellingTable({ data }) {
                 const remaining = item.target - item.achieved;
 
                 return (
-                    <div key={index} className="table-item flex mb-12">
-                        <div className='w-1/4 px-3'>{index + 1}</div>
-                        <div className='w-1/4 px-3'>{item.name}</div>
-                        <div className='w-1/2 px-3 target-content'>
+                    <div key={index} className="table-item flex">
+                        <div className='width-10 px-3'>{index + 1}</div>
+                        <div className='w-1/4 px-3 border-center'>{item.name}</div>
+                        <div className='width-65 px-3 target-content'>
                             <div className='flex justify-between mb-2'>
                                 <p className='mb-0 font-bold'>{translation.wantTarget}</p>
                                 <p className='mb-0 font-bold'>
@@ -57,7 +57,10 @@ export default function SellingTable({ data }) {
                             </div>
                             <div className='flex justify-between mt-2 red-text'>
                                 <p className='mb-0 font-bold'>
-                                    تم تحقيق {item.achieved} {translation.jod} من {item.target} {translation.jod}
+                                    {translation.achievedTarget
+                                        .replace("{achieved}", item.achieved)
+                                        .replace("{target}", item.target)
+                                        .replace(/{jod}/g, translation.jod)}
                                 </p>
                                 <p className='mb-0 font-bold'>
                                     <span>{translation.remaining} </span>

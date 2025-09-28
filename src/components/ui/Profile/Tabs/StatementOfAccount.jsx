@@ -17,6 +17,8 @@ export default function StatementOfAccount({ order }) {
     const [getProfileData, setGetProfileData] = useState("");
     const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
     const [errorModalMessage, setErrorModalMessage] = useState("");
+    const [isExportingExcel, setIsExportingExcel] = useState(false);
+    const [isExportingPDF, setIsExportingPDF] = useState(false);
 
     // validation states
     const [fromDateError, setFromDateError] = useState("");
@@ -60,6 +62,12 @@ export default function StatementOfAccount({ order }) {
     const fetchStatementOfAccountFile = async (type) => {
         if (!validateDates()) return;
 
+        if(type === "excel") {
+            setIsExportingExcel(true)
+        } else if(type === "pdf") {
+            setIsExportingPDF(true)
+        }
+
         try {
             const res = await axios.get(
                 `${BASE_API}${endpoints.products.getStatement}&type=${type}&fromdate=${fromdate}&todate=${todate}&lang=${state.LANG}&token=${Cookies.get('token')}`
@@ -81,6 +89,11 @@ export default function StatementOfAccount({ order }) {
             console.error("Download failed", error);
             setIsErrorModalOpen(true);
             setErrorModalMessage(translation.errorDownload);
+        }finally {
+            setIsExportingExcel(false)
+            setIsExportingPDF(false)
+            setFromdate("")
+            setTodate("")
         }
     };
 
@@ -149,6 +162,7 @@ export default function StatementOfAccount({ order }) {
                         onClick={() => fetchStatementOfAccountFile("excel")}
                         className="primary-btn green-btn flex items-center justify-center gap-1"
                     >
+                        {isExportingExcel && <span className="spinner green"></span>}
                         <i className="icon-svgexport-15-1 text-xl"></i>
                         XLS
                     </button>
@@ -157,6 +171,7 @@ export default function StatementOfAccount({ order }) {
                         onClick={() => fetchStatementOfAccountFile("pdf")}
                         className="primary-btn red-btn flex items-center justify-center gap-1"
                     >
+                        {isExportingPDF && <span className="spinner"></span>}
                         <i className="icon-PDF-1 text-xl"></i>
                         PDF
                     </button>
