@@ -181,8 +181,8 @@ function Cart() {
                           name="address"
                           id={`address-${index}`}
                           value={add.id}
-                          checked={selectedAddressId === add.address}
-                          onChange={() => setSelectedAddressId(add.address)}
+                          checked={selectedAddressId === add.id}
+                          onChange={() => setSelectedAddressId(add.id)}
                         />
                         <label htmlFor={`address-${index}`} className="flex justify-between items-center">
                           <span className="flex items-center gap-2">
