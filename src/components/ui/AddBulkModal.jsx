@@ -223,7 +223,9 @@ export default function AddBulkModal({ open, onClose }) {
             continue;
           }
 
-          const unitPrice = Number(product.priceAfterDisc ?? product.price ?? 0);
+          const unitPrice = Number(product.price);
+          console.log(product.price);
+          
 
           let finalQty = Number(qty);
           const maxAllowed = Math.min(product.avlqty, 10);
@@ -256,8 +258,8 @@ export default function AddBulkModal({ open, onClose }) {
                 showWarningToast(`${translation.quantityExceeded} ${maxAllowed}`, lang, translation.warning);
                 updatedQty = maxAllowed;
               }
-              confirmed[idx].qty = updatedQty;
-              const unit = Number(confirmed[idx].priceAfterDisc ?? confirmed[idx].unitPrice ?? confirmed[idx].price ?? newItem.unitPrice ?? 0);
+              confirmed[idx].qty = updatedQty;              
+              const unit = Number(confirmed[idx].unitPrice ?? confirmed[idx].price ?? newItem.unitPrice ?? 0);
               confirmed[idx].total = unit * updatedQty;
             } else {
               confirmed.push(newItem);
