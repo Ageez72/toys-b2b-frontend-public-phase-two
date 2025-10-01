@@ -55,11 +55,18 @@ function ResetPassword() {
 
     try {
       setIsLoading(true);
-      const res = await axios.post(
-        `${BASE_API + endpoints.auth.resetPassword}&resettoken=${location.search.split('resettoken=')[1]}`,
-        { pwd: data.password },
-      );
+      const token = location.search.split("resettoken=")[1]; // from URL
 
+      const result = await fetch(
+        `${BASE_API + endpoints.auth.resetPassword}&resettoken=${token}`,
+        {
+          method: "GET",
+          headers: {
+            pwd: data.password, // password in headers
+          },
+        }
+      );
+      const res = await result.json();
       setIsLoading(false);
       if (res.data.error === true) {
         setCorpErrorMessage(res.data?.message || translation.errorHappened);

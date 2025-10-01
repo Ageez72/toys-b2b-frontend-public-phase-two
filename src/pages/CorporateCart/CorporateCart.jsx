@@ -75,7 +75,8 @@ function Cart() {
   };
 
   useEffect(() => {
-    if (!state.isCorporate) {
+    const profile = getProfile(); 
+    if (!profile.isCorporate) {
       setLoading(true)
       router.push('/cart');
       return;
@@ -173,7 +174,8 @@ function Cart() {
 
         const header = rows[0].map((h) => String(h).toLowerCase().trim());
         const skuIndex = header.findIndex((h) => h === "sku");
-        const qtyIndex = header.findIndex((h) => h === "quantity");
+        const qtyHeaders = ["quantity", "qty", "quantities", "quantitiy"];
+        const qtyIndex = header.findIndex((h) => qtyHeaders.includes(h));
 
         if (skuIndex === -1 || qtyIndex === -1) {
           showToastError(translation.errorImportingFile);
@@ -329,6 +331,10 @@ function Cart() {
             <div className="items-count flex justify-center items-center">{cartItems.length}</div>
           </div>
           <div className="flex gap-3">
+            <button className={`flex items-center gap-1 outline-btn no-bg ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} onClick={handleExport}>
+              <i className="icon-export text-lg"></i>
+              {translation.exportCart}
+            </button>
             <div>
               <label className="import-btn">
                 <input
@@ -345,14 +351,10 @@ function Cart() {
                 onClick={() => document.getElementById("importExcel").click()}
               >
                 {isImporting && <span className="spinner"></span>}
-                <i className="icon-export text-lg"></i>
+                <i className="icon-import text-lg"></i>
                 {translation.importCart}
               </button>
             </div>
-            <button className={`flex items-center gap-1 outline-btn no-bg ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} onClick={handleExport}>
-              <i className="icon-export text-lg"></i>
-              {translation.exportCart}
-            </button>
           </div>
         </div>
 

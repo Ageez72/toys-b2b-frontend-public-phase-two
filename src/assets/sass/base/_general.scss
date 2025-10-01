@@ -711,8 +711,13 @@ input.disabled {
 }
 
 .brands-swiper {
-    padding-top: 45px;
-    margin-top: -5px;
+    // padding-top: 45px;
+    // margin-top: -5px;
+}
+
+.custom-py-60 {
+    padding-top: 60px;
+    padding-bottom: 60px;
 }
 
 img {
@@ -795,4 +800,9 @@ img {
 
 .forced-bg {
     background-color: var(--body-bg) !important;
+}
+
+.hass-qty-error {
+  background-color: #8d1a141f !important;
+  border: 2px solid var(--primary-color);
 }

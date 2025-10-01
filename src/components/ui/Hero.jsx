@@ -55,7 +55,7 @@ export default function Hero({
                     setIsModalOpen(false);
                 }}
             />
-            <main
+            <div
                 className="hero-section"
                 style={{
                     backgroundImage: `url(${backgroundImage})`,
@@ -100,7 +100,7 @@ export default function Hero({
                 <h2 className="adds-title">
                     Regional Leaders<br /> In Toy Distribution
                 </h2>
-            </main>
+            </div>
         </>
     );
 }

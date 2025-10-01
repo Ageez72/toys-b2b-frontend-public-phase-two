@@ -32,8 +32,13 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
     let cart = getCart();
     const index = cart.findIndex(i => i.item === itemId);
 
-    if (newQty <= 0) {
+    // Only remove if qty === 0 (NOT empty string)
+    if (newQty === 0) {
       if (index !== -1) cart.splice(index, 1);
+    } else if (newQty === "") {
+      // Keep item untouched, just update local count
+      setCount("");
+      return;
     } else {
       if (index !== -1) {
         cart[index].qty = newQty.toString();
@@ -43,13 +48,13 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
     }
 
     Cookies.set('cart', JSON.stringify(cart), { expires: 7, path: '/' });
-    // Send updated cart to backend
-    const res = await axios.post(
+
+    // Sync with backend
+    await axios.post(
       `${BASE_API}${endpoints.products.setCart}?lang=${lang}&token=${Cookies.get('token')}`,
-      {
-        "items": cart
-      }
+      { items: cart }
     );
+
     const storedCart = getCart();
     if (storedCart) {
       dispatch({ type: "STORED-ITEMS", payload: storedCart });
@@ -102,25 +107,31 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
     onRefresh && onRefresh();
   };
 
-  const handleManualChange = (e) => {
-    let value = parseInt(e.target.value);
-    if (isNaN(value)) value = 0;
 
-    if (value > avlqty) {
+  const handleManualChange = (e) => {
+    let value = e.target.value;
+
+    // Allow empty string
+    if (value === "") {
+      setCount("");
+      updateCart("");
+      return;
+    }
+
+    let num = parseInt(value);
+    if (isNaN(num) || num < 0) num = 0;
+
+    if (num > avlqty) {
       const msg = lang === "EN"
         ? `Only ${avlqty} item(s) are available in total.`
         : `متوفر فقط ${avlqty} قطعة من هذا المنتج.`;
       showWarningToast(msg, lang, translation.warning);
-      value = avlqty;
+      num = avlqty;
     }
 
-    if (value > 10) {
-      value = 10;
-    }
+    if (num > 10) num = 10;
 
-    if (value < 0) value = 0;
-
-    updateCart(value);
+    updateCart(num);
     onRefresh && onRefresh();
   };
 

@@ -75,15 +75,16 @@ function Login() {
       queryParams[key] = value;
     }
     
-    if (queryParams.isCorporate == 1 && queryParams.isexpired == 0) {
-      console.log('Corporate login valid');
+    if (queryParams.isCorporate == 1 && queryParams.isexpired == 0 && queryParams.isActivated == 0) {
       setIsCorpSuccessModalOpen(true);
       setCorpSuccessMessage(translation.corporate_login_success);
-    } else if (queryParams.isCorporate == 1 && queryParams.isexpired == 1) {
+    } else if (queryParams.isCorporate == 1 && queryParams.isexpired == 1 && queryParams.isActivated == 0) {
       setIsCorpErrorModalOpen(true);
       setCorpErrorMessage(translation.corporate_login_error);
+    } else if (queryParams.isCorporate == 1 && queryParams.isActivated == 1) {
+      setIsCorpErrorModalOpen(true);
+      setCorpErrorMessage(translation.is_activated);
     }
-
   };
 
   useEffect(() => {

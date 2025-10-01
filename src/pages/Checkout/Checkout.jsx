@@ -76,7 +76,8 @@ function Cart() {
   };
 
   useEffect(() => {
-    if (!state.isCorporate) {
+    const profile = getProfile();    
+    if (!profile.isCorporate) {
       setLoading(true)
       router.push('/cart');
       return;
@@ -115,7 +116,9 @@ function Cart() {
     const data = {
       notes: notes,
       deliveryDate: "",
-      address: selectedAddressId,
+      branchNo: selectedAddressId.id,
+      address: selectedAddressId.address,
+      'branch name': selectedAddressId["branch name"],
       PM: selectedPaymentMethod,
       items: storedCart.map(item => ({
         item: item.id,
@@ -181,13 +184,13 @@ function Cart() {
                           name="address"
                           id={`address-${index}`}
                           value={add.id}
-                          checked={selectedAddressId === add.id}
-                          onChange={() => setSelectedAddressId(add.id)}
+                          checked={selectedAddressId.id === add.id}
+                          onChange={() => setSelectedAddressId(add)}
                         />
                         <label htmlFor={`address-${index}`} className="flex justify-between items-center">
                           <span className="flex items-center gap-2">
                             <i className="icon-location location"></i>
-                            <span>{add["branch name"]} - {add.address}</span>
+                            <span>{add["branch name"] ? add["branch name"]+ " -" : null}  {add.address}</span>
                           </span>
                           <i className="icon-tick-circle check"></i>
                         </label>

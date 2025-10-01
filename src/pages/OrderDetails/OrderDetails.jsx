@@ -59,7 +59,7 @@ export default function OrderDetails() {
         status = "in-progress"
     } else if (orderDetails.statusCode == 2) {
         status = "closed"
-    }
+    }    
 
     return (
         <>
@@ -139,7 +139,7 @@ export default function OrderDetails() {
                                                         <label className="flex justify-between items-center">
                                                             <span className="flex items-center gap-2">
                                                                 <i className="icon-location location"></i>
-                                                                <span>{orderDetails.address}</span>
+                                                                <span>{orderDetails["branch name"] ? orderDetails["branch name"]+ " -" : null}  {orderDetails.address}</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -162,7 +162,7 @@ export default function OrderDetails() {
                         <div className="card p-4">
                             <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
                             <div className="order-item flex justify-between items-center mb-4">
-                                <p className="mb-0">{translation.itemCount}</p>
+                                <p className="mb-0">{translation.CNT}</p>
                                 <p className="mb-0">{orderDetails?.details?.length}</p>
                             </div>
                             <div className="order-item flex justify-between items-center mb-4">

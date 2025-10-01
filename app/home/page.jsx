@@ -112,7 +112,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <main>
       {
         !isLoading && (
           <Hero
@@ -123,7 +123,7 @@ export default function Home() {
         )
       }
       <div className="home-sections-container">
-        <div className="custom-py-40 pt-0 mt-40">
+        <div className="custom-py-60">
           <BrandsSwiper />
         </div>
 
@@ -152,6 +152,6 @@ export default function Home() {
           id={featuredProducts.id}
         />
       </div>
-    </>
+    </main>
   );
 }

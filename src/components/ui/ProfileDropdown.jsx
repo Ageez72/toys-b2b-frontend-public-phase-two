@@ -111,6 +111,7 @@ export default function ProfileDropdown({ onGoTo }) {
             corporateImage: data?.data?.corporateImage,
             account: data?.data?.account,
             accountName: data?.data?.accountName,
+            accountAddress: data?.data?.accountAddress,
         }
         Cookies.set('profile', JSON.stringify(profile));
     }

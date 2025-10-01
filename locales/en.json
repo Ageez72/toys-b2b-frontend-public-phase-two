@@ -276,6 +276,7 @@
   "goTopayment": "Complete Your Order",
   "corporate_login_success": "Your account has been successfully activated. You can now log in.",
   "corporate_login_error": "Your activation link has expired. Please register again.",
+  "is_activated": "Your account has already been activated.",
   "sellingGoals": "Sales target for ",
   "sellingTargetsProgress": "Selling Targets Progress",
   "group": "Group",
@@ -306,5 +307,7 @@
     "errorItem": "- SKU {sku}: Not available or invalid product number"
   },
   "deliveryFees": "Delivery Fees",
-  "achievedTarget": "Achieved {achieved} {jod} out of {target} {jod}"
+  "achievedTarget": "Achieved {achieved} {jod} out of {target} {jod}",
+  "addOrderErrorTitle":"Out of Stock Items",
+  "addOrderErrorMsg": "Some of the products in your order are currently out of stock. Please review your cart and update your order."
 }
