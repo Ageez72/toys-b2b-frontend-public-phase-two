@@ -37,6 +37,7 @@ function Login() {
   const {
     register,
     handleSubmit,
+    reset, 
     formState: { errors },
   } = useForm();
 
@@ -51,6 +52,7 @@ function Login() {
       }else {
         setIsSuccessModalOpen(true)        
         setModalSuccessMessage(res.data.response)
+        reset({ identifier: "" });
       }
     } catch (err) {
       console.error('Error registering user:', err);

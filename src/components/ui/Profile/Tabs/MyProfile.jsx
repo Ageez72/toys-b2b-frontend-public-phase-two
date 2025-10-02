@@ -209,7 +209,7 @@ export default function MyProfile() {
                   <input
                     placeholder={"email@example.com"}
                     type="email"
-                    className={`w-full ps-10 p-2.5 ${inputsStatus ? 'disabled' : ''}`}
+                    className={`w-full ps-10 p-2.5 disabled`}
                     {...register('email', {
                       required: translation.register.errors.email.required,
                       pattern: {

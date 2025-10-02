@@ -69,7 +69,7 @@ export default function ProfileDropdown({ onGoTo }) {
     }, [menuOpen]);
 
     const fetchProfile = async () => {
-        const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});        
+        const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
         if (res?.data?.isCorporate) {
             dispatch({ type: "IS-CORPORATE", payload: true });
             dispatch({ type: "CORPORATE-IMAGE", payload: res?.data?.corporateImage });
@@ -114,8 +114,11 @@ export default function ProfileDropdown({ onGoTo }) {
             accountAddress: data?.data?.accountAddress,
         }
         Cookies.set('profile', JSON.stringify(profile));
-        if(data?.data?.active !== "Y" && data?.data?.viewOnly !== true){            
-            logout()
+        if (data?.data?.active !== "Y" && data?.data?.viewOnly !== true) {
+            Cookies.remove('profile');
+            Cookies.remove('token');
+            Cookies.remove('cart');
+            window.location.href = '/';
         }
     }
     if (isLoading) return <Loader />;

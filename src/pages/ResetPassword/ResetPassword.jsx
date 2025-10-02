@@ -42,6 +42,7 @@ function ResetPassword() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -66,18 +67,24 @@ function ResetPassword() {
           },
         }
       );
-      const res = await result.json();
+      const res = await result.json();      
       setIsLoading(false);
-      if (res.data.error === true) {
-        setCorpErrorMessage(res.data?.message || translation.errorHappened);
+      if (res.error === true) {
+        setCorpErrorMessage(res.response || translation.errorHappened);
         setIsErrorModalOpen(true);
       } else {
-        setCorpSuccessMessage(res.data.response || translation.passwordChangeSuccess);
+        setCorpSuccessMessage(res.response || translation.passwordChangeSuccess);
         setIsSuccessModalOpen(true);
+        // Clear the form inputs after success
+        reset({
+          password: "",
+          confirmPassword: "",
+        });
       }
     } catch (err) {
+      console.log(err);
       setIsLoading(false);
-      setCorpErrorMessage(err.response?.data?.message || translation.errorHappened);
+      setCorpErrorMessage(err.response?.data?.response || translation.errorHappened);
       setIsErrorModalOpen(true);
     }
   };
@@ -86,9 +93,11 @@ function ResetPassword() {
     <div className="container auth-wrapper">
       <SuccessModal
         open={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
+        onClose={() => setIsSuccessModalOpen(true)}
         title={translation.success}
         message={corpSuccessMessage}
+        goHome={true}
+        goHomeTitle={translation.backLogin}
       />
 
       <ErrorModal

@@ -1,7 +1,7 @@
 'use client'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
-export default function SuccessModal({ open, onClose, message, title, icon, summary, style }) {    
+export default function SuccessModal({ open, onClose, message, title, icon, summary, style, goHome, goHomeTitle }) {    
     return (
         <Dialog open={open} onClose={onClose} className="relative z-10000">
             <DialogBackdrop
@@ -19,7 +19,7 @@ export default function SuccessModal({ open, onClose, message, title, icon, summ
                             <div className="">
                                 <div className="flex items-start gap-4">
                                     <div className='icon-container'>
-                                        <i className={`${icon ? icon : 'icon-user-remove'}`}></i>
+                                        <i className={`${icon ? icon : 'icon-user-tick1'}`}></i>
                                     </div>
                                     <div className="text-start w-auto">
                                         <DialogTitle as="h3" className="text-base font-semibold text-gray-900 dialog-title">
@@ -35,6 +35,12 @@ export default function SuccessModal({ open, onClose, message, title, icon, summ
                                                 ))}
                                             </div>
                                         )}
+
+                                        {
+                                            goHome && (
+                                                <a href='/' className='primary-btn gotohome inline-block mt-3'>{goHomeTitle}</a>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>

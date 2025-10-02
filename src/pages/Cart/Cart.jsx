@@ -41,14 +41,13 @@ function Cart() {
     success: false,
     message: "",
   });
-  const [addOrderError, setAddOrderError] = useState(false)
-  const [addOrderErrorFlag, setAddOrderErrorFlag] = useState(false)
+  const [addOrderError, setAddOrderError] = useState(false);
+  const [addOrderErrorFlag, setAddOrderErrorFlag] = useState(false);
   const [addOrderErrorList, setAddOrderErrorList] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
 
-  const { state = {}, dispatch = () => { } } = useAppContext() || {};
+  const { state = {}, dispatch = () => {} } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
-
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
@@ -61,21 +60,18 @@ function Cart() {
   };
 
   const loadCart = () => {
-    const items = state.STOREDITEMS;
+    const items = getCart();
     setCartItems(items);
   };
 
   function getOverQtyItems(data) {
     if (!data || !Array.isArray(data.items)) return [];
-
     return data.items.filter(item => {
       const qty = parseInt(item.QTY, 10);
-      const avlqty = parseInt(item.avlqty ?? item.AQTY, 10); // fallback if `avlqty` is undefined
-
+      const avlqty = parseInt(item.avlqty ?? item.AQTY, 10);
       return qty > avlqty;
     });
   }
-
 
   const fetchProfile = async () => {
     const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${state.LANG}&token=${Cookies.get('token')}`, {});
@@ -84,25 +80,15 @@ function Cart() {
 
   const handleGetOrder = async () => {
     const items = getCart();
+    console.log(items);
+    
     try {
-      // setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.checkout}&lang=${state.LANG}&token=${Cookies.get('token')}`, items, {});
       setOrderSummary(response.data);
     } catch (error) {
       console.error('Failed to get order summary:', error);
-    } finally {
-      // setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   const profile = getProfile();
-  //   if (profile.isCorporate) {
-  //     setLoading(true)
-  //     router.push('/corporate-cart');
-  //     return;
-  //   }
-  // }, [state.isCorporate]);
 
   useEffect(() => {
     loadCart();
@@ -112,21 +98,18 @@ function Cart() {
   useEffect(() => {
     handleGetOrder();
     loadCart();
-  }, [refresh, state.STOREDITEM, addOrderErrorFlag]);
+  }, [refresh, state.STOREDITEMS, addOrderErrorFlag]);
 
   const handleSubmitChecker = () => {
     const storedCart = state.STOREDITEMS;
-
     if (!storedCart.length) {
       showWarningToast(translation.noProducts, state.LANG, translation.warning);
       return;
     }
-
     if (!selectedAddressId) {
       showWarningToast(translation.completeErrorMessage, state.LANG, translation.warning);
       return;
     }
-
     setOpenSureOrder(true);
   };
 
@@ -144,34 +127,34 @@ function Cart() {
         qty: item.qty
       }))
     };
-    
+
     try {
       setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.order}&token=${Cookies.get('token')}`, data, {});
+      console.log(response);
+      
       if (response.data && !response.data?.ERROR && !response.data.errorType) {
         Cookies.set('cart', "[]", { expires: 7, path: '/' });
-        // Send updated cart to backend
-        const res = await axios.post(
+        await axios.post(
           `${BASE_API}${endpoints.products.setCart}?lang=${state.LANG}&token=${Cookies.get('token')}`,
-          {
-            "items": []
-          }
+          { "items": [] }
         );
         dispatch({ type: 'STORED-ITEMS', payload: [] });
         setOpenSureOrder(false);
         setOpenConfirmOrder(true);
         handleRefresh();
-      } if (response.data && response.data.error && response.data.errorType === "qty") {
+      } else if (response.data?.error && response.data.errorType === "qty") {
         setAddOrderError(true);
         setOpenSureOrder(false);
-        setAddOrderErrorFlag(!addOrderErrorFlag)
-        setAddOrderErrorList(response.data.items || [])
-      } else {
-        let exceededItems = getOverQtyItems(response?.data?.items);
-        setErrorOrderResContent(exceededItems)
-        setOpenSureOrder(false);
-        setOpenErrorOrderResModal(true)
-      }
+        setAddOrderErrorFlag(!addOrderErrorFlag);
+        setAddOrderErrorList(response.data.items || []);
+      } 
+      // else {
+      //   let exceededItems = getOverQtyItems(response?.data?.items);
+      //   setErrorOrderResContent(exceededItems);
+      //   setOpenSureOrder(false);
+      //   setOpenErrorOrderResModal(true);
+      // }
     } catch (error) {
       console.error('Order submission failed:', error);
     } finally {
@@ -190,8 +173,6 @@ function Cart() {
 
   const handleExport = () => {
     if (!orderSummary?.ITEMS?.length) return;
-
-    // Map the data you want to export
     const exportData = orderSummary.ITEMS.map((item) => ({
       ["SKU"]: item.id,
       ["Barcode"]: item.barcode,
@@ -204,22 +185,13 @@ function Cart() {
       ["Quantity"]: item.qty || item.QTY,
       ["Total Price"]: Number(item.NET).toFixed(2),
     }));
-
-    // Create a worksheet
     const worksheet = XLSX.utils.json_to_sheet(exportData);
-
-    // Create a workbook
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "CartItems");
-
-    // Convert to Excel file
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-
-    // Save file
     const file = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(file, "cart_items.xlsx");
   };
-
 
   // ------------------------
   // Import Excel Handler
@@ -228,11 +200,9 @@ function Cart() {
     try {
       const token = Cookies.get("token");
       const lang = Cookies.get("lang") || "AR";
-
       const url = `${BASE_API}${endpoints.products.list}&id=${encodeURIComponent(
         sku
       )}&pageSize=1&itemStatus=AVAILABLE&lang=${lang}&token=${token}`;
-
       const res = await axios.get(url);
       return res.data?.items?.[0] || null;
     } catch (err) {
@@ -246,7 +216,6 @@ function Cart() {
     const fileInput = e.target;
     const file = e.target.files[0];
     if (!file) return;
-
     setIsImporting(true);
 
     const reader = new FileReader();
@@ -260,7 +229,7 @@ function Cart() {
 
         const header = rows[0].map((h) => String(h).toLowerCase().trim());
         const skuIndex = header.findIndex((h) => h === "sku");
-        const qtyHeaders = ["quantity", "qty", "quantities", "quantitiy"];
+        const qtyHeaders = ["quantity", "qty", "quantities", "quantitiy"]; // ✅ Option 23
         const qtyIndex = header.findIndex((h) => qtyHeaders.includes(h));
 
         if (skuIndex === -1 || qtyIndex === -1) {
@@ -274,11 +243,9 @@ function Cart() {
           const rawSku = row[skuIndex];
           const rawQty = row[qtyIndex];
           if (!rawSku) return;
-
           const sku = String(rawSku).trim().toUpperCase();
           const qty = Number(rawQty) || 0;
           if (qty <= 0) return;
-
           skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
         });
 
@@ -303,7 +270,7 @@ function Cart() {
 
           if (!product) {
             errors.push({
-              index: i + 1, // الصنف رقم
+              index: i + 1,
               sku,
               reason: "غير متوفر أو رقم المنتج غير صحيح",
             });
@@ -311,7 +278,6 @@ function Cart() {
           }
 
           const unitPrice = Number(product.price);
-
           let finalQty = Number(qty);
           const maxAllowed = Math.min(product.avlqty, 10);
           if (finalQty > maxAllowed) {
@@ -321,28 +287,20 @@ function Cart() {
 
           importedItems.push({
             item: product.id,
-            qty
+            qty: finalQty,
           });
           successCount++;
         }
 
-        // replace bulkItems with imported items only
-        console.log(importedItems);
-
         if (importedItems.length) {
           Cookies.set('cart', JSON.stringify(importedItems), { expires: 7, path: '/' });
-          // Send updated cart to backend
-          const res = await axios.post(
+          await axios.post(
             `${BASE_API}${endpoints.products.setCart}?lang=${lang}&token=${Cookies.get('token')}`,
-            {
-              "items": importedItems
-            }
+            { "items": importedItems }
           );
           dispatch({ type: "STORED-ITEMS", payload: importedItems });
         }
 
-
-        // ✅ Build summary
         const summaryArray = [
           translation.importSummary.success
             .replace("{success}", successCount)
@@ -367,7 +325,6 @@ function Cart() {
             message: summaryArray[0] || "Import failed. Please try again.",
           });
         }
-
       } catch (err) {
         console.error("❌ Import failed", err);
         setIsImporting(false);

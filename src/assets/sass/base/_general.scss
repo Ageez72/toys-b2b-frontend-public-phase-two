@@ -803,6 +803,14 @@ img {
 }
 
 .hass-qty-error {
-  background-color: #8d1a141f !important;
-  border: 2px solid var(--primary-color);
+    background-color: #8d1a141f !important;
+    border: 2px solid var(--primary-color);
+}
+
+.gotohome {
+    background: #288d14;
+
+    &:hover {
+        background: #207010;
+    }
 }
