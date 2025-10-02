@@ -16,7 +16,8 @@ export default function MenuControl({ onGoTo }) {
       <div className="flex items-center justify-between gap-3">
         <div className="vl"></div>
         <Link
-          href={state.isCorporate ? '/corporate-cart' : '/cart'}
+          // href={state.isCorporate ? '/corporate-cart' : '/cart'}
+          href={'/cart'}
           onClick={() => onGoTo && onGoTo()}
         >
           <div className="circle-icon-container">

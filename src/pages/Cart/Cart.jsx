@@ -32,6 +32,7 @@ function Cart() {
   const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("COD");
   const [orderSummary, setOrderSummary] = useState(null);
   const [isImporting, setIsImporting] = useState(false);
   const [importSummary, setImportSummary] = useState(null);
@@ -82,7 +83,7 @@ function Cart() {
   };
 
   const handleGetOrder = async () => {
-    const items =getCart();
+    const items = getCart();
     try {
       // setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.checkout}&lang=${state.LANG}&token=${Cookies.get('token')}`, items, {});
@@ -92,19 +93,16 @@ function Cart() {
     } finally {
       // setLoading(false);
     }
-
-    console.log("ddd");
-    
   };
 
-  useEffect(() => {
-    const profile = getProfile();
-    if (profile.isCorporate) {
-      setLoading(true)
-      router.push('/corporate-cart');
-      return;
-    }
-  }, [state.isCorporate]);
+  // useEffect(() => {
+  //   const profile = getProfile();
+  //   if (profile.isCorporate) {
+  //     setLoading(true)
+  //     router.push('/corporate-cart');
+  //     return;
+  //   }
+  // }, [state.isCorporate]);
 
   useEffect(() => {
     loadCart();
@@ -137,6 +135,7 @@ function Cart() {
     const data = {
       notes: notes,
       deliveryDate: "",
+      PM: selectedPaymentMethod,
       branchNo: selectedAddressId.id,
       address: selectedAddressId.address,
       'branch name': selectedAddressId["branch name"],
@@ -145,11 +144,11 @@ function Cart() {
         qty: item.qty
       }))
     };
+    
     try {
       setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.order}&token=${Cookies.get('token')}`, data, {});
-      console.log(response);
-      if (response.data && !response.data?.ERROR && !response.data.errorType) {        
+      if (response.data && !response.data?.ERROR && !response.data.errorType) {
         Cookies.set('cart', "[]", { expires: 7, path: '/' });
         // Send updated cart to backend
         const res = await axios.post(
@@ -178,7 +177,7 @@ function Cart() {
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   const handleRefresh = () => {
     setRefresh(prev => !prev);
@@ -603,6 +602,51 @@ function Cart() {
                     )
                     }
                   </div>
+                  {
+                    state.isCorporate && (
+                      <>
+                        <h3 className="sub-title mb-4 mt-8">{translation.paymentMethod}</h3>
+                        <div className="payment-methods flex flex-wrap md:flex-nowrap gap-3">
+                          <label htmlFor="cashOnDelivery" className="block w-full md:w-1/2">
+                            <div className={`card ${selectedPaymentMethod === "COD" ? 'selected' : ''}`}>
+                              <div className="payment-method">
+                                <i className="icon-money-3"></i>
+                                <span className="icon-tick-circle"></span>
+                                <input
+                                  className="hidden"
+                                  type="radio"
+                                  name="paymentMethod"
+                                  id="cashOnDelivery"
+                                  value="COD"
+                                  checked={selectedPaymentMethod === "COD"}
+                                  onChange={() => setSelectedPaymentMethod("COD")}
+                                />
+                                <span className="block mt-2">{translation.cashOnDelivery}</span>
+                              </div>
+                            </div>
+                          </label>
+                          {/* <label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
+                  <div className={`card ${selectedPaymentMethod === "creditCardPayment" ? 'selected' : ''}`}>
+                    <div className="payment-method">
+                      <i className="icon-cards"></i>
+                      <span className="icon-tick-circle"></span>
+                      <input
+                        className="hidden"
+                        type="radio"
+                        name="paymentMethod"
+                        id="creditCardPayment"
+                        value="creditCardPayment"
+                        checked={selectedPaymentMethod === "creditCardPayment"}
+                        onChange={() => setSelectedPaymentMethod("creditCardPayment")}
+                      />
+                      <span className="block mt-2">{translation.creditCardPayment}</span>
+                    </div>
+                  </div>
+                </label> */}
+                        </div>
+                      </>
+                    )
+                  }
                   <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
                   <div className="card">
                     <textarea

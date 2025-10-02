@@ -114,6 +114,9 @@ export default function ProfileDropdown({ onGoTo }) {
             accountAddress: data?.data?.accountAddress,
         }
         Cookies.set('profile', JSON.stringify(profile));
+        if(data?.data?.active !== "Y" && data?.data?.viewOnly !== true){            
+            logout()
+        }
     }
     if (isLoading) return <Loader />;
     if (error instanceof Error) {
@@ -122,7 +125,7 @@ export default function ProfileDropdown({ onGoTo }) {
         } else {
             push("/");
         }
-        return null; // prevent rendering further
+        return null;
     }
 
     const getInitials = (str) => {
