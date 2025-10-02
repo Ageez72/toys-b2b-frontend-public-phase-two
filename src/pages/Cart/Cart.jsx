@@ -44,6 +44,7 @@ function Cart() {
   const [addOrderError, setAddOrderError] = useState(false);
   const [addOrderErrorFlag, setAddOrderErrorFlag] = useState(false);
   const [addOrderErrorList, setAddOrderErrorList] = useState([]);
+  const [addOrderErrorAPI, setAddOrderErrorAPI] = useState(false);
   const router = useRouter();
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -134,11 +135,15 @@ function Cart() {
       console.log(response?.data);
 
       if (response.data?.error && response.data.errorType === "qty") {
-        setAddOrderError(true);
-        setOpenSureOrder(false);
-        setAddOrderErrorFlag(!addOrderErrorFlag);
-        setAddOrderErrorList(response.data.items || []);
-      } else if (response.data && !response.data?.ERROR && !response.data.errorType) {
+        if (response.data.errorType === "qty") {
+          setAddOrderError(true);
+          setOpenSureOrder(false);
+          setAddOrderErrorFlag(!addOrderErrorFlag);
+          setAddOrderErrorList(response.data.items || []);
+        } else {
+          setAddOrderErrorAPI(true);
+        }
+      } else if (response.data && !response.data?.error) {
         Cookies.set('cart', "[]", { expires: 7, path: '/' });
         await axios.post(
           `${BASE_API}${endpoints.products.setCart}?lang=${state.LANG}&token=${Cookies.get('token')}`,
@@ -369,6 +374,11 @@ function Cart() {
         title={translation.addOrderErrorTitle}
         message={translation.addOrderErrorMsg}
         onClose={() => setAddOrderError(false)}
+      />
+      <ErrorModal
+        open={addOrderErrorAPI}
+        message={translation.errorHappened}
+        onClose={() => setAddOrderErrorAPI(false)}
       />
       {loading && <Loader />}
       <Breadcrumb items={breadcrumbItems} />
