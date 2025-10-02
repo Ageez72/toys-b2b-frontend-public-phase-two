@@ -131,7 +131,7 @@ function Cart() {
     try {
       setLoading(true);
       const response = await axios.post(`${BASE_API}${endpoints.products.order}&token=${Cookies.get('token')}`, data, {});
-      console.log(response);
+      console.log(response?.data);
 
       if (response.data?.error && response.data.errorType === "qty") {
         setAddOrderError(true);
