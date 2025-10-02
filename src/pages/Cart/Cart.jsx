@@ -134,7 +134,7 @@ function Cart() {
       const response = await axios.post(`${BASE_API}${endpoints.products.order}&token=${Cookies.get('token')}`, data, {});
       console.log(response?.data);
 
-      if (response.data?.error && response.data.errorType === "qty") {
+      if (response.data?.error) {
         if (response.data.errorType === "qty") {
           setAddOrderError(true);
           setOpenSureOrder(false);
