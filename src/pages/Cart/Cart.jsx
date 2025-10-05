@@ -45,6 +45,7 @@ function Cart() {
   const [addOrderErrorFlag, setAddOrderErrorFlag] = useState(false);
   const [addOrderErrorList, setAddOrderErrorList] = useState([]);
   const [addOrderErrorAPI, setAddOrderErrorAPI] = useState(false);
+  const [addOrderErrorAPIMsg, setAddOrderErrorAPIMsg] = useState(false);
   const router = useRouter();
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -142,6 +143,7 @@ function Cart() {
           setAddOrderErrorList(response.data.items || []);
         } else {
           setAddOrderErrorAPI(true);
+          setAddOrderErrorAPIMsg(state.lang === 'AR'? response.data.messageAR : response.data.messageEN || translation.errorHappened)
         }
       } else if (response.data && !response.data?.error) {
         Cookies.set('cart', "[]", { expires: 7, path: '/' });
@@ -377,7 +379,7 @@ function Cart() {
       />
       <ErrorModal
         open={addOrderErrorAPI}
-        message={translation.errorHappened}
+        message={addOrderErrorAPIMsg}
         onClose={() => setAddOrderErrorAPI(false)}
       />
       {loading && <Loader />}
