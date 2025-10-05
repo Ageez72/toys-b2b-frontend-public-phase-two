@@ -1,16 +1,18 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useAppContext } from '../../../context/AppContext';
+import { getProfile } from '@/actions/utils';
 
 const ContactTools = () => {
   const [showButton, setShowButton] = useState(false);
   const [profile, setProfile] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const { state = {}, dispatch = () => {} } = useAppContext() || {};
 
   useEffect(() => {
     setMounted(true);
 
-    // Scroll listener
     const handleScroll = () => {
       setShowButton(window.scrollY > 300);
     };
@@ -26,7 +28,7 @@ const ContactTools = () => {
       }
     }
 
-    // Poll for cookie changes every 1 second
+    // Poll for cookie changes
     const interval = setInterval(() => {
       const currentCookie = Cookies.get('profile');
       if (currentCookie !== previousCookie) {
@@ -88,25 +90,49 @@ const ContactTools = () => {
           </div>
 
           <div className="socials">
-            {profile?.contactEmail && (
-              <a
-                href={`mailto:${profile.contactEmail}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-link circle-icon-container mb-2 contact-email"
-              >
-                <i className="icon-sms"></i>
-              </a>
-            )}
-            {profile?.contactPhone && (
-              <a
-                href={getWhatsAppLink(profile.contactPhone)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-link circle-icon-container mb-2 contact-phone"
-              >
-                <i className="icon-whatsapp-brands"></i>
-              </a>
+            {state.isCorporate ? (
+              <>
+                <a
+                  href="mailto:support@habanakeh.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-link circle-icon-container mb-2 contact-email"
+                >
+                  <i className="icon-sms"></i>
+                </a>
+                <a
+                  href={getWhatsAppLink('01027296196')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-link circle-icon-container mb-2 contact-phone"
+                >
+                  <i className="icon-whatsapp-brands"></i>
+                </a>
+              </>
+            ) : (
+              <>
+                {profile?.contactEmail && (
+                  <a
+                    href={`mailto:${profile.contactEmail}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-link circle-icon-container mb-2 contact-email"
+                  >
+                    <i className="icon-sms"></i>
+                  </a>
+                )}
+
+                {profile?.contactPhone && (
+                  <a
+                    href={getWhatsAppLink(profile.contactPhone)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-link circle-icon-container mb-2 contact-phone"
+                  >
+                    <i className="icon-whatsapp-brands"></i>
+                  </a>
+                )}
+              </>
             )}
           </div>
         </>
