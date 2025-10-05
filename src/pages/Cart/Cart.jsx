@@ -143,7 +143,7 @@ function Cart() {
           setAddOrderErrorList(response.data.items || []);
         } else {
           setAddOrderErrorAPI(true);
-          setAddOrderErrorAPIMsg(state.lang === 'AR'? response.data.messageAR : response.data.messageEN || translation.errorHappened)
+          setAddOrderErrorAPIMsg(state.LANG === 'AR'? response.data.messageAR : response.data.messageEN || translation.errorHappened)
         }
       } else if (response.data && !response.data?.error) {
         Cookies.set('cart', "[]", { expires: 7, path: '/' });

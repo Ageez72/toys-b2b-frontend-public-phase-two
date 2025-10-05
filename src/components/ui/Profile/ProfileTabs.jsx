@@ -134,7 +134,7 @@ export default function ProfileTabs() {
                         <Addresses />
                     </TabPanel>
                     {
-                        // !state.isCorporate && state.isActive && (
+                        !state.isCorporate && state.isActive && (
                             <>
                                 <TabPanel id="statementOfAccount" activeTab={activeTab}>
                                     <StatementOfAccount />
@@ -143,7 +143,7 @@ export default function ProfileTabs() {
                                     <SellingGoals />
                                 </TabPanel>
                             </>
-                        // )
+                        )
                     }
                 </div>
             </div>
