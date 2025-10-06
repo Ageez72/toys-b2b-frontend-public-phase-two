@@ -133,7 +133,7 @@ function Cart() {
 
 
   const handleSubmitOrder = async () => {
-    const storedCart = state.STOREDITEMS;
+    const storedCart = getCart();
     const data = {
       notes: notes,
       deliveryDate: "",
@@ -142,12 +142,10 @@ function Cart() {
       address: selectedAddressId.address,
       'branch name': selectedAddressId["branch name"],
       items: storedCart.map(item => ({
-        item: item.id,
+        item: item.item,
         qty: item.qty
       }))
     };
-
-    console.log(data);
 
     try {
       setLoading(true);
@@ -184,12 +182,12 @@ function Cart() {
           openPaymentWindow(response.data.paymentURL)
         }
       }
-      // // else {
-      // //   let exceededItems = getOverQtyItems(response?.data?.items);
-      // //   setErrorOrderResContent(exceededItems);
-      // //   setOpenSureOrder(false);
-      // //   setOpenErrorOrderResModal(true);
-      // // }
+      // else {
+      //   let exceededItems = getOverQtyItems(response?.data?.items);
+      //   setErrorOrderResContent(exceededItems);
+      //   setOpenSureOrder(false);
+      //   setOpenErrorOrderResModal(true);
+      // }
     } catch (error) {
       console.error('Order submission failed:', error);
     } finally {
