@@ -138,7 +138,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             if (brand && brand.length > 0) searchParams.append('brand', brand.join(','));
             if (category && category.length > 0) searchParams.append('category', category.join(','));
             if (catalog && catalog.length > 0) searchParams.append('catalog', catalog.join(','));
-
+            console.log(searchParams.toString());
+            
             searchItems = `${searchParams.toString()}`;
             Cookies.set('store_filters', searchItems);
             onClose && onClose()

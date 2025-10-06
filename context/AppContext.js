@@ -12,6 +12,7 @@ const initialState = {
   isActive: false,
   corporateImage: "/imgs/corporate-default.png",
   DIRECTION: initialLang === "EN" ? "ltr" : "rtl",
+  NumberOfParams: 0
 };
 
 const AppContext = createContext();
@@ -48,6 +49,9 @@ const appReducer = (state, action) => {
 
     case "CORPORATE-IMAGE":
       return { ...state, corporateImage: action.payload };
+    
+    case "NUMBERS-OF-PARAMS":
+      return { ...state, NumberOfParams: action.payload };
 
     default:
       return state;

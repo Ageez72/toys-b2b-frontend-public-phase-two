@@ -19,12 +19,10 @@ export default function SidebarModal({ open, onClose }) {
 
   function getNumberOfParams() {
     const filterItems = Cookies.get('store_filters') || '';
-    console.log(filterItems);
     // Get number of parameters
     const params = new URLSearchParams(filterItems);
     const numberOfParams = [...params.keys()].length;
     if (numberOfParams > 0) {
-
       return {
         hasAny: true,
         count: numberOfParams

@@ -133,7 +133,7 @@ function Cart() {
 
 
   const handleSubmitOrder = async () => {
-    const storedCart = getCart();
+    const storedCart = getCart();    
     const data = {
       notes: notes,
       deliveryDate: "",

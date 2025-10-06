@@ -85,6 +85,22 @@ export default function QuickAdd({ openSidebar }) {
         }
     };
 
+    useEffect(()=>{
+        getNumberOfParams()
+    },[state.NumberOfParams, Cookies.get('store_filters')])
+
+    function getNumberOfParams() {
+        const filterItems = Cookies.get('store_filters') || '';
+        // Get number of parameters
+        const params = new URLSearchParams(filterItems);
+        const numberOfParams = [...params.keys()].length;
+        if (numberOfParams > 0) {
+          dispatch({ type: 'NUMBERS-OF-PARAMS', payload: numberOfParams });
+        } else {
+          dispatch({ type: 'NUMBERS-OF-PARAMS', payload: 0 });
+        }
+      }
+
     return (
         <>
             <div className="quick-add-container flex">
@@ -100,6 +116,7 @@ export default function QuickAdd({ openSidebar }) {
                                 document.documentElement.classList.add('html-overflow');
                             }}
                         >
+                            {state.NumberOfParams > 0 ? <span className="red-filter-home">{state.NumberOfParams}</span> : null}
                             <i className="icon-setting-4"></i>
                         </div>
                         <SearchInput
