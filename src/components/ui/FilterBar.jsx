@@ -61,8 +61,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             title: translation.clearance,
             value: "CLEARANCE"
         },
-    ]
-
+    ]    
     const router = useRouter();
     const useParams = useSearchParams();
     const lang = Cookies.get('lang') || 'AR';
@@ -347,9 +346,9 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         <>
             <div className={`filter-bar card ${isProductsPage ? "filter-products-page" : "hero-filter"}`}>
                 <div className="filter-header flex items-center justify-between">
-                    <div className={`flex items-center gap-3 ${isProductsPage && count.hasAny ? "has-filters" : ""}`}>
+                    <div className={`flex items-center gap-3 ${count.hasAny ? "has-filters" : ""}`}>
                         {
-                            isProductsPage && count.count > 0 ? <span className="red-filter">{count.count}</span> : null
+                             count.count > 0 ? <span className="red-filter">{count.count}</span> : null
                         }
                         <i className="icon-filter-search"></i>
                         <span className='filter-title'>{translation.filterResults}</span>

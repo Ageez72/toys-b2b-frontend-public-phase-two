@@ -6,8 +6,8 @@ import { endpoints } from "../../../constant/endpoints";
 import Cookies from "js-cookie";
 
 export default function SidebarModal({ open, onClose }) {
-  const [lang, setLang] = useState('EN'); // Default to EN or any fallback
-  const { state = {}, dispatch = () => {} } = useAppContext() || {};
+  const [lang, setLang] = useState('EN');
+  const { state = {}, dispatch = () => { } } = useAppContext() || {};
 
   useEffect(() => {
     const userLang = Cookies.get('lang') || 'AR';
@@ -15,6 +15,27 @@ export default function SidebarModal({ open, onClose }) {
   }, []);
 
   const sidebarPosition = lang === 'AR' ? 'right-0' : 'left-0 translate-x-full-100';
+
+
+  function getNumberOfParams() {
+    const filterItems = Cookies.get('store_filters') || '';
+    console.log(filterItems);
+    // Get number of parameters
+    const params = new URLSearchParams(filterItems);
+    const numberOfParams = [...params.keys()].length;
+    if (numberOfParams > 0) {
+
+      return {
+        hasAny: true,
+        count: numberOfParams
+      }
+    } else {
+      return {
+        hasAny: false,
+        count: 0
+      }
+    }
+  }
 
   return (
     <>
@@ -36,6 +57,7 @@ export default function SidebarModal({ open, onClose }) {
           categoriesEndpoint={endpoints.products.categoriesList}
           searchTerm=""
           onClose={onClose}
+          count={getNumberOfParams()}
         />
       </div>
     </>

@@ -43,6 +43,7 @@ export default function ProfileDropdown({ onGoTo }) {
 
     useEffect(() => {
         getCartItems();
+        Cookies.remove('store_filters');
     }, []);
 
     useEffect(() => {

@@ -184,6 +184,7 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    min-width: 70px;
 
     i::before {
         color: #fff;
@@ -246,6 +247,7 @@
     font-size: 16px;
     transition: all 0.3s ease-in-out;
     background-color: #fff;
+    min-width: 70px;
 
     &:hover {
         background-color: #8D1A14;

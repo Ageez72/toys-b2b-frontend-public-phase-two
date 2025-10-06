@@ -71,7 +71,7 @@ const ContactTools = () => {
 
   if (!mounted) return null;
 
-  const hasContact = profile?.contactEmail || profile?.contactPhone;
+  const hasContact = profile?.contactEmail || profile?.contactPhone || state.isCorporate;
 
   return (
     <div className="contact-tools">
