@@ -192,6 +192,14 @@ export default function Page() {
               )
             }
             {
+              details?.netWeightKg && (
+                <div className="item flex w-full">
+                  <div className="title w-1/2"><strong>{translation.netWeight}</strong></div>
+                  <div className="info w-1/2">{details?.grossWeightKg} {translation.kg}</div>
+                </div>
+              )
+            }
+            {
               Array.isArray(details?.constants?.COUNTRY_OF_ORIGIN) &&
               details.constants.COUNTRY_OF_ORIGIN.some(el => el.trim() !== "") && (
                 <div className="item flex w-full">
@@ -274,6 +282,14 @@ export default function Page() {
                 </div>
               )
             }
+            {
+              details?.assembledDimensionsCentimeters && (
+                <div className="item flex w-full">
+                  <div className="title w-1/2"><strong>{translation.assembledDimensions}</strong></div>
+                  <div className="info w-1/2">{details?.assembledDimensionsCentimeters}</div>
+                </div>
+              )
+            }
 
           </div>
           {
@@ -285,7 +301,7 @@ export default function Page() {
             )
           }
           {
-            details?.catalogs.length && (
+            details?.catalogs.length ? (
               <>
                 <h3 className="sub-title mb-5">{translation.catalogs}</h3>
                 <div className="badges flex flex-wrap gap-2">
@@ -298,7 +314,7 @@ export default function Page() {
                   }
                 </div>
               </>
-            )
+            ): null
           }
 
         </div>
