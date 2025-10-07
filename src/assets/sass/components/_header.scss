@@ -7,8 +7,9 @@
 
             a {
                 @media (min-width: 992px) and (max-width: 1160px) {
-                    font-size: 15px;
                     padding-inline-start: 0;
+        padding-inline-end: 0;
+        font-size: 14px;
                 }
 
                 &:hover {
@@ -31,6 +32,12 @@
     .hide-logo {
         @media (min-width: 1024px) {
             width: 0;
+        }
+    }
+
+    .head-div {
+        @media (max-width: 600px) {
+            gap: 16px !important;
         }
     }
 }

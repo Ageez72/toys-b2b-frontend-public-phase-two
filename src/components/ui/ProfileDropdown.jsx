@@ -75,8 +75,8 @@ export default function ProfileDropdown({ onGoTo }) {
             dispatch({ type: "IS-CORPORATE", payload: true });
             dispatch({ type: "CORPORATE-IMAGE", payload: res?.data?.corporateImage });
         } else {
-            dispatch({ type: "IS-CORPORATE", payload: false });
-            dispatch({ type: "CORPORATE-IMAGE", payload: "" });
+            dispatch({ type: "IS-CORPORATE", payload: true });
+            dispatch({ type: "CORPORATE-IMAGE", payload: "https://alekha-dev.s3.amazonaws.com/media/brands/42/products/800/523840/3936799426.webp" });
         }
 
         if (res?.data?.active === 'Y') {

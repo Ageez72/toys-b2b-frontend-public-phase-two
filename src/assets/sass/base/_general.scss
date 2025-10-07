@@ -774,7 +774,13 @@ img {
 }
 
 .corporate-img {
-    border-radius: 4px;
+    width: 120px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 0;
+    @media (max-width: 600px) {
+        width: 90px;
+    }
 }
 
 .profile-tabs-links {
