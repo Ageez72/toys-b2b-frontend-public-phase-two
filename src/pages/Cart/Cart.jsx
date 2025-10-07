@@ -133,7 +133,7 @@ function Cart() {
 
 
   const handleSubmitOrder = async () => {
-    const storedCart = getCart();    
+    const storedCart = getCart();
     const data = {
       notes: notes,
       deliveryDate: "",
@@ -278,8 +278,13 @@ function Cart() {
           if (!rawSku) return;
           const sku = String(rawSku).trim().toUpperCase();
           const qty = Number(rawQty) || 0;
-          if (qty <= 0) return;
-          skuQtyMap[sku] = (skuQtyMap[sku] || 0) + qty;
+          // ✅ Apply quantity rules
+          if (qty < 0.5) return; // Ignore qty less than 0.5
+          let finalQty = qty;
+          if (qty >= 0.5 && qty < 1) {
+            finalQty = 1; // Round up small fractions to 1
+          }
+          skuQtyMap[sku] = (skuQtyMap[sku] || 0) + finalQty;
         });
 
         const skus = Object.keys(skuQtyMap);
@@ -314,7 +319,7 @@ function Cart() {
           let finalQty = Number(qty);
           const maxAllowed = Math.min(product.avlqty, 10);
           if (finalQty > maxAllowed) {
-            showWarningToast(`${translation.quantityExceeded} ${maxAllowed}`, lang, translation.warning);
+            showWarningToast(`${translation.notAllowedAdd}`, lang, translation.warning);
             finalQty = maxAllowed;
           }
 
@@ -703,7 +708,7 @@ function Cart() {
                                 <span className="block mt-2">{translation.creditCardPayment}</span>
                               </div>
                             </div>
-                          </label> }
+                          </label>}
                         </div>
                       </>
                     )
