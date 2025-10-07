@@ -93,7 +93,7 @@ const ContactTools = () => {
             {state.isCorporate ? (
               <>
                 <a
-                  href="mailto:support@habanakeh.com"
+                  href=""
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-link circle-icon-container mb-2 contact-email"
@@ -101,7 +101,7 @@ const ContactTools = () => {
                   <i className="icon-sms"></i>
                 </a>
                 <a
-                  href={getWhatsAppLink('01027296196')}
+                  href={getWhatsAppLink('')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-link circle-icon-container mb-2 contact-phone"
