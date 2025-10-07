@@ -49,6 +49,7 @@ function Cart() {
   const [addOrderErrorAPIMsg, setAddOrderErrorAPIMsg] = useState(false);
   const [showReplaceCartPopup, setShowReplaceCartPopup] = useState(false);
   const [pendingImportedItems, setPendingImportedItems] = useState(null);
+  const [pendingImportErrors, setPendingImportErrors] = useState([]);
   const router = useRouter();
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -265,6 +266,10 @@ function Cart() {
         const qtyHeaders = ["quantity", "qty", "quantities", "quantitiy"];
         const qtyIndex = header.findIndex((h) => qtyHeaders.includes(h));
 
+        const importedItems = [];
+        const errors = [];
+        let successCount = 0;
+
         if (skuIndex === -1 || qtyIndex === -1) {
           showToastError(translation.errorImportingFile);
           setIsImporting(false);
@@ -272,18 +277,28 @@ function Cart() {
         }
 
         const skuQtyMap = {};
-        rows.slice(1).forEach((row) => {
+        rows.slice(1).forEach((row, rowIndex) => {
           const rawSku = row[skuIndex];
           const rawQty = row[qtyIndex];
           if (!rawSku) return;
           const sku = String(rawSku).trim().toUpperCase();
           const qty = Number(rawQty) || 0;
           // ✅ Apply quantity rules
-          if (qty < 0.5) return; // Ignore qty less than 0.5
-          let finalQty = qty;
+          if (qty < 0.5) {
+            // ❌ Treat as error — invalid quantity
+            errors.push({
+              index: rowIndex + 1,
+              sku,
+              reason: "qty",
+            });
+            return; // Skip processing this SKU
+          }
+
+          let finalQty = Math.round(qty);
           if (qty >= 0.5 && qty < 1) {
             finalQty = 1; // Round up small fractions to 1
           }
+
           skuQtyMap[sku] = (skuQtyMap[sku] || 0) + finalQty;
         });
 
@@ -296,10 +311,6 @@ function Cart() {
 
         const productFetches = skus.map((sku) => fetchProductBySku(sku));
         const fetchedProducts = await Promise.all(productFetches);
-
-        const importedItems = [];
-        const errors = [];
-        let successCount = 0;
 
         for (let i = 0; i < skus.length; i++) {
           const sku = skus[i];
@@ -333,6 +344,7 @@ function Cart() {
         // If cart has items, ask user to replace
         if (cartItems.length > 0) {
           setPendingImportedItems(importedItems);
+          setPendingImportErrors(errors); // ✅ store errors too
           setShowReplaceCartPopup(true);
           setIsImporting(false);
           return;
@@ -352,8 +364,13 @@ function Cart() {
           translation.importSummary.success
             .replace("{success}", successCount)
             .replace("{errors}", errors.length),
-          ...errors.map((err) =>
-            translation.importSummary.errorItem.replace("{sku}", err.sku)
+          ...errors.map((err) => {
+            if (err.reason === "qty") {
+              return translation.qtyNotValid.replace("{sku}", err.sku)
+            } else {
+              return translation.importSummary.errorItem.replace("{sku}", err.sku)
+            }
+          }
           ),
         ];
 
@@ -403,8 +420,13 @@ function Cart() {
       translation.importSummary.success
         .replace("{success}", successCount)
         .replace("{errors}", errors.length),
-      ...errors.map((err) =>
-        translation.importSummary.errorItem.replace("{sku}", err.sku)
+      ...errors.map((err) => {
+        if (err.reason === "qty") {
+          return translation.qtyNotValid.replace("{sku}", err.sku)
+        } else {
+          return translation.importSummary.errorItem.replace("{sku}", err.sku)
+        }
+      }
       ),
     ];
 
@@ -432,7 +454,7 @@ function Cart() {
       await completeImport(
         pendingImportedItems,
         pendingImportedItems.length,
-        [],
+        pendingImportErrors,
         translation,
         Cookies.get("lang") || "AR"
       );

@@ -189,6 +189,7 @@
     "productAlreadyAdded": "هذا المنتج مضاف بالفعل",
     "quantityExceeded": "الكمية لا يمكن أن تتجاوز ",
     "notAllowedAdd": "لا يسمح بإضافة أكثر من 10 قطع",
+    "qtyNotValid": "- الصنف {sku}: الكمية أقل من 1 قطعة",
     "noResults": "لا توجد نتائج",
     "loading": "جاري التحميل...",
     "warning": "تحذير",

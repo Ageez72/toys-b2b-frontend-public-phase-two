@@ -87,7 +87,10 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
   const increase = () => {
     const newQty = count + 1;
 
-    if (newQty > 10) return; // Hard limit: max 10 units per item
+    if (newQty > 10) {
+      showWarningToast(translation.notAllowedAdd, lang, translation.warning);
+      return
+    }; // Hard limit: max 10 units per item
 
     if (newQty > avlqty) {
       const msg = state.LANG === "EN"
@@ -121,7 +124,9 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
     let num = parseInt(value);
     if (isNaN(num) || num < 0) num = 0;
 
-    if (num > avlqty) {
+    if (num === 10) {
+      showWarningToast(translation.notAllowedAdd, lang, translation.warning);
+    } else if (num > avlqty) {
       const msg = lang === "EN"
         ? `Only ${avlqty} item(s) are available in total.`
         : `متوفر فقط ${avlqty} قطعة من هذا المنتج.`;

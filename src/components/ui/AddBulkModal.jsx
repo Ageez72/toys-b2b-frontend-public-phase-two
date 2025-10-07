@@ -68,7 +68,10 @@ export default function AddBulkModal({ open, onClose }) {
     const updated = [...bulkItems];
     const maxQty = updated[index].avlqty > 10 ? 10 : updated[index].avlqty;
 
-    if (parsedQty > maxQty) {
+    if (parsedQty >= 10) {
+      showWarningToast(translation.notAllowedAdd, lang, translation.warning);
+      parsedQty = 10
+    } else if (parsedQty > maxQty) {
       showErrorToast(`${translation.quantityExceeded} ${maxQty}`, lang, translation.error);
       parsedQty = maxQty;
     }
@@ -148,12 +151,21 @@ export default function AddBulkModal({ open, onClose }) {
       )}&pageSize=1&itemStatus=AVAILABLE&lang=${lang}&token=${token}`;
 
       const res = await axios.get(url);
-      return res.data?.items?.[0] || null;
+
+      // ✅ Check if the API returned an empty array or no items
+      if (!res.data?.items || res.data.items.length === 0) {
+        console.warn(`⚠️ No product found for SKU: ${sku}`);
+        throw new Error("Empty product list"); // Force it into the catch block
+      }
+
+      return res.data.items[0]; // Return the first product
+
     } catch (err) {
       console.error("❌ Error fetching product by SKU:", sku, err);
-      return null;
+      return null; // So the main loop can detect and handle it as an error
     }
   };
+
 
 
   const handleImport = async (e) => {
@@ -177,6 +189,10 @@ export default function AddBulkModal({ open, onClose }) {
         const qtyHeaders = ["quantity", "qty", "quantities", "quantitiy"];
         const qtyIndex = header.findIndex((h) => qtyHeaders.includes(h));
 
+        const importedItems = [];
+        const errors = [];
+        let successCount = 0;
+
         if (skuIndex === -1 || qtyIndex === -1) {
           showToastError(translation.errorImportingFile);
           setIsImporting(false);
@@ -184,7 +200,7 @@ export default function AddBulkModal({ open, onClose }) {
         }
 
         const skuQtyMap = {};
-        rows.slice(1).forEach((row) => {
+        rows.slice(1).forEach((row, rowIndex) => {
           const rawSku = row[skuIndex];
           const rawQty = row[qtyIndex];
           if (!rawSku) return;
@@ -192,11 +208,21 @@ export default function AddBulkModal({ open, onClose }) {
           const sku = String(rawSku).trim().toUpperCase();
           const qty = Number(rawQty) || 0;
           // ✅ Apply quantity rules
-          if (qty < 0.5) return; // Ignore qty less than 0.5
-          let finalQty = qty;
+          if (qty < 0.5) {
+            // ❌ Treat as error — invalid quantity
+            errors.push({
+              index: rowIndex + 1,
+              sku,
+              reason: "qty",
+            });
+            return; // Skip processing this SKU
+          }
+
+          let finalQty = Math.round(qty);
           if (qty >= 0.5 && qty < 1) {
             finalQty = 1; // Round up small fractions to 1
           }
+
           skuQtyMap[sku] = (skuQtyMap[sku] || 0) + finalQty;
         });
 
@@ -209,10 +235,6 @@ export default function AddBulkModal({ open, onClose }) {
 
         const productFetches = skus.map((sku) => fetchProductBySku(sku));
         const fetchedProducts = await Promise.all(productFetches);
-
-        const importedItems = [];
-        const errors = [];
-        let successCount = 0;
 
         for (let i = 0; i < skus.length; i++) {
           const sku = skus[i];
@@ -283,8 +305,13 @@ export default function AddBulkModal({ open, onClose }) {
           translation.importSummary.success
             .replace("{success}", successCount)
             .replace("{errors}", errors.length),
-          ...errors.map((err) =>
-            translation.importSummary.errorItem.replace("{sku}", err.sku)
+          ...errors.map((err) => {
+            if (err.reason === "qty") {
+              return translation.qtyNotValid.replace("{sku}", err.sku)
+            } else {
+              return translation.importSummary.errorItem.replace("{sku}", err.sku)
+            }
+          }
           ),
         ];
 

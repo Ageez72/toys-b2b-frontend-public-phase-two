@@ -191,6 +191,7 @@
   "addedToCart": "Added to cart",
   "productAlreadyAdded": "This product is already added",
   "quantityExceeded": "Quantity cannot exceed ",
+  "qtyNotValid": "- SKU {sku}: Quantity less than 1 piece",
   "notAllowedAdd": "No more than 10 pieces are allowed.",
   "noResults": "No Results",
   "loading": "Loading...",
