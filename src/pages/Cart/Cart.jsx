@@ -740,7 +740,7 @@ function Cart() {
                               </div>
                             </div>
                           </label>
-                          {/* {<label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
+                          {<label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
                             <div className={`card ${selectedPaymentMethod === "creditCardPayment" ? 'selected' : ''}`}>
                               <div className="payment-method">
                                 <i className="icon-cards"></i>
@@ -757,7 +757,7 @@ function Cart() {
                                 <span className="block mt-2">{translation.creditCardPayment}</span>
                               </div>
                             </div>
-                          </label>} */}
+                          </label>}
                         </div>
                       </>
                     )
