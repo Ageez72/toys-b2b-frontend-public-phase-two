@@ -275,3 +275,9 @@
         }
     }
 }
+
+.import-export-cart-btns button {
+    @media (max-width: 450px) {
+        font-size: 12px;
+    }
+}

@@ -302,7 +302,7 @@
     "to": "إلى",
     "paymentMethod": "طريقة الدفع",
     "cashOnDelivery": "الدفع عند الاستلام",
-    "creditCardPayment": "الدفع بالبطاقات الائتمانية ( Master Card - Visa)",
+    "creditCardPayment": "الدفع بالبطاقات الائتمانية (Master Card - Visa)",
     "noFileFound": "لا توجد بيانات للتصدير في هذا التاريخ",
     "errorDownload": "فشل في تنزيل الملف.",
     "fromDateRequired": "من فضلك حدد تاريخ البدء.",
@@ -317,5 +317,6 @@
     "achievedTarget": "تم تحقيق {achieved} {jod} من {target} {jod}",
     "addOrderErrorTitle":"منتجات غير متوفرة",
     "addOrderErrorMsg": "يبدو أن بعض المنتجات في طلبك غير متوفرة حاليًا في المخزون. يرجى مراجعة السلة وتحديث طلبك.",
-    "areYouSure": "هل أنت متأكد من رغبتك في بدء سلة جديدة؟"
+    "areYouSure": "هل أنت متأكد من رغبتك في بدء سلة جديدة؟",
+    "mainAddress": "العنوان الرئيسي"
 }

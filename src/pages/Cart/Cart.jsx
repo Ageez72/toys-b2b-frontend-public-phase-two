@@ -51,6 +51,7 @@ function Cart() {
   const [pendingImportedItems, setPendingImportedItems] = useState(null);
   const [pendingImportErrors, setPendingImportErrors] = useState([]);
   const router = useRouter();
+  const profileData = getProfile()
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
@@ -139,9 +140,9 @@ function Cart() {
       notes: notes,
       deliveryDate: "",
       payOnline: selectedPaymentMethod === "COD" ? false : true,
-      branchNo: selectedAddressId.id,
-      address: selectedAddressId.address,
-      'branch name': selectedAddressId["branch name"],
+      branchNo: profileData?.accountAddress === selectedAddressId ? "" : selectedAddressId.id,
+      address: profileData?.accountAddress === selectedAddressId ? selectedAddressId : selectedAddressId.address,
+      'branch name': profileData?.accountAddress === selectedAddressId ? "" : selectedAddressId["branch name"],
       items: storedCart.map(item => ({
         item: item.item,
         qty: item.qty
@@ -504,12 +505,12 @@ function Cart() {
       {loading && <Loader />}
       <Breadcrumb items={breadcrumbItems} />
       <div className="mt-5 pt-5">
-        <div className="flex justify-between items-center gap-5 mb-5">
+        <div className="flex justify-between items-center flex-wrap gap-5 mb-5">
           <div className="flex items-center gap-5">
             <h3 className="sub-title">{translation.addedProducts}</h3>
             <div className="items-count flex justify-center items-center">{cartItems.length}</div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap import-export-cart-btns">
             <button className={`flex items-center gap-1 outline-btn no-bg ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} onClick={handleExport}>
               <i className="icon-export text-lg"></i>
               {translation.exportCart}
@@ -661,6 +662,29 @@ function Cart() {
                 <>
                   <h3 className="sub-title mb-4">{translation.shippingAddress} <span className="required">*</span></h3>
                   <div className="addresses">
+                    {
+                      profileData?.accountAddress ? (
+                        <div className="card mb-3">
+                          <div className="address-item">
+                            <input
+                              type="radio"
+                              name="address"
+                              id={`address-main`}
+                              value={profileData?.accountAddress}
+                              checked={selectedAddressId === profileData?.accountAddress}
+                              onChange={() => setSelectedAddressId(profileData?.accountAddress)}
+                            />
+                            <label htmlFor={`address-main`} className="flex justify-between items-center">
+                              <span className="flex items-center gap-2">
+                                <i className="icon-location location"></i>
+                                <span>{translation.mainAddress} - {profileData?.accountAddress}</span>
+                              </span>
+                              <i className="icon-tick-circle check"></i>
+                            </label>
+                          </div>
+                        </div>
+                      ) : null
+                    }
                     {addressesItems.length ? (
                       addressesItems?.map((add, index) => (
                         <div className="card mb-3" key={add.id}>
@@ -683,11 +707,14 @@ function Cart() {
                           </div>
                         </div>
                       ))
-                    ) : (
-                      <p className="">
-                        {translation.noAddressesMessage}
-                      </p>
-                    )
+                    ) : null
+                    }
+                    {
+                      !addressesItems.length && !profileData?.accountAddress ? (
+                        <p className="">
+                          {translation.noAddressesMessage}
+                        </p>
+                      ) : null
                     }
                   </div>
                   {
@@ -713,7 +740,7 @@ function Cart() {
                               </div>
                             </div>
                           </label>
-                          {<label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
+                          {/* {<label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
                             <div className={`card ${selectedPaymentMethod === "creditCardPayment" ? 'selected' : ''}`}>
                               <div className="payment-method">
                                 <i className="icon-cards"></i>
@@ -730,7 +757,7 @@ function Cart() {
                                 <span className="block mt-2">{translation.creditCardPayment}</span>
                               </div>
                             </div>
-                          </label>}
+                          </label>} */}
                         </div>
                       </>
                     )

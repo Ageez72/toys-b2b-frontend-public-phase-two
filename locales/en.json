@@ -314,5 +314,6 @@
   "achievedTarget": "Achieved {achieved} {jod} out of {target} {jod}",
   "addOrderErrorTitle":"Out of Stock Items",
   "addOrderErrorMsg": "Some of the products in your order are currently out of stock. Please review your cart and update your order.",
-  "areYouSure": "Are you sure you want to start a new cart?"
+  "areYouSure": "Are you sure you want to start a new cart?",
+  "mainAddress": "Main Address"
 }
