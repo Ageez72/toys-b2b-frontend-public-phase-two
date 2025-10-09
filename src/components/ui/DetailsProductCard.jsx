@@ -12,6 +12,7 @@ import { BASE_API, endpoints } from '../../../constant/endpoints';
 import Cookies from 'js-cookie';
 import SuccessModal from './SuccessModal';
 import ErrorModal from './ErrorModal';
+import { getProfile } from '@/actions/utils';
 
 export default function DetailsProductCard({ item }) {
     const { state = {} } = useAppContext() || {};
@@ -21,6 +22,7 @@ export default function DetailsProductCard({ item }) {
     const [modalMessage, setModalmessage] = useState("");
     const [isRequestBtnActive, setIsRequestBtnActive] = useState(true);
     const [translation, setTranslation] = useState(ar); // fallback to Arabic
+    const profileData = getProfile();
 
     useEffect(() => {
         if (state.LANG === "EN") {
@@ -91,12 +93,12 @@ export default function DetailsProductCard({ item }) {
                     )
                 }
                 {
-                    item.discountType === 'CLEARANCE' && item.avlqty > 0 && (
+                    profileData?.allQty && item.discountType === 'CLEARANCE' && item.avlqty > 0 && (
                         <Badge type={item.discountType === 'CLEARANCE' && 'red'} text={`${translation.only} ${item.avlqty} ${item.avlqty === 1 ? translation.pieceOne : item.avlqty > 10 ? translation.pieceOnly : translation.piecesOnly}`} />
                     )
                 }
                 {
-                    item.discountType !== 'CLEARANCE' && item.avlqty < 10 && item.avlqty > 1 && (
+                    profileData?.allQty && item.discountType !== 'CLEARANCE' && item.avlqty < 10 && item.avlqty > 1 && (
                         <Badge type={item.discountType !== 'CLEARANCE' && 'red'} text={`${translation.only} ${item.avlqty} ${item.avlqty === 1 ? translation.pieceOne : translation.piecesOnly}`} />
                     )
                 }

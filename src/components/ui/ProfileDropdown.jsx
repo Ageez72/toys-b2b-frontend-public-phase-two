@@ -113,6 +113,7 @@ export default function ProfileDropdown({ onGoTo }) {
             account: data?.data?.account,
             accountName: data?.data?.accountName,
             accountAddress: data?.data?.accountAddress,
+            allQty: data?.data?.allQty,
         }
         Cookies.set('profile', JSON.stringify(profile));
         if (data?.data?.active !== "Y" && data?.data?.viewOnly !== true) {

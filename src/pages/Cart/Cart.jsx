@@ -215,7 +215,7 @@ function Cart() {
       ["Selling Price"]: item.RSP,
       ["Price"]: item.LPRICE,
       ["Cost"]: item.PRICEAFTERDISCOUNT,
-      ["Tax"]: `${Number(item.TAX).toFixed(2)}%`,
+      ["Tax"]: `${Number(item.TAX).toFixed(2)}`,
       [`Brand - Category`]: `${item.brand.description} - ${item.category.description}`,
       ["Quantity"]: item.qty || item.QTY,
       ["Total Price"]: Number(item.NET).toFixed(2),
