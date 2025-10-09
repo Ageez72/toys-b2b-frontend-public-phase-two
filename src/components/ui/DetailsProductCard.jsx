@@ -88,7 +88,7 @@ export default function DetailsProductCard({ item }) {
                     )
                 } */}
                 {
-                    item.itemdisc > 0 && (
+                    item.itemdisc > 0 && !item.hideDiscount && (
                         <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
                     )
                 }

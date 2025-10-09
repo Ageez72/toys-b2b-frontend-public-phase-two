@@ -48,7 +48,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
                     )
                 } */}
                 {
-                    item.itemdisc > 0 && item.hideDiscount != "false" && (
+                    item.itemdisc > 0 && !item.hideDiscount && (
                         <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
                     )
                 }
