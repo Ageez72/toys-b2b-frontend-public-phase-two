@@ -93,15 +93,64 @@ export default function DetailsProductCard({ item }) {
                     )
                 }
                 {
-                    profileData?.allQty && item.discountType === 'CLEARANCE' && item.avlqty > 0 && (
-                        <Badge type={item.discountType === 'CLEARANCE' && 'red'} text={`${translation.only} ${item.avlqty} ${item.avlqty === 1 ? translation.pieceOne : item.avlqty > 10 ? translation.pieceOnly : translation.piecesOnly}`} />
+                    profileData?.allQty ? (
+                        <>
+                            {item.avlqty === 1 && (
+                                <Badge
+                                    type="red"
+                                    text={`${translation.only} ${item.avlqty} ${translation.pieceOne}`}
+                                />
+                            )}
+
+                            {item.avlqty > 1 && item.avlqty <= 10 && (
+                                <Badge
+                                    type="red"
+                                    text={`${translation.only} ${item.avlqty} ${item.avlqty > 10
+                                            ? translation.pieceOnly
+                                            : translation.piecesOnly
+                                        }`}
+                                />
+                            )}
+
+                            {item.avlqty > 10 && (
+                                <Badge
+                                    type="red"
+                                    text={`${translation.only} ${item.avlqty} ${translation.pieceOnly}`}
+                                />
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {/* Clearance badge when quantity > 0 */}
+                            {item.discountType === 'CLEARANCE' && item.avlqty > 0 && (
+                                <Badge
+                                    type={item.discountType === 'CLEARANCE' ? 'red' : undefined}
+                                    text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                        ? translation.pieceOne
+                                        : item.avlqty > 10
+                                            ? translation.pieceOnly
+                                            : translation.piecesOnly
+                                        }`}
+                                />
+                            )}
+
+                            {/* Non-clearance badge when quantity between 2 and 9 */}
+                            {item.discountType !== 'CLEARANCE' &&
+                                item.avlqty > 1 &&
+                                item.avlqty < 10 && (
+                                    <Badge
+                                        type={item.discountType !== 'CLEARANCE' ? 'red' : undefined}
+                                        text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                            ? translation.pieceOne
+                                            : translation.piecesOnly
+                                            }`}
+                                    />
+                                )}
+                        </>
                     )
                 }
-                {
-                    profileData?.allQty && item.discountType !== 'CLEARANCE' && item.avlqty < 10 && item.avlqty > 1 && (
-                        <Badge type={item.discountType !== 'CLEARANCE' && 'red'} text={`${translation.only} ${item.avlqty} ${item.avlqty === 1 ? translation.pieceOne : translation.piecesOnly}`} />
-                    )
-                }
+
+
                 <h1 className="product-card-title details-product-card-title" title={item.name}>{item.name}</h1>
                 <h3 className="font-bold sku-number">{item?.id}</h3>
                 <p className="product-card-description">
@@ -146,7 +195,7 @@ export default function DetailsProductCard({ item }) {
                     ) : (
                         <>
                             {
-                                item.commingSoon &&(
+                                item.commingSoon && (
                                     <p className={`out-stock-btn ${!item.commingSoon ? '' : 'yellow'}`}>{translation.availableSoon}</p>
                                 )
                             }

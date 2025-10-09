@@ -53,13 +53,58 @@ export default function ProductCard({ type, badgeType, related, item }) {
                     )
                 }
                 {
-                    profileData?.allQty && item.discountType === 'CLEARANCE' && item.avlqty > 0 && (
-                        <Badge type={item.discountType === 'CLEARANCE' && 'red'} text={`${translation.only} ${item.avlqty} ${item.avlqty === 1 ? translation.pieceOne : item.avlqty > 10 ? translation.pieceOnly : translation.piecesOnly}`} />
-                    )
-                }
-                {
-                    profileData?.allQty && item.discountType !== 'CLEARANCE' && item.avlqty < 10 && item.avlqty > 1 && (
-                        <Badge type={item.discountType !== 'CLEARANCE' && 'red'} text={`${translation.only} ${item.avlqty} ${item.avlqty === 1 ? translation.pieceOne : translation.piecesOnly}`} />
+                    profileData?.allQty ? (
+                        <>
+                            {item.avlqty === 1 && (
+                                <Badge
+                                    type="red"
+                                    text={`${translation.only} ${item.avlqty} ${translation.pieceOne}`}
+                                />
+                            )}
+
+                            {item.avlqty > 1 && item.avlqty <= 10 && (
+                                <Badge
+                                    type="red"
+                                    text={`${translation.only} ${item.avlqty} ${item.avlqty > 10
+                                        ? translation.pieceOnly
+                                        : translation.piecesOnly
+                                        }`}
+                                />
+                            )}
+
+                            {item.avlqty > 10 && (
+                                <Badge
+                                    type="red"
+                                    text={`${translation.only} ${item.avlqty} ${translation.pieceOnly}`}
+                                />
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {item.discountType === 'CLEARANCE' && item.avlqty > 0 && (
+                                <Badge
+                                    type={item.discountType === 'CLEARANCE' ? 'red' : undefined}
+                                    text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                        ? translation.pieceOne
+                                        : item.avlqty > 10
+                                            ? translation.pieceOnly
+                                            : translation.piecesOnly
+                                        }`}
+                                />
+                            )}
+
+                            {item.discountType !== 'CLEARANCE' &&
+                                item.avlqty > 1 &&
+                                item.avlqty < 10 && (
+                                    <Badge
+                                        type={item.discountType !== 'CLEARANCE' ? 'red' : undefined}
+                                        text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                            ? translation.pieceOne
+                                            : translation.piecesOnly
+                                            }`}
+                                    />
+                                )}
+                        </>
                     )
                 }
                 <h2 className="product-card-title cursor-pointer short-title" title={item.name}>
