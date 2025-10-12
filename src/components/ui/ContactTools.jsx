@@ -77,6 +77,7 @@ const ContactTools = () => {
     <div className="contact-tools">
       <button
         onClick={scrollToTop}
+        aria-label="back-to-top"
         className={`back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
       >
         <i className="icon-arrow-up"></i>
@@ -93,15 +94,7 @@ const ContactTools = () => {
             {state.isCorporate ? (
               <>
                 <a
-                  href=""
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-link circle-icon-container mb-2 contact-email"
-                >
-                  <i className="icon-sms"></i>
-                </a>
-                <a
-                  href={getWhatsAppLink('')}
+                  href={getWhatsAppLink('+962789002194')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-link circle-icon-container mb-2 contact-phone"
@@ -116,6 +109,7 @@ const ContactTools = () => {
                     href={`mailto:${profile.contactEmail}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Visit Email"
                     className="contact-link circle-icon-container mb-2 contact-email"
                   >
                     <i className="icon-sms"></i>
