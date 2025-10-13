@@ -300,6 +300,7 @@
   "paymentMethod": "Payment Method",
   "cashOnDelivery": "Cash on Delivery",
   "creditCardPayment": "Credit Card Payment (Master Card - Visa)",
+  "gotoPayment": "Go to Payment",
   "noFileFound": "No Data Found to Download for the Selected Period.",
   "errorDownload": "Failed to download file.",
   "fromDateRequired": "Please select From date.",

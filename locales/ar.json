@@ -303,6 +303,7 @@
     "paymentMethod": "طريقة الدفع",
     "cashOnDelivery": "الدفع عند الاستلام",
     "creditCardPayment": "الدفع بالبطاقات الائتمانية (Master Card - Visa)",
+    "gotoPayment": "اذهب إلى الدفع",
     "noFileFound": "لا توجد بيانات للتصدير في هذا التاريخ",
     "errorDownload": "فشل في تنزيل الملف.",
     "fromDateRequired": "من فضلك حدد تاريخ البدء.",

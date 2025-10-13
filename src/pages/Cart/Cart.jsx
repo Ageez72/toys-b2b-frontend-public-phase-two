@@ -825,7 +825,7 @@ function Cart() {
                 className={`primary-btn w-full ${cartItems.length ? '' : 'disabled'}`}
                 onClick={handleSubmitChecker}
               >
-                {translation.confirmOrder}
+                {selectedPaymentMethod === "COD" ? translation.confirmOrder : translation.gotoPayment}
               </button>
             </div>
           </div>
