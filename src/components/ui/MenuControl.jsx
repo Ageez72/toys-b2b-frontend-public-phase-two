@@ -32,12 +32,10 @@ export default function MenuControl({ onGoTo }) {
         <ProfileDropdown onGoTo={onGoTo} />
         {
           state.isCorporate && state.corporateImage && (
-            <Image
+            <img
               className={`corporate-img hidden lg:block`}
               src={state.corporateImage}
-              alt="My Image"
-              width={60}
-              height={54}
+              alt={state.corporateName}
             />
           )
         }

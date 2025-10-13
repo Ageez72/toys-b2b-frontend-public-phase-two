@@ -47,12 +47,10 @@ export default function Header({ scroll, handleOffCanvas }) {
                 </div>
                 {
                   state.isCorporate && state.corporateImage && (
-                    <Image
+                    <img
                       className={`corporate-img lg:hidden`}
                       src={state.corporateImage}
-                      alt="My Image"
-                      width={40}
-                      height={34}
+                      alt={state.corporateName}
                     />
                   )
                 }

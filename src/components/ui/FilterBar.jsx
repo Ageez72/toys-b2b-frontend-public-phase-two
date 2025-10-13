@@ -61,7 +61,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             title: translation.clearance,
             value: "CLEARANCE"
         },
-    ]    
+    ]
     const router = useRouter();
     const useParams = useSearchParams();
     const lang = Cookies.get('lang') || 'AR';
@@ -107,6 +107,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
 
         if (isProductsPage) {
             const query = new URLSearchParams();
+            const params = new URLSearchParams(window.location.search);
 
             if (fromPrice) query.set('fromPrice', fromPrice);
             if (toPrice) query.set('toPrice', toPrice);
@@ -120,6 +121,10 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             if (brand && brand.length > 0) query.set('brand', brand.join(','));
             if (category && category.length > 0) query.set('category', category.join(','));
             if (catalog && catalog.length > 0) query.set('catalog', catalog.join(','));
+            if (params.has('page')) {
+                const pageValue = params.get('page');
+                query.set('page', pageValue);
+            }
             // Clear pagination token when filters change
             Cookies.remove('pagesToken');
             // Push new query to URL
@@ -139,7 +144,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             if (category && category.length > 0) searchParams.append('category', category.join(','));
             if (catalog && catalog.length > 0) searchParams.append('catalog', catalog.join(','));
             console.log(searchParams.toString());
-            
+
             searchItems = `${searchParams.toString()}`;
             Cookies.set('store_filters', searchItems);
             onClose && onClose()
@@ -349,7 +354,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                 <div className="filter-header flex items-center justify-between">
                     <div className={`flex items-center gap-3 ${count.hasAny ? "has-filters" : ""}`}>
                         {
-                             count.count > 0 ? <span className="red-filter">{count.count}</span> : null
+                            count.count > 0 ? <span className="red-filter">{count.count}</span> : null
                         }
                         <i className="icon-filter-search"></i>
                         <span className='filter-title'>{translation.filterResults}</span>
