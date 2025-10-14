@@ -1,7 +1,8 @@
 'use client'
+import Link from 'next/link'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
-export default function ErrorModal({title, open, onClose, message, style, summary }) {
+export default function ErrorModal({title, open, onClose, message, style, summary, hasBtn, hasBtnVal }) {
 
     return (
         <Dialog open={open} onClose={onClose} className="relative z-10000">
@@ -38,6 +39,11 @@ export default function ErrorModal({title, open, onClose, message, style, summar
                                                 ))}
                                             </div>
                                         )}
+                                        {
+                                            hasBtn && (
+                                                <Link href="/" className="primary-btn error-btn inline-block mt-4" type="submit">{hasBtnVal}</Link>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -38,6 +38,16 @@ function ResetPassword() {
     document.title = state.LANG === 'AR' ? ar.register.login : en.register.login;
   }, []);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const inactive = searchParams.get('inactive');
+
+    if (inactive === '1') {
+      setModalMessage(translation.resetPassExp);
+      setIsModalOpen(true);
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -49,6 +59,7 @@ function ResetPassword() {
   const password = watch("password");
 
   const onSubmit = async (data) => {
+    const lang = Cookies.get("lang") || "AR";
     if (data.password !== data.confirmPassword) {
       setMatchPassword(true);
       return
@@ -59,7 +70,7 @@ function ResetPassword() {
       const token = location.search.split("resettoken=")[1]; // from URL
 
       const result = await fetch(
-        `${BASE_API + endpoints.auth.resetPassword}?resettoken=${token}`,
+        `${BASE_API + endpoints.auth.resetPassword}&resettoken=${token}&lang=${lang}`,
         {
           method: "POST",
           headers: {
@@ -74,7 +85,7 @@ function ResetPassword() {
       const res = await result.json();
       setIsLoading(false);
       if (res.error === true) {
-        setCorpErrorMessage(res.response || translation.errorHappened);
+        setCorpErrorMessage(lang === "AR" ? res.messageAR : res.messageEN || translation.errorHappened);
         setIsErrorModalOpen(true);
       } else {
         setCorpSuccessMessage(res.response || translation.passwordChangeSuccess);
@@ -113,9 +124,17 @@ function ResetPassword() {
 
       <ErrorModal
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          if (modalMessage !== translation.resetPassExp) {
+            setIsModalOpen(false);
+          } else {
+            setIsModalOpen(true);
+          }
+        }}
         title={translation.error}
         message={modalMessage}
+        hasBtn={modalMessage !== translation.resetPassExp ? false : true}
+        hasBtnVal={modalMessage !== translation.resetPassExp ? null : translation.backLogin}
       />
       {isLoading && <Loader />}
       <div className="auth-container flex flex-col lg:flex-row gap-4">

@@ -215,6 +215,14 @@
         }
 
     }
+
+    &.error-btn {
+        background-color: #de1f1f;
+
+        &:hover {
+            background-color: #bd1d1d;
+        }
+    }
 }
 
 .disabled {

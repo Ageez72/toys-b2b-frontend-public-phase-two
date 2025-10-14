@@ -313,8 +313,9 @@
   },
   "deliveryFees": "Delivery Fees",
   "achievedTarget": "Achieved {achieved} {jod} out of {target} {jod}",
-  "addOrderErrorTitle":"Out of Stock Items",
+  "addOrderErrorTitle": "Out of Stock Items",
   "addOrderErrorMsg": "Some of the products in your order are currently out of stock. Please review your cart and update your order.",
   "areYouSure": "Are you sure you want to start a new cart?",
-  "mainAddress": "Main Address"
+  "mainAddress": "Main Address",
+  "resetPassExp": "It looks like the link has expired. Please request a new link to reset your password."
 }
