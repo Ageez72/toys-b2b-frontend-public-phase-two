@@ -59,15 +59,19 @@ function ResetPassword() {
       const token = location.search.split("resettoken=")[1]; // from URL
 
       const result = await fetch(
-        `${BASE_API + endpoints.auth.resetPassword}&resettoken=${token}`,
+        `${BASE_API + endpoints.auth.resetPassword}?resettoken=${token}`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
-            pwd: data.password, // password in headers
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            pwd: data.password,
+          }),
         }
       );
-      const res = await result.json();      
+
+      const res = await result.json();
       setIsLoading(false);
       if (res.error === true) {
         setCorpErrorMessage(res.response || translation.errorHappened);
