@@ -121,16 +121,17 @@ function Cart() {
   };
 
   const openPaymentWindow = (paymentUrl) => {
-    const width = 600;
-    const height = 700;
-    const left = (window.innerWidth - width) / 2;
-    const top = (window.innerHeight - height) / 2;
+    router.push(paymentUrl);
+    // const width = 600;
+    // const height = 700;
+    // const left = (window.innerWidth - width) / 2;
+    // const top = (window.innerHeight - height) / 2;
 
-    window.open(
-      paymentUrl,
-      'PaymentWindow',
-      `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=yes,status=no`
-    );
+    // window.open(
+    //   paymentUrl,
+    //   'PaymentWindow',
+    //   `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=yes,status=no`
+    // );
   };
 
 

@@ -7,7 +7,7 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 
 
-export default function ConfirmOrderModal({ open, setOpen }) {
+export default function ConfirmOrderModal({ open, setOpen, newOrder }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar); // default fallback
     useEffect(() => {
@@ -32,13 +32,25 @@ export default function ConfirmOrderModal({ open, setOpen }) {
                         </svg>
                         <h3 className="sub-title mt-5 mb-7">{translation.congrats}</h3>
                         <div className="bg-gray-50 flex gap-4 flex-wrap">
-                            <Link
-                                type="button"
-                                href="/home"
-                                className="primary-btn flex-1 inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 sm:w-auto text-white"
-                            >
-                                {translation.backToHome}
-                            </Link>
+                            {
+                                newOrder ? (
+                                    <button
+                                        type="button"
+                                        onClick={setOpen}
+                                        className="primary-btn flex-1 inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 sm:w-auto text-white"
+                                    >
+                                        {translation.close}
+                                    </button>
+                                ) : (
+                                    <Link
+                                        type="button"
+                                        href="/home"
+                                        className="primary-btn flex-1 inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 sm:w-auto text-white"
+                                    >
+                                        {translation.backToHome}
+                                    </Link>
+                                )
+                            }
                         </div>
                     </DialogPanel>
                 </div>

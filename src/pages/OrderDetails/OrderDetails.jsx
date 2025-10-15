@@ -73,6 +73,7 @@ export default function OrderDetails() {
                 <ConfirmOrderModal
                     open={openConfirmOrder}
                     setOpen={() => setOpenConfirmOrder(false)}
+                    newOrder={true}
                 />
             )}
 
