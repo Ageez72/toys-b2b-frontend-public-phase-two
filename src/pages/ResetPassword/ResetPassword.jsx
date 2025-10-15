@@ -40,7 +40,7 @@ function ResetPassword() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const inactive = searchParams.get('inactive');
+    const inactive = searchParams.get('inActive');
 
     if (inactive === '1') {
       setModalMessage(translation.resetPassExp);
