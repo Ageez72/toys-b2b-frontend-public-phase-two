@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import img1 from "../../assets/imgs/auth-bg.svg";
+import img2 from "../../assets/imgs/primereach.png";
 import pattern from "../../assets/imgs/pattern.svg";
 import logo from "../../assets/imgs/logo.svg";
 import LangSwitcher from '@/components/ui/LangSwitcher';
@@ -32,6 +33,7 @@ function ResetPassword() {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const translation = state.LANG === "EN" ? en : ar;
   const router = useRouter()
+  const siteLocation = Cookies.get("siteLocation")
 
   useEffect(() => {
     setIsLoading(false);
@@ -220,7 +222,7 @@ function ResetPassword() {
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
             <Image
-              src={img1}
+              src={siteLocation === "primereach" ? img2 : img1}
               alt="My Image"
               fill
               priority
