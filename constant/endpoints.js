@@ -1,4 +1,5 @@
 // export const BASE_API = 'https://pick.alekha.com:8443/pick/faces/redirect/b2b';
+import Cookies from "js-cookie";
 
 // Get current hostname
 const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
@@ -22,7 +23,7 @@ if (hostname === 'toyshop.theprimereach.com') {
 }
 
 // Set cookie (expires in 7 days)
-document.cookie = `siteLocation=${siteLocation}; path=/; max-age=${7 * 24 * 60 * 60}`;
+Cookies.set('siteLocation', siteLocation, { expires: 7, path: '/' });
 
 export { BASE_API };
 
