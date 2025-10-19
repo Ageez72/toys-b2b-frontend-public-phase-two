@@ -7,6 +7,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Suspense } from 'react';
 import { useAppContext } from '../../../context/AppContext';
+import Cookies from "js-cookie";
+import primereach from "../../assets/imgs/primereach.png";
 
 export default function Header({ scroll, handleOffCanvas }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -14,6 +16,8 @@ export default function Header({ scroll, handleOffCanvas }) {
   const isActive = (path) => {
     return pathname === path ? "active" : "";
   };
+
+  const siteLocation = Cookies.get("siteLocation")
 
   return (
     <>
@@ -51,6 +55,15 @@ export default function Header({ scroll, handleOffCanvas }) {
                       className={`corporate-img lg:hidden`}
                       src={state.corporateImage}
                       alt={state.corporateName}
+                    />
+                  )
+                }
+                {
+                  !state.isCorporate && siteLocation === "primereach" && (
+                    <img
+                      className={`corporate-img lg:hidden`}
+                      src={primereach.src}
+                      alt={primereach.src}
                     />
                   )
                 }

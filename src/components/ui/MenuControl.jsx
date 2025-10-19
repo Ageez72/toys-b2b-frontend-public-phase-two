@@ -5,10 +5,13 @@ import LangSwitcher from './LangSwitcher';
 import ProfileDropdown from './ProfileDropdown';
 import Link from 'next/link';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
+import primereach from "../../assets/imgs/primereach.png";
 
 export default function MenuControl({ onGoTo }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const cartLength = state?.STOREDITEMS?.length || 0;
+  const siteLocation = Cookies.get("siteLocation")
 
   return (
     <div className="flex items-center">
@@ -36,6 +39,15 @@ export default function MenuControl({ onGoTo }) {
               className={`corporate-img hidden lg:block`}
               src={state.corporateImage}
               alt={state.corporateName}
+            />
+          )
+        }
+        {
+          !state.isCorporate && siteLocation === "primereach" && (
+            <img
+              className={`corporate-img hidden lg:block`}
+              src={primereach.src}
+              alt={primereach.src}
             />
           )
         }
