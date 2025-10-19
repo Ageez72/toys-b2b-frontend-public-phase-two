@@ -13,6 +13,17 @@ const domainMap = {
 // Determine BASE_API based on hostname
 const BASE_API = domainMap[hostname] || 'https://pick.alekha.com:8443/pick/faces/redirect/b2b';
 
+// Determine siteLocation value
+let siteLocation = 'default';
+if (hostname === 'toyshop.theprimereach.com') {
+  siteLocation = 'primereach';
+} else if (hostname === 'toys-b2b-frontend-public-phase-two.vercel.app') {
+  siteLocation = 'primereach';
+}
+
+// Set cookie (expires in 7 days)
+document.cookie = `siteLocation=${siteLocation}; path=/; max-age=${7 * 24 * 60 * 60}`;
+
 export { BASE_API };
 
 export const endpoints = {
