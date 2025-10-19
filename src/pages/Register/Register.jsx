@@ -17,6 +17,7 @@ import ErrorModal from '@/components/ui/ErrorModal';
 import { endpoints } from '../../../constant/endpoints';
 import { BASE_API } from '../../../constant/endpoints';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false);
