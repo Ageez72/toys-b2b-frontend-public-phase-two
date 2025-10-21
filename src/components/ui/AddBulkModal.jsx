@@ -31,6 +31,7 @@ export default function AddBulkModal({ open, onClose }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const translation = state.LANG === "EN" ? en : ar;
   const lang = state.LANG || 'EN';
+  const siteLocation = Cookies.get("siteLocation")
 
   const showToastError = (message) => {
     showWarningToast(message, lang, translation.warning);
@@ -466,8 +467,8 @@ export default function AddBulkModal({ open, onClose }) {
                               {item.status === 'AVAILABLE' ? translation.available : translation.notAvailable}
                             </div>
                             <div className="item flex-1">{item.avlqty > 10 ? 10 : item.avlqty}</div>
-                            <div className="item flex-1">{item.price?.toFixed(2)} {translation.jod}</div>
-                            <div className="item flex-1">{item.total?.toFixed(2)} {translation.jod}</div>
+                            <div className="item flex-1">{item.price?.toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</div>
+                            <div className="item flex-1">{item.total?.toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</div>
                             <div className="item delete">
                               <button className="delete-btn" onClick={() => removeRow(index)}>
                                 <i className="icon-minus"></i>

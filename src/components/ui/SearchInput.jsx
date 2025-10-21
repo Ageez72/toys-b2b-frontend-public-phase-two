@@ -19,6 +19,7 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
     const debouncedSearchText = useDebounce(searchText, 500);
     const lang = Cookies.get('lang') || 'AR';
     const { state = {}, dispatch = () => {} } = useAppContext() || {};
+    const siteLocation = Cookies.get("siteLocation")
 
     // ✅ Setup translation state
     const [translation, setTranslation] = useState(ar); // fallback default
@@ -97,7 +98,7 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
                                 <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
                             </span>
                             <span className='title' onClick={() => handleSelectProduct(item)}>{item.name}</span>
-                            <span className='price'>{Number(item.price).toFixed(2)} {translation.jod}</span>
+                            <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                             <Link href={`products/${item.id}`} className='view-details flex items-center'>
                                 <span className="icon-arrow-left-01-round"></span>
                             </Link>

@@ -6,10 +6,12 @@ import ar from "../../../../../locales/ar.json";
 import Image from 'next/image'
 import { brokenImage } from '@/actions/utils';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 export default function OrderCard({ order }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar);
+    const siteLocation = Cookies.get("siteLocation")
 
     let status;
     if (order.statusCode == 0) {
@@ -65,7 +67,7 @@ export default function OrderCard({ order }) {
                         </div>
                         <div className="prod-price text-red-600 font-semibold text-sm">
                             {el.net}
-                            <span className='ms-1'>{translation.jod}</span>
+                            <span className='ms-1'>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                         </div>
                     </div>
                 ))}
@@ -86,7 +88,7 @@ export default function OrderCard({ order }) {
                 <span className='order-total-title'>{translation.orderTotal}</span>
                 <span className='order-total-price'>
                     {order.value}
-                    <span className='ms-1'>{translation.jod}</span>
+                    <span className='ms-1'>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </span>
             </div>
             <Link className='primary-btn block text-center mt-3' href={`/order-details?id=${order.orderID}`}>

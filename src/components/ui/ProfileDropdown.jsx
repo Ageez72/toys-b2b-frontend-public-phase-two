@@ -75,6 +75,7 @@ export default function ProfileDropdown({ onGoTo }) {
             dispatch({ type: "IS-CORPORATE", payload: true });
             dispatch({ type: "CORPORATE-NAME", payload: res?.data?.accountName });
             dispatch({ type: "CORPORATE-IMAGE", payload: res?.data?.corporateImage });
+            dispatch({ type: "CORPORATE-PAYMENT", payload: res?.data?.payment });
         } else {
             dispatch({ type: "IS-CORPORATE", payload: false });
             dispatch({ type: "CORPORATE-NAME", payload: ""});
@@ -116,6 +117,7 @@ export default function ProfileDropdown({ onGoTo }) {
             accountName: data?.data?.accountName,
             accountAddress: data?.data?.accountAddress,
             allQty: data?.data?.allQty,
+            payment: data?.data?.payment,
         }
         Cookies.set('profile', JSON.stringify(profile));
         if (data?.data?.active !== "Y" && data?.data?.viewOnly !== true) {

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import img1 from "../../assets/imgs/auth-bg.svg";
-import img2 from "../../assets/imgs/primereach.png";
+import img1 from "../../assets/imgs/auth-bg.png";
+import img2 from "../../assets/imgs/primeReach2.png";
 import pattern from "../../assets/imgs/pattern.svg";
 import logo from "../../assets/imgs/logo.svg";
 import LangSwitcher from '@/components/ui/LangSwitcher';
@@ -261,7 +261,7 @@ export default function Register() {
 
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <Image src={siteLocation === "primereach"? img2 : img1} alt="Register Background" fill priority style={{ objectFit: 'contain' }} />
+            <Image src={siteLocation === "primereach"? img2 : img1} className='auth-bg' alt="Register Background" fill priority style={{ objectFit: 'contain' }} />
           </div>
         </div>
       </div>

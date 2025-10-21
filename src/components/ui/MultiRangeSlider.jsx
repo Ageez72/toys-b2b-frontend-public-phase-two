@@ -16,6 +16,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
   const searchParams = useSearchParams();
   const fromPrice = Number(searchParams?.get("fromPrice"));
   const toPrice = Number(searchParams?.get("toPrice"));
+  const siteLocation = Cookies.get("siteLocation")
 
   const STORAGE_KEY = "price_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -137,11 +138,11 @@ const updateRangeBar = useCallback(() => {
                 <div ref={range} className="slider__range" />
                 <div className="slider__right-value">
                   <span>{maxVal}</span>
-                  <span> {translation.jod}</span>
+                  <span> {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </div>
                 <div className="slider__left-value">
                   <span>{minVal}</span>
-                  <span> {translation.jod}</span>
+                  <span> {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </div>
               </div>
             </div>

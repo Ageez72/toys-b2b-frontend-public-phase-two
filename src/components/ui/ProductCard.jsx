@@ -9,11 +9,13 @@ import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { getProfile } from '@/actions/utils';
+import Cookies from 'js-cookie';
 
 export default function ProductCard({ type, badgeType, related, item }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar); // fallback to Arabic
     const profileData = getProfile();
+    const siteLocation = Cookies.get("siteLocation")
 
     useEffect(() => {
         if (state.LANG === "EN") {
@@ -131,7 +133,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
                             <span className="product-card-price">
                                 {/* <span className="price-number">{Number(item?.priceAfterDisc).toFixed(2)}</span> */}
                                 <span className="price-number">{Number(item?.price).toFixed(2)}</span>
-                                <span className="price-unit mx-1">{translation.jod}</span>
+                                <span className="price-unit mx-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                             </span>
                         )
                     }

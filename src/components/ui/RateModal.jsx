@@ -128,7 +128,7 @@ export default function RateModal({ open, setOpen, totalStars = 5, itemId, onRef
                                     setComment('');
                                     setRateValidationError(false); 
                                 }}
-                                className="gray-btn flex-1 mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 shadow-xs sm:mt-0 sm:w-auto"
+                                className="gray-btn flex-1 inline-flex w-full justify-center rounded-md px-3 py-2 shadow-xs sm:mt-0 sm:w-auto"
                             >
                                 {translation.cancel}
                             </button>

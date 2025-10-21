@@ -97,9 +97,13 @@ export default function Hero({
                         </div>
                     )
                 }
-                <h2 className="adds-title">
-                    Regional Leaders<br /> In Toy Distribution
-                </h2>
+                {
+                    !exist && (
+                        <h2 className="adds-title">
+                            Regional Leaders<br /> In Toy Distribution
+                        </h2>
+                    )
+                }
             </div>
         </>
     );

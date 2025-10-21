@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import img1 from "../../assets/imgs/auth-bg.svg";
-import img2 from "../../assets/imgs/primereach.png";
+import img1 from "../../assets/imgs/auth-bg.png";
+import img2 from "../../assets/imgs/primeReach2.png";
 import pattern from "../../assets/imgs/pattern.svg";
 import logo from "../../assets/imgs/logo.svg";
 import LangSwitcher from '@/components/ui/LangSwitcher';
@@ -137,6 +137,7 @@ function Login() {
               fill
               priority
               style={{ objectFit: 'contain' }}
+              className='auth-bg'
             />
           </div>
         </div>

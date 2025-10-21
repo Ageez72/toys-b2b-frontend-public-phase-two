@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../../../../context/AppContext';
 import en from "../../../../../locales/en.json";
 import ar from "../../../../../locales/ar.json";
+import Cookies from 'js-cookie';
 
 export default function SellingTable({ data }) {
     const { state = {} } = useAppContext() || {};
     const translation = state.LANG === "EN" ? en : ar;
+    const siteLocation = Cookies.get("siteLocation")
 
     return (
         <div className="selling-table-container">
@@ -49,7 +51,7 @@ export default function SellingTable({ data }) {
                                 <p className='mb-0 font-bold'>{translation.wantTarget}</p>
                                 <p className='mb-0 font-bold'>
                                     <span>{item.target}</span>
-                                    <span className="price-unit mx-1">{translation.jod}</span>
+                                    <span className="price-unit mx-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                 </p>
                             </div>
                             <div className="progress-bar">
@@ -60,7 +62,7 @@ export default function SellingTable({ data }) {
                                     {translation.achievedTarget
                                         .replace("{achieved}", item.achieved)
                                         .replace("{target}", item.target)
-                                        .replace(/{jod}/g, translation.jod)}
+                                        .replace(/{jod}/g, siteLocation === "primereach" ? translation.iqd : translation.jod)}
                                 </p>
                                 <p className='mb-0 font-bold'>
                                     <span>{translation.remaining} </span>

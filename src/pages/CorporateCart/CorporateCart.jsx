@@ -37,6 +37,7 @@ function Cart() {
     message: "",
   });
   const router = useRouter()
+  const siteLocation = Cookies.get("siteLocation")
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
@@ -465,7 +466,7 @@ function Cart() {
                       </td>
                       <td className="px-3 py-3 text-center">
                         {Number(item.NET).toFixed(2)}
-                        <span className="ms-1">{translation.jod}</span>
+                        <span className="ms-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                       </td>
                     </tr>
                   ))}
@@ -487,21 +488,21 @@ function Cart() {
               <p className="mb-0">{translation.subtotal}</p>
               <p className="mb-0 flex items-center gap-1">
                 <span>{cartItems.length ? Number(orderSummary?.SUBTOTAL).toFixed(2) : 0}</span>
-                <span>{translation.jod}</span>
+                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
               </p>
             </div>
             <div className="order-item flex justify-between items-center mb-4">
               <p className="mb-0">{translation.tax}</p>
               <p className="mb-0 flex items-center gap-1">
                 <span>{cartItems.length ? Number(orderSummary?.TAX).toFixed(2) : 0}</span>
-                <span>{translation.jod}</span>
+                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
               </p>
             </div>
             <div className="order-item flex justify-between items-center mb-4">
               <p className="mb-0">{translation.discount}</p>
               <p className="mb-0 flex items-center gap-1">
                 <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span>
-                <span>{translation.jod}</span>
+                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
               </p>
             </div>
             <div className="order-item flex justify-between items-center mb-4">
@@ -509,7 +510,7 @@ function Cart() {
               <p className="mb-0 flex items-center gap-1">
                 {/* <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span> */}
                 <span>0</span>
-                <span>{translation.jod}</span>
+                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
               </p>
             </div>
             <hr />
@@ -517,7 +518,7 @@ function Cart() {
               <h3 className="sub-title">{translation.total}</h3>
               <p className="mb-0 flex items-center gap-1 price">
                 <span>{cartItems.length ? Number(orderSummary?.TOTAL).toFixed(2) : 0}</span>
-                <span>{translation.jod}</span>
+                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
               </p>
             </div>
             <Link

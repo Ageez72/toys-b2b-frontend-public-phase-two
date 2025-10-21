@@ -18,6 +18,7 @@ export default function OrderDetails() {
     const [loading, setLoading] = useState(false);
     const [orderDetails, setOrdersDetails] = useState([]);
     const [openConfirmOrder, setOpenConfirmOrder] = useState(false); // initially closed
+    const siteLocation = Cookies.get("siteLocation")
 
     const id = searchParams.get('id');
     const isNewOrder = searchParams.get('new') === '1'; // check if ?new=1 exists
@@ -129,7 +130,7 @@ export default function OrderDetails() {
                                                     <div className="flex items-center gap-2">
                                                         <p className="price flex items-center gap-1 mb-0 text-sm text-gray-700">
                                                             <span>{Number(item.subTotal).toFixed(2)}</span>
-                                                            <span>{translation.jod}</span>
+                                                            <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -190,7 +191,7 @@ export default function OrderDetails() {
                                 <p className="mb-0">{translation.subtotal}</p>
                                 <p className="mb-0 flex items-center gap-1">
                                     <span>{Number(orderDetails?.SUBTOTAL || orderDetails?.value || 0).toFixed(2)}</span>
-                                    <span>{translation.jod}</span>
+                                    <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                 </p>
                             </div>
 
@@ -198,7 +199,7 @@ export default function OrderDetails() {
                                 <p className="mb-0">{translation.tax}</p>
                                 <p className="mb-0 flex items-center gap-1">
                                     <span>{Number(orderDetails?.TAX || 0).toFixed(2)}</span>
-                                    <span>{translation.jod}</span>
+                                    <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                 </p>
                             </div>
 
@@ -206,7 +207,7 @@ export default function OrderDetails() {
                                 <p className="mb-0">{translation.discount}</p>
                                 <p className="mb-0 flex items-center gap-1">
                                     <span>{Number(orderDetails?.DISCOUNT || 0).toFixed(2)}</span>
-                                    <span>{translation.jod}</span>
+                                    <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                 </p>
                             </div>
 
@@ -214,7 +215,7 @@ export default function OrderDetails() {
                                 <p className="mb-0">{translation.deliveryFees}</p>
                                 <p className="mb-0 flex items-center gap-1">
                                     <span>0</span>
-                                    <span>{translation.jod}</span>
+                                    <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                 </p>
                             </div>
 
@@ -224,7 +225,7 @@ export default function OrderDetails() {
                                 <h3 className="sub-title">{translation.total}</h3>
                                 <p className="mb-0 flex items-center gap-1 price">
                                     <span>{Number(orderDetails?.value || 0).toFixed(2)}</span>
-                                    <span>{translation.jod}</span>
+                                    <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                 </p>
                             </div>
                         </div>

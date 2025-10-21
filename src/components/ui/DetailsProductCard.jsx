@@ -23,6 +23,7 @@ export default function DetailsProductCard({ item }) {
     const [isRequestBtnActive, setIsRequestBtnActive] = useState(true);
     const [translation, setTranslation] = useState(ar); // fallback to Arabic
     const profileData = getProfile();
+    const siteLocation = Cookies.get("siteLocation")
 
     useEffect(() => {
         if (state.LANG === "EN") {
@@ -169,7 +170,7 @@ export default function DetailsProductCard({ item }) {
                             <span className="product-card-price">
                                 {/* <span className="price-number">{Number(item?.priceAfterDisc).toFixed(2)}</span> */}
                                 <span className="price-number">{Number(item?.price).toFixed(2)}</span>
-                                <span className="price-unit mx-1">{translation.jod}</span>
+                                <span className="price-unit mx-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                             </span>
                         </div>
                     )
@@ -179,7 +180,7 @@ export default function DetailsProductCard({ item }) {
                         item?.itemdisc ? (
                             <span className='flex gap-1 discount'>
                                 <span>{Number(item?.price).toFixed(2)}</span>
-                                <span>{translation.jod}</span>
+                                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                             </span>
                         ) : ""
                     } */}

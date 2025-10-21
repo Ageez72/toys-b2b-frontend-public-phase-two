@@ -13,7 +13,8 @@ const initialState = {
   corporateName: "",
   corporateImage: "/imgs/corporate-default.png",
   DIRECTION: initialLang === "EN" ? "ltr" : "rtl",
-  NumberOfParams: 0
+  NumberOfParams: 0,
+  corporatePayment: ""
 };
 
 const AppContext = createContext();
@@ -53,6 +54,9 @@ const appReducer = (state, action) => {
 
     case "CORPORATE-IMAGE":
       return { ...state, corporateImage: action.payload };
+
+    case "CORPORATE-PAYMENT":
+      return { ...state, corporatePayment: action.payload };
     
     case "NUMBERS-OF-PARAMS":
       return { ...state, NumberOfParams: action.payload };
