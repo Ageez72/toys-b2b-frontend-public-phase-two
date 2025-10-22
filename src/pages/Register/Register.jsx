@@ -260,8 +260,12 @@ export default function Register() {
         </div>
 
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>
-          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <Image src={siteLocation === "primereach"? img2 : img1} className='auth-bg' alt="Register Background" fill priority style={{ objectFit: 'contain' }} />
+          <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
+            <img
+              src={siteLocation === "primereach" ? img2.src : img1.src}
+              alt="My Image"
+              className='auth-bg'
+            />
           </div>
         </div>
       </div>

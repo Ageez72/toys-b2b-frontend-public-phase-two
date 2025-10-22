@@ -220,13 +220,10 @@ function ResetPassword() {
           </form>
         </div>
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>
-          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <Image
-              src={siteLocation === "primereach" ? img2 : img1}
+          <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
+            <img
+              src={siteLocation === "primereach" ? img2.src : img1.src}
               alt="My Image"
-              fill
-              priority
-              style={{ objectFit: 'contain' }}
               className='auth-bg'
             />
           </div>
