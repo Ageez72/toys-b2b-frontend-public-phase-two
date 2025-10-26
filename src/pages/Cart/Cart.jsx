@@ -142,7 +142,7 @@ function Cart() {
     const data = {
       notes: notes,
       deliveryDate: "",
-      payOnline: selectedPaymentMethod === "COD" ? false : true,
+      payOnline: selectedPaymentMethod === "Online" ? true : false,
       branchNo: profileData?.accountAddress === selectedAddressId ? "" : selectedAddressId.id,
       address: profileData?.accountAddress === selectedAddressId ? selectedAddressId : selectedAddressId.address,
       'branch name': profileData?.accountAddress === selectedAddressId ? "" : selectedAddressId["branch name"],
