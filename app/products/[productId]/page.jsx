@@ -82,7 +82,7 @@ export default function Page() {
         </div>
         <div className="card mt-5">
           {
-            details?.brand.description || details?.category.description || details?.dimentions || details?.dimentions || details?.netWeightKg || details?.barcode || details?.constants.AGES || details?.constants.GENDER.length || details?.constants.MATERIAL.length ? (
+            details?.brand.description || details?.category.description || details?.dimensions || details?.assembledDimensionsCentimeters || details?.netWeightKg || details?.barcode || details?.constants.AGES || details?.constants.GENDER.length || details?.constants.MATERIAL.length ? (
               <h3 className="sub-title mb-5">{translation.productSpecifications}</h3>
             ) : null
           }
@@ -277,10 +277,10 @@ export default function Page() {
               )
             } */}
             {
-              details?.dimentions ? (
+              details?.dimensions ? (
                 <div className="item flex w-full">
-                  <div className="title w-1/2"><strong>{translation.dimentions}</strong></div>
-                  <div className="info w-1/2">{details?.dimentions}</div>
+                  <div className="title w-1/2"><strong>{translation.dimensions}</strong></div>
+                  <div className="info w-1/2">{details?.dimensions}</div>
                 </div>
               ) : null
             }
