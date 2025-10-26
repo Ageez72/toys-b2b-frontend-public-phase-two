@@ -33,7 +33,7 @@ function Cart() {
   const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash");
   const [orderSummary, setOrderSummary] = useState(null);
   const [isImporting, setIsImporting] = useState(false);
   const [importSummary, setImportSummary] = useState(null);
@@ -173,7 +173,7 @@ function Cart() {
           setAddOrderErrorAPIMsg(state.LANG === 'AR' ? response.data.messageAR : response.data.messageEN || translation.errorHappened)
         }
       } else if (response.data && !response.data?.error) {
-        if (selectedPaymentMethod === "COD") {
+        if (selectedPaymentMethod === "Cash") {
           Cookies.set('cart', "[]", { expires: 7, path: '/' });
           await axios.post(
             `${BASE_API}${endpoints.products.setCart}?lang=${state.LANG}&token=${Cookies.get('token')}`,
@@ -737,7 +737,7 @@ function Cart() {
                                       type="radio"
                                       name="paymentMethod"
                                       id="cashOnDelivery"
-                                      value="COD"
+                                      value="Cash"
                                       checked={selectedPaymentMethod === "Cash"}
                                       onChange={() => setSelectedPaymentMethod("Cash")}
                                     />
@@ -759,7 +759,7 @@ function Cart() {
                                       type="radio"
                                       name="paymentMethod"
                                       id="creditCardPayment"
-                                      value="creditCardPayment"
+                                      value="Online"
                                       checked={selectedPaymentMethod === "Online"}
                                       onChange={() => setSelectedPaymentMethod("Online")}
                                     />
@@ -836,7 +836,7 @@ function Cart() {
                 className={`primary-btn w-full ${cartItems.length ? '' : 'disabled'}`}
                 onClick={handleSubmitChecker}
               >
-                {selectedPaymentMethod === "COD" ? translation.confirmOrder : translation.gotoPayment}
+                {selectedPaymentMethod === "Online" ? translation.gotoPayment : translation.confirmOrder}
               </button>
             </div>
           </div>
