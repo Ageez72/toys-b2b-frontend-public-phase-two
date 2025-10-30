@@ -5,7 +5,7 @@ import Image from 'next/image';
 import img1 from "../../assets/imgs/auth-bg.png";
 import img2 from "../../assets/imgs/primeReach2.png";
 import pattern from "../../assets/imgs/pattern.svg";
-import logo from "../../assets/imgs/logo.svg";
+import logo from "../../assets/imgs/logo.png";
 import LangSwitcher from '@/components/ui/LangSwitcher';
 import { useForm } from 'react-hook-form';
 import { useAppContext } from '../../../context/AppContext';
@@ -205,7 +205,7 @@ function Login() {
         <div className='image-side md:flex-1 flex-12 hidden lg:block'>
           <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
             <img
-              src={siteLocation === "primereach"? img2.src : img1.src}
+              src={siteLocation === "primereach" ? img2.src : img1.src}
               alt="My Image"
               className='auth-bg'
             />

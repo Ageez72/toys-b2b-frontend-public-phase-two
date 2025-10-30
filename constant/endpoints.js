@@ -8,7 +8,7 @@ const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
 const domainMap = {
   'toys-b2b-frontend-public.vercel.app': 'https://pick.alekha.com:8443/pick/faces/redirect/b2b',
   'toys-b2b-frontend-public-phase-two.vercel.app': 'https://acc.alekha.com:8443/pick/faces/redirect/b2b',
-  'toyshop.theprimereach.com': 'https://pick.theprimereach.com.com:8443/pick/faces/redirect/b2b',
+  'toyshop.theprimereach.com': 'https://theprimereach.com:8443/pick/faces/redirect/b2b',
 };
 
 // Determine BASE_API based on hostname
