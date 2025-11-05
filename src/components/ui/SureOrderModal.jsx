@@ -1,15 +1,15 @@
 'use client';
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 
 export default function SureOrderModal({ open, setOpen, onHandleSubmit }) {
-  const { state = {}, dispatch = () => { } } = useAppContext() || {};
+    const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar); // default fallback
     useEffect(() => {
-      setTranslation(state.LANG === "EN" ? en : ar);
+        setTranslation(state.LANG === "EN" ? en : ar);
     }, [state.LANG]);
 
     return (
@@ -42,7 +42,7 @@ export default function SureOrderModal({ open, setOpen, onHandleSubmit }) {
                             <button
                                 type="button"
                                 onClick={() => setOpen(false)}
-                                className="gray-btn flex-1 mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 shadow-xs sm:mt-0 sm:w-auto"
+                                className="gray-btn flex-1 inline-flex w-full justify-center rounded-md px-3 py-2 shadow-xs sm:mt-0 sm:w-auto"
                             >
                                 {translation.no}
                             </button>

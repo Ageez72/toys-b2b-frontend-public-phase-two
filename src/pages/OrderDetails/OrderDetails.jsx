@@ -6,14 +6,16 @@ import ar from "../../../locales/ar.json";
 import { BASE_API, endpoints } from '../../../constant/endpoints';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import Link from 'next/link';
 import { brokenImage } from '@/actions/utils';
 import Loader from '@/components/ui/Loaders/Loader';
+import { useQuery } from '@tanstack/react-query';
 import ConfirmOrderModal from '@/components/ui/ConfirmOrderModal';
 
 export default function OrderDetails() {
+    const { push } = useRouter();
     const searchParams = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [orderDetails, setOrdersDetails] = useState([]);
@@ -23,7 +25,7 @@ export default function OrderDetails() {
     const id = searchParams.get('id');
     const isNewOrder = searchParams.get('new') === '1'; // check if ?new=1 exists
 
-    const { state = {}, dispatch = () => {} } = useAppContext() || {};
+    const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar);
 
     useEffect(() => {
@@ -64,6 +66,28 @@ export default function OrderDetails() {
     if (orderDetails.statusCode == 0) status = "canceled";
     else if (orderDetails.statusCode == 1) status = "in-progress";
     else if (orderDetails.statusCode == 2) status = "closed";
+
+
+
+    const fetchProfile = async () => {
+        const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
+        return res;
+    };
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['profile'],
+        queryFn: fetchProfile,
+        staleTime: 1000 * 60 * 5,
+        retry: (failureCount, error) => {
+            if (error?.response?.status === 401) return false;
+            return failureCount < 3;
+        }
+    });
+    if (isLoading) return <Loader />;
+    if (error instanceof Error) {
+        push("/");
+        return null;
+    }
 
     return (
         <>

@@ -59,7 +59,7 @@ function Cart() {
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
-    setSelectedPaymentMethod(state.corporatePayment ? state.corporatePayment : "Cash")    
+    setSelectedPaymentMethod(state.corporatePayment ? state.corporatePayment : "Cash")
     document.title = state.LANG === 'AR' ? ar.cart : en.cart;
   }, [state.LANG, state.corporatePayment]);
 
@@ -470,7 +470,7 @@ function Cart() {
   const handleReplaceCartCancel = () => {
     setShowReplaceCartPopup(false);
     setPendingImportedItems(null);
-  };  
+  };
 
   return (
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">

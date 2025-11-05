@@ -450,7 +450,7 @@
     .socials {
         position: absolute;
         bottom: 0;
-        left: 0;
+        right: 0;
         transition: all 0.3s ease-in-out;
         transform: translateY(122px);
         opacity: 0;
@@ -786,6 +786,7 @@ img {
     height: 50px;
     object-fit: contain;
     border-radius: 0;
+
     @media (max-width: 600px) {
         width: 90px;
     }

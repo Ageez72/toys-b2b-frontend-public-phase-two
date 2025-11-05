@@ -8,7 +8,7 @@ const ContactTools = () => {
   const [showButton, setShowButton] = useState(false);
   const [profile, setProfile] = useState(null);
   const [mounted, setMounted] = useState(false);
-  const { state = {}, dispatch = () => {} } = useAppContext() || {};
+  const { state = {}, dispatch = () => { } } = useAppContext() || {};
 
   useEffect(() => {
     setMounted(true);
@@ -75,14 +75,6 @@ const ContactTools = () => {
 
   return (
     <div className="contact-tools">
-      <button
-        onClick={scrollToTop}
-        aria-label="back-to-top"
-        className={`back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
-      >
-        <i className="icon-arrow-up"></i>
-      </button>
-
       {hasContact && (
         <>
           <div className="contact-link circle-icon-container contact-btn" onClick={toggleOpen}>
@@ -131,6 +123,13 @@ const ContactTools = () => {
           </div>
         </>
       )}
+      <button
+        onClick={scrollToTop}
+        aria-label="back-to-top"
+        className={`back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
+      >
+        <i className="icon-arrow-up"></i>
+      </button>
     </div>
   );
 };

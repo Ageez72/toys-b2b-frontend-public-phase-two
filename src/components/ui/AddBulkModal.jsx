@@ -412,7 +412,7 @@ export default function AddBulkModal({ open, onClose }) {
                     <div className="info flex items-center justify-between gap-1">
                       <div className="item flex-1">{translation.productNumber}</div>
                       <div className="item flex-1">{translation.availablity}</div>
-                      <div className="item flex-1">{translation.totalItems}</div>
+                      {/* <div className="item flex-1">{translation.totalItems}</div> */}
                       <div className="item flex-1">{translation.itemPrice}</div>
                       <div className="item flex-1">{translation.totalPrice}</div>
                       <div className="item delete"></div>
@@ -426,53 +426,86 @@ export default function AddBulkModal({ open, onClose }) {
                         <div className="name-qty flex items-center justify-between">
                           <div className="name">
                             {item.isConfirmed ? (
-                              <input
-                                type="text"
-                                value={item.name}
-                                title={item.name}
-                                readOnly
-                                className="w-full mobile-box"
-                              />
+                              <>
+                                <label className="mobile-title hidden">{translation.name}</label>
+                                <input
+                                  type="text"
+                                  value={item.name}
+                                  title={item.name}
+                                  readOnly
+                                  className="w-full mobile-box"
+                                />
+                              </>
                             ) : (
-                              <SearchInput
-                                bulk={true}
-                                onCollectBulkItems={(selectedItem) =>
-                                  handleProductSelect(selectedItem, index)
-                                }
-                                pageSize="10"
-                                resetTrigger={resetTriggers[index] || false}
-                                onResetDone={() => handleResetDone(index)}
-                              />
+                              <>
+                                <label className="mobile-title hidden">{translation.name}</label>
+                                <SearchInput
+                                  bulk={true}
+                                  onCollectBulkItems={(selectedItem) =>
+                                    handleProductSelect(selectedItem, index)
+                                  }
+                                  pageSize="10"
+                                  resetTrigger={resetTriggers[index] || false}
+                                  onResetDone={() => handleResetDone(index)}
+                                />
+                              </>
                             )}
                           </div>
-                          <div className="qty">
-                            <input
-                              type="number"
-                              min="1"
-                              placeholder={translation.qty}
-                              value={item.qty || ''}
-                              onChange={(e) =>
-                                updateQty(index, parseInt(e.target.value || '0'))
-                              }
-                              className="w-full mobile-box"
-                              disabled={!item.isConfirmed}
-                            />
-                          </div>
+                          {
+                            item.isConfirmed ? (
+                              <div className="qty">
+                                <label className="mobile-title hidden">{translation.qty}</label>
+                                <input
+                                  type="number"
+                                  min="1"
+                                  placeholder={translation.qty}
+                                  value={item.qty || ''}
+                                  onChange={(e) =>
+                                    updateQty(index, parseInt(e.target.value || '0'))
+                                  }
+                                  className="w-full mobile-box"
+                                  disabled={!item.isConfirmed}
+                                />
+                              </div>
+                            ) : null
+                          }
                         </div>
 
                         {item.isConfirmed && (
                           <div className="info flex items-center justify-between">
-                            <div className="item flex-1">{item.id}</div>
                             <div className="item flex-1">
-                              {item.status === 'AVAILABLE' ? translation.available : translation.notAvailable}
+                              <label className="mobile-title hidden">{translation.productNumber}</label>
+                              <span className="mobile-box">{item.id}</span>
                             </div>
-                            <div className="item flex-1">{item.avlqty > 10 ? 10 : item.avlqty}</div>
-                            <div className="item flex-1">{item.price?.toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</div>
-                            <div className="item flex-1">{item.total?.toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</div>
+                            <div className="item flex-1">
+                              <label className="mobile-title hidden">{translation.availablity}</label>
+                              <span className="mobile-box">
+                                {item.status === 'AVAILABLE' ? translation.available : translation.notAvailable}
+                              </span>
+                            </div>
+                            {/* <div className="item flex-1">
+                              <label className="mobile-title hidden">{translation.totalItems}</label>
+                              <span className="mobile-box">{item.avlqty}</span>
+                            </div> */}
+                            <div className="item flex-1">
+                              <label className="mobile-title hidden">{translation.itemPrice}</label>
+                              <span className="mobile-box">
+                                {item.price?.toFixed(2)} {translation.jod}
+                              </span>
+                            </div>
+                            <div className="item flex-1">
+                              <label className="mobile-title hidden">{translation.totalPrice}</label>
+                              <span className="mobile-box">
+                                {item.total?.toFixed(2)} {translation.jod}
+                              </span>
+                            </div>
                             <div className="item delete">
-                              <button className="delete-btn" onClick={() => removeRow(index)}>
+                              <button
+                                className="delete-btn"
+                                onClick={() => removeRow(index)}
+                              >
                                 <i className="icon-minus"></i>
-                                <span className='hidden'>Delete</span>
+                                <span className="mobile-title hidden">{translation.delete}</span>
                               </button>
                             </div>
                           </div>
