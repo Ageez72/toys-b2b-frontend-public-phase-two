@@ -73,21 +73,23 @@ export default function OrderDetails() {
         const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
         return res;
     };
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
+                // return res;
+            } catch (error) {
+                console.error("Failed to fetch profile:", err);
+                router.push("/"); // redirect on error
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['profile'],
-        queryFn: fetchProfile,
-        staleTime: 1000 * 60 * 5,
-        retry: (failureCount, error) => {
-            if (error?.response?.status === 401) return false;
-            return failureCount < 3;
-        }
-    });
-    if (isLoading) return <Loader />;
-    if (error instanceof Error) {
-        push("/");
-        return null;
-    }
+        fetchProfile()
+    }, [lang, push])
+
+    if (loading) return <Loader />;
 
     return (
         <>
