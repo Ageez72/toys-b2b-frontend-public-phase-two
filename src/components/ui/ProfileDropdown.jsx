@@ -78,7 +78,7 @@ export default function ProfileDropdown({ onGoTo }) {
             dispatch({ type: "CORPORATE-PAYMENT", payload: res?.data?.payment });
         } else {
             dispatch({ type: "IS-CORPORATE", payload: false });
-            dispatch({ type: "CORPORATE-NAME", payload: ""});
+            dispatch({ type: "CORPORATE-NAME", payload: "" });
             dispatch({ type: "CORPORATE-IMAGE", payload: "" });
         }
 

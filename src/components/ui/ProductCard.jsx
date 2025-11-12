@@ -49,7 +49,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 setIsModalOpen(true);
                 setIsRequestBtnActive(false);
             } else {
-                setIsErrorModalOpen(true)
+                // setIsErrorModalOpen(true)
             }
         } catch (error) {
             setIsModalOpen(false);
@@ -59,7 +59,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
 
     const rate = item?.reviews.rating || 0;
     return (
-        <div className={`card product-card ${type === 'grid' ? 'grid-card flex items-center gap-3' : 'list-card'}`}>
+        <div className={`card product-card ${type === 'grid' ? 'grid-card flex items-center gap-3' : 'list-card'}`} id={`product-${item.id}`}>
             <SuccessModal
                 icon="icon-box1"
                 open={isModalOpen}
@@ -68,7 +68,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 message={translation.informYou}
             />
             <div className="product-card-image">
-                <Link href={`/products/${encodeURIComponent(item.id)}`}>
+                <Link href={`/products/${encodeURIComponent(item.id)}`} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
                     <img src={item?.images["800"]?.main} alt={item?.name} layout="responsive" title={item.name} />
                 </Link>
             </div>
@@ -150,7 +150,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
                     )
                 }
                 <h2 className="product-card-title cursor-pointer short-title" title={item.name}>
-                    <Link href={`/products/${encodeURIComponent(item.id)}`}>
+                    <Link href={`/products/${encodeURIComponent(item.id)}`} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
                         {item.name}
                     </Link>
                 </h2>

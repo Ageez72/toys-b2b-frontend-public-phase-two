@@ -54,7 +54,7 @@ export default function Menu({ scroll }) {
         </li>
 
         <li className="allProductsTab">
-          <Link href="/products?itemStatus=AVAILABLE" className="block py-2 px-3">
+          <Link href="/products?itemStatus=AVAILABLE" className="block py-2 px-3" onClick={() => sessionStorage.removeItem('scrollToProduct')}>
             {translation.allProducts}
           </Link>
         </li>

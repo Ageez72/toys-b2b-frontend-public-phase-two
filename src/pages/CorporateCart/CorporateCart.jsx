@@ -76,7 +76,7 @@ function Cart() {
   };
 
   useEffect(() => {
-    const profile = getProfile(); 
+    const profile = getProfile();
     if (!profile.isCorporate) {
       setLoading(true)
       router.push('/cart');
@@ -242,7 +242,7 @@ function Cart() {
         }
 
         // replace bulkItems with imported items only
-        console.log(importedItems);
+        // console.log(importedItems);
 
         if (importedItems.length) {
           Cookies.set('cart', JSON.stringify(importedItems), { expires: 7, path: '/' });

@@ -28,11 +28,11 @@ export default function RateCard({ reviews, id, onRefresh }) {
             // setLoading(true);
             const response = await axios.get(`${BASE_API}${endpoints.products.removeReview}&token=${Cookies.get('token')}&id=${id}&username=${storedprofile.username}`);
             if (response.data && !response.data.ERROR) {
-                console.log(response.data);
+                // console.log(response.data);
                 onRefresh && onRefresh()
                 setOpenRemoveModal(false)
             } else {
-                console.log('Error in ADD ORDER:', response.data);
+                // console.log('Error in ADD ORDER:', response.data);
             }
         } catch (error) {
             console.error('Order submission failed:', error);

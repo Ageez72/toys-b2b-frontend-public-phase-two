@@ -20,11 +20,11 @@ export default function Home() {
         const token = Cookies.get("token");
 
         const url = `${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${token}`;
-        console.log("Calling profile API:", url);
+        // console.log("Calling profile API:", url);
 
         const response = await axios.get(url);
         const data = response?.data;
-        console.log(response);
+        // console.log(response);
 
 
         if (data) {
@@ -40,7 +40,7 @@ export default function Home() {
           };
 
           Cookies.set("profile", JSON.stringify(profile));
-          console.log("Profile fetched successfully. Redirecting to /home...");
+          // console.log("Profile fetched successfully. Redirecting to /home...");
           router.push("/home");
         } else {
           console.warn("Profile data missing. Redirecting to /");

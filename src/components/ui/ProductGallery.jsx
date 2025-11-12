@@ -46,8 +46,8 @@ export default function ProductGallery({ images, main }) {
                     setSelectedImage(img);
                     setActiveIndex(index);
 
-                    console.log(img);
-                    
+                    // console.log(img);
+
                 }}
                 className={`border rounded-md p-1 ${selectedImage === img ? 'border-red-500' : 'border-transparent'
                     }`}
@@ -84,64 +84,64 @@ export default function ProductGallery({ images, main }) {
     };
 
 
- const renderMainContent = () => {
-    const isYouTube = isYouTubeLink(selectedImage);
-    const isVideo = isVideoFile(selectedImage);
-    const youtubeId = getYouTubeId(selectedImage);
+    const renderMainContent = () => {
+        const isYouTube = isYouTubeLink(selectedImage);
+        const isVideo = isVideoFile(selectedImage);
+        const youtubeId = getYouTubeId(selectedImage);
 
-    let content;
+        let content;
 
-    if (isYouTube && youtubeId) {
-        content = (
-            <iframe
-                className="w-full h-full aspect-video"
-                src={`https://www.youtube.com/embed/${youtubeId}`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-            ></iframe>
-        );
-    } else if (isVideo) {
-        content = (
-            <video
-                ref={videoRef}
-                controls
-                className="w-full max-h-[500px] w-auto max-w-full rounded object-contain"
-            >
-                <source src={selectedImage} type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-        );
-    } else {
-        content = (
-            <img
-                src={selectedImage}
-                alt="Selected product"
-                className="max-h-[500px] w-auto max-w-full object-contain rounded"
-            />
-        );
-    }
-
-    const selectedIndex = images.indexOf(selectedImage);
-
-    return (
-        <div className="group w-full max-w-full overflow-hidden">
-            <div className="w-full max-h-[500px] aspect-video flex items-center justify-center">
-                {content}
-            </div>
-
-            {/* ✅ Show expand button ONLY if selected is NOT video */}
-            {!isYouTube && !isVideo && (
-                <button
-                    onClick={() => openModal(selectedIndex)}
-                    className={`absolute top-2 ${state.LANG === 'AR' ? 'right-2' : 'left-2'} z-10 text-white bg-black/50 p-2 rounded-full flex items-center justify-center cursor-pointer`}
+        if (isYouTube && youtubeId) {
+            content = (
+                <iframe
+                    className="w-full h-full aspect-video"
+                    src={`https://www.youtube.com/embed/${youtubeId}`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                ></iframe>
+            );
+        } else if (isVideo) {
+            content = (
+                <video
+                    ref={videoRef}
+                    controls
+                    className="w-full max-h-[500px] w-auto max-w-full rounded object-contain"
                 >
-                    <i className="icon-expand-solid text-xl"></i>
-                </button>
-            )}
-        </div>
-    );
-};
+                    <source src={selectedImage} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            );
+        } else {
+            content = (
+                <img
+                    src={selectedImage}
+                    alt="Selected product"
+                    className="max-h-[500px] w-auto max-w-full object-contain rounded"
+                />
+            );
+        }
+
+        const selectedIndex = images.indexOf(selectedImage);
+
+        return (
+            <div className="group w-full max-w-full overflow-hidden">
+                <div className="w-full max-h-[500px] aspect-video flex items-center justify-center">
+                    {content}
+                </div>
+
+                {/* ✅ Show expand button ONLY if selected is NOT video */}
+                {!isYouTube && !isVideo && (
+                    <button
+                        onClick={() => openModal(selectedIndex)}
+                        className={`absolute top-2 ${state.LANG === 'AR' ? 'right-2' : 'left-2'} z-10 text-white bg-black/50 p-2 rounded-full flex items-center justify-center cursor-pointer`}
+                    >
+                        <i className="icon-expand-solid text-xl"></i>
+                    </button>
+                )}
+            </div>
+        );
+    };
 
 
     return (

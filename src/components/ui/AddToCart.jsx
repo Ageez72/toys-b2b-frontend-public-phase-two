@@ -77,7 +77,7 @@ export default function AddToCart({ item }) {
         }
       );
 
-      console.log(res.data);
+      // console.log(res.data);
       showSuccessToast(translation.addedToCart, lang, translation.success);
     } catch (error) {
       console.error(error);

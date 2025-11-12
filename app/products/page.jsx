@@ -149,7 +149,7 @@ export default function Page() {
     retry: false,
   });
 
-  if(data?.data?.pagesToken){
+  if (data?.data?.pagesToken) {
     Cookies.set('b2bPagesToken', data?.data?.pagesToken);
   }
   // if (isLoading) return <VerticalLoader />;
@@ -176,6 +176,20 @@ export default function Page() {
     };
   }
   const result = checkFilterParams(queryString);
+
+  useEffect(() => {
+    const productId = sessionStorage.getItem('scrollToProduct');
+    if (productId) {
+      setTimeout(() => {
+
+        const el = document.getElementById(`product-${productId}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        // sessionStorage.removeItem('scrollToProduct');
+      }, 1000);
+    }
+  }, []);
 
   return (
     <div className="max-w-screen-xl mx-auto p-4 all-products-container section-min">

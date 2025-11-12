@@ -99,7 +99,7 @@ function ResetPassword() {
         });
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setIsLoading(false);
       setCorpErrorMessage(err.response?.data?.response || translation.errorHappened);
       setIsErrorModalOpen(true);

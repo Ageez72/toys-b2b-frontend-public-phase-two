@@ -89,7 +89,7 @@ function Cart() {
 
   const handleGetOrder = async () => {
     const items = getCart();
-    console.log(items);
+    // console.log(items);
 
     try {
       const response = await axios.post(`${BASE_API}${endpoints.products.checkout}&lang=${state.LANG}&token=${Cookies.get('token')}`, items, {});
@@ -160,7 +160,7 @@ function Cart() {
           'Content-Type': 'application/json',
         }
       });
-      console.log(response?.data);
+      // console.log(response?.data);
 
       if (response.data?.error) {
         if (response.data.errorType === "qty") {
