@@ -397,9 +397,13 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                     )
                                 }
 
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min)) || 0} max={Math.floor(parseFloat(filtersSections?.price_max)) || 1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
-                                </Suspense>
+                                {
+                                    filtersSections?.price_min && filtersSections?.price_max && (
+                                        <Suspense fallback={<div>Loading...</div>}>
+                                            <MultiRangeSlider title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min)) || 0} max={Math.floor(parseFloat(filtersSections?.price_max)) || 1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
+                                        </Suspense>
+                                    )
+                                }
 
                                 {
                                     filtersSections?.age_min && filtersSections?.age_max && (

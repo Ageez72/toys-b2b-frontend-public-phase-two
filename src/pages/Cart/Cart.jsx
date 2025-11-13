@@ -610,7 +610,7 @@ function Cart() {
                   {orderSummary?.ITEMS?.map((item) => (
                     <tr className={`bg-white ${addOrderErrorList?.map(String).includes(String(item.id)) ? "hass-qty-error" : ""} ${item.id}`} key={item.id}>
                       <td className="px-3 py-3 text-center">
-                        <Link href={`/products/${item.id}`} className="w-full h-full flex justify-center items-center">
+                        <Link href={`/products/${encodeURIComponent(item.id)}`} className="w-full h-full flex justify-center items-center">
                           <img src={item.images["800"].main} width={80} alt={item.name || "Product"} />
                         </Link>
                       </td>
@@ -621,7 +621,7 @@ function Cart() {
                         {item.barcode}
                       </td>
                       <td className="px-3 py-3 text-center">
-                        <Link href={`/products/${item.id}`}>{item.name}</Link>
+                        <Link href={`/products/${encodeURIComponent(item.id)}`}>{item.name}</Link>
                       </td>
                       <td className="px-3 py-3 text-center">
                         {item.RSP}

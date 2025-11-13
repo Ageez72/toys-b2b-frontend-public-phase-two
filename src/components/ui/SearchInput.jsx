@@ -18,7 +18,7 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
     const [hasSelected, setHasSelected] = useState(false);
     const debouncedSearchText = useDebounce(searchText, 500);
     const lang = Cookies.get('lang') || 'AR';
-    const { state = {}, dispatch = () => {} } = useAppContext() || {};
+    const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const siteLocation = Cookies.get("siteLocation")
 
     // ✅ Setup translation state
@@ -99,7 +99,7 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
                             </span>
                             <span className='title' onClick={() => handleSelectProduct(item)}>{item.name}</span>
                             <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
-                            <Link href={`products/${item.id}`} className='view-details flex items-center'>
+                            <Link href={`products/${encodeURIComponent(item.id)}`} className='view-details flex items-center'>
                                 <span className="icon-arrow-left-01-round"></span>
                             </Link>
                         </div>
