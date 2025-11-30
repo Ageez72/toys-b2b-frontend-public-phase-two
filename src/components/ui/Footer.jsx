@@ -4,7 +4,7 @@ import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 export default function Footer() {
-  const { state = {}, dispatch = () => {} } = useAppContext() || {};
+  const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // fallback to Arabic
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function Footer() {
   const d = new Date();
   return (
     <>
-      <footer>
+      <footer className='isDesktop'>
         <section className="footer-section flex items-center justify-center max-w-screen-xl mx-auto p-4 text-center">
           <p className="mb-0">{translation.copyrights} {d.getFullYear()}</p>
         </section>

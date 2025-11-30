@@ -24,17 +24,13 @@
 
     ul {
         .active {
-            color: #8D1A14;
-            background-color: #8D1A141F;
-
-            i::before {
+            @media (min-width: 993px) {
                 color: #8D1A14;
-            }
-        }
+                background-color: #8D1A141F;
 
-        button>i {
-            @media (max-width: 64rem) {
-                transform: rotate(270deg);
+                i::before {
+                    color: #8D1A14;
+                }
             }
         }
     }
@@ -162,6 +158,11 @@
     &.in-progress {
         color: #D8A343;
         background-color: #D8A3431F;
+    }
+
+    &.in-delivery {
+        color: #165897;
+        background-color: #1658971F;
     }
 }
 

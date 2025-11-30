@@ -20,6 +20,8 @@ export default function OrderCard({ order }) {
         status = "in-progress"
     } else if (order.statusCode == 2) {
         status = "closed"
+    } else if (order.statusCode == 3) {
+        status = "in-delivery"
     }
 
 

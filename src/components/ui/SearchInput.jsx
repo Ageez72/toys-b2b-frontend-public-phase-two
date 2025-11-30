@@ -93,16 +93,33 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
             {showResults && !isFetching && (
                 <div className={`search-results-listing ${bulk ? 'bulk-listing' : ''}`}>
                     {data.items.map((item) => (
-                        <div className='search-item flex items-center justify-evenly' key={item.id}>
-                            <span className='image'>
-                                <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
-                            </span>
-                            <span className='title' onClick={() => handleSelectProduct(item)}>{item.name}</span>
-                            <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
-                            <Link href={`products/${encodeURIComponent(item.id)}`} className='view-details flex items-center'>
-                                <span className="icon-arrow-left-01-round"></span>
-                            </Link>
-                        </div>
+                        <>
+                            <div className="isDesktop" key={item.id}>
+                                <div className='search-item flex items-center justify-evenly'>
+                                    <span className='image'>
+                                        <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
+                                    </span>
+                                    <span className='title' onClick={() => handleSelectProduct(item)}>{item.name}</span>
+                                    <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                    <Link href={`products/${encodeURIComponent(item.id)}`} className='view-details flex items-center'>
+                                        <span className="icon-arrow-left-01-round"></span>
+                                    </Link>
+                                </div>
+                            </div>
+                            <div className="isMobile" key={item.id}>
+                                <div className='search-item flex items-center justify-between'>
+                                    <div className='flex items-center' style={{ width: "86%" }}>
+                                        <span className='image'>
+                                            <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
+                                        </span>
+                                        <Link href={`products/${encodeURIComponent(item.id)}`} className='title'>{item.name}</Link>
+                                    </div>
+                                    <Link href={`products/${encodeURIComponent(item.id)}`} className='view-details flex items-center'>
+                                        <span className="icon-arrow-left-01-round"></span>
+                                    </Link>
+                                </div>
+                            </div>
+                        </>
                     ))}
 
                     {!bulk && (

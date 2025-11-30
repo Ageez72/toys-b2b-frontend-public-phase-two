@@ -9,7 +9,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import ErrorModal from '../../ErrorModal';
 
-export default function StatementOfAccount({ order }) {
+export default function StatementOfAccount({ closePanel }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar);
     const [fromdate, setFromdate] = useState("");
@@ -62,9 +62,9 @@ export default function StatementOfAccount({ order }) {
     const fetchStatementOfAccountFile = async (type) => {
         if (!validateDates()) return;
 
-        if(type === "excel") {
+        if (type === "excel") {
             setIsExportingExcel(true)
-        } else if(type === "pdf") {
+        } else if (type === "pdf") {
             setIsExportingPDF(true)
         }
 
@@ -89,7 +89,7 @@ export default function StatementOfAccount({ order }) {
             console.error("Download failed", error);
             setIsErrorModalOpen(true);
             setErrorModalMessage(translation.errorDownload);
-        }finally {
+        } finally {
             setIsExportingExcel(false)
             setIsExportingPDF(false)
             setFromdate("")
@@ -105,7 +105,12 @@ export default function StatementOfAccount({ order }) {
                 title={translation.error}
                 message={errorModalMessage}
             />
-            <h2 className='sub-title mb-3'>{translation.statementOfAccount}</h2>
+            <div className="flex items-center gap-2 mb-3">
+                <span className='mobile-back-box isMobile' onClick={() => closePanel()}>
+                    <i className="icon-arrow-right"></i>
+                </span>
+                <h2 className='sub-title'>{translation.statementOfAccount}</h2>
+            </div>
             <p>{translation.statementOfAccountDesc}</p>
 
             <form className='mt-8' onSubmit={(e) => e.preventDefault()}>

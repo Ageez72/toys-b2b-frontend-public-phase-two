@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Select from 'react-select';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { useAppContext } from '../../../context/AppContext';
+import Cookies from 'js-cookie';
 
 export default function Select2Form({ title, name, initiallyOpen = false, isProductsPage, options, handleMultiItem, initSelected }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -50,6 +51,7 @@ export default function Select2Form({ title, name, initiallyOpen = false, isProd
 
   const handleSelectChange = selected => {
     setSelectedOptions(selected);
+    Cookies.set('filterstatus', "filter");
     handleMultiItem(name, selected);
   };
 

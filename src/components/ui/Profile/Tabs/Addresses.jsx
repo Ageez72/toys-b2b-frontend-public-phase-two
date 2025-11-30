@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import AddressesLoader from '../../Loaders/AddressesLoader';
 import { useRouter } from 'next/navigation';
 
-export default function Adressess() {
+export default function Adressess({ closePanel }) {
   const [loading, setLoading] = useState(false);
   const [addressesItems, setAddressesItems] = useState([]);
   const { state = {} } = useAppContext() || {};
@@ -56,8 +56,12 @@ export default function Adressess() {
 
   return (
     <div className='py-3'>
-      <h2 className='sub-title mb-6'>{translation.addresses}</h2>
-
+      <div className="flex items-center gap-2 mb-6">
+        <span className='mobile-back-box isMobile' onClick={() => closePanel()}>
+          <i className="icon-arrow-right"></i>
+        </span>
+        <h2 className='sub-title'>{translation.addresses}</h2>
+      </div>
       {loading && <AddressesLoader />}
 
       {!loading && (

@@ -164,7 +164,7 @@ export default function Page() {
 
   function checkFilterParams(queryString) {
     const paramsToCheck = ['fromPrice', 'toPrice', 'itemType', 'brand', 'fromAge', 'toAge', 'catalog', 'category'];
-    let count = 0;
+    let count = 1;
 
     paramsToCheck.forEach(param => {
       if (queryString.includes(`${param}=`)) {
@@ -214,11 +214,6 @@ export default function Page() {
             <div className="back" onClick={() => handleFilterOnMobile("close")}></div>
           </div>
           <div className="w-3/4 products-list">
-            {
-              queryString !== '' && data?.data?.itemCount ? (
-                <h2 className="products-results-title">{translation.resultsFound} {data?.data?.itemCount} {translation.resultProducts}</h2>
-              ) : ''
-            }
             <div className="products-header-filters flex">
               <div className='search-input form-group mb-0'>
                 <div className='relative h-full'>
@@ -228,7 +223,7 @@ export default function Page() {
                   <input className='w-full h-full ps-10 p-2.5' type='text' placeholder={translation.searchProduct} value={searchTerm} onChange={handleSearchChange} />
                 </div>
               </div>
-              <div className="filters-sort-display flex flex-wrap gap-3">
+              <div className="filters-sort-display flex gap-3">
                 <div className="flex-1">
                   <Dropdown
                     options={sortingOptions}
@@ -247,7 +242,12 @@ export default function Page() {
                 </div>
               </div>
             </div>
-            <div className={`${data?.data?.items?.length > 0 ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4" : ""} products-page-listing`}>
+            {
+              queryString !== '' && data?.data?.itemCount ? (
+                <h2 className="products-results-title">{translation.resultsFound} {data?.data?.itemCount} {translation.resultProducts}</h2>
+              ) : ''
+            }
+            <div className={`${data?.data?.items?.length > 0 ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4" : ""} products-page-listing`}>
               {
                 isLoading && (
                   <VerticalLoader />

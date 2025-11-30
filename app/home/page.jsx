@@ -12,6 +12,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { BASE_API, endpoints } from "../../constant/endpoints";
 import { useQuery } from "@tanstack/react-query";
+import MobileCards from "@/components/ui/Mobile/MobileCards";
+import SearchInput from "@/components/ui/SearchInput";
 
 // fallback images
 import fallbackDesktopImage from "@/assets/imgs/hero-bg.png";
@@ -112,46 +114,61 @@ export default function Home() {
   };
 
   return (
-    <main>
-      {
-        !isLoading && (
-          <Hero
-            desktopImage={currentImagePair.desktop}
-            mobileImage={currentImagePair.mobile}
-            exist={imagePairs.length > 0}
+    <>
+      <main className="isDesktop">
+        {
+          !isLoading && (
+            <Hero
+              desktopImage={currentImagePair.desktop}
+              mobileImage={currentImagePair.mobile}
+              exist={imagePairs.length > 0}
+            />
+          )
+        }
+        <div className="home-sections-container">
+          <div className="custom-py-60">
+            <BrandsSwiper />
+          </div>
+
+          <ColumnsGridSwiper
+            title={mostSelling.title}
+            badgeType={mostSelling.badgeType}
+            type={mostSelling.type}
+            id={mostSelling.id}
           />
-        )
-      }
-      <div className="home-sections-container">
-        <div className="custom-py-60">
-          <BrandsSwiper />
+
+          {searchTypes.map((grid, i) => (
+            <GridSwiper
+              key={i}
+              title={grid.title}
+              badgeType={grid.badgeType}
+              type={grid.type}
+              route={grid.route}
+              id={grid.id}
+            />
+          ))}
+
+          <ColumnsGridSwiper
+            title={featuredProducts.title}
+            badgeType={featuredProducts.badgeType}
+            type={featuredProducts.type}
+            id={featuredProducts.id}
+          />
         </div>
-
-        <ColumnsGridSwiper
-          title={mostSelling.title}
-          badgeType={mostSelling.badgeType}
-          type={mostSelling.type}
-          id={mostSelling.id}
-        />
-
-        {searchTypes.map((grid, i) => (
-          <GridSwiper
-            key={i}
-            title={grid.title}
-            badgeType={grid.badgeType}
-            type={grid.type}
-            route={grid.route}
-            id={grid.id}
-          />
-        ))}
-
-        <ColumnsGridSwiper
-          title={featuredProducts.title}
-          badgeType={featuredProducts.badgeType}
-          type={featuredProducts.type}
-          id={featuredProducts.id}
-        />
-      </div>
-    </main>
+      </main>
+      <main className="isMobile">
+        <div className="container">
+          <div className="relative h-full mt-8 mobile-search-input">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+              <i className="icon-search-normal"></i>
+            </div>
+            <SearchInput
+              bulk={false}
+            />
+          </div>
+          <MobileCards />
+        </div>
+      </main>
+    </>
   );
 }

@@ -66,6 +66,7 @@ export default function OrderDetails() {
     if (orderDetails.statusCode == 0) status = "canceled";
     else if (orderDetails.statusCode == 1) status = "in-progress";
     else if (orderDetails.statusCode == 2) status = "closed";
+    else if (orderDetails.statusCode == 3) status = "in-delivery";
 
 
 

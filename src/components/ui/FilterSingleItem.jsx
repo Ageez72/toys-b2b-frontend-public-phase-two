@@ -9,7 +9,8 @@ export default function FilterSingleItem({
   options,
   name,
   initiallyOpen = false,
-  handleSingleItem
+  handleSingleItem,
+  inputType = "checkbox"
 }) {
   const [selectedValue, setSelectedValue] = useState(selected || null);
   const [open, setOpen] = useState(!!selected);
@@ -22,7 +23,7 @@ export default function FilterSingleItem({
   };
 
   return (
-    <Disclosure defaultOpen={open}>
+    <Disclosure defaultOpen={open || initiallyOpen}>
       {({ open: isOpen }) => (
         <div className="accordion-wrapper">
           <DisclosureButton
@@ -40,7 +41,7 @@ export default function FilterSingleItem({
                   <input
                     className="cursor-pointer"
                     id={option.value}
-                    type="checkbox"
+                    type={inputType}
                     name={name}
                     value={option.value}
                     checked={selectedValue === option.value}

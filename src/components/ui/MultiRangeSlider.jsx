@@ -21,6 +21,8 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
   const STORAGE_KEY = "price_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // default fallback
+  const [userChanged, setUserChanged] = useState(false);
+
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
   }, [state.LANG]);
@@ -59,16 +61,15 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
     [min, max]
   );
 
-const updateRangeBar = useCallback(() => {
-  const minPercent = getPercent(minValRef.current);
-  const maxPercent = getPercent(maxValRef.current);
+  const updateRangeBar = useCallback(() => {
+    const minPercent = getPercent(minValRef.current);
+    const maxPercent = getPercent(maxValRef.current);
 
-  if (range.current) {
-    range.current.style.left = `${minPercent}%`;
-    range.current.style.width = `${maxPercent - minPercent}%`;
-  }
-  Cookies.set('filterstatus', "filter");
-}, [getPercent]);
+    if (range.current) {
+      range.current.style.left = `${minPercent}%`;
+      range.current.style.width = `${maxPercent - minPercent}%`;
+    }
+  }, [getPercent]);
 
   // Update range visually when min or max changes
   useLayoutEffect(() => {
@@ -100,7 +101,7 @@ const updateRangeBar = useCallback(() => {
           </DisclosureButton>
 
           <DisclosurePanel className="text-gray-500">
-            <div className="slider-container">
+            <div className="slider-container isDesktop">
               <input
                 type="range"
                 min={min}
@@ -146,10 +147,48 @@ const updateRangeBar = useCallback(() => {
                 </div>
               </div>
             </div>
+
+            <div className="isMobile">
+              <div className="mobile-range grid grid-cols-2 gap-3 mb-6 mt-6">
+                <div className="price from">
+                  <label className="font-bold block mb-2" htmlFor="priceFrom">{translation.from}</label>
+                  <input className="w-full p-2.5" type="number" name="priceFrom" id="priceFrom" value={minVal}
+                    onChange={(event) => {
+                      const value = Math.min(
+                        Number(event.target.value),
+                        maxVal - 1
+                      );
+                      setMinVal(value);
+                      handlePriceFrom(Number(event.target.value))
+                    }} />
+                  <div className="unit">
+                    {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                  </div>
+                </div>
+                <div className="price to">
+                  <label className="font-bold block mb-2" htmlFor="priceTo">{translation.to}</label>
+                  <input className="w-full p-2.5" type="number" name="priceTo" id="priceTo" value={maxVal}
+                    onChange={(event) => {
+                      const value = Math.max(
+                        Number(event.target.value),
+                        minVal + 1
+                      );
+                      setMaxVal(value);
+                      handlePriceTo(Number(event.target.value))
+                    }} />
+                  <div className="unit">
+                    {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                  </div>
+                </div>
+              </div>
+            </div>
             {
               isProductsPage && (
                 <div className="flex justify-start gap-2">
-                  <button className="primary-btn sm-primary-btn" onClick={() => onSubmitRange()}>{translation.apply}</button>
+                  <button className="primary-btn sm-primary-btn" onClick={() => {
+                    onSubmitRange();
+                    Cookies.set('filterstatus', "filter");
+                  }}>{translation.apply}</button>
                   {
                     isProductsPage && (
                       (fromPrice || toPrice) ? (

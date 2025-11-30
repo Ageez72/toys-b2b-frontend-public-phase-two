@@ -10,7 +10,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Loader from '../../Loaders/Loader';
 
-export default function SellingGoals({ order }) {
+export default function SellingGoals({ closePanel }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar);
     const [activeTab, setActiveTab] = useState('selling-brand');
@@ -74,8 +74,12 @@ export default function SellingGoals({ order }) {
     return (
         <>
             {isLoading ? <Loader /> : null}
-            <h2 className='sub-title mb-6'>{translation.sellingGoals} {currentYear}</h2>
-
+            <div className="flex items-center gap-2 mb-6">
+                <span className='mobile-back-box isMobile' onClick={() => closePanel()}>
+                    <i className="icon-arrow-right"></i>
+                </span>
+                <h2 className='sub-title'>{translation.sellingGoals} {currentYear}</h2>
+            </div>
             {
                 targetData.length > 0 && targetData.every(obj => obj.items.length === 0) ? (
                     <div className='empty-state text-center my-20'>

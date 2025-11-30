@@ -43,7 +43,7 @@ export default function RateCard({ reviews, id, onRefresh }) {
 
     return (
         <>
-            <div className='card mt-12'>
+            <div className='card desc-rate-card mt-12'>
                 <div className="flex justify-between">
                     <h3 className="sub-title">{translation.productReviews}</h3>
                     {/* {

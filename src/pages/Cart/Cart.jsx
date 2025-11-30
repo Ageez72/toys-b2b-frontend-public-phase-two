@@ -21,10 +21,14 @@ import { useRouter } from 'next/navigation';
 import SuccessModal from "@/components/ui/SuccessModal";
 import ErrorModal from "@/components/ui/ErrorModal";
 import ConfirmImportModal from "@/components/ui/ConfirmImportModal";
+import Accordion from "@/components/ui/Mobile/Accordion";
+import AdressesMenu from "@/components/ui/Mobile/AdressesMenu";
+
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [addressesItems, setAddressesItems] = useState([]);
+  const [addressesList, setAddressesList] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [notes, setNotes] = useState('');
   const [openSureOrder, setOpenSureOrder] = useState(false);
@@ -33,6 +37,7 @@ function Cart() {
   const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [showOrderSummary, setShowOrderSummary] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash");
   const [orderSummary, setOrderSummary] = useState(null);
   const [isImporting, setIsImporting] = useState(false);
@@ -56,6 +61,25 @@ function Cart() {
 
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar);
+
+  useEffect(() => {
+    const hideUI = () => {
+      document.querySelector(".isMobile .contact-tools")?.classList.add("hidden");
+      const backToTop = document.querySelector(".isMobile .mobile-back-to-top");
+      if (backToTop) backToTop.id = "hidden";
+    };
+    const timer = setTimeout(hideUI, 100);
+
+    return () => {
+      // Cleanup when unmounts
+      clearTimeout(timer);
+      document.querySelector(".isMobile .contact-tools")?.classList.remove("hidden");
+      const backToTop = document.querySelector(".isMobile .mobile-back-to-top");
+      if (backToTop && backToTop.id === "hidden") {
+        backToTop.removeAttribute("id");
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
@@ -83,8 +107,24 @@ function Cart() {
   }
 
   const fetchProfile = async () => {
-    const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${state.LANG}&token=${Cookies.get('token')}`, {});
-    setAddressesItems(res.data.locations);
+    setLoading(true)
+    try {
+      const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${state.LANG}&token=${Cookies.get('token')}`, {});
+      const list = []
+      if (profileData?.accountAddress) {
+        list.push({ id: profileData?.accountAddress, address: `${translation.mainAddress} - ${profileData?.accountAddress}` })
+      }
+      for (let i = 0; i < res.data?.locations?.length; i++) {
+        const el = res.data.locations[i];
+        list.push(el)
+      }
+      setAddressesItems(res.data.locations);
+      setAddressesList(list);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false)
+    }
   };
 
   const handleGetOrder = async () => {
@@ -472,6 +512,37 @@ function Cart() {
     setPendingImportedItems(null);
   };
 
+  const items = [
+    {
+      id: 'a',
+      title: 'تفاصيل المنتج',
+      content: (
+        <>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <p className="mb-0">باركود</p>
+            <p className="mb-0">22</p>
+          </div>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <p className="mb-0">سعر البيع (RSP)</p>
+            <p className="mb-0">22</p>
+          </div>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <p className="mb-0">السعر</p>
+            <p className="mb-0">22</p>
+          </div>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <p className="mb-0">التكلفة</p>
+            <p className="mb-0">22</p>
+          </div>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <p className="mb-0">الضريبة</p>
+            <p className="mb-0">22</p>
+          </div>
+        </>
+      )
+    }
+  ];
+
   return (
     <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
       {importPopup.success && importPopup.open && (
@@ -508,12 +579,12 @@ function Cart() {
       {loading && <Loader />}
       <Breadcrumb items={breadcrumbItems} />
       <div className="mt-5 pt-5">
-        <div className="flex justify-between items-center flex-wrap gap-5 mb-5">
+        <div className=" lg:flex justify-between items-center flex-wrap gap-5 mb-5">
           <div className="flex items-center gap-5">
             <h3 className="sub-title">{translation.addedProducts}</h3>
             <div className="items-count flex justify-center items-center">{cartItems.length}</div>
           </div>
-          <div className="flex gap-3 flex-wrap import-export-cart-btns">
+          <div className="mt-6 lg:mt-0 flex gap-3 flex-wrap import-export-cart-btns">
             <button className={`flex items-center gap-1 outline-btn no-bg ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} onClick={handleExport}>
               <i className="icon-export text-lg"></i>
               {translation.exportCart}
@@ -541,7 +612,7 @@ function Cart() {
           </div>
         </div>
 
-        <div className="relative overflow-x-auto mb-5">
+        <div className="relative overflow-x-auto mb-5 isDesktop">
           {
             cartItems.length === 0 ? (
               <>
@@ -589,6 +660,9 @@ function Cart() {
                     {translation.price}
                   </th>
                   <th scope="col" className="px-3 py-3 text-center">
+                    {translation.discount}
+                  </th>
+                  <th scope="col" className="px-3 py-3 text-center">
                     {translation.costPrice}
                   </th>
                   <th scope="col" className="px-3 py-3 text-center">
@@ -630,6 +704,11 @@ function Cart() {
                         {item.LPRICE}
                       </td>
                       <td className="px-3 py-3 text-center">
+                        <span dir="ltr">
+                          {(item.PRICEAFTERDISCOUNT - item.LPRICE).toFixed(2)}
+                        </span>
+                      </td>
+                      <td className="px-3 py-3 text-center">
                         {item.PRICEAFTERDISCOUNT}
                       </td>
                       <td className="px-3 py-3 text-center">
@@ -658,59 +737,137 @@ function Cart() {
           ) : null
           }
         </div>
-        <div className="flex gap-7 flex-col lg:flex-row">
+        <div className="isMobile">
+          <div className="items-cards">
+            {
+              cartItems.length ? (
+                orderSummary?.ITEMS?.map((item) => (
+                  <div className="card mb-4" key={item.id}>
+                    <div className="product-card flex items-center gap-3">
+                      <div className="product-card-image">
+                        <Link href={`/products/${encodeURIComponent(item.id)}`} className="w-full h-full flex justify-center items-center">
+                          <img src={item.images["800"].main} width={80} alt={item.name || "Product"} />
+                        </Link>
+                      </div>
+                      <div className="product-card-content">
+                        <h2 className="product-card-title cursor-pointer short-title">{item.name}</h2>
+                        <h3 className="font-bold sku-number">{item.id}</h3>
+                        <div className="price flex items-center gap-3">
+                          <span className="product-card-price">
+                            <span className="price-number">{Number(item.NET).toFixed(2)}</span>
+                            <span className="price-unit mx-1">
+                              {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                            </span>
+                          </span>
+                        </div>
+                        <InlineAddToCart
+                          itemId={item.id}
+                          avlqty={item.avlqty}
+                          onQtyChange={loadCart}
+                          onRefresh={handleRefresh}
+                        />
+                      </div>
+                    </div>
+                    <hr />
+                    <Accordion items={[
+                      {
+                        id: 'a',
+                        title: translation.mobile.productDetails,
+                        content: (
+                          <>
+                            <div className="flex items-center justify-between gap-3 mb-2">
+                              <p className="mb-0">{translation.barcode}</p>
+                              <p className="mb-0">{item.barcode}</p>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 mb-2">
+                              <p className="mb-0">{translation.sellingPrice}</p>
+                              <p className="mb-0">{item.RSP}</p>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 mb-2">
+                              <p className="mb-0">{translation.price}</p>
+                              <p className="mb-0">{item.LPRICE}</p>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 mb-2">
+                              <p className="mb-0">{translation.costPrice}</p>
+                              <p className="mb-0">{item.PRICEAFTERDISCOUNT}</p>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 mb-2">
+                              <p className="mb-0">{translation.tax}</p>
+                              <p className="mb-0">{item.TAX}</p>
+                            </div>
+                          </>
+                        )
+                      }
+                    ]} multiple={false} />
+                  </div>
+                ))
+              ) : null
+            }
+          </div>
+        </div>
+        {/* shipping Address & Summary */}
+        <div className="flex gap-7 flex-col lg:flex-row mb-12 lg:mb-0">
           <div className="order-side">
             {
               cartItems.length ? (
                 <>
                   <h3 className="sub-title mb-4">{translation.shippingAddress} <span className="required">*</span></h3>
                   <div className="addresses">
-                    {
-                      profileData?.accountAddress ? (
-                        <div className="card mb-3">
-                          <div className="address-item">
-                            <input
-                              type="radio"
-                              name="address"
-                              id={`address-main`}
-                              value={profileData?.accountAddress}
-                              checked={selectedAddressId === profileData?.accountAddress}
-                              onChange={() => setSelectedAddressId(profileData?.accountAddress)}
-                            />
-                            <label htmlFor={`address-main`} className="flex justify-between items-center">
-                              <span className="flex items-center gap-2">
-                                <i className="icon-location location"></i>
-                                <span>{translation.mainAddress} - {profileData?.accountAddress}</span>
-                              </span>
-                              <i className="icon-tick-circle check"></i>
-                            </label>
+                    <div className="isDesktop">
+                      {
+                        profileData?.accountAddress ? (
+                          <div className="card mb-3">
+                            <div className="address-item">
+                              <input
+                                type="radio"
+                                name="address"
+                                id={`address-main`}
+                                value={profileData?.accountAddress}
+                                checked={selectedAddressId === profileData?.accountAddress}
+                                onChange={() => setSelectedAddressId(profileData?.accountAddress)}
+                              />
+                              <label htmlFor={`address-main`} className="flex justify-between items-center">
+                                <span className="flex items-center gap-2">
+                                  <i className="icon-location location"></i>
+                                  <span>{translation.mainAddress} - {profileData?.accountAddress}</span>
+                                </span>
+                                <i className="icon-tick-circle check"></i>
+                              </label>
+                            </div>
                           </div>
+                        ) : null
+                      }
+                      {addressesItems.length ? (
+                        addressesItems?.map((add, index) => (
+                          <div className="card mb-3" key={add.id}>
+                            <div className="address-item">
+                              <input
+                                type="radio"
+                                name="address"
+                                id={`address-${index}`}
+                                value={add.id}
+                                checked={selectedAddressId.id === add.id}
+                                onChange={() => setSelectedAddressId(add)}
+                              />
+                              <label htmlFor={`address-${index}`} className="flex justify-between items-center">
+                                <span className="flex items-center gap-2">
+                                  <i className="icon-location location"></i>
+                                  <span>{add["branch name"] ? add["branch name"] + " -" : null}  {add.address}</span>
+                                </span>
+                                <i className="icon-tick-circle check"></i>
+                              </label>
+                            </div>
+                          </div>
+                        ))
+                      ) : null
+                      }
+                    </div>
+                    {
+                      profileData?.accountAddress || addressesItems.length ? (
+                        <div className="addresses-menu-wrapper isMobile">
+                          <AdressesMenu selectedAdd={addressesList.find(a => a.id === selectedAddressId.id) || null} list={addressesList} setAddress={(add) => setSelectedAddressId(add)} />
                         </div>
                       ) : null
-                    }
-                    {addressesItems.length ? (
-                      addressesItems?.map((add, index) => (
-                        <div className="card mb-3" key={add.id}>
-                          <div className="address-item">
-                            <input
-                              type="radio"
-                              name="address"
-                              id={`address-${index}`}
-                              value={add.id}
-                              checked={selectedAddressId.id === add.id}
-                              onChange={() => setSelectedAddressId(add)}
-                            />
-                            <label htmlFor={`address-${index}`} className="flex justify-between items-center">
-                              <span className="flex items-center gap-2">
-                                <i className="icon-location location"></i>
-                                <span>{add["branch name"] ? add["branch name"] + " -" : null}  {add.address}</span>
-                              </span>
-                              <i className="icon-tick-circle check"></i>
-                            </label>
-                          </div>
-                        </div>
-                      ))
-                    ) : null
                     }
                     {
                       !addressesItems.length && !profileData?.accountAddress ? (
@@ -724,10 +881,10 @@ function Cart() {
                     state.isCorporate && (
                       <>
                         <h3 className="sub-title mb-4 mt-8">{translation.paymentMethod}</h3>
-                        <div className="payment-methods flex flex-wrap md:flex-nowrap gap-3">
+                        <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
                             (state.corporatePayment === "Cash" || state.corporatePayment === "") && (
-                              <label htmlFor="cashOnDelivery" className="block w-full md:w-1/2">
+                              <label htmlFor="cashOnDelivery" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Cash" ? 'selected' : ''}`}>
                                   <div className="payment-method">
                                     <i className="icon-money-3"></i>
@@ -741,7 +898,7 @@ function Cart() {
                                       checked={selectedPaymentMethod === "Cash"}
                                       onChange={() => setSelectedPaymentMethod("Cash")}
                                     />
-                                    <span className="block mt-2">{translation.cashOnDelivery}</span>
+                                    <span className="block mt-2 method-title">{translation.cashOnDelivery}</span>
                                   </div>
                                 </div>
                               </label>
@@ -749,7 +906,7 @@ function Cart() {
                           }
                           {
                             (state.corporatePayment === "Online" || state.corporatePayment === "") && (
-                              <label htmlFor="creditCardPayment" className="block w-full md:w-1/2">
+                              <label htmlFor="creditCardPayment" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Online" ? 'selected' : ''}`}>
                                   <div className="payment-method">
                                     <i className="icon-cards"></i>
@@ -763,7 +920,7 @@ function Cart() {
                                       checked={selectedPaymentMethod === "Online"}
                                       onChange={() => setSelectedPaymentMethod("Online")}
                                     />
-                                    <span className="block mt-2">{translation.creditCardPayment}</span>
+                                    <span className="block mt-2 method-title">{translation.creditCardPayment}</span>
                                   </div>
                                 </div>
                               </label>
@@ -774,7 +931,7 @@ function Cart() {
                     )
                   }
                   <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
-                  <div className="card">
+                  <div className="card mb-5">
                     <textarea
                       className="w-full h-full notes-text"
                       name="notes"
@@ -788,7 +945,7 @@ function Cart() {
             }
           </div>
 
-          <div className="order-summary">
+          <div className="order-summary isDesktop">
             <div className="card p-4">
               <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
               <div className="order-item flex justify-between items-center mb-4">
@@ -839,6 +996,73 @@ function Cart() {
                 {selectedPaymentMethod === "Online" ? translation.gotoPayment : translation.confirmOrder}
               </button>
             </div>
+          </div>
+        </div>
+        <div className={`fixed-summary-card-overlay ${showOrderSummary ? "active" : null}`} onClick={() => setShowOrderSummary(false)}></div>
+        <div className={`fixed-summary-card isMobile ${showOrderSummary ? "active" : null}`}>
+          <div className="order-summary">
+            <div className="card p-4">
+              <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
+              <div className="order-item flex justify-between items-center mb-4">
+                <p className="mb-0">{translation.itemCount}</p>
+                <p className="mb-0">{orderSummary?.CNT}</p>
+              </div>
+              <div className="order-item flex justify-between items-center mb-4">
+                <p className="mb-0">{translation.subtotal}</p>
+                <p className="mb-0 flex items-center gap-1">
+                  <span>{cartItems.length ? Number(orderSummary?.SUBTOTAL).toFixed(2) : 0}</span>
+                  <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                </p>
+              </div>
+              <div className="order-item flex justify-between items-center mb-4">
+                <p className="mb-0">{translation.tax}</p>
+                <p className="mb-0 flex items-center gap-1">
+                  <span>{cartItems.length ? Number(orderSummary?.TAX).toFixed(2) : 0}</span>
+                  <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                </p>
+              </div>
+              <div className="order-item flex justify-between items-center mb-4">
+                <p className="mb-0">{translation.discount}</p>
+                <p className="mb-0 flex items-center gap-1">
+                  <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span>
+                  <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                </p>
+              </div>
+              <div className="order-item flex justify-between items-center mb-4">
+                <p className="mb-0">{translation.deliveryFees}</p>
+                <p className="mb-0 flex items-center gap-1">
+                  {/* <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span> */}
+                  <span>0</span>
+                  <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                </p>
+              </div>
+              <hr />
+              <div className="order-item flex justify-between items-center">
+                <h3 className="sub-title">{translation.total}</h3>
+                <p className="mb-0 flex items-center gap-1 price">
+                  <span>{cartItems.length ? Number(orderSummary?.TOTAL).toFixed(2) : 0}</span>
+                  <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="order-summary-cart-mobile isMobile">
+          <div className="flex items-center justify-between gap-3 w-full">
+            <div className="view-order-summary" onClick={() => setShowOrderSummary(!showOrderSummary)}>
+              <i className={`icon-arrow-down-01-round ${showOrderSummary ? "active" : null}`}></i>
+              <h3 className="sub-title">{translation.total}</h3>
+              <p className="mb-0 flex items-center gap-1 price">
+                <span>{cartItems.length ? Number(orderSummary?.TOTAL).toFixed(2) : 0}</span>
+                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+              </p>
+            </div>
+            <button
+              className={`primary-btn ${cartItems.length ? '' : 'disabled'}`}
+              onClick={handleSubmitChecker}
+            >
+              {selectedPaymentMethod === "Online" ? translation.gotoPayment : translation.confirmOrder}
+            </button>
           </div>
         </div>
       </div>

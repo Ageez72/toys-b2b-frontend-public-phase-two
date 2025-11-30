@@ -27,7 +27,8 @@
     }
 
     &.grid-card {
-            border: 1px solid #e4e5e8;
+        border: 1px solid #e4e5e8;
+
         @media screen and (max-width: 650px) {
             flex-wrap: wrap;
 
@@ -152,20 +153,12 @@
     display: flex;
     align-items: center;
 
-    @media screen and (max-width: 380px) {
-        flex-direction: column;
-    }
-
     .product-card-quantity {
         height: 48px;
         border: 1px solid #C2C5D2;
         border-radius: 6px;
         font-size: 16px;
         color: #4A4A49;
-
-        @media screen and (max-width: 380px) {
-            width: 100%;
-        }
 
         input {
             width: 60px;
@@ -175,6 +168,9 @@
         .btn {
             flex: 1;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             i {
                 &::before {

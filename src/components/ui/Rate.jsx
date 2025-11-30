@@ -14,8 +14,8 @@ export default function Rate({ item, onOpen }) {
     const [firstInitial, lastInitial] = getInitials(item.name);
 
     return (
-        <div className='flex items-center justify-between'>
-            <div className='rate-item flex-col md:flex-row flex gap-2 mt-6'>
+        <div className='comment-wrapper flex items-center justify-between gap-2'>
+            <div className='rate-item flex gap-2 mt-6'>
                 <div className="rate-info">
                     <div className="rate-name flex items-center gap-2 mb-2">
                         <div className="user-short-name flex items-center justify-center">

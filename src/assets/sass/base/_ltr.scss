@@ -124,12 +124,6 @@
         left: 15px !important;
     }
 
-    .profile-side-bar ul button>i {
-        @media (max-width: 64rem) {
-            transform: rotate(-270deg);
-        }
-    }
-
     .product-details .specifications-table .item .info {
         border-right: none;
         border-left: 1px solid #ccd3d9;

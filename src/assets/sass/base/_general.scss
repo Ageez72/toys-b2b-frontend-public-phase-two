@@ -359,6 +359,10 @@
     height: 175px;
     align-items: end;
 
+    @media (max-width: 992px) {
+        bottom: 60px;
+    }
+
     .circle-icon-container {
         width: 48px;
         height: 48px;
@@ -572,7 +576,8 @@
         }
 
         @media (min-width: 768px) {
-            overflow: auto;
+            overflow: hidden auto;
+            height: 500px;
         }
 
 

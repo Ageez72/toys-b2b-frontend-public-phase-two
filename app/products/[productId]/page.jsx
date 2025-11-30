@@ -18,6 +18,7 @@ import Loader from '@/components/ui/Loaders/Loader';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import NotFound from '../../not-found';
+import ProductSwiperGallery from '@/components/ui/Mobile/ProductSwiperGallery';
 
 let breadcrumbItems = [];
 export default function Page() {
@@ -61,6 +62,26 @@ export default function Page() {
     scrollToTop()
   }, []);
 
+  useEffect(() => {
+    const hideUI = () => {
+      document.querySelector(".isMobile .contact-tools")?.classList.add("hidden");
+      const backToTop = document.querySelector(".isMobile .mobile-back-to-top");
+      if (backToTop) backToTop.id = "hidden";
+    };
+    const timer = setTimeout(hideUI, 100);
+
+    return () => {
+      // Cleanup when unmounts
+      clearTimeout(timer);
+      document.querySelector(".isMobile .contact-tools")?.classList.remove("hidden");
+      const backToTop = document.querySelector(".isMobile .mobile-back-to-top");
+      if (backToTop && backToTop.id === "hidden") {
+        backToTop.removeAttribute("id");
+      }
+    };
+  }, []);
+
+
   // Effect to re-call the API whenever refresh is changed
   useEffect(() => {
     if (refresh) {
@@ -95,10 +116,17 @@ export default function Page() {
       <div className="max-w-screen-xl mx-auto p-4 product-details">
         <Breadcrumb items={breadcrumbItems} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5 pt-5 pb-5 details-card">
-          <ProductGallery images={details?.images["800"].list} main={details?.images["800"].main} />
+          <div className="isDesktop">
+            <ProductGallery images={details?.images["800"].list} main={details?.images["800"].main} />
+          </div>
           <DetailsProductCard item={details} />
+          <div className="isMobile">
+            <ProductSwiperGallery images={details?.images["800"].list} />
+          </div>
         </div>
-        <div className="card mt-5">
+        <div className="card desc-table-card mt-6">
+          <h3 className="sub-title mb-5 isMobile">{translation.mobile.productDesc}</h3>
+          <p className="product-description isMobile" dangerouslySetInnerHTML={{ __html: details?.description }} />
           {
             details?.brand.description || details?.category.description || details?.dimensions || details?.assembledDimensionsCentimeters || details?.netWeightKg || details?.barcode || details?.constants.AGES || details?.constants.GENDER.length || details?.constants.MATERIAL.length ? (
               <h3 className="sub-title mb-5">{translation.productSpecifications}</h3>

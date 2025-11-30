@@ -319,5 +319,17 @@
   "addOrderErrorMsg": "Some of the products in your order are currently out of stock. Please review your cart and update your order.",
   "areYouSure": "Are you sure you want to start a new cart?",
   "mainAddress": "Main Address",
-  "resetPassExp": "It looks like the link has expired. Please request a new link to reset your password."
+  "resetPassExp": "It looks like the link has expired. Please request a new link to reset your password.",
+  "mobile": {
+    "home": "Home",
+    "marketplace": "Marketplace",
+    "brands": "Brands",
+    "bin": "Cart",
+    "myAccount": "My Account",
+    "brandsSearchPlaceholder": "Search in brands",
+    "productDesc": "Product Description",
+    "addToCart": "Add to Cart",
+    "productDetails": "Product Details",
+    "selectAdress": "Choose the address"
+  }
 }

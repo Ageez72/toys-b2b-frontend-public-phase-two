@@ -1,5 +1,5 @@
 'use client';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { useAppContext } from '../../../context/AppContext';
@@ -20,20 +20,10 @@ export default function Breadcrumb({ items = [] }) {
                     return (
                         <li key={index} className="inline-flex items-center m-0">
                             {index !== 0 && (
-                                <svg
-                                    className="rtl:rotate-180 w-3 h-3 mx-2"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 6 10"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="m1 9 4-4-4-4"
-                                    />
+                                <svg className='mx-1' xmlns="http://www.w3.org/2000/svg" version="1.1" width="12" height="12" viewBox="0 0 1024 1024">
+                                    <g id="icomoon-ignore">
+                                    </g>
+                                    <path d="M640 881.92c-8.107 0-16.213-2.987-22.613-9.387l-278.185-278.187c-45.227-45.227-45.227-119.467 0-164.693l278.185-278.186c12.373-12.373 32.853-12.373 45.227 0s12.373 32.853 0 45.227l-278.185 278.186c-20.48 20.48-20.48 53.76 0 74.24l278.185 278.187c12.373 12.373 12.373 32.853 0 45.227-6.4 5.973-14.507 9.387-22.613 9.387z" />
                                 </svg>
                             )}
 

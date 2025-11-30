@@ -10,7 +10,7 @@ import { BASE_API, endpoints } from '../../../constant/endpoints';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-export default function AddToCart({ item }) {
+export default function AddToCart({ item, hasTitle = false }) {
   const [count, setCount] = useState(1);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // default fallback
@@ -104,13 +104,27 @@ export default function AddToCart({ item }) {
           <i className="icon-add"></i>
         </button>
       </div>
-      <button
-        onClick={handleAddToCart}
-        className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
-        disabled={count + existingQty > 10}
-      >
-        {translation.addCart}
-      </button>
+      <div className="isDesktop">
+        <button
+          onClick={handleAddToCart}
+          className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
+          disabled={count + existingQty > 10}
+        >
+          <span className='isDesktop'>
+            {translation.addCart}
+          </span>
+        </button>
+      </div>
+      <div className="mob-icon isMobile">
+        <button
+          onClick={handleAddToCart}
+          className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
+          disabled={count + existingQty > 10}
+        >
+          <i className="icon-bag-happy"></i>
+          {hasTitle && <span>{translation.mobile.addToCart}</span>}
+        </button>
+      </div>
     </div>
   );
 }

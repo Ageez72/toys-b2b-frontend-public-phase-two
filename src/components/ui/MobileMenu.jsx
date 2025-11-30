@@ -70,8 +70,8 @@ export default function MobileMenu({ scroll, onGoTo }) {
             <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
           </li>
         </ul>
-        <hr />
-        <MenuControl onGoTo={onGoTo} />
+        {/* <hr /> */}
+        {/* <MenuControl onGoTo={onGoTo} /> */}
       </div>
     </div>
   );

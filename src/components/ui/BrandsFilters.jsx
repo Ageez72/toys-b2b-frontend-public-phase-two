@@ -13,7 +13,7 @@ import { useAppContext } from '../../../context/AppContext';
 import { useRouter } from 'next/navigation';
 
 
-export default function BrandsFilters({ selected = [], parentOptions, brandsOptions, isFiltersPage }) {
+export default function BrandsFilters({ selected = [], initiallyOpen = false, parentOptions, brandsOptions, isFiltersPage }) {
     const [selectedMap, setSelectedMap] = useState({});
     const [allSelected, setAllSelected] = useState(selected); // flat array of selected IDs
     const router = useRouter();
@@ -79,7 +79,7 @@ export default function BrandsFilters({ selected = [], parentOptions, brandsOpti
 
     return (
         <div className="accordion-wrapper">
-            <Disclosure defaultOpen={selected.length > 0}>
+            <Disclosure defaultOpen={selected.length > 0 || initiallyOpen}>
                 {({ open: isOpen }) => (
                     <div>
                         <DisclosureButton className="accordion-item w-full flex items-center justify-between cursor-pointer">

@@ -8,7 +8,7 @@ import axios from 'axios';
 import { endpoints, BASE_API } from '../../../../../constant/endpoints';
 import Cookies from 'js-cookie';
 
-export default function Security() {
+export default function Security({ closePanel }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setConfirmShowPassword] = useState(false);
   const [isSuccessUpdatModalOpen, setIsSuccessUpdatModalOpen] = useState(false);
@@ -63,7 +63,12 @@ export default function Security() {
         location.reload()
       }} />
       <div className='py-3'>
-        <h2 className="sub-title mb-6">{translation.security}</h2>
+        <div className="flex items-center gap-2 mb-6">
+          <span className='mobile-back-box isMobile' onClick={() => closePanel()}>
+            <i className="icon-arrow-right"></i>
+          </span>
+          <h2 className="sub-title">{translation.security}</h2>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Password Field */}
           <div className='form-group'>

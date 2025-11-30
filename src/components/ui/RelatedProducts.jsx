@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
@@ -36,7 +36,7 @@ export default function RelatedProducts({ items }) {
 
     return (
         <>
-            <div className={`${data?.data?.items?.length > 0 ? "pb-40 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4" : ""} products-page-listing related-listing`}>
+            <div className={`${data?.data?.items?.length > 0 ? "pb-40 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4" : ""} products-page-listing related-listing`}>
                 {
                     isLoading && (
                         <VerticalLoader />

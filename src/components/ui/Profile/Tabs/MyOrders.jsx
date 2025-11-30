@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 import OrdersLoader from '../../Loaders/OrdersLoader';
 import { useRouter } from 'next/navigation';
 
-export default function MyOrders() {
+export default function MyOrders({ closePanel }) {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
   const { state = {} } = useAppContext() || {};
@@ -51,9 +51,14 @@ export default function MyOrders() {
 
   return (
     <div className='py-3'>
-      <h2 className='sub-title mb-6'>{translation.orders}</h2>
+      <div className="flex items-center gap-2 mb-6">
+        <span className='mobile-back-box isMobile' onClick={() => closePanel()}>
+          <i className="icon-arrow-right"></i>
+        </span>
+        <h2 className='sub-title'>{translation.orders}</h2>
+      </div>
       {loading && <OrdersLoader />}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {orders.length > 0 &&
           orders.map((order) =>
             order.details.length ? <OrderCard key={order.orderID} order={order} /> : null

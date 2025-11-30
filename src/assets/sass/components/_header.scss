@@ -8,8 +8,8 @@
             a {
                 @media (min-width: 992px) and (max-width: 1160px) {
                     padding-inline-start: 0;
-        padding-inline-end: 0;
-        font-size: 14px;
+                    padding-inline-end: 0;
+                    font-size: 14px;
                 }
 
                 &:hover {
@@ -27,6 +27,10 @@
 
     .logo-img {
         transition: all 0.3s ease-in-out;
+
+        @media (max-width: 425px) {
+            width: 100px;
+        }
     }
 
     .hide-logo {
@@ -107,12 +111,20 @@ header {
             transition: all 0.3s ease-in-out;
         }
 
-        &:hover {
-            background-color: var(--primary-color);
+        @media (min-width: 993px) {
 
-            i::before {
-                color: #fff;
+            &:hover {
+                background-color: var(--primary-color);
+
+                i::before {
+                    color: #fff;
+                }
             }
         }
+
+        @media (max-width: 992px) {
+            border: none;
+        }
+
     }
 }

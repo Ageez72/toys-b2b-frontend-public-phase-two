@@ -54,8 +54,8 @@ const ContactTools = () => {
 
   const toggleOpen = (e) => {
     e.stopPropagation();
-    document.querySelector('.socials')?.classList.toggle('open');
-    document.querySelector('.contact-tools')?.classList.toggle('open');
+    document.querySelectorAll('.socials')?.forEach(el => el.classList.toggle('open'));
+    document.querySelectorAll('.contact-tools')?.forEach(el => el.classList.toggle('open'));
   };
 
   const getWhatsAppLink = (phone) => {
@@ -74,63 +74,126 @@ const ContactTools = () => {
   const hasContact = profile?.contactEmail || profile?.contactPhone || state.isCorporate;
 
   return (
-    <div className="contact-tools">
-      {hasContact && (
-        <>
-          <div className="contact-link circle-icon-container contact-btn" onClick={toggleOpen}>
-            <i className="icon-multiplication-sign close"></i>
-            <i className="icon-call-center call"></i>
-          </div>
+    <>
+      <div className="isDesktop">
+        <div className="contact-tools">
+          {hasContact && (
+            <>
+              <div className="contact-link circle-icon-container contact-btn" onClick={toggleOpen}>
+                <i className="icon-multiplication-sign close"></i>
+                <i className="icon-call-center call"></i>
+              </div>
 
-          <div className="socials">
-            {state.isCorporate ? (
-              <>
-                <a
-                  href={getWhatsAppLink('+962789002194')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-link circle-icon-container mb-2 contact-phone"
-                >
-                  <i className="icon-whatsapp-brands"></i>
-                </a>
-              </>
-            ) : (
-              <>
-                {profile?.contactEmail && (
-                  <a
-                    href={`mailto:${profile.contactEmail}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit Email"
-                    className="contact-link circle-icon-container mb-2 contact-email"
-                  >
-                    <i className="icon-sms"></i>
-                  </a>
-                )}
+              <div className="socials">
+                {state.isCorporate ? (
+                  <>
+                    <a
+                      href={getWhatsAppLink('+962789002194')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-link circle-icon-container mb-2 contact-phone"
+                    >
+                      <i className="icon-whatsapp-brands"></i>
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    {profile?.contactEmail && (
+                      <a
+                        href={`mailto:${profile.contactEmail}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visit Email"
+                        className="contact-link circle-icon-container mb-2 contact-email"
+                      >
+                        <i className="icon-sms"></i>
+                      </a>
+                    )}
 
-                {profile?.contactPhone && (
-                  <a
-                    href={getWhatsAppLink(profile.contactPhone)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact-link circle-icon-container mb-2 contact-phone"
-                  >
-                    <i className="icon-whatsapp-brands"></i>
-                  </a>
+                    {profile?.contactPhone && (
+                      <a
+                        href={getWhatsAppLink(profile.contactPhone)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="contact-link circle-icon-container mb-2 contact-phone"
+                      >
+                        <i className="icon-whatsapp-brands"></i>
+                      </a>
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </div>
-        </>
-      )}
-      <button
-        onClick={scrollToTop}
-        aria-label="back-to-top"
-        className={`back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
-      >
-        <i className="icon-arrow-up"></i>
-      </button>
-    </div>
+              </div>
+            </>
+          )}
+          <button
+            onClick={scrollToTop}
+            aria-label="back-to-top"
+            className={`back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
+          >
+            <i className="icon-arrow-up"></i>
+          </button>
+        </div>
+      </div>
+      <div className="isMobile">
+        <div className="contact-tools">
+          {hasContact && (
+            <>
+              <div className="contact-link circle-icon-container contact-btn" onClick={toggleOpen}>
+                <i className="icon-multiplication-sign close"></i>
+                <i className="icon-call-center call"></i>
+              </div>
+
+              <div className="socials">
+                {state.isCorporate ? (
+                  <>
+                    <a
+                      href={getWhatsAppLink('+962789002194')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-link circle-icon-container mb-2 contact-phone"
+                    >
+                      <i className="icon-whatsapp-brands"></i>
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    {profile?.contactEmail && (
+                      <a
+                        href={`mailto:${profile.contactEmail}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visit Email"
+                        className="contact-link circle-icon-container mb-2 contact-email"
+                      >
+                        <i className="icon-sms"></i>
+                      </a>
+                    )}
+
+                    {profile?.contactPhone && (
+                      <a
+                        href={getWhatsAppLink(profile.contactPhone)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="contact-link circle-icon-container mb-2 contact-phone"
+                      >
+                        <i className="icon-whatsapp-brands"></i>
+                      </a>
+                    )}
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+        <button
+          onClick={scrollToTop}
+          aria-label="back-to-top"
+          className={`back-to-top mobile-back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
+        >
+          <i className="icon-arrow-up"></i>
+        </button>
+      </div>
+    </>
   );
 };
 

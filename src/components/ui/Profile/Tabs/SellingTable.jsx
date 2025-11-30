@@ -12,10 +12,12 @@ export default function SellingTable({ data }) {
 
     return (
         <div className="selling-table-container">
-            <div className="table-head flex">
-                <div className='width-10'>{translation.number}</div>
-                <div className='w-1/4'>{translation.address}</div>
-                <div className='width-65'>{translation.target}</div>
+            <div className="isDesktop">
+                <div className="table-head flex">
+                    <div className='width-10'>{translation.number}</div>
+                    <div className='w-1/4'>{translation.address}</div>
+                    <div className='width-65'>{translation.target}</div>
+                </div>
             </div>
 
             {data.length === 0 && (
@@ -43,34 +45,77 @@ export default function SellingTable({ data }) {
                 const remaining = item.target - item.achieved;
 
                 return (
-                    <div key={index} className="table-item flex">
-                        <div className='width-10 px-3'>{index + 1}</div>
-                        <div className='w-1/4 px-3 border-center'>{item.name}</div>
-                        <div className='width-65 px-3 target-content'>
-                            <div className='flex justify-between mb-2'>
-                                <p className='mb-0 font-bold'>{translation.wantTarget}</p>
-                                <p className='mb-0 font-bold'>
-                                    <span>{item.target}</span>
-                                    <span className="price-unit mx-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
-                                </p>
-                            </div>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `calc(${progressPerc}% - 8px)` }}></div>
-                            </div>
-                            <div className='flex justify-between mt-2 red-text'>
-                                <p className='mb-0 font-bold'>
-                                    {translation.achievedTarget
-                                        .replace("{achieved}", item.achieved)
-                                        .replace("{target}", item.target)
-                                        .replace(/{jod}/g, siteLocation === "primereach" ? translation.iqd : translation.jod)}
-                                </p>
-                                <p className='mb-0 font-bold'>
-                                    <span>{translation.remaining} </span>
-                                    <span>{remaining > 0 ? remaining : 0}</span>
-                                </p>
+                    <>
+                        <div className="isDesktop" key={index}>
+                            <div className="table-item flex">
+                                <div className='width-10 px-3'>{index + 1}</div>
+                                <div className='w-1/4 px-3 border-center'>{item.name}</div>
+                                <div className='width-65 px-3 target-content'>
+                                    <div className='flex justify-between mb-2'>
+                                        <p className='mb-0 font-bold'>{translation.wantTarget}</p>
+                                        <p className='mb-0 font-bold'>
+                                            <span>{item.target}</span>
+                                            <span className="price-unit mx-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                        </p>
+                                    </div>
+                                    <div className="progress-bar">
+                                        <div className="progress" style={{ width: `calc(${progressPerc}% - 8px)` }}></div>
+                                    </div>
+                                    <div className='flex justify-between mt-2 red-text'>
+                                        <p className='mb-0 font-bold'>
+                                            {translation.achievedTarget
+                                                .replace("{achieved}", item.achieved)
+                                                .replace("{target}", item.target)
+                                                .replace(/{jod}/g, siteLocation === "primereach" ? translation.iqd : translation.jod)}
+                                        </p>
+                                        <p className='mb-0 font-bold'>
+                                            <span>{translation.remaining} </span>
+                                            <span>{remaining > 0 ? remaining : 0}</span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div className="isMobile" key={index}>
+                            <div className='px-3 target-content'>
+                                <div className='flex justify-between mb-2'>
+                                    <p className='mb-0'>{translation.number}</p>
+                                    <p className='mb-0'>
+                                        <span>{index + 1}</span>
+                                    </p>
+                                </div>
+                                <div className='flex justify-between mb-2'>
+                                    <p className='mb-0'>{translation.address}</p>
+                                    <p className='mb-0'>
+                                        <span>{item.name}</span>
+                                    </p>
+                                </div>
+                                <hr />
+                                <div className='flex justify-between mb-2'>
+                                    <p className='mb-0 font-bold'>{translation.wantTarget}</p>
+                                    <p className='mb-0 font-bold'>
+                                        <span>{item.target}</span>
+                                        <span className="price-unit mx-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                    </p>
+                                </div>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `calc(${progressPerc}% - 8px)` }}></div>
+                                </div>
+                                <div className='flex justify-between mt-2 red-text'>
+                                    <p className='mb-0 font-bold'>
+                                        {translation.achievedTarget
+                                            .replace("{achieved}", item.achieved)
+                                            .replace("{target}", item.target)
+                                            .replace(/{jod}/g, siteLocation === "primereach" ? translation.iqd : translation.jod)}
+                                    </p>
+                                    <p className='mb-0 font-bold'>
+                                        <span>{translation.remaining} </span>
+                                        <span>{remaining > 0 ? remaining : 0}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </>
                 );
             })}
         </div>

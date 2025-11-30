@@ -16,6 +16,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
   const searchParams = useSearchParams();
   const fromAge = Number(searchParams?.get("fromAge"));
   const toAge = Number(searchParams?.get("toAge"));
+  const siteLocation = Cookies.get("siteLocation")
 
   const STORAGE_KEY = "age_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -61,9 +62,8 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
 
     if (range.current) {
       range.current.style.left = `${minPercent}%`;
-      range.current.style.width = `${maxPercent - minPercent}%`;      
+      range.current.style.width = `${maxPercent - minPercent}%`;
     }
-    Cookies.set('filterstatus', "filter");
   }, [getPercent]);
 
   // Update range visually when min or max changes
@@ -79,7 +79,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
     }
   }, [open, updateRangeBar]);
 
-   const getYearText = (num) => {
+  const getYearText = (num) => {
     if (num === 1) return <span> {translation.year}</span>;
     if (num === 2) return <span> {translation.year}</span>;
     if (num >= 3 && num <= 10) return <span> {translation.yearss}</span>;
@@ -102,7 +102,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
           </DisclosureButton>
 
           <DisclosurePanel className="text-gray-500">
-            <div className="slider-container">
+            <div className="slider-container isDesktop">
               <input
                 type="range"
                 min={min}
@@ -140,7 +140,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
                 <div ref={range} className="slider__range" />
                 <div className="slider__right-value">
                   <span>{maxVal}</span>
-                   <span> {getYearText(maxVal)}</span>
+                  <span> {getYearText(maxVal)}</span>
                 </div>
                 <div className="slider__left-value">
                   <span>{minVal}</span>
@@ -148,10 +148,47 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
                 </div>
               </div>
             </div>
+            <div className="isMobile">
+              <div className="mobile-range grid grid-cols-2 gap-3 mb-6 mt-6">
+                <div className="price from">
+                  <label className="font-bold block mb-2" htmlFor="priceFrom">{translation.from}</label>
+                  <input className="w-full p-2.5" type="number" name="priceFrom" id="priceFrom" value={minVal}
+                    onChange={(event) => {
+                      const value = Math.min(
+                        Number(event.target.value),
+                        maxVal - 1
+                      );
+                      setMinVal(value);
+                      handleAgeFrom(Number(event.target.value))
+                    }} />
+                  <div className="unit">
+                    {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                  </div>
+                </div>
+                <div className="price to">
+                  <label className="font-bold block mb-2" htmlFor="priceTo">{translation.to}</label>
+                  <input className="w-full p-2.5" type="number" name="priceTo" id="priceTo" value={maxVal}
+                    onChange={(event) => {
+                      const value = Math.max(
+                        Number(event.target.value),
+                        minVal + 1
+                      );
+                      setMaxVal(value);
+                      handleAgeTo(Number(event.target.value))
+                    }} />
+                  <div className="unit">
+                    {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                  </div>
+                </div>
+              </div>
+            </div>
             {
               isProductsPage && (
                 <div className="flex justify-start gap-2">
-                  <button className="primary-btn sm-primary-btn" onClick={() => onSubmitRange()}>{translation.apply}</button>
+                  <button className="primary-btn sm-primary-btn" onClick={() => {
+                    onSubmitRange();
+                    Cookies.set('filterstatus', "filter");
+                  }}>{translation.apply}</button>
                   {
                     isProductsPage && (
                       (fromAge || toAge) ? (
