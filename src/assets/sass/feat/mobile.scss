@@ -384,17 +384,15 @@ $tablet-font-percent: 25%;
     }
 }
 
-.brands-page {
-    .main-title {
-        @media (max-width: $tablet-breakpoint) {
-            text-align: center;
-            font-size: calc(20px + $tablet-font-percent);
-        }
+.main-title {
+    @media (max-width: $tablet-breakpoint) {
+        text-align: center;
+        font-size: calc(20px + $tablet-font-percent);
+    }
 
-        @media (max-width: $sm-tablet-breakpoint) {
-            text-align: center;
-            font-size: 20px;
-        }
+    @media (max-width: $sm-tablet-breakpoint) {
+        text-align: center;
+        font-size: 20px;
     }
 }
 

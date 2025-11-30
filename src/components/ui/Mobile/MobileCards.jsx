@@ -22,7 +22,7 @@ export default function MobileCards() {
 
         <div className="mobile-card-boxes grid grid-cols-2 gap-4 my-8">
             <div className="card-box">
-                <Link href="/products?topitems=y&itemStatus=AVAILABLE">
+                <Link href="/top-items">
                     <span>{translation.mostSelling}</span>
                     <img src={img1.src} alt="Card 1" />
                 </Link>
