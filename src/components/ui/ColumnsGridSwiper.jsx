@@ -20,7 +20,7 @@ export default ({ title, route, badgeType, type, id }) => {
     const lang = Cookies.get('lang') || 'AR';
     async function fetchHomeProducts() {
         let url;
-        if(type === "FEATURED") {
+        if (type === "FEATURED") {
             url = `${BASE_API}${endpoints.products.list}&itemType=FEATURED&pageSize=12&itemStatus=AVAILABLE&lang=${lang}&token=${Cookies.get('token')}`;
         } else {
             url = `${BASE_API}${endpoints.products.list}&topitems=${type}&pageSize=12&itemStatus=AVAILABLE&lang=${lang}&token=${Cookies.get('token')}`;
@@ -49,15 +49,17 @@ export default ({ title, route, badgeType, type, id }) => {
         },
     });
 
-    if (isLoading) return <HorizontalLoader />;
-    if (error instanceof Error) return push("/");
-
-    if (data) {
+    useEffect(() => {
+        if (!data) return;
         const cookieKey = `has_items_${type.replace(/\s+/g, '_')}`;
-        const hasItems = data?.data?.items?.length > 0;
+        const hasItems = data?.data?.items?.length > 0 ? true : false;
 
         Cookies.set(cookieKey, hasItems.toString());
-    }
+        dispatch({ type: cookieKey, payload: hasItems });
+    }, [data, type, dispatch]);
+
+    if (isLoading) return <HorizontalLoader />;
+    if (error instanceof Error) return push("/");
 
     return (
         <>

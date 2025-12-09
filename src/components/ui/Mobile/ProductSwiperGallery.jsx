@@ -3,6 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
+import { useAppContext } from '../../../../context/AppContext'
+import en from '../../../../locales/en.json';
+import ar from '../../../../locales/ar.json';
+import { createPortal } from "react-dom";
 
 import 'swiper/css'
 import 'swiper/css/free-mode'
@@ -10,8 +14,10 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 
 export default function ProductSwiperGallery({ images }) {
+    const [isOpen, setIsOpen] = useState(false);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const { state = {}, dispatch = () => { } } = useAppContext() || {};
 
     // Store refs for all mp4 videos
     const videoRefs = useRef([]);
@@ -44,7 +50,66 @@ export default function ProductSwiperGallery({ images }) {
     };
 
     return (
-        <div className="product-swiper-gallery">
+        <div className="product-swiper-gallery relative">
+            {isOpen && typeof window !== "undefined" &&
+                createPortal(
+                    <div className="fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4">
+
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            className="absolute top-4 right-4 text-white text-3xl"
+                        >
+                            ✕
+                        </button>
+
+                        <div className="w-full max-w-5xl">
+                            <Swiper
+                                initialSlide={activeIndex}
+                                navigation={false}
+                                modules={[FreeMode, Navigation, Thumbs]}
+                                className="popupSwiper"
+                            >
+                                {images.map((item, index) => {
+                                    const youtube = isYoutube(item);
+                                    const mp4 = isMp4(item);
+                                    const videoId = youtube ? getYoutubeId(item) : null;
+
+                                    return (
+                                        <SwiperSlide key={index}>
+                                            {youtube && (
+                                                <iframe
+                                                    width="100%"
+                                                    height="500"
+                                                    src={`https://www.youtube.com/embed/${videoId}`}
+                                                    allowFullScreen
+                                                ></iframe>
+                                            )}
+
+                                            {!youtube && mp4 && (
+                                                <video width="100%" height="500" controls>
+                                                    <source src={item} type="video/mp4" />
+                                                </video>
+                                            )}
+
+                                            {!youtube && !mp4 && (
+                                                <img src={item} className="max-h-[90vh] mx-auto" />
+                                            )}
+                                        </SwiperSlide>
+                                    );
+                                })}
+                            </Swiper>
+                        </div>
+
+                    </div>,
+                    document.getElementById("media-popup")
+                )
+            }
+            <button
+                onClick={() => setIsOpen(true)}
+                className={`absolute top-2 ${state.LANG === 'AR' ? 'right-2' : 'left-2'} z-10 text-white bg-black/50 p-2 rounded-full flex items-center justify-center cursor-pointer`}
+            >
+                <i className="icon-expand-solid text-xl"></i>
+            </button>
 
             {/* MAIN VIEWER */}
             <Swiper
@@ -126,6 +191,20 @@ export default function ProductSwiperGallery({ images }) {
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="mySwiper"
+                breakpoints={{
+                    0: {
+                        slidesPerView: 3,
+                        spaceBetween: 10,
+                    },
+                    320: {
+                        slidesPerView: 4,
+                        spaceBetween: 10,
+                    },
+                    600: {
+                        slidesPerView: 6,
+                        spaceBetween: 10,
+                    },
+                }}
             >
                 {images.map((item, index) => {
                     const youtube = isYoutube(item);

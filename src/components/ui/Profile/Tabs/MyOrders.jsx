@@ -51,7 +51,7 @@ export default function MyOrders({ closePanel }) {
 
   return (
     <div className='py-3'>
-      <div className="flex items-center gap-2 mb-6">
+      <div className="flex items-center mt-3 gap-2 mb-6">
         <span className='mobile-back-box isMobile' onClick={() => closePanel()}>
           <i className="icon-arrow-right"></i>
         </span>

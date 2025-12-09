@@ -10,6 +10,7 @@ import img3 from "../../../assets/imgs/mobile/3.png";
 import img4 from "../../../assets/imgs/mobile/4.png";
 import img5 from "../../../assets/imgs/mobile/5.png";
 import img6 from "../../../assets/imgs/mobile/6.png";
+import Cookies from 'js-cookie';
 
 export default function MobileCards() {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -17,46 +18,88 @@ export default function MobileCards() {
     useEffect(() => {
         setTranslation(state.LANG === "EN" ? en : ar);
     }, [state.LANG]);
+    // LOCAL STATES (one for each)
+    const [clearance, setClearance] = useState(false);
+    const [commingSoon, setCommingSoon] = useState(false);
+    const [featured, setFeatured] = useState(false);
+    const [giveaway, setGiveaway] = useState(false);
+    const [newArivals, setNewArivals] = useState(false);
+    const [topItems, setTopItems] = useState(false);
+
+    // Update ALL values when context state changes
+    useEffect(() => {
+        setClearance(state.has_items_CLEARANCE);
+        setCommingSoon(state.has_items_COMMING_SOON);
+        setFeatured(state.has_items_FEATURED);
+        setGiveaway(state.has_items_GIVEAWAY);
+        setNewArivals(state.has_items_NEW_ARRIVAL);
+        setTopItems(state.has_items_y);
+    }, [state]);
 
     return (
 
         <div className="mobile-card-boxes grid grid-cols-2 gap-4 my-8">
-            <div className="card-box">
-                <Link href="/top-items">
-                    <span>{translation.mostSelling}</span>
-                    <img src={img1.src} alt="Card 1" />
-                </Link>
-            </div>
-            <div className="card-box">
-                <Link href="/products?itemType=NEW ARRIVAL&itemStatus=AVAILABLE">
-                    <span>{translation.newArrivals}</span>
-                    <img src={img2.src} alt="Card 2" />
-                </Link>
-            </div>
-            <div className="card-box">
-                <Link href="/products?itemType=GIVEAWAY&itemStatus=AVAILABLE">
-                    <span>{translation.offers}</span>
-                    <img src={img3.src} alt="Card 3" />
-                </Link>
-            </div>
-            <div className="card-box">
-                <Link href="/products?itemType=FEATURED&itemStatus=AVAILABLE">
-                    <span>{translation.featuredProducts}</span>
-                    <img src={img4.src} alt="Card 4" />
-                </Link>
-            </div>
-            <div className="card-box">
-                <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">
-                    <span>{translation.clearance}</span>
-                    <img src={img5.src} alt="Card 5" />
-                </Link>
-            </div>
-            <div className="card-box">
-                <Link href="/products?itemType=COMMING SOON&itemStatus=AVAILABLE">
-                    <span>{translation.commingSoon}</span>
-                    <img src={img6.src} alt="Card 6" />
-                </Link>
-            </div>
+            {
+                topItems ? (
+                    <div className="card-box">
+                        <Link href="/top-items">
+                            <span>{translation.mostSelling}</span>
+                            <img src={img1.src} alt="Card 1" />
+                        </Link>
+                    </div>
+                ) : null
+            }
+            {
+                newArivals ? (
+
+                    <div className="card-box">
+                        <Link href="/products?itemType=NEW ARRIVAL&itemStatus=AVAILABLE">
+                            <span>{translation.newArrivals}</span>
+                            <img src={img2.src} alt="Card 2" />
+                        </Link>
+                    </div>
+                ) : null
+            }
+            {
+                giveaway ? (
+                    <div className="card-box">
+                        <Link href="/products?itemType=GIVEAWAY&itemStatus=AVAILABLE">
+                            <span>{translation.offers}</span>
+                            <img src={img3.src} alt="Card 3" />
+                        </Link>
+                    </div>
+                ) : null
+            }
+            {
+                featured ? (
+                    <div className="card-box">
+                        <Link href="/products?itemType=FEATURED&itemStatus=AVAILABLE">
+                            <span>{translation.featuredProducts}</span>
+                            <img src={img4.src} alt="Card 4" />
+                        </Link>
+                    </div>
+                ) : null
+            }
+            {
+                clearance ? (
+                    <div className="card-box">
+                        <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">
+                            <span>{translation.clearance}</span>
+                            <img src={img5.src} alt="Card 5" />
+                        </Link>
+                    </div>
+                ) : null
+            }
+            {
+                commingSoon ? (
+                    <div className="card-box">
+                        <Link href="/products?itemType=COMMING SOON&itemStatus=AVAILABLE">
+                            <span>{translation.commingSoon}</span>
+                            <img src={img6.src} alt="Card 6" />
+                        </Link>
+                    </div>
+                ) : null
+            }
         </div>
     )
 }

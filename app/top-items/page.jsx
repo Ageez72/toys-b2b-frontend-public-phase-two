@@ -69,8 +69,8 @@ export default function Page() {
       {
         showLoader && <Loader />
       }
-      <div className="max-w-screen-xl mx-auto p-4 all-products-container section-min mb-5">
-        <h2 className="main-title mb-10">{translation.mostSelling}</h2>
+      <div className="max-w-screen-xl mx-auto px-4 pb-4 all-products-container section-min mb-5">
+        <h2 className="main-title mt-40 mb-10">{translation.mostSelling}</h2>
         <div className="flex gap-4 filters-gap">
           <div className="w-full products-list">
             <div className={`${data?.data?.items?.length > 0 ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" : ""} products-page-listing`}>

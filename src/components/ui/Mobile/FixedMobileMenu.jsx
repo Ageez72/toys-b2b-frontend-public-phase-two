@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 
 export default function FixedMobileMenu() {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
+    const cartLength = state?.STOREDITEMS?.length || 0;
     const [translation, setTranslation] = useState(ar);
     useEffect(() => {
         setTranslation(state.LANG === "EN" ? en : ar);
@@ -41,8 +42,13 @@ export default function FixedMobileMenu() {
                 </Link>
                 <Link className={isActive("/cart")} href="/cart">
                     <span className='flex flex-col items-center justify-center h-full gap-2'>
-                        <i className='icon-bag-happy'></i>
-                        <i className="icon-bag-happy-1 active"></i>
+                        <span className="cart-icon relative">
+                            {cartLength > 0 && (
+                                <span className="cart-count-num">{cartLength}</span>
+                            )}
+                            <i className="icon-bag-happy"></i>
+                            <i className="icon-bag-happy-1 active"></i>
+                        </span>
                         <span className="txt text-center">{translation.mobile.bin}</span>
                     </span>
                 </Link>

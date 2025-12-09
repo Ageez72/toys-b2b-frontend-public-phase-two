@@ -78,7 +78,7 @@ export default function DetailsProductCard({ item }) {
                 message={translation.errorHappened}
             />
             <div className="product-card-content">
-                <div className="isDesktop">
+                <div>
                     {
                         item.isNew && (
                             <Badge type={item.isNew && 'blue'} text={`${translation.new}`} />
@@ -155,7 +155,7 @@ export default function DetailsProductCard({ item }) {
 
 
                 <h1 className="product-card-title details-product-card-title" title={item.name}>{item.name}</h1>
-                <h3 className="font-bold sku-number">{item?.id}</h3>
+                <h3 className="font-bold sku-number isDesktop">{item?.id}</h3>
                 <p className="product-card-description">
                     <Link href={`/products?brand=${item?.brand?.id}&itemStatus=AVAILABLE`}>
                         <span className="product-card-brand">{item?.brand?.description}</span>
@@ -166,120 +166,39 @@ export default function DetailsProductCard({ item }) {
                     </Link>
                 </p>
 
-                <div className="price flex items-center gap-3">
-                    {
-                        !item.commingSoon ? (
-                            item.itemdisc > 0 && !item.hideDiscount ? (
-                                <>
+                <div className="flex lg:block justify-between">
+                    <div className="price flex items-center gap-3">
+                        {
+                            !item.commingSoon ? (
+                                item.itemdisc > 0 && !item.hideDiscount ? (
+                                    <>
+                                        <span className="product-card-price">
+                                            <span className="price-number">{Number(item?.priceAfterDisc).toFixed(2)}</span>
+                                            <span className="price-unit mx-1">
+                                                {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                                            </span>
+                                        </span>
+                                        <span className="price-number discount">{Number(item?.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                    </>
+                                ) : (
                                     <span className="product-card-price">
-                                        <span className="price-number">{Number(item?.priceAfterDisc).toFixed(2)}</span>
+                                        <span className="price-number">{Number(item?.price).toFixed(2)}</span>
                                         <span className="price-unit mx-1">
                                             {siteLocation === "primereach" ? translation.iqd : translation.jod}
                                         </span>
                                     </span>
-                                    <span className="price-number discount">{Number(item?.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
-                                </>
-                            ) : (
-                                <span className="product-card-price">
-                                    <span className="price-number">{Number(item?.price).toFixed(2)}</span>
-                                    <span className="price-unit mx-1">
-                                        {siteLocation === "primereach" ? translation.iqd : translation.jod}
-                                    </span>
-                                </span>
-                            )
-                        ) : null
-                    }
+                                )
+                            ) : null
+                        }
 
-                </div>
+                    </div>
 
-                {/* {
-                        item?.itemdisc ? (
-                            <span className='flex gap-1 discount'>
-                                <span>{Number(item?.price).toFixed(2)}</span>
-                                <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
-                            </span>
-                        ) : ""
-                    } */}
-
-                <div className="stars flex items-center gap-2">
-                    <StarsRate rate={rate} />
-                    {/* <span className="rate-number">{`(${item?.reviews?.reviews?.length || 0} ${translation.reviews})`}</span> */}
+                    <div className="stars flex items-center gap-2">
+                        <StarsRate rate={rate} />
+                        {/* <span className="rate-number">{`(${item?.reviews?.reviews?.length || 0} ${translation.reviews})`}</span> */}
+                    </div>
                 </div>
                 <p className="product-description isDesktop" dangerouslySetInnerHTML={{ __html: item?.description }} />
-                <div className="isMobile mt-4">
-                    {
-                        item.isNew && (
-                            <Badge type={item.isNew && 'blue'} text={`${translation.new}`} />
-                        )
-                    }
-                    {/* {
-                    item.commingSoon && (
-                        <Badge type={item.commingSoon && 'yellow'} text={`${translation.soon}`} />
-                    )
-                } */}
-                    {
-                        !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount && (
-                            <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
-                        )
-                    }
-                    {
-                        profileData?.allQty ? (
-                            <>
-                                {item.avlqty === 1 && (
-                                    <Badge
-                                        type="red"
-                                        text={`${translation.only} ${item.avlqty} ${translation.pieceOne}`}
-                                    />
-                                )}
-
-                                {item.avlqty > 1 && item.avlqty <= 10 && (
-                                    <Badge
-                                        type="red"
-                                        text={`${translation.only} ${item.avlqty} ${item.avlqty > 10
-                                            ? translation.pieceOnly
-                                            : translation.piecesOnly
-                                            }`}
-                                    />
-                                )}
-
-                                {item.avlqty > 10 && (
-                                    <Badge
-                                        type="red"
-                                        text={`${translation.only} ${item.avlqty} ${translation.pieceOnly}`}
-                                    />
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                {/* Clearance badge when quantity > 0 */}
-                                {item.discountType === 'CLEARANCE' && item.avlqty > 0 && (
-                                    <Badge
-                                        type={item.discountType === 'CLEARANCE' ? 'red' : undefined}
-                                        text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
-                                            ? translation.pieceOne
-                                            : item.avlqty > 10
-                                                ? translation.pieceOnly
-                                                : translation.piecesOnly
-                                            }`}
-                                    />
-                                )}
-
-                                {/* Non-clearance badge when quantity between 2 and 9 */}
-                                {item.discountType !== 'CLEARANCE' &&
-                                    item.avlqty > 1 &&
-                                    item.avlqty < 10 && (
-                                        <Badge
-                                            type={item.discountType !== 'CLEARANCE' ? 'red' : undefined}
-                                            text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
-                                                ? translation.pieceOne
-                                                : translation.piecesOnly
-                                                }`}
-                                        />
-                                    )}
-                            </>
-                        )
-                    }
-                </div>
                 {
                     item?.status === "AVAILABLE" && !item.commingSoon ? (
                         <>

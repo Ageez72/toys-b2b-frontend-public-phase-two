@@ -71,8 +71,6 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 <Link href={`/products/${encodeURIComponent(item.id)}`} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
                     <img src={item?.images["800"]?.main} alt={item?.name} layout="responsive" title={item.name} />
                 </Link>
-            </div>
-            <div className="product-card-content">
                 {
                     item.isNew && (
                         <Badge type={item.isNew && 'blue'} text={`${translation.new}`} />
@@ -149,6 +147,8 @@ export default function ProductCard({ type, badgeType, related, item }) {
                         </>
                     )
                 }
+            </div>
+            <div className="product-card-content">
                 <h2 className="product-card-title cursor-pointer short-title" title={item.name}>
                     <Link href={`/products/${encodeURIComponent(item.id)}`} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
                         {item.name}

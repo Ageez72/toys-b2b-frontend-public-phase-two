@@ -22,6 +22,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // default fallback
   const [userChanged, setUserChanged] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
@@ -45,6 +46,8 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
     }
     return max;
   });
+
+  const isError = minVal >= maxVal;
 
   useEffect(() => {
     Cookies?.set(STORAGE_KEY, JSON.stringify({ minVal, maxVal }));
@@ -153,14 +156,20 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
                 <div className="price from">
                   <label className="font-bold block mb-2" htmlFor="priceFrom">{translation.from}</label>
                   <input className="w-full p-2.5" type="number" name="priceFrom" id="priceFrom" value={minVal}
+                    min="1"
+                    placeholder={min}
                     onChange={(event) => {
-                      const value = Math.min(
-                        Number(event.target.value),
-                        maxVal - 1
-                      );
+                      const value = Number(event.target.value);
                       setMinVal(value);
-                      handlePriceFrom(Number(event.target.value))
-                    }} />
+                      handlePriceFrom(value);
+
+                      if (value >= maxVal) {
+                        setError(translation.mobile.minPrice);
+                      } else {
+                        setError("");
+                      }
+                    }}
+                  />
                   <div className="unit">
                     {siteLocation === "primereach" ? translation.iqd : translation.jod}
                   </div>
@@ -168,24 +177,34 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
                 <div className="price to">
                   <label className="font-bold block mb-2" htmlFor="priceTo">{translation.to}</label>
                   <input className="w-full p-2.5" type="number" name="priceTo" id="priceTo" value={maxVal}
+                    min="1"
+                    placeholder={max}
                     onChange={(event) => {
-                      const value = Math.max(
-                        Number(event.target.value),
-                        minVal + 1
-                      );
+                      const value = Number(event.target.value);
                       setMaxVal(value);
-                      handlePriceTo(Number(event.target.value))
-                    }} />
+                      handlePriceTo(value);
+
+                      if (value <= minVal) {
+                        setError(translation.mobile.maxPrice);
+                      } else {
+                        setError("");
+                      }
+                    }}
+                  />
                   <div className="unit">
                     {siteLocation === "primereach" ? translation.iqd : translation.jod}
                   </div>
                 </div>
               </div>
+              {error && (
+                <span className="range-error block text-red-600 text-sm mb-5">{error}</span>
+              )}
             </div>
             {
               isProductsPage && (
                 <div className="flex justify-start gap-2">
-                  <button className="primary-btn sm-primary-btn" onClick={() => {
+                  <button className={`primary-btn sm-primary-btn ${isError ? 'disabled' : ''}`} onClick={() => {
+                    if (isError) return; // safety
                     onSubmitRange();
                     Cookies.set('filterstatus', "filter");
                   }}>{translation.apply}</button>

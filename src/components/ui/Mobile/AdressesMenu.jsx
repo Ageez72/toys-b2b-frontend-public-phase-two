@@ -36,7 +36,7 @@ export default function AddressesMenu({ list, selectedAdd, setAddress }) {
                     ) : (
                         <div className="flex items-center gap-2">
                             <i className="icon-location"></i>
-                            <span className="text-gray-400">{translation.mobile.selectAdress}</span>
+                            <span className="text-gray-400 address-title">{translation.mobile.selectAdress}</span>
                         </div>
                     )}
 

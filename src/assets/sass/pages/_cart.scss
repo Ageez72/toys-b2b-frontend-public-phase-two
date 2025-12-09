@@ -151,6 +151,10 @@
 
     .notes-text {
         height: 120px;
+
+        @media (max-width: 992px) {
+            height: 60px;
+        }
     }
 
     .addresses {

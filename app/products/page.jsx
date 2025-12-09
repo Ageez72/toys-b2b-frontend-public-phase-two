@@ -85,6 +85,13 @@ export default function Page() {
     return urlParams.toString();
   }, [apiParams]);
 
+  useEffect(() => {
+    if (!apiParams.search) {
+      setSearchTerm("")
+    }
+  }, [apiParams])
+
+
   async function fetchProducts() {
     if (searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge")) {
       const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});

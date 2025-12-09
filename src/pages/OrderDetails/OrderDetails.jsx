@@ -27,6 +27,7 @@ export default function OrderDetails() {
 
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar);
+    const lang = Cookies.get('lang') || 'AR';
 
     useEffect(() => {
         setTranslation(state.LANG === "EN" ? en : ar);
@@ -49,7 +50,7 @@ export default function OrderDetails() {
         fetchMyOrder();
     }, []);
 
-    // 👇 Open ConfirmOrderModal if ?new=1
+    // Open ConfirmOrderModal if ?new=1
     useEffect(() => {
         if (isNewOrder) {
             setOpenConfirmOrder(true);

@@ -17,6 +17,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
   const fromAge = Number(searchParams?.get("fromAge"));
   const toAge = Number(searchParams?.get("toAge"));
   const siteLocation = Cookies.get("siteLocation")
+  const [error, setError] = useState("");
 
   const STORAGE_KEY = "age_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -43,6 +44,8 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
     }
     return max;
   });
+
+  const isError = minVal >= maxVal;
 
   useEffect(() => {
     Cookies?.set(STORAGE_KEY, JSON.stringify({ minVal, maxVal }));
@@ -153,39 +156,46 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
                 <div className="price from">
                   <label className="font-bold block mb-2" htmlFor="priceFrom">{translation.from}</label>
                   <input className="w-full p-2.5" type="number" name="priceFrom" id="priceFrom" value={minVal}
+                    min="1"
                     onChange={(event) => {
-                      const value = Math.min(
-                        Number(event.target.value),
-                        maxVal - 1
-                      );
+                      const value = Number(event.target.value);
                       setMinVal(value);
-                      handleAgeFrom(Number(event.target.value))
+                      handleAgeFrom(value);
+
+                      if (value >= maxVal) {
+                        setError(translation.mobile.minAge);
+                      } else {
+                        setError("");
+                      }
                     }} />
-                  <div className="unit">
-                    {siteLocation === "primereach" ? translation.iqd : translation.jod}
-                  </div>
                 </div>
                 <div className="price to">
                   <label className="font-bold block mb-2" htmlFor="priceTo">{translation.to}</label>
                   <input className="w-full p-2.5" type="number" name="priceTo" id="priceTo" value={maxVal}
+                    min="1"
                     onChange={(event) => {
-                      const value = Math.max(
-                        Number(event.target.value),
-                        minVal + 1
-                      );
+                      const value = Number(event.target.value);
                       setMaxVal(value);
-                      handleAgeTo(Number(event.target.value))
-                    }} />
-                  <div className="unit">
-                    {siteLocation === "primereach" ? translation.iqd : translation.jod}
-                  </div>
+                      handleAgeTo(value);
+
+                      if (value <= minVal) {
+                        setError(translation.mobile.maxAge);
+                      } else {
+                        setError("");
+                      }
+                    }}
+                  />
                 </div>
               </div>
+              {error && (
+                <span className="range-error block text-red-600 text-sm mb-5">{error}</span>
+              )}
             </div>
             {
               isProductsPage && (
                 <div className="flex justify-start gap-2">
-                  <button className="primary-btn sm-primary-btn" onClick={() => {
+                  <button className={`primary-btn sm-primary-btn ${isError ? 'disabled' : ''}`} onClick={() => {
+                    if (isError) return; // safety
                     onSubmitRange();
                     Cookies.set('filterstatus', "filter");
                   }}>{translation.apply}</button>

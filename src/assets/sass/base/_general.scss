@@ -437,6 +437,16 @@
                     }
                 }
             }
+
+            &.contact-phone {
+                border-color: #25D366;
+                background-color: #25D366;
+
+                &:hover {
+                    border-color: #199347;
+                    background-color: #199347;
+                }
+            }
         }
 
 
@@ -494,7 +504,6 @@
 
 .breadcrumb-wrapper {
     ol {
-        flex-wrap: wrap;
         // gap: 4px;
 
         li {

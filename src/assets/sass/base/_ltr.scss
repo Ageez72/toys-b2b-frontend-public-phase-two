@@ -153,4 +153,8 @@
         right: auto;
         left: 0;
     }
+
+    .breadcrumb-wrapper ol li svg {
+        transform: rotate(180deg);
+    }
 }

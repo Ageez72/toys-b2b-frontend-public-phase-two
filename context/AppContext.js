@@ -14,7 +14,13 @@ const initialState = {
   corporateImage: "/imgs/corporate-default.png",
   DIRECTION: initialLang === "EN" ? "ltr" : "rtl",
   NumberOfParams: 0,
-  corporatePayment: ""
+  corporatePayment: "",
+  has_items_CLEARANCE: false,
+  has_items_COMMING_SOON: false,
+  has_items_GIVEAWAY: false,
+  has_items_NEW_ARRIVAL: false,
+  has_items_y: false,
+  has_items_FEATURED: false,
 };
 
 const AppContext = createContext();
@@ -43,7 +49,7 @@ const appReducer = (state, action) => {
       Cookies.remove("cart");
       return { ...state, STOREDITEMS: [] };
 
-    case "IS-CORPORATE":      
+    case "IS-CORPORATE":
       return { ...state, isCorporate: action.payload };
 
     case "IS-ACTIVE":
@@ -57,9 +63,27 @@ const appReducer = (state, action) => {
 
     case "CORPORATE-PAYMENT":
       return { ...state, corporatePayment: action.payload };
-    
+
     case "NUMBERS-OF-PARAMS":
       return { ...state, NumberOfParams: action.payload };
+
+    case "has_items_CLEARANCE":
+      return { ...state, has_items_CLEARANCE: action.payload };
+
+    case "has_items_COMMING_SOON":
+      return { ...state, has_items_COMMING_SOON: action.payload };
+
+    case "has_items_GIVEAWAY":
+      return { ...state, has_items_GIVEAWAY: action.payload };
+
+    case "has_items_NEW_ARRIVAL":
+      return { ...state, has_items_NEW_ARRIVAL: action.payload };
+
+    case "has_items_y":
+      return { ...state, has_items_y: action.payload };
+
+    case "has_items_FEATURED":
+      return { ...state, has_items_FEATURED: action.payload };
 
     default:
       return state;

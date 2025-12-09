@@ -512,39 +512,8 @@ function Cart() {
     setPendingImportedItems(null);
   };
 
-  const items = [
-    {
-      id: 'a',
-      title: 'تفاصيل المنتج',
-      content: (
-        <>
-          <div className="flex items-center justify-between gap-3 mb-2">
-            <p className="mb-0">باركود</p>
-            <p className="mb-0">22</p>
-          </div>
-          <div className="flex items-center justify-between gap-3 mb-2">
-            <p className="mb-0">سعر البيع (RSP)</p>
-            <p className="mb-0">22</p>
-          </div>
-          <div className="flex items-center justify-between gap-3 mb-2">
-            <p className="mb-0">السعر</p>
-            <p className="mb-0">22</p>
-          </div>
-          <div className="flex items-center justify-between gap-3 mb-2">
-            <p className="mb-0">التكلفة</p>
-            <p className="mb-0">22</p>
-          </div>
-          <div className="flex items-center justify-between gap-3 mb-2">
-            <p className="mb-0">الضريبة</p>
-            <p className="mb-0">22</p>
-          </div>
-        </>
-      )
-    }
-  ];
-
   return (
-    <div className="max-w-screen-xl mx-auto p-4 pt-15 cart-page section-min">
+    <div className="max-w-screen-xl mx-auto p-4 pt-2 lg:pt-15 cart-page section-min">
       {importPopup.success && importPopup.open && (
         <SuccessModal
           icon="icon-document-download"
@@ -578,7 +547,7 @@ function Cart() {
       />
       {loading && <Loader />}
       <Breadcrumb items={breadcrumbItems} />
-      <div className="mt-5 pt-5">
+      <div className="mt-2 pt-0 lg:mt-5 lg:pt-5">
         <div className=" lg:flex justify-between items-center flex-wrap gap-5 mb-5">
           <div className="flex items-center gap-5">
             <h3 className="sub-title">{translation.addedProducts}</h3>
@@ -612,11 +581,11 @@ function Cart() {
           </div>
         </div>
 
-        <div className="relative overflow-x-auto mb-5 isDesktop">
+        <div className="relative overflow-x-auto mb-5">
           {
             cartItems.length === 0 ? (
               <>
-                <div className='card empty-state flex justify-center items-center'>
+                <div className='card empty-state cart-empty-state flex justify-center items-center'>
                   <div className="text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="261" height="260" viewBox="0 0 261 260" fill="none">
                       <rect x="0.5" width="260" height="260" rx="130" fill="url(#paint0_linear_239_8280)" />
@@ -638,7 +607,7 @@ function Cart() {
             ) : null
           }
           {cartItems.length ? (
-            <table className="checkout-table text-center w-full text-sm text-left rtl:text-right text-gray-500 mb-5">
+            <table className="isDesktop checkout-table text-center w-full text-sm text-left rtl:text-right text-gray-500 mb-5">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th scope="col" className="px-3 py-3 text-center">
@@ -811,7 +780,7 @@ function Cart() {
             {
               cartItems.length ? (
                 <>
-                  <h3 className="sub-title mb-4">{translation.shippingAddress} <span className="required">*</span></h3>
+                  <h3 className="sub-title no-edit mb-4">{translation.shippingAddress} <span className="required">*</span></h3>
                   <div className="addresses">
                     <div className="isDesktop">
                       {
@@ -880,7 +849,7 @@ function Cart() {
                   {
                     state.isCorporate && (
                       <>
-                        <h3 className="sub-title mb-4 mt-8">{translation.paymentMethod}</h3>
+                        <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
                             (state.corporatePayment === "Cash" || state.corporatePayment === "") && (
@@ -930,7 +899,7 @@ function Cart() {
                       </>
                     )
                   }
-                  <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
+                  <h3 className="sub-title no-edit mb-4 mt-8">{translation.orderNotes}</h3>
                   <div className="card mb-5">
                     <textarea
                       className="w-full h-full notes-text"
@@ -1003,32 +972,32 @@ function Cart() {
           <div className="order-summary">
             <div className="card p-4">
               <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
-              <div className="order-item flex justify-between items-center mb-4">
+              <div className="order-item flex justify-between items-center mb-2">
                 <p className="mb-0">{translation.itemCount}</p>
                 <p className="mb-0">{orderSummary?.CNT}</p>
               </div>
-              <div className="order-item flex justify-between items-center mb-4">
+              <div className="order-item flex justify-between items-center mb-2">
                 <p className="mb-0">{translation.subtotal}</p>
                 <p className="mb-0 flex items-center gap-1">
                   <span>{cartItems.length ? Number(orderSummary?.SUBTOTAL).toFixed(2) : 0}</span>
                   <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </p>
               </div>
-              <div className="order-item flex justify-between items-center mb-4">
+              <div className="order-item flex justify-between items-center mb-2">
                 <p className="mb-0">{translation.tax}</p>
                 <p className="mb-0 flex items-center gap-1">
                   <span>{cartItems.length ? Number(orderSummary?.TAX).toFixed(2) : 0}</span>
                   <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </p>
               </div>
-              <div className="order-item flex justify-between items-center mb-4">
+              <div className="order-item flex justify-between items-center mb-2">
                 <p className="mb-0">{translation.discount}</p>
                 <p className="mb-0 flex items-center gap-1">
                   <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span>
                   <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </p>
               </div>
-              <div className="order-item flex justify-between items-center mb-4">
+              <div className="order-item flex justify-between items-center mb-2">
                 <p className="mb-0">{translation.deliveryFees}</p>
                 <p className="mb-0 flex items-center gap-1">
                   {/* <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span> */}
@@ -1050,7 +1019,7 @@ function Cart() {
         <div className="order-summary-cart-mobile isMobile">
           <div className="flex items-center justify-between gap-3 w-full">
             <div className="view-order-summary" onClick={() => setShowOrderSummary(!showOrderSummary)}>
-              <i className={`icon-arrow-down-01-round ${showOrderSummary ? "active" : null}`}></i>
+              <i className={`icon-arrow-up ${showOrderSummary ? "active" : null}`}></i>
               <h3 className="sub-title">{translation.total}</h3>
               <p className="mb-0 flex items-center gap-1 price">
                 <span>{cartItems.length ? Number(orderSummary?.TOTAL).toFixed(2) : 0}</span>

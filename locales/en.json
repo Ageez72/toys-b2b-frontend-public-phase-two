@@ -330,6 +330,10 @@
     "productDesc": "Product Description",
     "addToCart": "Add to Cart",
     "productDetails": "Product Details",
-    "selectAdress": "Choose the address"
+    "selectAdress": "Choose the address",
+    "minPrice": "Minimum price must be less than maximum price",
+    "maxPrice": "Maximum price must be greater than minimum price",
+    "minAge": "Minimum Age must be less than maximum Age",
+    "maxAge": "Maximum Age must be greater than minimum Age"
   }
 }

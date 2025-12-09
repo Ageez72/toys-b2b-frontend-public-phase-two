@@ -68,7 +68,7 @@ export default function Accordion({
                             className={`overflow-hidden transition-[max-height] duration-300 ease-in-out`}
                             style={{ maxHeight: openNow ? '240px' : '0px' }}
                         >
-                            <div className="content pb-4 pt-1 text-sm text-gray-700 mt-3">
+                            <div className="content pb-0 pt-1 text-sm text-gray-700 mt-3">
                                 {typeof item.content === 'function' ? item.content() : item.content}
                             </div>
                         </div>

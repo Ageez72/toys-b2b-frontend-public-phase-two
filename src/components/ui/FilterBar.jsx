@@ -21,6 +21,11 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         setTranslation(state.LANG === "EN" ? en : ar);
     }, [state.LANG]);
     const [showClearButton, setShowClearButton] = useState(false);
+    useEffect(() => {
+        if (count.count > 1) {
+            setShowClearButton(true)
+        }
+    }, [count])
 
     const StatusOptions = [
         {
@@ -321,21 +326,21 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         // }
     }, [filtersSections])
 
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const entries = Array.from(params.entries());
+    // useEffect(() => {
+    //     const params = new URLSearchParams(window.location.search);
+    //     const entries = Array.from(params.entries());
 
-        // Exclude default filter like itemStatus=AVAILABLE
-        const meaningfulParams = entries.filter(([key, value]) => {
-            return !(key === 'itemStatus' && value === 'AVAILABLE');
-        });
+    //     // Exclude default filter like itemStatus=AVAILABLE
+    //     const meaningfulParams = entries.filter(([key, value]) => {
+    //         return !(key === 'itemStatus' && value === 'AVAILABLE');
+    //     });
 
-        if (meaningfulParams.length > 1) {
-            setShowClearButton(true);
-        } else {
-            setShowClearButton(false);
-        }
-    }, [useParams.toString()]);
+    //     if (meaningfulParams.length > 1) {
+    //         setShowClearButton(true);
+    //     } else {
+    //         setShowClearButton(false);
+    //     }
+    // }, [useParams.toString()]);
 
     useEffect(() => {
         // Cleanup on unmount: remove 'active' class from header links

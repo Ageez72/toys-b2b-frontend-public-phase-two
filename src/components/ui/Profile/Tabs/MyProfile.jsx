@@ -126,7 +126,7 @@ export default function MyProfile({ closePanel }) {
       {!isLoading && (
         <div className='py-3'>
           <div className='form-side md:flex-1 flex-12'>
-            <div className="flex items-center gap-2 mb-6">
+            <div className="flex items-center mt-3 gap-2 mb-6">
               <span className='mobile-back-box isMobile' onClick={() => closePanel()}>
                 <i className="icon-arrow-right"></i>
               </span>
@@ -243,7 +243,7 @@ export default function MyProfile({ closePanel }) {
                 {errors.storeName && <span className="error-msg text-red-500">{errors.storeName.message}</span>}
               </div>
 
-              <div className="text-end">
+              <div className="text-end submit-edit-profile-btn">
                 <button type='submit' className='primary-btn w-auto' style={{ minWidth: "140px" }}>
                   {
                     !inputsStatus ? (
