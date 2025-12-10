@@ -45,13 +45,13 @@ export default function Hero({
                 open={isSidebarModalOpen}
                 onClose={() => {
                     setIsSidebarModalOpen(false);
-                    document.documentElement.classList.remove("html-overflow");
+                    document.body.classList.remove("html-overflow");
                 }}
             />
             <AddBulkModal
                 open={isModalOpen}
                 onClose={() => {
-                    document.documentElement.classList.remove("clear-html");
+                    document.body.classList.remove("clear-html");
                     setIsModalOpen(false);
                 }}
             />
@@ -69,7 +69,7 @@ export default function Hero({
                     <button
                         className="add-bulk-open-btn"
                         onClick={() => {
-                            document.documentElement.classList.add("clear-html");
+                            document.body.classList.add("clear-html");
                             setIsModalOpen(true);
                         }}
                     >

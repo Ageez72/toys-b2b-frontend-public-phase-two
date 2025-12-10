@@ -378,7 +378,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 const filterElement = document.querySelector(".filter-products-page");
                                 if (filterElement) {
                                     filterElement.classList.remove("active");
-                                    document.documentElement.classList.remove("html-overflow");
+                                    document.body.classList.remove("html-overflow");
                                 }
                             }}></i>
                         </div>

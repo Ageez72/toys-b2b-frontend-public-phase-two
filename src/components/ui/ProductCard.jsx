@@ -71,84 +71,164 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 <Link href={`/products/${encodeURIComponent(item.id)}`} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
                     <img src={item?.images["800"]?.main} alt={item?.name} layout="responsive" title={item.name} />
                 </Link>
-                {
-                    item.isNew && (
-                        <Badge type={item.isNew && 'blue'} text={`${translation.new}`} />
-                    )
-                }
-                {/* {
+                <div className='isMobile'>
+                    {
+                        item.isNew && (
+                            <Badge type={item.isNew && 'blue'} text={`${translation.new}`} />
+                        )
+                    }
+                    {/* {
                     item.commingSoon && (
                         <Badge type={item.commingSoon && 'yellow'} text={`${translation.soon}`} />
                     )
                 } */}
-                {
-                    !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount && (
-                        <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
-                    )
-                }
-                {
-                    item?.status !== "AVAILABLE" && !item.commingSoon ? (
-                        <Badge type={'red'} text={`${translation.notAvailable}`} />
-                    ) : null
-                }
-                {
-                    profileData?.allQty ? (
-                        <>
-                            {item.avlqty === 1 && !item.commingSoon && (
-                                <Badge
-                                    type="red"
-                                    text={`${translation.only} ${item.avlqty} ${translation.pieceOne}`}
-                                />
-                            )}
-
-                            {item.avlqty > 1 && item.avlqty <= 10 && !item.commingSoon && (
-                                <Badge
-                                    type="red"
-                                    text={`${translation.only} ${item.avlqty} ${item.avlqty > 10
-                                        ? translation.pieceOnly
-                                        : translation.piecesOnly
-                                        }`}
-                                />
-                            )}
-
-                            {item.avlqty > 10 && !item.commingSoon && (
-                                <Badge
-                                    type="red"
-                                    text={`${translation.only} ${item.avlqty} ${translation.pieceOnly}`}
-                                />
-                            )}
-
-                        </>
-                    ) : (
-                        <>
-                            {item.discountType === 'CLEARANCE' && item.avlqty > 0 && !item.commingSoon && (
-                                <Badge
-                                    type={item.discountType === 'CLEARANCE' ? 'red' : undefined}
-                                    text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
-                                        ? translation.pieceOne
-                                        : item.avlqty > 10
-                                            ? translation.pieceOnly
-                                            : translation.piecesOnly
-                                        }`}
-                                />
-                            )}
-
-                            {item.discountType !== 'CLEARANCE' && !item.commingSoon &&
-                                item.avlqty > 1 &&
-                                item.avlqty < 10 && (
+                    {
+                        !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount && (
+                            <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                        )
+                    }
+                    {
+                        item?.status !== "AVAILABLE" && !item.commingSoon ? (
+                            <Badge type={'red'} text={`${translation.notAvailable}`} />
+                        ) : null
+                    }
+                    {
+                        profileData?.allQty ? (
+                            <>
+                                {item.avlqty === 1 && !item.commingSoon && (
                                     <Badge
-                                        type={item.discountType !== 'CLEARANCE' ? 'red' : undefined}
-                                        text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
-                                            ? translation.pieceOne
+                                        type="red"
+                                        text={`${translation.only} ${item.avlqty} ${translation.pieceOne}`}
+                                    />
+                                )}
+
+                                {item.avlqty > 1 && item.avlqty <= 10 && !item.commingSoon && (
+                                    <Badge
+                                        type="red"
+                                        text={`${translation.only} ${item.avlqty} ${item.avlqty > 10
+                                            ? translation.pieceOnly
                                             : translation.piecesOnly
                                             }`}
                                     />
                                 )}
-                        </>
-                    )
-                }
+
+                                {item.avlqty > 10 && !item.commingSoon && (
+                                    <Badge
+                                        type="red"
+                                        text={`${translation.only} ${item.avlqty} ${translation.pieceOnly}`}
+                                    />
+                                )}
+
+                            </>
+                        ) : (
+                            <>
+                                {item.discountType === 'CLEARANCE' && item.avlqty > 0 && !item.commingSoon && (
+                                    <Badge
+                                        type={item.discountType === 'CLEARANCE' ? 'red' : undefined}
+                                        text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                            ? translation.pieceOne
+                                            : item.avlqty > 10
+                                                ? translation.pieceOnly
+                                                : translation.piecesOnly
+                                            }`}
+                                    />
+                                )}
+
+                                {item.discountType !== 'CLEARANCE' && !item.commingSoon &&
+                                    item.avlqty > 1 &&
+                                    item.avlqty < 10 && (
+                                        <Badge
+                                            type={item.discountType !== 'CLEARANCE' ? 'red' : undefined}
+                                            text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                                ? translation.pieceOne
+                                                : translation.piecesOnly
+                                                }`}
+                                        />
+                                    )}
+                            </>
+                        )
+                    }
+                </div>
             </div>
             <div className="product-card-content">
+                <div className='isDesktop'>
+                    {
+                        item.isNew && (
+                            <Badge type={item.isNew && 'blue'} text={`${translation.new}`} />
+                        )
+                    }
+                    {/* {
+                    item.commingSoon && (
+                        <Badge type={item.commingSoon && 'yellow'} text={`${translation.soon}`} />
+                    )
+                } */}
+                    {
+                        !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount && (
+                            <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                        )
+                    }
+                    {
+                        item?.status !== "AVAILABLE" && !item.commingSoon ? (
+                            <Badge type={'red'} text={`${translation.notAvailable}`} />
+                        ) : null
+                    }
+                    {
+                        profileData?.allQty ? (
+                            <>
+                                {item.avlqty === 1 && !item.commingSoon && (
+                                    <Badge
+                                        type="red"
+                                        text={`${translation.only} ${item.avlqty} ${translation.pieceOne}`}
+                                    />
+                                )}
+
+                                {item.avlqty > 1 && item.avlqty <= 10 && !item.commingSoon && (
+                                    <Badge
+                                        type="red"
+                                        text={`${translation.only} ${item.avlqty} ${item.avlqty > 10
+                                            ? translation.pieceOnly
+                                            : translation.piecesOnly
+                                            }`}
+                                    />
+                                )}
+
+                                {item.avlqty > 10 && !item.commingSoon && (
+                                    <Badge
+                                        type="red"
+                                        text={`${translation.only} ${item.avlqty} ${translation.pieceOnly}`}
+                                    />
+                                )}
+
+                            </>
+                        ) : (
+                            <>
+                                {item.discountType === 'CLEARANCE' && item.avlqty > 0 && !item.commingSoon && (
+                                    <Badge
+                                        type={item.discountType === 'CLEARANCE' ? 'red' : undefined}
+                                        text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                            ? translation.pieceOne
+                                            : item.avlqty > 10
+                                                ? translation.pieceOnly
+                                                : translation.piecesOnly
+                                            }`}
+                                    />
+                                )}
+
+                                {item.discountType !== 'CLEARANCE' && !item.commingSoon &&
+                                    item.avlqty > 1 &&
+                                    item.avlqty < 10 && (
+                                        <Badge
+                                            type={item.discountType !== 'CLEARANCE' ? 'red' : undefined}
+                                            text={`${translation.only} ${item.avlqty} ${item.avlqty === 1
+                                                ? translation.pieceOne
+                                                : translation.piecesOnly
+                                                }`}
+                                        />
+                                    )}
+                            </>
+                        )
+                    }
+                </div>
                 <h2 className="product-card-title cursor-pointer short-title" title={item.name}>
                     <Link href={`/products/${encodeURIComponent(item.id)}`} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
                         {item.name}

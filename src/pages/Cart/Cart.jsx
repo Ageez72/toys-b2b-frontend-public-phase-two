@@ -806,7 +806,7 @@ function Cart() {
                           </div>
                         ) : null
                       }
-                      {addressesItems.length ? (
+                      {addressesItems?.length ? (
                         addressesItems?.map((add, index) => (
                           <div className="card mb-3" key={add.id}>
                             <div className="address-item">

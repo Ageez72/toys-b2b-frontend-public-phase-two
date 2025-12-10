@@ -34,7 +34,7 @@ export default function OrderCard({ order }) {
             <div className="flex items-center justify-between mb-1">
                 <Link href={`/order-details?id=${order.orderID}`}>
                     <div className="order-number text-sm font-semibold">
-                        <span>{translation.orderNumber}:</span> <span>#{order.orderID}</span>
+                        <span>{translation.orderNumber}:</span> <span>{order.orderID}</span>
                     </div>
                 </Link>
                 <span className={`order-status ${status}`}>

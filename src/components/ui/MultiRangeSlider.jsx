@@ -47,7 +47,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
     return max;
   });
 
-  const isError = minVal >= maxVal;
+  const isError = minVal >= maxVal || minVal < 1 || maxVal < 1;
 
   useEffect(() => {
     Cookies?.set(STORAGE_KEY, JSON.stringify({ minVal, maxVal }));
@@ -155,11 +155,16 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
               <div className="mobile-range grid grid-cols-2 gap-3 mb-6 mt-6">
                 <div className="price from">
                   <label className="font-bold block mb-2" htmlFor="priceFrom">{translation.from}</label>
-                  <input className="w-full p-2.5" type="number" name="priceFrom" id="priceFrom" value={minVal}
-                    min="1"
+                  <input className="w-full p-2.5" type="number" name="priceFrom" id="priceFrom" defaultValue={minVal}
                     placeholder={min}
                     onChange={(event) => {
                       const value = Number(event.target.value);
+
+                      if (value < 1) {
+                        setError(translation.mobile.minValueCannotBeNegative);
+                        return;
+                      }
+
                       setMinVal(value);
                       handlePriceFrom(value);
 
@@ -176,11 +181,16 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
                 </div>
                 <div className="price to">
                   <label className="font-bold block mb-2" htmlFor="priceTo">{translation.to}</label>
-                  <input className="w-full p-2.5" type="number" name="priceTo" id="priceTo" value={maxVal}
-                    min="1"
+                  <input className="w-full p-2.5" type="number" name="priceTo" id="priceTo" defaultValue={maxVal}
                     placeholder={max}
                     onChange={(event) => {
                       const value = Number(event.target.value);
+
+                      if (value < 1) {
+                        setError(translation.mobile.maxValueCannotBeNegative);
+                        return;
+                      }
+
                       setMaxVal(value);
                       handlePriceTo(value);
 
@@ -203,7 +213,12 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
             {
               isProductsPage && (
                 <div className="flex justify-start gap-2">
-                  <button className={`primary-btn sm-primary-btn ${isError ? 'disabled' : ''}`} onClick={() => {
+                  <button className={`primary-btn sm-primary-btn isDesktop`} onClick={() => {
+                    if (isError) return; // safety
+                    onSubmitRange();
+                    Cookies.set('filterstatus', "filter");
+                  }}>{translation.apply}</button>
+                  <button className={`primary-btn sm-primary-btn isMobile ${error ? 'disabled' : ''}`} disabled={isError} onClick={() => {
                     if (isError) return; // safety
                     onSubmitRange();
                     Cookies.set('filterstatus', "filter");

@@ -106,15 +106,15 @@ export default function OrderDetails() {
                 />
             )}
 
-            <div className='cart-page'>
+            <div className='cart-page p-4 pt-2 lg:pt-15'>
                 <Breadcrumb items={breadcrumbItems} />
-                <div className="flex gap-7 mt-5 pt-5 flex-col lg:flex-row">
+                <div className="flex gap-7 mt-4 lg:mt-5 lg:pt-5 flex-col lg:flex-row">
                     <div className="order-side">
                         <div className="card mb-10">
                             <div className="flex items-center justify-between mb-1">
                                 <div className="order-number sub-title">
                                     <span>{translation.orderNumber}:</span>{" "}
-                                    <span>#{orderDetails.orderID}</span>
+                                    <span>{orderDetails.orderID}</span>
                                 </div>
                                 <span className={`order-status ${status}`}>
                                     <span>{orderDetails.status}</span>
@@ -169,16 +169,21 @@ export default function OrderDetails() {
                                         </div>
                                     </div>
                                 ))}
-
-                                <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
-                                <div className="card">
-                                    <textarea
-                                        disabled
-                                        className="w-full h-full notes-text"
-                                        name="notes"
-                                        defaultValue={orderDetails.notes}
-                                    />
-                                </div>
+                                {
+                                    orderDetails.notes ? (
+                                        <>
+                                            <h3 className="sub-title mb-4 mt-8">{translation.orderNotes}</h3>
+                                            <div className="card">
+                                                <textarea
+                                                    disabled
+                                                    className="w-full h-full notes-text"
+                                                    name="notes"
+                                                    defaultValue={orderDetails.notes}
+                                                />
+                                            </div>
+                                        </>
+                                    ) : null
+                                }
 
                                 {orderDetails.address && (
                                     <>
@@ -211,7 +216,7 @@ export default function OrderDetails() {
                             <h3 className="sub-title mb-6">{translation.orderSummary}</h3>
 
                             <div className="order-item flex justify-between items-center mb-4">
-                                <p className="mb-0">{translation.CNT}</p>
+                                <p className="mb-0">{translation.itemCount}</p>
                                 <p className="mb-0">{orderDetails?.details?.length}</p>
                             </div>
 

@@ -334,6 +334,10 @@
     "minPrice": "Minimum price must be less than maximum price",
     "maxPrice": "Maximum price must be greater than minimum price",
     "minAge": "Minimum Age must be less than maximum Age",
-    "maxAge": "Maximum Age must be greater than minimum Age"
+    "maxAge": "Maximum Age must be greater than minimum Age",
+    "minValueCannotBeNegative": "Minimum price cannot be equal or less than 0",
+    "maxValueCannotBeNegative": "Maximum price cannot be equal or less than 0",
+    "minAgeCannotBeNegative": "Minimum Age cannot be equal or less than 0",
+    "maxAgeCannotBeNegative": "Maximum Age cannot be equal or less than 0"
   }
 }

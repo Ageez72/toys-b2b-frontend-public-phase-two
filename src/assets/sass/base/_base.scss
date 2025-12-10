@@ -146,6 +146,10 @@ input::-webkit-inner-spin-button {
     padding-right: 15px;
     overflow: visible;
     padding: 0;
+
+    @media (max-width: 1023px) {
+        overflow: hidden;
+    }
 }
 
 hr {

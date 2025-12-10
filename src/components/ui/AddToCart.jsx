@@ -87,44 +87,90 @@ export default function AddToCart({ item, hasTitle = false }) {
 
 
   return (
-    <div className="add-to-cart flex items-center gap-3 w-full mt-3 lg-mt-0">
-      <div className="product-card-quantity flex items-center gap-1 w-50">
-        <button onClick={decrease} className="btn btn-secondary w-fit" aria-label='Decrease quantity'>
-          <i className="icon-minus"></i>
-        </button>
-        <input
-          className="w-fit text-center"
-          type="number"
-          min={1}
-          max={10 - existingQty}
-          value={count}
-          onChange={handleQuantityChange}
-        />
-        <button onClick={increase} className="btn btn-secondary w-fit" aria-label='Increase quantity'>
-          <i className="icon-add"></i>
-        </button>
+    <>
+
+      <div className="isDesktop">
+        <div className="add-to-cart grid grid-cols-2 gap-3 w-full mt-3 lg-mt-0">
+          <div className="product-card-quantity flex items-center gap-1 flex-1">
+            <button onClick={decrease} className="btn btn-secondary w-fit" aria-label='Decrease quantity'>
+              <i className="icon-minus"></i>
+            </button>
+            <input
+              className="w-fit text-center"
+              type="number"
+              min={1}
+              max={10 - existingQty}
+              value={count}
+              onChange={handleQuantityChange}
+            />
+            <button onClick={increase} className="btn btn-secondary w-fit" aria-label='Increase quantity'>
+              <i className="icon-add"></i>
+            </button>
+          </div>
+          <div className="isDesktop flex-1">
+            <button
+              onClick={handleAddToCart}
+              className={`w-full primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
+              disabled={count + existingQty > 10}
+            >
+              <span className='isDesktop'>
+                {translation.addCart}
+              </span>
+            </button>
+          </div>
+          <div className="mob-icon isMobile">
+            <button
+              onClick={handleAddToCart}
+              className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
+              disabled={count + existingQty > 10}
+            >
+              <i className="icon-bag-happy"></i>
+              {hasTitle && <span>{translation.mobile.addToCart}</span>}
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="isDesktop w-50">
-        <button
-          onClick={handleAddToCart}
-          className={`w-full primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
-          disabled={count + existingQty > 10}
-        >
-          <span className='isDesktop'>
-            {translation.addCart}
-          </span>
-        </button>
+      <div className="isMobile">
+        <div className="add-to-cart flex items-center gap-3 w-full mt-3 lg-mt-0">
+          <div className="product-card-quantity flex items-center gap-1 w-50">
+            <button onClick={decrease} className="btn btn-secondary w-fit" aria-label='Decrease quantity'>
+              <i className="icon-minus"></i>
+            </button>
+            <input
+              className="w-fit text-center"
+              type="number"
+              min={1}
+              max={10 - existingQty}
+              value={count}
+              onChange={handleQuantityChange}
+            />
+            <button onClick={increase} className="btn btn-secondary w-fit" aria-label='Increase quantity'>
+              <i className="icon-add"></i>
+            </button>
+          </div>
+          <div className="isDesktop w-50">
+            <button
+              onClick={handleAddToCart}
+              className={`w-full primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
+              disabled={count + existingQty > 10}
+            >
+              <span className='isDesktop'>
+                {translation.addCart}
+              </span>
+            </button>
+          </div>
+          <div className="mob-icon isMobile">
+            <button
+              onClick={handleAddToCart}
+              className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
+              disabled={count + existingQty > 10}
+            >
+              <i className="icon-bag-happy"></i>
+              {hasTitle && <span>{translation.mobile.addToCart}</span>}
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="mob-icon isMobile">
-        <button
-          onClick={handleAddToCart}
-          className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
-          disabled={count + existingQty > 10}
-        >
-          <i className="icon-bag-happy"></i>
-          {hasTitle && <span>{translation.mobile.addToCart}</span>}
-        </button>
-      </div>
-    </div>
+    </>
   );
 }

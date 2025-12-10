@@ -85,9 +85,9 @@ export default function QuickAdd({ openSidebar }) {
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         getNumberOfParams()
-    },[state.NumberOfParams, Cookies.get('store_filters')])
+    }, [state.NumberOfParams, Cookies.get('store_filters')])
 
     function getNumberOfParams() {
         const filterItems = Cookies.get('store_filters') || '';
@@ -95,11 +95,11 @@ export default function QuickAdd({ openSidebar }) {
         const params = new URLSearchParams(filterItems);
         const numberOfParams = [...params.keys()].length;
         if (numberOfParams > 0) {
-          dispatch({ type: 'NUMBERS-OF-PARAMS', payload: numberOfParams });
+            dispatch({ type: 'NUMBERS-OF-PARAMS', payload: numberOfParams });
         } else {
-          dispatch({ type: 'NUMBERS-OF-PARAMS', payload: 0 });
+            dispatch({ type: 'NUMBERS-OF-PARAMS', payload: 0 });
         }
-      }
+    }
 
     return (
         <>
@@ -113,7 +113,7 @@ export default function QuickAdd({ openSidebar }) {
                             className="absolute inset-y-0 start-0 flex items-center pe-3.5 password-icon"
                             onClick={() => {
                                 openSidebar();
-                                document.documentElement.classList.add('html-overflow');
+                                document.body.classList.add('html-overflow');
                             }}
                         >
                             {state.NumberOfParams > 0 ? <span className="red-filter-home">{state.NumberOfParams}</span> : null}

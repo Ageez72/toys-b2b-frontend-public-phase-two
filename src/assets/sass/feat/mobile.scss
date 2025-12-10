@@ -1143,7 +1143,7 @@ $tablet-font-percent: 25%;
     }
 
     @media (max-width: $tablet-breakpoint) {
-        margin: 12px 1rem;
+        margin: 12px 0;
     }
 
     @media (max-width: $sm-tablet-breakpoint) {

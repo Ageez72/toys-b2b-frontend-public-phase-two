@@ -93,12 +93,12 @@ export default function Page() {
 
 
   async function fetchProducts() {
-    if (searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge")) {
-      const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
-      return res;
-    }
-    const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
+    // if (searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge")) {
+    const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
     return res;
+    // }
+    // const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
+    // return res;
   }
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState(queryObject.search || '');
@@ -143,11 +143,11 @@ export default function Page() {
     if (status === "close") {
       if (filterElement) {
         filterElement.classList.remove("active");
-        document.documentElement.classList.remove("html-overflow");
+        document.body.classList.remove("html-overflow");
       }
     } else {
       filterElement.classList.add("active");
-      document.documentElement.classList.add("html-overflow");
+      document.body.classList.add("html-overflow");
     }
   }
 
