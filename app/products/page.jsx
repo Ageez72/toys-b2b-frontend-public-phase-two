@@ -94,11 +94,11 @@ export default function Page() {
 
   async function fetchProducts() {
     // if (searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge")) {
-    const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
-    return res;
-    // }
-    // const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
+    // const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
     // return res;
+    // }
+    const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
+    return res;
   }
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState(queryObject.search || '');

@@ -607,102 +607,104 @@ function Cart() {
             ) : null
           }
           {cartItems.length ? (
-            <table className="isDesktop checkout-table text-center w-full text-sm text-left rtl:text-right text-gray-500 mb-5">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                <tr>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.image}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.productNumber}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.barcode}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.productName}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.sellingPrice}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.price}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.discount}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.costPrice}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.tax}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.brand} - {translation.type}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.qty}
-                  </th>
-                  <th scope="col" className="px-3 py-3 text-center">
-                    {translation.totalPrice}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <>
-                  {orderSummary?.ITEMS?.map((item) => (
-                    <tr className={`bg-white ${addOrderErrorList?.map(String).includes(String(item.id)) ? "hass-qty-error" : ""} ${item.id}`} key={item.id}>
-                      <td className="px-3 py-3 text-center">
-                        <Link href={`/products/${encodeURIComponent(item.id)}`} className="w-full h-full flex justify-center items-center">
-                          <img src={item.images["800"].main} width={80} alt={item.name || "Product"} />
-                        </Link>
-                      </td>
-                      <td scope="row" className="px-3 py-3 text-center">
-                        {item.id}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {item.barcode}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        <Link href={`/products/${encodeURIComponent(item.id)}`}>{item.name}</Link>
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {item.RSP}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {item.LPRICE}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        <span dir="ltr">
-                          {(item.PRICEAFTERDISCOUNT - item.LPRICE).toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {item.PRICEAFTERDISCOUNT}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {item.TAX}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {item.brand.description} - {item.category.description}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        <InlineAddToCart
-                          itemId={item.id}
-                          avlqty={item.avlqty}
-                          onQtyChange={loadCart}
-                          onRefresh={handleRefresh}
-                        />
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {Number(item.NET).toFixed(2)}
-                        <span className="ms-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </>
-              </tbody>
-            </table>
+            <div className="isDesktop">
+              <table className="checkout-table text-center w-full text-sm text-left rtl:text-right text-gray-500 mb-5">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.image}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.productNumber}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.barcode}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.productName}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.sellingPrice}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.price}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.discount}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.costPrice}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.tax}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.brand} - {translation.type}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.qty}
+                    </th>
+                    <th scope="col" className="px-3 py-3 text-center">
+                      {translation.totalPrice}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <>
+                    {orderSummary?.ITEMS?.map((item) => (
+                      <tr className={`bg-white ${addOrderErrorList?.map(String).includes(String(item.id)) ? "hass-qty-error" : ""} ${item.id}`} key={item.id}>
+                        <td className="px-3 py-3 text-center">
+                          <Link href={`/products/${encodeURIComponent(item.id)}`} className="w-full h-full flex justify-center items-center">
+                            <img src={item.images["800"].main} width={80} alt={item.name || "Product"} />
+                          </Link>
+                        </td>
+                        <td scope="row" className="px-3 py-3 text-center">
+                          {item.id}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {item.barcode}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          <Link href={`/products/${encodeURIComponent(item.id)}`}>{item.name}</Link>
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {item.RSP}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {item.LPRICE}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          <span dir="ltr">
+                            {(item.PRICEAFTERDISCOUNT - item.LPRICE).toFixed(2)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {item.PRICEAFTERDISCOUNT}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {item.TAX}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {item.brand.description} - {item.category.description}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          <InlineAddToCart
+                            itemId={item.id}
+                            avlqty={item.avlqty}
+                            onQtyChange={loadCart}
+                            onRefresh={handleRefresh}
+                          />
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {Number(item.NET).toFixed(2)}
+                          <span className="ms-1">{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                </tbody>
+              </table>
+            </div>
           ) : null
           }
         </div>

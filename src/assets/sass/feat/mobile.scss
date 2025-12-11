@@ -1128,7 +1128,7 @@ $tablet-font-percent: 25%;
 }
 
 
-.product-card .price,
+// .product-card .price,
 .product-details .product-card-content .stars {
     @media (max-width: $tablet-breakpoint) {
         margin-bottom: 0;
@@ -1147,6 +1147,7 @@ $tablet-font-percent: 25%;
     }
 
     @media (max-width: $sm-tablet-breakpoint) {
+        margin: 12px 20px;
 
         .whitespace-normal {
             svg {

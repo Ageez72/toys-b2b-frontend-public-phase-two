@@ -115,7 +115,7 @@ export default function Page() {
     <>
       <div className="max-w-screen-xl mx-auto p-4 product-details">
         <Breadcrumb items={breadcrumbItems} />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5 pt-5 pb-5 details-card">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5 pt-2 lg:pt-5 pb-5 details-card">
           <div className="isDesktop">
             <ProductGallery images={details?.images["800"].list} main={details?.images["800"].main} />
           </div>
