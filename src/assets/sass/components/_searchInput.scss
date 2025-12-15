@@ -8,6 +8,7 @@
     text-align: start;
     padding: 15px 0;
     border: 1px solid #ccc;
+
     @media (max-width: 660px) {
         width: 100%;
     }
@@ -50,7 +51,15 @@
             font-size: 14px;
             color: var(--primary-color);
             font-weight: 600;
-                width: 85px;
+            width: 85px;
+        }
+
+        .view-details {
+            i {
+                font-size: 16px;
+                font-weight: 700;
+                cursor: pointer;
+            }
         }
     }
 

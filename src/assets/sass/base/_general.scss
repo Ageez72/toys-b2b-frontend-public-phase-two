@@ -356,8 +356,12 @@
     display: flex;
     gap: 8px;
     overflow: hidden;
-    height: 175px;
+    height: 50px;
     align-items: end;
+
+    &.open {
+        height: 175px;
+    }
 
     @media (max-width: 992px) {
         bottom: 60px;

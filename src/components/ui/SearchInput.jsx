@@ -99,11 +99,13 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
                                     <span className='image'>
                                         <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
                                     </span>
-                                    <span className='title' onClick={() => handleSelectProduct(item)}>{item.name}</span>
-                                    <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
-                                    <Link href={`products/${encodeURIComponent(item.id)}`} className='view-details flex items-center'>
-                                        <span className="icon-arrow-left-01-round"></span>
+                                    <Link href={`products/${encodeURIComponent(item.id)}`} className='title'>
+                                        <span>{item.name}</span>
                                     </Link>
+                                    <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                    <button className='view-details flex items-center' onClick={() => handleSelectProduct(item)} aria-label='Add Prodduct'>
+                                        <i className="icon-add" ></i>
+                                    </button>
                                 </div>
                             </div>
                             <div className="isMobile" key={item.id}>

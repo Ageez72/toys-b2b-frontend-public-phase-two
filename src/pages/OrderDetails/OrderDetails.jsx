@@ -33,23 +33,6 @@ export default function OrderDetails() {
         setTranslation(state.LANG === "EN" ? en : ar);
         document.title = state.LANG === 'AR' ? ar.orderDetails : en.orderDetails;
     }, [state.LANG]);
-
-    const fetchMyOrder = async () => {
-        setLoading(true);
-        const res = await axios.get(
-            `${BASE_API}${endpoints.products.myorders}&lang=${state.LANG}&token=${Cookies.get('token')}`
-        );
-        if (res.data) {
-            const obj = res.data.filter(el => el.orderID === id);
-            setOrdersDetails(obj[0]);
-        }
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        fetchMyOrder();
-    }, []);
-
     // Open ConfirmOrderModal if ?new=1
     useEffect(() => {
         if (isNewOrder) {
@@ -70,26 +53,44 @@ export default function OrderDetails() {
     else if (orderDetails.statusCode == 3) status = "in-delivery";
 
 
+    const fetchMyOrder = async () => {
+        try {
+            const res = await axios.get(
+                `${BASE_API}${endpoints.products.myorders}&lang=${state.LANG}&token=${Cookies.get('token')}`
+            );
+
+            if (res.data) {
+                const obj = res.data.find(el => el.orderID === id);
+                setOrdersDetails(obj);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const fetchProfile = async () => {
-        const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
-        return res;
+        try {
+            await axios.get(
+                `${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`
+            );
+        } catch (error) {
+            push("/");
+        }
     };
+
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${lang}&token=${Cookies.get('token')}`, {});
-                // return res;
-            } catch (error) {
-                console.error("Failed to fetch profile:", err);
-                router.push("/"); // redirect on error
-            } finally {
-                setLoading(false);
-            }
+        const loadPage = async () => {
+            setLoading(true);
+            await Promise.all([
+                fetchMyOrder(),
+                fetchProfile()
+            ]);
+            setLoading(false);
         };
 
-        fetchProfile()
-    }, [lang, push])
+        loadPage();
+    }, [lang]);
+
 
     if (loading) return <Loader />;
 

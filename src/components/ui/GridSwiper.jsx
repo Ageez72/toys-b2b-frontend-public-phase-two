@@ -64,13 +64,52 @@ export default function GridSwiper({ title, route, badgeType, type, id }) {
     return (
         <>
             {items.length > 0 && (
-                <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
-                    <div className="grid-card-container" id={id}>
+                <div>
+                    <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
+                        <div className="grid-card-container" id={id}>
 
-                        <div className="grid-header w-full flex items-center justify-between">
-                            <h2 className="grid-header-title">{title}</h2>
+                            <div className="grid-header w-full flex items-center justify-between">
+                                <h2 className="grid-header-title">{title}</h2>
 
-                            <Link href={route} className="outline-btn hidden md:flex items-center gap-2">
+                                <Link href={route} className="outline-btn hidden md:flex items-center gap-2">
+                                    {state.LANG === "EN" ? (
+                                        <>
+                                            <i className="icon-arrow-right-01-round"></i>
+                                            <span>{translation.viewMore}</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>{translation.viewMore}</span>
+                                            <i className="icon-arrow-left-01-round"></i>
+                                        </>
+                                    )}
+                                </Link>
+                            </div>
+
+                            <Swiper
+                                dir={state.LANG === "AR" ? "rtl" : "ltr"}
+                                modules={[Navigation, Grid]}
+                                navigation
+                                spaceBetween={10}
+                                slidesPerView={1}
+                                slidesPerGroup={1}
+                                className={`${items.length <= 4 && "just-four-items"}`}
+                                breakpoints={{
+                                    320: { slidesPerView: 1, grid: { rows: 1 }, spaceBetween: 10 },
+                                    760: { slidesPerView: 1.2, grid: { rows: 1 }, spaceBetween: 10 },
+                                    1024: { slidesPerView: 1.2, grid: { rows: 1 }, spaceBetween: 10 },
+                                    1160: { slidesPerView: 1.5, grid: { rows: 1 }, spaceBetween: 20 },
+                                    1320: { slidesPerView: 2, grid: { rows: 2, fill: 'row' }, spaceBetween: 20 },
+                                }}
+                            >
+                                {items.map(item => (
+                                    <SwiperSlide key={item.id}>
+                                        <ProductCard item={item} type="grid" badgeType={badgeType} />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+
+                            <Link href={route} className="outline-btn inline-flex md:hidden items-center gap-2 mt-4">
                                 {state.LANG === "EN" ? (
                                     <>
                                         <i className="icon-arrow-right-01-round"></i>
@@ -83,45 +122,8 @@ export default function GridSwiper({ title, route, badgeType, type, id }) {
                                     </>
                                 )}
                             </Link>
+
                         </div>
-
-                        <Swiper
-                            dir={state.LANG === "AR" ? "rtl" : "ltr"}
-                            modules={[Navigation, Grid]}
-                            navigation
-                            spaceBetween={10}
-                            slidesPerView={1}
-                            slidesPerGroup={1}
-                            className={`${items.length === 4 && "just-four-items"}`}
-                            breakpoints={{
-                                320: { slidesPerView: 1, grid: { rows: 1 }, spaceBetween: 10 },
-                                760: { slidesPerView: 1.2, grid: { rows: 1 }, spaceBetween: 10 },
-                                1024: { slidesPerView: 1.2, grid: { rows: 1 }, spaceBetween: 10 },
-                                1160: { slidesPerView: 1.5, grid: { rows: 1 }, spaceBetween: 20 },
-                                1320: { slidesPerView: 2, grid: { rows: 2, fill: 'row' }, spaceBetween: 20 },
-                            }}
-                        >
-                            {items.map(item => (
-                                <SwiperSlide key={item.id}>
-                                    <ProductCard item={item} type="grid" badgeType={badgeType} />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
-
-                        <Link href={route} className="outline-btn inline-flex md:hidden items-center gap-2 mt-4">
-                            {state.LANG === "EN" ? (
-                                <>
-                                    <i className="icon-arrow-right-01-round"></i>
-                                    <span>{translation.viewMore}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <span>{translation.viewMore}</span>
-                                    <i className="icon-arrow-left-01-round"></i>
-                                </>
-                            )}
-                        </Link>
-
                     </div>
                 </div>
             )}
