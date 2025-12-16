@@ -175,6 +175,9 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
                       }
                     }}
                   />
+                  <div className="unit">
+                    {translation.year}
+                  </div>
                 </div>
                 <div className="price to">
                   <label className="font-bold block mb-2" htmlFor="priceTo">{translation.to}</label>
@@ -198,6 +201,9 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
                       }
                     }}
                   />
+                  <div className="unit">
+                    {translation.year}
+                  </div>
                 </div>
               </div>
               {error && (

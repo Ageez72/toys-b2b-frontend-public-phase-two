@@ -245,6 +245,10 @@
     direction: ltr;
     height: 70px;
 
+    [dir="rtl"] & {
+        transform: scaleX(-1);
+    }
+
     .slider {
         position: relative;
         width: 100%;
@@ -282,6 +286,9 @@
         top: -35px;
         direction: rtl;
 
+        [dir="rtl"] & {
+            transform: scaleX(-1);
+        }
     }
 
     .slider__left-value {

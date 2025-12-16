@@ -190,7 +190,7 @@ export default function MyProfile({ closePanel }) {
                   </div>
                   <input
                     placeholder={"00962791234567"}
-                    className={`w-full pe-10 p-2.5 phone-input ${inputsStatus ? 'disabled' : ''}`}
+                    className={`w-full pe-10 ps-10 p-2.5 phone-input ${inputsStatus ? 'disabled' : ''}`}
                     {...register('phone', {
                       required: translation.register.errors.phone_no.required,
                       pattern: {

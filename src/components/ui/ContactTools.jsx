@@ -125,14 +125,14 @@ const ContactTools = () => {
               </div>
             </>
           )}
-          <button
-            onClick={scrollToTop}
-            aria-label="back-to-top"
-            className={`back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
-          >
-            <i className="icon-arrow-up"></i>
-          </button>
         </div>
+        <button
+          onClick={scrollToTop}
+          aria-label="back-to-top"
+          className={`back-to-top circle-icon-container ${showButton ? 'show' : 'not-allowed'}`}
+        >
+          <i className="icon-arrow-up"></i>
+        </button>
       </div>
       <div className="isMobile">
         <div className="contact-tools">
