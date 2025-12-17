@@ -1,7 +1,7 @@
 .isDesktop {
     display: none;
 
-    @media (min-width: 993px) {
+    @media (min-width: 1024px) {
         display: block;
     }
 }
@@ -9,7 +9,7 @@
 .isMobile {
     display: block;
 
-    @media (min-width: 993px) {
+    @media (min-width: 1024px) {
         display: none;
     }
 
@@ -22,6 +22,14 @@
                 right: 5px;
             }
         }
+    }
+}
+
+.menu-mobile-controller {
+    display: block;
+
+    @media (min-width: 1024px) {
+        display: none;
     }
 }
 
@@ -105,6 +113,10 @@ $tablet-font-percent: 25%;
 
             @media (min-width: $sm-tablet-breakpoint) {
                 font-size: calc(20px + $tablet-font-percent);
+            }
+
+            @media (max-width: 350px) {
+                font-size: 16px;
             }
         }
     }
@@ -285,6 +297,10 @@ $tablet-font-percent: 25%;
         .desc-rate-card,
         .desc-table-card {
             border-radius: 0;
+        }
+
+        .breadcrumb-wrapper {
+            margin: 12px 20px;
         }
 
     }
@@ -574,6 +590,8 @@ $tablet-font-percent: 25%;
 
 .profile-tab-panels {
     @media (max-width: $tablet-breakpoint) {
+        padding: 0 1rem;
+        padding-bottom: 4rem;
         border: none;
         box-shadow: none;
         background-color: transparent;
@@ -582,7 +600,6 @@ $tablet-font-percent: 25%;
         left: 0;
         transform: translateX(-150%);
         width: 100%;
-        padding: 0 1rem;
         background-color: var(--body-bg);
         min-height: calc(100vh - 165px);
         max-height: calc(100vh - 165px);
@@ -1151,7 +1168,7 @@ $tablet-font-percent: 25%;
     }
 
     @media (max-width: $sm-tablet-breakpoint) {
-        margin: 12px 20px;
+        margin: 12px 0;
 
         .whitespace-normal {
             svg {
@@ -1258,5 +1275,11 @@ $tablet-font-percent: 25%;
 
     @media (max-width: $sm-tablet-breakpoint) {
         font-size: 14px;
+    }
+}
+
+.order-details-wrapper {
+    @media (max-width: $sm-tablet-breakpoint) {
+        padding: 0;
     }
 }

@@ -70,9 +70,9 @@ export default function Menu({ scroll }) {
               {translation.clearance}
             </Link>
           </li>
-          <li>
+          {/* <li>
             <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => setIsOpenSearch(!isOpenSearch)}></i>
-          </li>
+          </li> */}
         </>
       </ul>
       <div className="isDesktop">

@@ -350,7 +350,7 @@
 
 .circle-icon-container {
 
-    &.back-to-top {
+    &.back-to-top:not(.mobile-back-to-top) {
         position: fixed;
         bottom: 20px;
         right: 75px;

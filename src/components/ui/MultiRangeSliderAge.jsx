@@ -45,7 +45,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
     return max;
   });
 
-  const isError = minVal >= maxVal || minVal < 1 || maxVal < 1;
+  const isError = minVal >= maxVal || minVal < 0 || maxVal < 0;
 
   useEffect(() => {
     Cookies?.set(STORAGE_KEY, JSON.stringify({ minVal, maxVal }));
@@ -160,7 +160,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
                     onChange={(event) => {
                       const value = Number(event.target.value);
 
-                      if (value < 1) {
+                      if (value < 0) {
                         setError(translation.mobile.minAgeCannotBeNegative);
                         return;
                       }
@@ -186,7 +186,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
                     onChange={(event) => {
                       const value = Number(event.target.value);
 
-                      if (value < 1) {
+                      if (value < 0) {
                         setError(translation.mobile.maxAgeCannotBeNegative);
                         return;
                       }

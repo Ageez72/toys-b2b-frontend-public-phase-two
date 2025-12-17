@@ -162,4 +162,14 @@
         right: auto;
         left: 75px;
     }
+
+    .payment-methods .payment-method input {
+        left: auto;
+        right: 15px;
+    }
+
+    .filter-bar.filter-products-page.active .action-btns {
+        right: auto;
+        left: 0;
+    }
 }

@@ -107,7 +107,7 @@ export default function OrderDetails() {
                 />
             )}
 
-            <div className='cart-page p-4 pt-2 lg:pt-15'>
+            <div className='cart-page order-details-wrapper p-4 pt-2 lg:pt-15'>
                 <Breadcrumb items={breadcrumbItems} />
                 <div className="flex gap-7 mt-4 lg:mt-5 lg:pt-5 flex-col lg:flex-row">
                     <div className="order-side">
