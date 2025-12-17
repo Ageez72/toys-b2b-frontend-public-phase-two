@@ -62,6 +62,26 @@ export default function ProfileTabs() {
         }, 500);
     }, [searchParams]);
 
+    useEffect(() => {
+        const queryTab = [...searchParams.keys()][0];
+
+        if (queryTab === 'orders') {
+            setActiveTab('orders');
+            setOpenPanel(true);
+        } else if (queryTab && profileTabs.some(t => t.id === queryTab)) {
+            setActiveTab(queryTab);
+        }
+
+        const profile = getProfile();
+        setProfileData(profile || []);
+
+        const [firstInitial, lastInitial] = getInitials(profile?.name);
+        setFirstLetter(firstInitial);
+        setLastLetter(lastInitial);
+
+    }, [searchParams]);
+
+
     if (!hasMounted) return null;
 
     const handleTabClick = (tabId) => {

@@ -158,7 +158,7 @@
         transform: rotate(180deg);
     }
 
-    .circle-icon-container.back-to-top {
+    .circle-icon-container.back-to-top:not(.mobile-back-to-top) {
         right: auto;
         left: 75px;
     }
