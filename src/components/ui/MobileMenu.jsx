@@ -67,7 +67,7 @@ export default function MobileMenu({ scroll, onGoTo }) {
             <Link href="/brands">{translation.brands}</Link>
           </li>
           {
-            cookiesState.clearance &&
+            cookiesState.clearance === true &&
             <li className="clearanceTab" onClick={() => onGoTo()}>
               <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
             </li>
