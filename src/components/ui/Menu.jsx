@@ -47,9 +47,6 @@ export default function Menu({ scroll }) {
 
   const isActive = (path) => pathname === path ? "active" : "";
 
-  console.log(cookiesState.clearance);
-
-
   return (
     <>
       <ul className="menu-list font-medium flex items-center flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-4 md:mt-0 md:border-0 md:bg-white dark:border-gray-700">
