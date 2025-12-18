@@ -338,6 +338,14 @@ export default function Page() {
                 </div>
               ) : null
             }
+            {
+              details?.cartonPack && details?.cartonPack > 0 && !state.isCorporate ? (
+                <div className="item flex w-full">
+                  <div className="title w-1/2"><strong>{translation.cartonPack}</strong></div>
+                  <div className="info w-1/2">{details?.cartonPack}</div>
+                </div>
+              ) : null
+            }
 
           </div>
           {

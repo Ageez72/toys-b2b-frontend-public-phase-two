@@ -64,12 +64,14 @@ export default function Menu({ scroll }) {
           <li className={isActive("/brands")}>
             <Link href="/brands" className="block py-2 px-3">{translation.brands}</Link>
           </li>
-
-          <li className="clearanceTab">
-            <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE" className="block py-2 px-3">
-              {translation.clearance}
-            </Link>
-          </li>
+          {
+            cookiesState.clearance &&
+            <li className="clearanceTab">
+              <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE" className="block py-2 px-3">
+                {translation.clearance}
+              </Link>
+            </li>
+          }
           {/* <li>
             <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => setIsOpenSearch(!isOpenSearch)}></i>
           </li> */}

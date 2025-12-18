@@ -280,6 +280,7 @@
   "errorImportingFile": "Invalid file format: must contain sku and quantity columns",
   "sku": "SKU",
   "goTopayment": "Complete Your Order",
+  "cartonPack": "Carton Pack (Pieces)",
   "corporate_login_success": "Your account has been successfully activated. You can now log in.",
   "corporate_login_error": "Your activation link has expired. Please register again.",
   "is_activated": "Your account has already been activated.",

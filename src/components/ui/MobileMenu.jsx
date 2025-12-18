@@ -66,9 +66,12 @@ export default function MobileMenu({ scroll, onGoTo }) {
           <li className={isActive("/brands")} onClick={() => onGoTo()}>
             <Link href="/brands">{translation.brands}</Link>
           </li>
-          <li className="clearanceTab" onClick={() => onGoTo()}>
-            <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
-          </li>
+          {
+            cookiesState.clearance &&
+            <li className="clearanceTab" onClick={() => onGoTo()}>
+              <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
+            </li>
+          }
         </ul>
         {/* <hr /> */}
         {/* <MenuControl onGoTo={onGoTo} /> */}

@@ -280,6 +280,7 @@
     "quantity": "الكمية",
     "price": "السعر",
     "export": "تصدير",
+    "cartonPack": "تعبئة الكرتونة (قطع)",
     "errorImportingFile": "تنسيق الملف غير صالح: يجب أن يحتوي على أعمدة sku و quantity",
     "sku": "رقم المنتج (SKU)",
     "goTopayment": "إتمام الطلب",
