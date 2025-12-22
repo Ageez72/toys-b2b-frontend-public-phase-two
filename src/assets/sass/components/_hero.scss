@@ -151,8 +151,8 @@
             height: 100%;
             z-index: 1;
 
-            @media (max-width: 1280px) {
-                background-color: #00000029;
+            @media (max-width: 1400px) {
+                background-color: rgba(0, 0, 0, .2);
             }
         }
     }
@@ -164,6 +164,10 @@
         top: 50% !important;
         height: 200% !important;
         transform: translateY(-50%);
+
+        @media (max-width: 1400px) {
+            opacity: 0.7;
+        }
 
         &.right {
             right: 0 !important;

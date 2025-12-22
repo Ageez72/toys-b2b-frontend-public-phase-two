@@ -163,7 +163,7 @@ export default function Register() {
                 </div>
                 <input
                   placeholder={"00962791234567"}
-                  className='w-full pe-10 p-2.5 phone-input'
+                  className='w-full px-10 p-2.5 phone-input'
                   {...register('phone', {
                     required: translation.register.errors.phone_no.required,
                     pattern: {

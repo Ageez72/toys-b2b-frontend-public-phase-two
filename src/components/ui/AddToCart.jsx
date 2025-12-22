@@ -5,15 +5,16 @@ import { addToCart, getCart } from '@/actions/utils';
 import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
-import { showSuccessToast, showErrorToast } from '@/actions/toastUtils';
+import { showSuccessToast, showErrorToast, showWarningToast } from '@/actions/toastUtils';
 import { BASE_API, endpoints } from '../../../constant/endpoints';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function AddToCart({ item, hasTitle = false }) {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState("1");
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // default fallback
+  const [qtyWarning, setQtyWarning] = useState(false);
 
   const lang = state.LANG || 'EN';
 
@@ -29,21 +30,58 @@ export default function AddToCart({ item, hasTitle = false }) {
   })();
 
   const increase = () => {
-    if (count + existingQty < 10) {
-      setCount(prev => prev + 1);
+    const value = Number(count) || 0;
+
+    if (value >= 10) {
+      // setQtyWarning(true);
+      showWarningToast(translation.notAllowedAdd, lang, translation.warning);
+      return;
+    }
+
+    // setQtyWarning(false);
+    setCount(String(value + 1));
+  };
+
+
+  const decrease = () => {
+    const value = Number(count) || 0;
+    if (value > 1) {
+      setCount(String(value - 1));
     }
   };
 
-  const decrease = () => {
-    setCount(prev => (prev > 1 ? prev - 1 : 1));
-  };
-
   const handleQuantityChange = (e) => {
-    let value = parseInt(e.target.value);
-    if (isNaN(value) || value < 1) value = 1;
-    if (value + existingQty > 10) value = 10 - existingQty;
+    const value = e.target.value;
+
+    // Allow empty
+    if (value === "") {
+      setCount("");
+      setQtyWarning(false);
+      return;
+    }
+
+    // Digits only
+    if (!/^\d+$/.test(value)) return;
+
+    const numericValue = Number(value);
+
+    // 🚫 Exceeded max
+    if (numericValue > 10) {
+      showWarningToast(translation.notAllowedAdd, lang, translation.warning);
+      return;
+    }
+
+    // setQtyWarning(false);
     setCount(value);
   };
+
+
+  const numericCount = Number(count);
+
+  const isInvalidQty =
+    !count ||
+    numericCount <= 0 ||
+    numericCount + existingQty > 10;
 
   const handleAddToCart = async () => {
     const result = addToCart({
@@ -88,7 +126,6 @@ export default function AddToCart({ item, hasTitle = false }) {
 
   return (
     <>
-
       <div className="isDesktop">
         <div className="add-to-cart grid grid-cols-2 gap-3 w-full mt-3 lg-mt-0">
           <div className="product-card-quantity flex items-center gap-1 flex-1">
@@ -98,7 +135,9 @@ export default function AddToCart({ item, hasTitle = false }) {
             <input
               className="w-fit text-center"
               type="number"
-              min={1}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              // min={1}
               max={10 - existingQty}
               value={count}
               onChange={handleQuantityChange}
@@ -110,8 +149,8 @@ export default function AddToCart({ item, hasTitle = false }) {
           <div className="isDesktop flex-1">
             <button
               onClick={handleAddToCart}
-              className={`w-full primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
-              disabled={count + existingQty > 10}
+              className={`w-full primary-btn w-1/2 add-to-cart-btn ${isInvalidQty ? 'disabled' : null}`}
+              disabled={isInvalidQty}
             >
               <span className='isDesktop'>
                 {translation.addCart}
@@ -121,8 +160,8 @@ export default function AddToCart({ item, hasTitle = false }) {
           <div className="mob-icon isMobile">
             <button
               onClick={handleAddToCart}
-              className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
-              disabled={count + existingQty > 10}
+              className={`primary-btn w-1/2 add-to-cart-btn ${isInvalidQty ? 'disabled' : null}`}
+              disabled={isInvalidQty}
             >
               <i className="icon-bag-happy"></i>
               {hasTitle && <span>{translation.mobile.addToCart}</span>}
@@ -139,8 +178,10 @@ export default function AddToCart({ item, hasTitle = false }) {
             <input
               className="w-fit text-center"
               type="number"
-              min={1}
-              max={10 - existingQty}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              // min={1}
+              // max={10 - existingQty}
               value={count}
               onChange={handleQuantityChange}
             />
@@ -151,8 +192,8 @@ export default function AddToCart({ item, hasTitle = false }) {
           <div className="isDesktop w-50">
             <button
               onClick={handleAddToCart}
-              className={`w-full primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
-              disabled={count + existingQty > 10}
+              className={`w-full primary-btn w-1/2 add-to-cart-btn ${isInvalidQty ? 'disabled' : null}`}
+              disabled={isInvalidQty}
             >
               <span className='isDesktop'>
                 {translation.addCart}
@@ -162,8 +203,8 @@ export default function AddToCart({ item, hasTitle = false }) {
           <div className="mob-icon isMobile">
             <button
               onClick={handleAddToCart}
-              className={`primary-btn w-1/2 add-to-cart-btn ${count + existingQty > 10 ? 'disabled' : null}`}
-              disabled={count + existingQty > 10}
+              className={`primary-btn w-1/2 add-to-cart-btn ${isInvalidQty ? 'disabled' : null}`}
+              disabled={isInvalidQty}
             >
               <i className="icon-bag-happy"></i>
               {hasTitle && <span>{translation.mobile.addToCart}</span>}

@@ -508,6 +508,20 @@ $tablet-font-percent: 25%;
                 content: "\e921";
             }
         }
+
+        [dir="ltr"] & {
+            .swiper-button-prev {
+                &::after {
+                    content: "\e921";
+                }
+            }
+
+            .swiper-button-next {
+                &::after {
+                    content: "\e927";
+                }
+            }
+        }
     }
 
     .mySwiper {

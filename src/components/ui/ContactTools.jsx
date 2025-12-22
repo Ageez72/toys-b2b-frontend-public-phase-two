@@ -3,50 +3,76 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useAppContext } from '../../../context/AppContext';
 import { getProfile } from '@/actions/utils';
+import { usePathname } from 'next/navigation';
 
 const ContactTools = () => {
   const [showButton, setShowButton] = useState(false);
   const [profile, setProfile] = useState(null);
   const [mounted, setMounted] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
+  const pathname = usePathname();
+
+  // Wait for .profile-tab-panels to exist
+  const waitForProfilePanel = (timeout = 10000, interval = 200) => {
+    return new Promise((resolve) => {
+      const intervalId = setInterval(() => {
+        if (document.querySelector('.profile-tab-panels')) {
+          clearInterval(intervalId);
+          resolve(true);
+        }
+      }, interval);
+      setTimeout(() => {
+        clearInterval(intervalId);
+        resolve(false);
+      }, timeout);
+    });
+  };
 
   useEffect(() => {
     setMounted(true);
 
-    const handleScroll = () => {
-      setShowButton(window.scrollY > 300);
+    let panelElement = null;
+
+    const handleScroll = (e) => {
+      const target = e?.target || window;
+      const scrollTop = target === window ? window.scrollY : target.scrollTop;
+      setShowButton(scrollTop > 300);
     };
-    window.addEventListener('scroll', handleScroll);
 
-    // Initial cookie load
-    let previousCookie = Cookies.get('profile');
-    if (previousCookie) {
-      try {
-        setProfile(JSON.parse(previousCookie));
-      } catch (e) {
-        console.error('Invalid profile cookie:', e);
+    let interval;
+    const attachScrollListener = async () => {
+      const found = await waitForProfilePanel();
+      if (found) {
+        panelElement = document.querySelector('.profile-tab-panels');
+        panelElement?.addEventListener('scroll', handleScroll);
+      } else {
+        // fallback to window scroll
+        window.addEventListener('scroll', handleScroll);
       }
-    }
+    };
 
-    // Poll for cookie changes
-    const interval = setInterval(() => {
+    attachScrollListener();
+
+    // Cookie polling
+    let previousCookie = Cookies.get('profile');
+    interval = setInterval(() => {
       const currentCookie = Cookies.get('profile');
       if (currentCookie !== previousCookie) {
         previousCookie = currentCookie;
         try {
           setProfile(currentCookie ? JSON.parse(currentCookie) : null);
-        } catch (e) {
-          console.error('Invalid profile cookie:', e);
+        } catch {
           setProfile(null);
         }
       }
     }, 1000);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       clearInterval(interval);
+      window.removeEventListener('scroll', handleScroll);
+      panelElement?.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

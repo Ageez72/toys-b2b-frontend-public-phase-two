@@ -170,20 +170,34 @@ export default function Page() {
   }
 
   function checkFilterParams(queryString) {
-    const paramsToCheck = ['fromPrice', 'toPrice', 'itemType', 'brand', 'fromAge', 'toAge', 'catalog', 'category'];
+    const params = new URLSearchParams(queryString);
     let count = 1;
 
-    paramsToCheck.forEach(param => {
-      if (queryString.includes(`${param}=`)) {
+    // price range (fromPrice + toPrice = 1)
+    if (params.has('fromPrice') || params.has('toPrice')) {
+      count++;
+    }
+
+    // age range (fromAge + toAge = 1)
+    if (params.has('fromAge') || params.has('toAge')) {
+      count++;
+    }
+
+    // single filters
+    const singleParams = ['itemType', 'brand', 'catalog', 'category'];
+
+    singleParams.forEach(param => {
+      if (params.has(param)) {
         count++;
       }
     });
 
     return {
       hasAny: count > 0,
-      count: count
+      count
     };
   }
+
   const result = checkFilterParams(queryString);
 
   useEffect(() => {

@@ -576,8 +576,8 @@
 }
 
 .products-gallery {
-    min-height: 470px;
-    max-height: 500px;
+    // min-height: 470px;
+    // max-height: 500px;
 
     @media (max-width: 1023px) {
         min-height: auto;
@@ -624,8 +624,9 @@
         }
 
         @media (min-width: 768px) {
-            overflow: hidden auto;
-            height: 500px;
+            height: 530px;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
 
@@ -654,7 +655,7 @@
     background: #00000085;
 
     .swiper-button-next:after,
-    .swiper-rtl .swiper-button-prev:after {
+    .swiper-button-prev:after {
         color: #fff;
         // color: var(--primary-color);
     }

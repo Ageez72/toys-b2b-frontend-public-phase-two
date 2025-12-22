@@ -268,7 +268,15 @@ function Cart() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "CartItems");
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
     const file = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(file, "cart_items.xlsx");
+    const now = new Date();
+    const timestamp = now
+      .toISOString()
+      .replace(/[:]/g, "-")
+      .replace("T", "_")
+      .split(".")[0];
+
+    const fileName = `cart_items_${timestamp}.xlsx`;
+    saveAs(file, fileName);
   };
 
   // ------------------------

@@ -137,6 +137,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             // Clear pagination token when filters change
             Cookies.remove('pagesToken');
             Cookies.remove('filterstatus');
+            document.body.classList.remove("html-overflow");
             // Push new query to URL
             router.push(`/products?${query.toString()}`);
         } else {
@@ -197,7 +198,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             setSelectedCategoriesOptions([]);
             setSelectedCatalogsOptions([]);
             resetUpperFilters && resetUpperFilters()
-
+            document.body.classList.remove("html-overflow");
             // Push clean URL
             router.push('/products?itemStatus=AVAILABLE');
         } else {
@@ -390,57 +391,58 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                         filtersSections ? (
                             <>
                                 {
-                                    filtersSections?.types?.length > 0 && (
+                                    filtersSections?.types?.length > 0 ? (
                                         <FilterSingleItem inputType="checkbox" title={translation.sectors} selected={itemType} options={filtersSections?.types} initiallyOpen={true} name="itemType" handleSingleItem={changeSingleItem} />
-                                    )
+                                    ) : null
                                 }
                                 {
-                                    catalogsAllOptions?.length > 0 && (
+                                    catalogsAllOptions?.length > 0 ? (
                                         // catalogOpen && (
                                         <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={catalogsAllOptions.filter(item => catalog.includes(item.code)).map(item => ({
                                             label: item.name,
                                             value: item.code,
                                         }))} initiallyOpen={selectedCatalogsOptions.length > 0 || true} isProductsPage={isProductsPage} />
                                         // )
-                                    )
+                                    ) : null
                                 }
                                 {
-                                    filtersSections?.brands?.length > 0 && (
+                                    filtersSections?.brands?.length > 0 ? (
                                         <BrandsFilters initiallyOpen={true} selected={brand} parentOptions={parentOptions} brandsOptions={filtersSections?.brands} isFiltersPage={true} />
-                                    )
+                                    ) : null
                                 }
                                 {
-                                    categoriesAllOptions?.length > 0 && (
+                                    categoriesAllOptions?.length > 0 ? (
                                         // categoryOpen && (
                                         <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0 || true} />
                                         // )
-                                    )
+                                    ) : null
                                 }
 
                                 {
-                                    filtersSections?.price_min && filtersSections?.price_max && (
+                                    filtersSections?.price_min >= 0 && filtersSections?.price_max > 0 ? (
                                         <Suspense fallback={<div>Loading...</div>}>
                                             <MultiRangeSlider initiallyOpen={true} title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min)) || 0} max={Math.floor(parseFloat(filtersSections?.price_max)) || 1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                         </Suspense>
-                                    )
+                                    ) : null
                                 }
 
                                 {
-                                    filtersSections?.age_min && filtersSections?.age_max && (
+                                    filtersSections?.age_min >= 0 && filtersSections?.age_max ? (
                                         <Suspense fallback={<div>Loading...</div>}>
                                             <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                         </Suspense>
-                                    )
+                                    ) : null
                                 }
                                 <FilterSingleItem inputType="radio" initiallyOpen={true} title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
-                                {showClearButton && (
+                                {showClearButton ? (
                                     <div className="action-btns flex gap-3 mt-4">
                                         {/* <button className="primary-btn flex-1" onClick={handleApplyFilters}>{translation.apply}</button> */}
                                         <button className="gray-btn flex-1" onClick={() => handleClearFilter(null)}>
                                             {translation.clear}
                                         </button>
                                     </div>
-                                )}
+                                ) : null
+                                }
                             </>
                         ) : !isProductsPage ? (
                             <>

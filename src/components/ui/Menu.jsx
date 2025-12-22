@@ -11,6 +11,7 @@ import SearchInput from "./SearchInput";
 export default function Menu({ scroll }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const pathname = usePathname();
+  const siteLocation = Cookies.get("siteLocation")
 
   const [cookiesState, setCookiesState] = useState({
     newArrivals: false,
@@ -65,7 +66,7 @@ export default function Menu({ scroll }) {
             <Link href="/brands" className="block py-2 px-3">{translation.brands}</Link>
           </li>
           {
-            cookiesState.clearance === true &&
+            siteLocation !== "primereach" &&
             <li className="clearanceTab">
               <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE" className="block py-2 px-3">
                 {translation.clearance}

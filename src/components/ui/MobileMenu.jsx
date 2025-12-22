@@ -11,6 +11,7 @@ import ar from "../../../locales/ar.json";
 export default function MobileMenu({ scroll, onGoTo }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [lang, setLang] = useState("AR"); // fallback
+  const siteLocation = Cookies.get("siteLocation")
   const [cookiesState, setCookiesState] = useState({
     newArrivals: false,
     clearance: false,
@@ -67,7 +68,7 @@ export default function MobileMenu({ scroll, onGoTo }) {
             <Link href="/brands">{translation.brands}</Link>
           </li>
           {
-            cookiesState.clearance === true &&
+            siteLocation !== "primereach" &&
             <li className="clearanceTab" onClick={() => onGoTo()}>
               <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
             </li>
