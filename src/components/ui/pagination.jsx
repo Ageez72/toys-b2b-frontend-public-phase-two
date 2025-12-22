@@ -13,9 +13,9 @@ export default function Pagination({ currentPage, pagesToken, totalPages }) {
     params.set('page', page.toString());
 
     if (token) {
-      Cookies.set('pagesToken', token); // ✅ store in cookie
+      Cookies.set('b2bPagesToken', token); // ✅ store in cookie
     } else {
-      Cookies.remove('pagesToken'); // ✅ clear if not needed
+      Cookies.remove('b2bPagesToken'); // ✅ clear if not needed
     }
 
     router.push(`?${params.toString()}`);

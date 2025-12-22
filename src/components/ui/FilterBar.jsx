@@ -132,7 +132,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                     query.set('page', pageValue);
                 }
             } else {
-                query.set('page', 1);
+                query.delete('page');
             }
             // Clear pagination token when filters change
             Cookies.remove('pagesToken');
