@@ -49,8 +49,14 @@ export default function Page() {
     const res = await axios.get(`${BASE_API}${endpoints.products.list}&lang=${lang}&id=${encodeURIComponent(productIdWithHash)}&token=${Cookies.get('token')}`, {});
     return res;
   }
+  const now = new Date();
+  const timestamp = now
+    .toISOString()
+    .replace(/[:]/g, "-")
+    .replace("T", "_")
+    .split(".")[0];
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: [`product-details-${productIdWithHash}`],
+    queryKey: [`product-details-${productIdWithHash}-${timestamp}`],
     queryFn: fetchProductDetails,
     retry: false,
   });

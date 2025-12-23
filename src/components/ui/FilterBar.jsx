@@ -12,6 +12,7 @@ import { BASE_API } from '../../../constant/endpoints';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { useAppContext } from '../../../context/AppContext';
+import Loader from './Loaders/Loader';
 
 
 export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEndpoint, categoriesEndpoint, sortItem, pageSizeItem, searchTerm, onClose, count, filtersSections }) {
@@ -420,7 +421,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
 
                                 {
                                     filtersSections?.price_min >= 0 && filtersSections?.price_max > 0 ? (
-                                        <Suspense fallback={<div>Loading...</div>}>
+                                        <Suspense fallback={<Loader />}>
                                             <MultiRangeSlider initiallyOpen={true} title={translation.priceRange} min={Math.floor(parseFloat(filtersSections?.price_min)) || 0} max={Math.floor(parseFloat(filtersSections?.price_max)) || 1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                         </Suspense>
                                     ) : null
@@ -428,7 +429,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
 
                                 {
                                     filtersSections?.age_min >= 0 && filtersSections?.age_max ? (
-                                        <Suspense fallback={<div>Loading...</div>}>
+                                        <Suspense fallback={<Loader />}>
                                             <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                         </Suspense>
                                     ) : null
@@ -453,10 +454,10 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                     )
                                 }
                                 <FilterSingleItem title={translation.sectors} selected={itemType} options={itemTypeOptions} name="itemType" handleSingleItem={changeSingleItem} />
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<Loader />}>
                                     <MultiRangeSlider title={translation.priceRange} min={0} max={1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={false} />
                                 </Suspense>
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<Loader />}>
                                     <MultiRangeSliderAge title={translation.ageRange} min={0} max={18} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} />
                                 </Suspense>
                                 {

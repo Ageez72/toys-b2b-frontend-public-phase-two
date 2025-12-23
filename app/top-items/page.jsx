@@ -111,7 +111,7 @@ export default function Page() {
         </div>
         {
           data?.data?.items?.length > 0 && data?.data?.pages > 1 && (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader />}>
               <Pagination
                 currentPage={Number(data?.data?.page) || 1}
                 pagesToken={data?.data?.pagesToken}
