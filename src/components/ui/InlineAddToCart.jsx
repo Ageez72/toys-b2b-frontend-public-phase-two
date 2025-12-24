@@ -106,7 +106,16 @@ export default function InlineAddToCart({ itemId, avlqty, onQtyChange, onRefresh
   };
 
   const decrease = () => {
-    updateCart(count > 0 ? count - 1 : 0);
+    if (count <= 0) return;
+
+    const newQty = count - 1;
+
+    updateCart(newQty);
+
+    if (newQty === 0) {
+      showErrorToast(translation.itemRemoved, lang, translation.warning);
+    }
+
     onRefresh && onRefresh();
   };
 

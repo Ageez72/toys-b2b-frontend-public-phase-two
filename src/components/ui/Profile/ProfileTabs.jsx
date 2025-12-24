@@ -15,6 +15,7 @@ import { useAppContext } from '../../../../context/AppContext';
 import en from "../../../../locales/en.json";
 import ar from "../../../../locales/ar.json";
 import LogoutModal from './LogoutModal';
+import Loader from '../Loaders/Loader';
 
 export default function ProfileTabs() {
     const [hasMounted, setHasMounted] = useState(false);
@@ -25,6 +26,7 @@ export default function ProfileTabs() {
     const [lastLetter, setLastLetter] = useState('');
     const [openLogoutModal, setOpenLogoutModal] = useState(false);
     const [openPanel, setOpenPanel] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -72,6 +74,9 @@ export default function ProfileTabs() {
             setActiveTab(queryTab);
         }
 
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1500);
         const profile = getProfile();
         setProfileData(profile || []);
 
@@ -96,6 +101,9 @@ export default function ProfileTabs() {
 
     return (
         <>
+            {
+                isLoading && <Loader />
+            }
             <LogoutModal setOpen={() => setOpenLogoutModal(false)} open={openLogoutModal} />
             <div className="flex flex-col lg:flex-row gap-4 mt-5 lg:mt-10">
                 <aside className="w-full lg:w-1/4 profile-side-bar">

@@ -107,7 +107,7 @@ function Cart() {
   }
 
   const fetchProfile = async () => {
-    setLoading(true)
+    // setLoading(true)
     try {
       const res = await axios.get(`${BASE_API}${endpoints.user.profile}&lang=${state.LANG}&token=${Cookies.get('token')}`, {});
       const list = []
@@ -123,7 +123,7 @@ function Cart() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false)
+      // setLoading(false)
     }
   };
 
