@@ -80,7 +80,7 @@ export default function MyProfile({ closePanel }) {
       const res = await axios.post(`${BASE_API + endpoints.auth.updateProfile}&token=${Cookies.get('token')}`, userData, {});
       // console.log(res.data.MESSAGE);
 
-      if (res.data.MESSAGE) {
+      if (res.data.error === false) {
         const res = await axios(`${BASE_API + endpoints.user.profile}&token=${Cookies.get('token')}`, {});
         const profile = {
           name: res?.data?.name,
@@ -95,6 +95,7 @@ export default function MyProfile({ closePanel }) {
         // console.log(profile);
 
         Cookies.set('profile', JSON.stringify(profile));
+        setInputsStatus(false)
         setIsSuccessUpdatModalOpen(true)
       } else {
         // error modal

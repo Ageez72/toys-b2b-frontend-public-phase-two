@@ -56,7 +56,7 @@ export default function Page() {
     .replace("T", "_")
     .split(".")[0];
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: [`product-details-${productIdWithHash}-${timestamp}`],
+    queryKey: [`product-details-${productIdWithHash}`],
     queryFn: fetchProductDetails,
     retry: false,
     staleTime: 0,
