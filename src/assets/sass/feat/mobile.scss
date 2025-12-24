@@ -236,6 +236,10 @@ $tablet-font-percent: 25%;
                 margin-bottom: 10px;
                 font-size: calc(12px + $tablet-font-percent);
             }
+
+            .out-stock-btn.yellow {
+                margin-top: 15px;
+            }
         }
 
 
@@ -1295,5 +1299,20 @@ $tablet-font-percent: 25%;
 .order-details-wrapper {
     @media (max-width: $sm-tablet-breakpoint) {
         padding: 0;
+    }
+}
+
+.product-card-content {
+
+    .request-when-available,
+    .out-stock-btn.yellow {
+        @media (max-width: $tablet-breakpoint) {
+            font-size: calc(12px + $tablet-font-percent);
+        }
+
+        @media (max-width: $sm-tablet-breakpoint) {
+            padding: 10px 7px;
+            font-size: 12px;
+        }
     }
 }

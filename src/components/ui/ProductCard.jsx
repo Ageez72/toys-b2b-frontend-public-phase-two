@@ -283,7 +283,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 {
                     item?.status !== "AVAILABLE" && (
                         !item.commingSoon ? (
-                            <button className={`primary-btn w-full block ${isRequestBtnActive ? '' : 'disabled'}`} onClick={() => requestOutofStock(item?.id)}>{item?.productRequested ? translation.toldMe : translation.tellMe}</button>
+                            <button className={`primary-btn w-full block request-when-available ${isRequestBtnActive ? '' : 'disabled'}`} onClick={() => requestOutofStock(item?.id)}>{item?.productRequested ? translation.toldMe : translation.tellMe}</button>
                         ) : null
                     )
                 }

@@ -229,7 +229,7 @@ export default function DetailsProductCard({ item }) {
 
                             {
                                 !item.commingSoon && (
-                                    <button className={`primary-btn ${isRequestBtnActive ? '' : 'disabled'}`} onClick={() => requestOutofStock(item?.id)}>{item?.productRequested ? translation.toldMe : translation.tellMe}</button>
+                                    <button className={`primary-btn request-when-available ${isRequestBtnActive ? '' : 'disabled'}`} onClick={() => requestOutofStock(item?.id)}>{item?.productRequested ? translation.toldMe : translation.tellMe}</button>
                                 )
                             }
                         </>
