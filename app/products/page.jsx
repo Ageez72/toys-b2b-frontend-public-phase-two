@@ -215,6 +215,14 @@ export default function Page() {
     }
   }, []);
 
+  useEffect(() => {
+    document.documentElement.classList.add("products-page-open");
+
+    return () => {
+      document.documentElement.classList.remove("products-page-open");
+    };
+  }, []);
+
   return (
     <>
       {

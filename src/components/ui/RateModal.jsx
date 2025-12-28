@@ -72,7 +72,7 @@ export default function RateModal({ open, setOpen, totalStars = 5, itemId, onRef
                 transition
                 className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
             />
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto add-rate-modal">
                 <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                     <DialogPanel
                         transition
@@ -126,7 +126,7 @@ export default function RateModal({ open, setOpen, totalStars = 5, itemId, onRef
                                     setOpen(false);
                                     setRating(0);
                                     setComment('');
-                                    setRateValidationError(false); 
+                                    setRateValidationError(false);
                                 }}
                                 className="gray-btn flex-1 inline-flex w-full justify-center rounded-md px-3 py-2 shadow-xs sm:mt-0 sm:w-auto"
                             >

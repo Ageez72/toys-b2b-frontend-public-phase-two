@@ -57,7 +57,7 @@ export default function ProductSwiperGallery({ images }) {
 
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="absolute top-4 right-4 text-white text-3xl"
+                            className="absolute top-4 right-4 text-white text-3xl z-[1010]"
                         >
                             ✕
                         </button>
