@@ -1,7 +1,7 @@
 'use client'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
-export default function SuccessModal({ open, onClose, message, title, icon, summary, style, goHome, goHomeTitle }) {    
+export default function SuccessModal({ open, onClose, message, title, icon, summary, style, goHome, goHomeTitle }) {
     return (
         <Dialog open={open} onClose={onClose} className="relative z-10000">
             <DialogBackdrop
@@ -9,7 +9,7 @@ export default function SuccessModal({ open, onClose, message, title, icon, summ
                 className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
             />
 
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto mobile-modal-horizontal-padding">
                 <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                     <DialogPanel
                         transition

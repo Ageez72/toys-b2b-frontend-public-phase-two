@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
-export default function ErrorModal({title, open, onClose, message, style, summary, hasBtn, hasBtnVal }) {
+export default function ErrorModal({ title, open, onClose, message, style, summary, hasBtn, hasBtnVal }) {
 
     return (
         <Dialog open={open} onClose={onClose} className="relative z-10000">
@@ -11,7 +11,7 @@ export default function ErrorModal({title, open, onClose, message, style, summar
                 className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
             />
 
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto mobile-modal-horizontal-padding">
                 <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                     <DialogPanel
                         transition
@@ -25,7 +25,7 @@ export default function ErrorModal({title, open, onClose, message, style, summar
                                     </div>
                                     <div className="text-start w-auto">
                                         <DialogTitle as="h3" className="text-base font-semibold text-gray-900 dialog-title">
-                                        {title}
+                                            {title}
                                         </DialogTitle>
                                         <p className="text-sm text-gray-500 dialog-desc" style={style}>
                                             {

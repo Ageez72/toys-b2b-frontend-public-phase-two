@@ -1,15 +1,15 @@
 'use client';
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { useAppContext } from '../../../context/AppContext';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 
 export default function RateRemoveModal({ open, setOpen, OnSubmit }) {
-  const { state = {}, dispatch = () => { } } = useAppContext() || {};
+    const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar); // default fallback
     useEffect(() => {
-      setTranslation(state.LANG === "EN" ? en : ar);
+        setTranslation(state.LANG === "EN" ? en : ar);
     }, [state.LANG]);
 
     return (
@@ -18,11 +18,11 @@ export default function RateRemoveModal({ open, setOpen, OnSubmit }) {
                 transition
                 className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
             />
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto mobile-modal-horizontal-padding">
                 <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                     <DialogPanel
                         transition
-                        className="relative transform overflow-hidden rounded-lg bg-white text-center shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl px-4 py-5"
+                        className="relative transform overflow-hidden rounded-lg bg-white text-center shadow-xl transition-all sm:my-8 w-full sm:max-w-xl px-4 py-5"
                     >
                         <svg className='m-auto my-2' xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150" fill="none">
                             <rect width="150" height="150" rx="75" fill="#8D1A14" fillOpacity="0.12" />

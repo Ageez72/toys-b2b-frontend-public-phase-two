@@ -34,9 +34,18 @@
 }
 
 $tablet-breakpoint: 1023px;
-$sm-tablet-breakpoint: 767px;
-$mobile-breakpoint: 768px;
+$min-tablet-breakpoint: 768px;
+$max-mobile-breakpoint: 767px;
+// $sm-tablet-breakpoint: 600px;
 $tablet-font-percent: 25%;
+
+@media (max-width: $max-mobile-breakpoint) {
+
+    .container,
+    .max-w-screen-xl {
+        width: 100%;
+    }
+}
 
 .fixed-mobile-menu {
     width: 100%;
@@ -62,7 +71,7 @@ $tablet-font-percent: 25%;
                 color: rgba(152, 162, 179, 1);
             }
 
-            @media (max-width: $sm-tablet-breakpoint) {
+            @media (min-width: $min-tablet-breakpoint) {
                 font-size: calc(20px + $tablet-font-percent);
             }
         }
@@ -71,7 +80,7 @@ $tablet-font-percent: 25%;
             font-size: 10px;
             color: rgba(152, 162, 179, 1);
 
-            @media (max-width: $sm-tablet-breakpoint) {
+            @media (min-width: $min-tablet-breakpoint) {
                 font-size: calc(11px + $tablet-font-percent);
             }
         }
@@ -111,7 +120,7 @@ $tablet-font-percent: 25%;
             font-size: 18px;
             color: #fff;
 
-            @media (max-width: $sm-tablet-breakpoint) {
+            @media (min-width: $min-tablet-breakpoint) {
                 font-size: calc(20px + $tablet-font-percent);
             }
 
@@ -269,7 +278,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         padding: 0;
 
         .product-card-content {
@@ -334,7 +343,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         padding: 10px;
 
         .badge {
@@ -415,7 +424,7 @@ $tablet-font-percent: 25%;
         font-size: calc(20px + $tablet-font-percent);
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         text-align: center;
         font-size: 20px;
     }
@@ -451,7 +460,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         .add-to-cart {
             .mob-icon {
                 .add-to-cart-btn {
@@ -463,7 +472,7 @@ $tablet-font-percent: 25%;
 }
 
 .product-swiper-gallery {
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         margin: 0 1rem;
     }
 
@@ -571,7 +580,7 @@ $tablet-font-percent: 25%;
             }
         }
 
-        @media (max-width: $sm-tablet-breakpoint) {
+        @media (max-width: $max-mobile-breakpoint) {
 
             .rate-info .rate-name .user-name,
             .rate-info .rate-name .user-short-name,
@@ -596,7 +605,7 @@ $tablet-font-percent: 25%;
             font-size: calc(10px + $tablet-font-percent);
         }
 
-        @media (max-width: $sm-tablet-breakpoint) {
+        @media (max-width: $max-mobile-breakpoint) {
             padding: 5px;
 
             i {
@@ -676,7 +685,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         .selling-table-container {
             .target-content {
                 p {
@@ -695,7 +704,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         button {
             font-size: 14px;
         }
@@ -744,7 +753,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
 
         .items-count,
         .sub-title {
@@ -792,7 +801,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         button {
             font-size: 12px;
 
@@ -808,7 +817,7 @@ $tablet-font-percent: 25%;
 }
 
 .items-cards {
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
 
         .card {
             padding: 10px 15px;
@@ -856,7 +865,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         .payment-method {
             i {
                 font-size: 21px;
@@ -914,7 +923,7 @@ $tablet-font-percent: 25%;
             }
         }
 
-        @media (max-width: $sm-tablet-breakpoint) {
+        @media (max-width: $max-mobile-breakpoint) {
             .addresses-menu {
                 .address-title {
                     font-size: 12px;
@@ -976,7 +985,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         label {
             font-size: 12px;
         }
@@ -1041,7 +1050,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
 
         .view-order-summary {
             .sub-title {
@@ -1112,7 +1121,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         .sub-title {
             font-size: 16px;
         }
@@ -1145,7 +1154,7 @@ $tablet-font-percent: 25%;
             }
         }
 
-        @media (max-width: $sm-tablet-breakpoint) {
+        @media (max-width: $max-mobile-breakpoint) {
 
             .primary-btn {
                 font-size: 14px;
@@ -1161,7 +1170,7 @@ $tablet-font-percent: 25%;
         font-size: calc(14px + $tablet-font-percent);
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         font-size: 14px;
     }
 }
@@ -1185,7 +1194,7 @@ $tablet-font-percent: 25%;
         margin: 12px 0;
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         margin: 12px 0;
 
         .whitespace-normal {
@@ -1210,7 +1219,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
 
         .product-warning ul li,
         .product-description,
@@ -1267,7 +1276,7 @@ $tablet-font-percent: 25%;
         }
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         font-size: 9px;
 
         i {
@@ -1281,7 +1290,7 @@ $tablet-font-percent: 25%;
         font-size: calc(10px + $tablet-font-percent);
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         font-size: 10px;
     }
 }
@@ -1291,13 +1300,13 @@ $tablet-font-percent: 25%;
         font-size: calc(14px + $tablet-font-percent);
     }
 
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         font-size: 14px;
     }
 }
 
 .order-details-wrapper {
-    @media (max-width: $sm-tablet-breakpoint) {
+    @media (max-width: $max-mobile-breakpoint) {
         padding: 0;
     }
 }
@@ -1310,7 +1319,7 @@ $tablet-font-percent: 25%;
             font-size: calc(12px + $tablet-font-percent);
         }
 
-        @media (max-width: $sm-tablet-breakpoint) {
+        @media (max-width: $max-mobile-breakpoint) {
             padding: 10px 7px;
             font-size: 12px;
         }
@@ -1324,6 +1333,7 @@ $tablet-font-percent: 25%;
     }
 }
 
+.mobile-modal-horizontal-padding,
 .add-rate-modal {
     @media (max-width: $tablet-breakpoint) {
         padding: 130px 0;
