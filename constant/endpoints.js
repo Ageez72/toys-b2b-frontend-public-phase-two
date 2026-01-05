@@ -63,3 +63,36 @@ export const endpoints = {
 
 };
 
+export const staticCategoriesDropdown = [
+  {
+    links: [
+      { name_en: "Baby Gear", name_ar: "مستلزمات بيبي", link: '/products?itemStatus=AVAILABLE&catalog=BABY_GEAR' },
+      { name_en: "Baby Playset", name_ar: "مجموعة ألعاب بيبي", link: '/products?itemStatus=AVAILABLE&catalog=BABY_PLAYSET' },
+      { name_en: "Baby Toys", name_ar: "ألعاب بيبي", link: '/products?itemStatus=AVAILABLE&catalog=BABY_TOYS' },
+      { name_en: "Baby Learning Toys", name_ar: "ألعاب بيبي تعليمية", link: '/products?itemStatus=AVAILABLE&catalog=BABY_LEARNING_TOYS' },
+      { name_en: "Remote Control for Baby", name_ar: "تحكم عن بعد للصغار", link: '/products?itemStatus=AVAILABLE&catalog=BABY_RC' },
+      { name_en: "Music", name_ar: "ألعاب موسيقية", link: '/products?itemStatus=AVAILABLE&catalog=MUSIC' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Boys Surprise", name_ar: "مفاجآت للأولاد", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys Playsets", name_ar: "مجموعات ألعاب للأولاد", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_PLAYSETS' },
+      { name_en: "RC", name_ar: "تحكم عن بعد", link: '/products?itemStatus=AVAILABLE&catalog=RC' },
+      { name_en: "TV & Movies Action Figures", name_ar: "شخصيات أكشن أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_&_MOVIES_ACTION_FIGURES' },
+    ]
+  },
+  // { id: 3, name: translation.categoryDropdown.buildAndCreate },
+  // { id: 4, name: translation.categoryDropdown.puzzleAndGames },
+  // { id: 5, name: translation.categoryDropdown.learningAndScience },
+  // { id: 6, name: translation.categoryDropdown.artAndCreativity },
+  // { id: 7, name: translation.categoryDropdown.guns },
+  // { id: 8, name: translation.categoryDropdown.goAndPlay },
+  // { id: 9, name: translation.categoryDropdown.makeupAndNails },
+  // { id: 10, name: translation.categoryDropdown.outdoor },
+  // { id: 11, name: translation.categoryDropdown.plush },
+  // { id: 12, name: translation.categoryDropdown.collectibleAndFigures },
+  // { id: 13, name: translation.categoryDropdown.dollWorld },
+  // { id: 14, name: translation.categoryDropdown.robots },
+];
+

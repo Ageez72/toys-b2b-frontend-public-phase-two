@@ -102,7 +102,11 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
                                     <Link href={`products/${encodeURIComponent(item.id)}`} className='title'>
                                         <span>{item.name}</span>
                                     </Link>
-                                    <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                    {
+                                        item.commingSoon ? (<span className='price price-txt'>{translation.commingSoon}</span>) : (
+                                            <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                        )
+                                    }
                                     <button className='view-details flex items-center' onClick={() => handleSelectProduct(item)} aria-label='Add Prodduct'>
                                         <i className="icon-add" ></i>
                                     </button>

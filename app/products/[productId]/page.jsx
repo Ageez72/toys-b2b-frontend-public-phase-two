@@ -119,6 +119,8 @@ export default function Page() {
     return match ? match[0] : null;
   }
 
+  const parts = details?.constants?.B_TYPES[0].split(/[،,]/);
+
   return details ? (
     <>
       <div className="max-w-screen-xl mx-auto p-4 product-details">
@@ -279,7 +281,14 @@ export default function Page() {
                 details.constants.B_TYPES.some(el => el.trim() !== "") && (
                   <div className="item flex w-full">
                     <div className="title w-1/2"><strong>{translation.batteryType}</strong></div>
-                    <div className="info w-1/2">{details?.constants.B_TYPES}</div>
+                    <div className="info flex-col w-1/2">
+                      {parts.map((part, index) => (
+                        <span className='mb-2' key={index}>
+                          {part.trim()}
+                          {index < parts.length - 1 && <br />}
+                        </span>
+                      ))}
+                    </div>
                     {/* <div className="info w-1/2">+{getAge(details?.constants.AGES)} {translation.years}</div> */}
                   </div>
                 ) : null
