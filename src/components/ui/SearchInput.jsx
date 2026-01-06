@@ -107,9 +107,13 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
                                             <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                                         )
                                     }
-                                    <button className='view-details flex items-center' onClick={() => handleSelectProduct(item)} aria-label='Add Prodduct'>
-                                        <i className="icon-add" ></i>
-                                    </button>
+                                    {
+                                        !item.commingSoon ? (
+                                            <button className='view-details flex items-center' onClick={() => handleSelectProduct(item)} aria-label='Add Prodduct'>
+                                                <i className="icon-add" ></i>
+                                            </button>
+                                        ) : null
+                                    }
                                 </div>
                             </div>
                             <div className="isMobile" key={item.id}>

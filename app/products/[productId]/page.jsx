@@ -283,7 +283,7 @@ export default function Page() {
                     <div className="title w-1/2"><strong>{translation.batteryType}</strong></div>
                     <div className="info flex-col w-1/2">
                       {parts.map((part, index) => (
-                        <span className='mb-2' key={index}>
+                        <span className={`${index == parts.length - 1 ? '' : 'mb-2'}`} key={index}>
                           {part.trim()}
                           {index < parts.length - 1 && <br />}
                         </span>
