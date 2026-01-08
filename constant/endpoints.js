@@ -82,17 +82,107 @@ export const staticCategoriesDropdown = [
       { name_en: "TV & Movies Action Figures", name_ar: "شخصيات أكشن أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_&_MOVIES_ACTION_FIGURES' },
     ]
   },
-  // { id: 3, name: translation.categoryDropdown.buildAndCreate },
-  // { id: 4, name: translation.categoryDropdown.puzzleAndGames },
-  // { id: 5, name: translation.categoryDropdown.learningAndScience },
-  // { id: 6, name: translation.categoryDropdown.artAndCreativity },
-  // { id: 7, name: translation.categoryDropdown.guns },
-  // { id: 8, name: translation.categoryDropdown.goAndPlay },
-  // { id: 9, name: translation.categoryDropdown.makeupAndNails },
-  // { id: 10, name: translation.categoryDropdown.outdoor },
-  // { id: 11, name: translation.categoryDropdown.plush },
-  // { id: 12, name: translation.categoryDropdown.collectibleAndFigures },
-  // { id: 13, name: translation.categoryDropdown.dollWorld },
-  // { id: 14, name: translation.categoryDropdown.robots },
+  {
+    links: [
+      { name_en: "Mechanic", name_ar: "العاب ميكانيكية", link: '/products?itemStatus=AVAILABLE&catalog=MECHANICS' },
+      { name_en: "Blocks", name_ar: "ليغو وتركيب", link: '/products?itemStatus=AVAILABLE&catalog=BLOCKS' },
+      { name_en: "Construction Playsets", name_ar: "مجموعات بناء وتركيب", link: '/products?itemStatus=AVAILABLE&catalog=CONSTRUCTION_PLAYSETS' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Kids Puzzle", name_ar: "بازل للأطفال", link: '/products?itemStatus=AVAILABLE&catalog=KIDS_PUZZLE' },
+      { name_en: "Board Games", name_ar: "بورد جيمز", link: '/products?itemStatus=AVAILABLE&catalog=BOARD_GAMES_ZING' },
+      { name_en: "Junior Games", name_ar: "ألعاب للمبتدئين", link: '/products?itemStatus=AVAILABLE&catalog=JUNIOR_GAMES' },
+      { name_en: "Family Games", name_ar: "ألعاب عائلية", link: '/products?itemStatus=AVAILABLE&catalog=FAMILY_GAMES' },
+      { name_en: "Adult Games", name_ar: "ألعاب للكبار", link: '/products?itemStatus=AVAILABLE&catalog=ADULT_GAMES' },
+      { name_en: "Digital", name_ar: "ألعاب الكترونية", link: '/products?itemStatus=AVAILABLE&catalog=DIGITAL' },
+
+    ]
+  },
+  {
+    links: [
+      { name_en: "Educational Toys", name_ar: "ألعاب تعليمية", link: '/products?itemStatus=AVAILABLE&catalog=EDUCATIONAL_TOYS' },
+      { name_en: "Thinking", name_ar: "ألعاب تفكير", link: '/products?itemStatus=AVAILABLE&catalog=THINKING' },
+      { name_en: "Sciences Kit", name_ar: "مجموعة علمية", link: '/products?itemStatus=AVAILABLE&catalog=SCIENCES_KIT' },
+      { name_en: "Learning Toys", name_ar: "ألعاب علمية", link: '/products?itemStatus=AVAILABLE&catalog=LEARNING' },
+      { name_en: "Pretend Play", name_ar: "لعب الأدوار", link: '/products?itemStatus=AVAILABLE&catalog=PRETEND_PLAY' },
+      { name_en: "Robots", name_ar: "روبوتات", link: '/products?itemStatus=AVAILABLE&catalog=ROBOTS' },
+      { name_en: "Magnet Activities", name_ar: "أنشطة مغناطيسية", link: '/products?itemStatus=AVAILABLE&catalog=MAGNET_ACTIVITIES' },
+
+    ]
+  },
+  {
+    links: [
+      { name_en: "Water Coloring & Painting", name_ar: "رسم وألوان مائية", link: '/products?itemStatus=AVAILABLE&catalog=WATER_COLORING_&_PAINTING' },
+      { name_en: "Stickers", name_ar: "ملصقات", link: '/products?itemStatus=AVAILABLE&catalog=STICKERS' },
+      { name_en: "Art & Crafts", name_ar: "فنون وحرف يدوية", link: '/products?itemStatus=AVAILABLE&catalog=ART_&_CRAFTS' },
+      { name_en: "Dough & Sand Art", name_ar: "معجون ورمال فنية", link: '/products?itemStatus=AVAILABLE&catalog=DOUGH_&_SAND_ART' },
+      { name_en: "Putty", name_ar: "معجون", link: '/products?itemStatus=AVAILABLE&catalog=PUTTY' },
+      { name_en: "Slime", name_ar: "سلايم", link: '/products?itemStatus=AVAILABLE&catalog=SLIME' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Guns", name_ar: "مسدسات", link: '/products?itemStatus=AVAILABLE&catalog=GUNS' },
+      { name_en: "Water Guns", name_ar: "رشاشات مائية", link: '/products?itemStatus=AVAILABLE&catalog=WATER_GUNS' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Ride On", name_ar: "مركبات", link: '/products?itemStatus=AVAILABLE&catalog=RIDE_ON' },
+      { name_en: "Scooters", name_ar: "سكوترات", link: '/products?itemStatus=AVAILABLE&catalog=SCOOTERS' },
+      { name_en: "Bikes", name_ar: "دراجات", link: '/products?itemStatus=AVAILABLE&catalog=BIKES' },
+      { name_en: "Skate Shoes", name_ar: "أحذية تزلج", link: '/products?itemStatus=AVAILABLE&catalog=SKATE_SHOES' },
+      { name_en: "Battery Operated Cars and Ride-On", name_ar: "سيارات وألعاب ركوب تعمل بالبطارية", link: '/products?itemStatus=AVAILABLE&catalog=BATTERY_OPERATED_CARS' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Girls Surprise", name_ar: "مفاجآت للبنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE' },
+      { name_en: "Beauty & Accessories", name_ar: "الجمال ومستلزماته", link: '/products?itemStatus=AVAILABLE&catalog=BEAUTY_&_ACCESSORIES' },
+      { name_en: "Slippers", name_ar: "شباشب", link: '/products?itemStatus=AVAILABLE&catalog=SLIPPERS' },
+      { name_en: "Makeup & Nail", name_ar: "مكياج وأظافر", link: '/products?itemStatus=AVAILABLE&catalog=MAKEUP_&_NAIL' },
+      { name_en: "Fashion", name_ar: "أزياء", link: '/products?itemStatus=AVAILABLE&catalog=FASHION' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Sport & Leisure", name_ar: "رياضة وترفيه", link: '/products?itemStatus=AVAILABLE&catalog=SPORT_&_LEISURE' },
+      { name_en: "Water Toys", name_ar: "ألعاب مائية", link: '/products?itemStatus=AVAILABLE&catalog=WATER_TOYS' },
+      { name_en: "Play House", name_ar: "ألعاب منزلية", link: '/products?itemStatus=AVAILABLE&catalog=PLAY_HOUSE' },
+      { name_en: "Outdoor", name_ar: "ألعاب خارجية", link: '/products?itemStatus=AVAILABLE&catalog=OUTDOOR' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Animals Plush", name_ar: "حيوانات محشوة", link: '/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH' },
+      { name_en: "Purses & Bags", name_ar: "حقائب ومحافظ", link: '/products?itemStatus=AVAILABLE&catalog=PURSE_&_BAGS' },
+      { name_en: "Soft Plush", name_ar: "دمى ناعمة", link: '/products?itemStatus=AVAILABLE&catalog=SOFT_PLUSH' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Robots", name_ar: "روبوتات", link: '/products?itemStatus=AVAILABLE&catalog=ROBOTS' },]
+  },
 ];
 

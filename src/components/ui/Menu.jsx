@@ -88,7 +88,10 @@ export default function Menu({ scroll }) {
           {/* {
             state.isCorporate ? (
               <li>
-                <a href="javascript:void(0)" className="cursor-pointer" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}> {translation.categories}</a>
+                <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
+                  {translation.categories}
+                  <i className="icon-arrow-down-01-round"></i>
+                </a>
               </li>
             ) : null
           } */}

@@ -1380,3 +1380,8 @@ $tablet-font-percent: 25%;
         @media (max-width: $tablet-breakpoint) {}
     }
 }
+
+
+.pointer-events-none {
+    pointer-events: none;
+}

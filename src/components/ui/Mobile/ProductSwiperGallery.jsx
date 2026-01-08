@@ -17,6 +17,7 @@ export default function ProductSwiperGallery({ images }) {
     const [isOpen, setIsOpen] = useState(false);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [playVideo, setPlayVideo] = useState(false);
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
 
     // Store refs for all mp4 videos
@@ -56,7 +57,10 @@ export default function ProductSwiperGallery({ images }) {
                     <div className="fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4">
 
                         <button
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => {
+                                setIsOpen(false)
+                                setPlayVideo(false)
+                            }}
                             className="absolute top-4 right-4 text-white text-3xl z-[1010]"
                         >
                             ✕
@@ -77,13 +81,27 @@ export default function ProductSwiperGallery({ images }) {
                                     return (
                                         <SwiperSlide key={index}>
                                             {youtube && (
-                                                <iframe
-                                                    width="100%"
-                                                    height="500"
-                                                    src={`https://www.youtube.com/embed/${videoId}`}
-                                                    allowFullScreen
-                                                ></iframe>
+                                                <div className="relative">
+                                                    {!playVideo && (
+                                                        <button
+                                                            className="absolute inset-0 z-10 flex items-center justify-center text-white opacity-0"
+                                                            onClick={() => setPlayVideo(true)}
+                                                        >
+                                                            ▶
+                                                        </button>
+                                                    )}
+
+                                                    <iframe
+                                                        className={!playVideo ? "pointer-events-none" : ""}
+                                                        src={`https://www.youtube.com/embed/${videoId}?autoplay=${playVideo ? 1 : 0}&playsinline=1`}
+                                                        allow="autoplay; encrypted-media"
+                                                        width="100%"
+                                                        height="500"
+                                                        allowFullScreen
+                                                    />
+                                                </div>
                                             )}
+
 
                                             {!youtube && mp4 && (
                                                 <video width="100%" height="500" controls>
