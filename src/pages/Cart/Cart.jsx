@@ -917,11 +917,11 @@ function Cart() {
                     !state.isCorporate && (
                       <>
                         {
-                          state.payment === "Cash" || state.payment === "Both" && (<h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>)
+                          state.corporatePayment === "Cash" || state.corporatePayment === "Both" && (<h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>)
                         }
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
-                            (state.payment === "Cash" || state.payment === "Both") && (
+                            (state.corporatePayment === "Cash" || state.corporatePayment === "Both") && (
                               <label htmlFor="cashOnDelivery" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Cash" ? 'selected' : ''}`}>
                                   <div className="payment-method">
@@ -943,7 +943,7 @@ function Cart() {
                             )
                           }
                           {
-                            (state.payment === "Online" || state.payment === "Both") && (
+                            (state.corporatePayment === "Online" || state.corporatePayment === "Both") && (
                               <label htmlFor="creditCardPayment" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Online" ? 'selected' : ''}`}>
                                   <div className="payment-method">
