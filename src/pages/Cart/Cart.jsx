@@ -917,8 +917,9 @@ function Cart() {
                     !state.isCorporate && (
                       <>
                         {
-                          state.corporatePayment === "Cash" || state.corporatePayment === "Both" && (<h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>)
-                        }
+                          (state.corporatePayment === "Cash" || state.corporatePayment === "Online" || state.corporatePayment === "Both") && (
+                            <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
+                          )}
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
                             (state.corporatePayment === "Cash" || state.corporatePayment === "Both") && (
