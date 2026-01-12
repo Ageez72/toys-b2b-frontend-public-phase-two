@@ -859,7 +859,11 @@ function Cart() {
                   {
                     state.isCorporate && (
                       <>
-                        <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
+                        {
+                          (state.corporatePayment === "Cash" || state.corporatePayment === "") && (
+                            <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
+                          )
+                        }
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
                             (state.corporatePayment === "Cash" || state.corporatePayment === "") && (
@@ -885,6 +889,61 @@ function Cart() {
                           }
                           {
                             (state.corporatePayment === "Online" || state.corporatePayment === "") && (
+                              <label htmlFor="creditCardPayment" className="block w-full lg:w-1/2">
+                                <div className={`card ${selectedPaymentMethod === "Online" ? 'selected' : ''}`}>
+                                  <div className="payment-method">
+                                    <i className="icon-cards"></i>
+                                    <span className="icon-tick-circle"></span>
+                                    <input
+                                      className="hidden"
+                                      type="radio"
+                                      name="paymentMethod"
+                                      id="creditCardPayment"
+                                      value="Online"
+                                      checked={selectedPaymentMethod === "Online"}
+                                      onChange={() => setSelectedPaymentMethod("Online")}
+                                    />
+                                    <span className="block mt-2 method-title">{translation.creditCardPayment}</span>
+                                  </div>
+                                </div>
+                              </label>
+                            )
+                          }
+                        </div>
+                      </>
+                    )
+                  }
+                  {
+                    !state.isCorporate && (
+                      <>
+                        {
+                          state.payment === "Cash" || state.payment === "Both" && (<h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>)
+                        }
+                        <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
+                          {
+                            (state.payment === "Cash" || state.payment === "Both") && (
+                              <label htmlFor="cashOnDelivery" className="block w-full lg:w-1/2">
+                                <div className={`card ${selectedPaymentMethod === "Cash" ? 'selected' : ''}`}>
+                                  <div className="payment-method">
+                                    <i className="icon-money-3"></i>
+                                    <span className="icon-tick-circle"></span>
+                                    <input
+                                      className="hidden"
+                                      type="radio"
+                                      name="paymentMethod"
+                                      id="cashOnDelivery"
+                                      value="Cash"
+                                      checked={selectedPaymentMethod === "Cash"}
+                                      onChange={() => setSelectedPaymentMethod("Cash")}
+                                    />
+                                    <span className="block mt-2 method-title">{translation.cashOnDelivery}</span>
+                                  </div>
+                                </div>
+                              </label>
+                            )
+                          }
+                          {
+                            (state.payment === "Online" || state.payment === "Both") && (
                               <label htmlFor="creditCardPayment" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Online" ? 'selected' : ''}`}>
                                   <div className="payment-method">
