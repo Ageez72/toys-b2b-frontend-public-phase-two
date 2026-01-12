@@ -75,7 +75,7 @@ export default function ProfileDropdown({ onGoTo }) {
             dispatch({ type: "IS-CORPORATE", payload: true });
             dispatch({ type: "CORPORATE-NAME", payload: res?.data?.accountName });
             dispatch({ type: "CORPORATE-IMAGE", payload: res?.data?.corporateImage });
-            dispatch({ type: "CORPORATE-PAYMENT", payload: res?.data?.payment });
+            dispatch({ type: "CORPORATE-PAYMENT", payload: res?.data?.corporatePayment });
         } else {
             dispatch({ type: "IS-CORPORATE", payload: false });
             dispatch({ type: "CORPORATE-NAME", payload: "" });
