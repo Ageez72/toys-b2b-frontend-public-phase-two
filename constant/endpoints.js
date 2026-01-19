@@ -1,5 +1,6 @@
 // export const BASE_API = 'https://pick.alekha.com:8443/pick/faces/redirect/b2b';
 import Cookies from "js-cookie";
+import { babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots } from "../constant/images";
 
 // Get current hostname
 const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
@@ -173,7 +174,6 @@ export const staticCategoriesDropdown = [
   },
   {
     links: [
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
       { name_en: "Baby Dolls", name_ar: "دمى بيبي", link: '/products?itemStatus=AVAILABLE&catalog=BABY_DOLLS' },
       { name_en: "Dolls", name_ar: "دمى", link: '/products?itemStatus=AVAILABLE&catalog=DOLLS' },
       { name_en: "Girls Figures", name_ar: "شخصيات بنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRLS_FIGURES' },
@@ -186,4 +186,92 @@ export const staticCategoriesDropdown = [
       { name_en: "Robots", name_ar: "روبوتات", link: '/products?itemStatus=AVAILABLE&catalog=ROBOTS' },]
   },
 ];
+
+export const collections = [
+  {
+    name_en: "Baby World",
+    name_ar: "عالم الاطفال",
+    icon: babyWorld,
+    link: "/products?itemStatus=AVAILABLE&catalog=BABY_GEAR,BABY_PLAYSET,BABY_TOYS,BABY_LEARNING_TOYS,BABY_RC,MUSIC"
+  },
+  {
+    name_en: "عالم المغامرات",
+    name_ar: "Action World",
+    icon: actionWorld,
+    link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_&_MOVIES_ACTION_FIGURES"
+  },
+  {
+    name_en: "Build & Create",
+    name_ar: "ابني و صمم",
+    icon: buildCreate,
+    link: "/products?itemStatus=AVAILABLE&catalog=MECHANICS,BLOCKS,CONSTRUCTION_PLAYSETS"
+  },
+  {
+    name_en: "Puzzle & Games",
+    name_ar: "العاب جماعية و بازل",
+    icon: puzzleGames,
+    link: "/products?itemStatus=AVAILABLE&catalog=KIDS_PUZZLE,BOARD_GAMES_ZING,JUNIOR_GAMES,FAMILY_GAMES,ADULT_GAMES,DIGITAL"
+  },
+  {
+    name_en: "Learning & Science",
+    name_ar: "تعلم و اختراع",
+    icon: learningScience,
+    link: "/products?itemStatus=AVAILABLE&catalog=EDUCATIONAL_TOYS,THINKING,SCIENCES_KIT,LEARNING,PRETEND_PLAY,ROBOTS,MAGNET_ACTIVITIES"
+  },
+  {
+    name_en: "Art & Creativity",
+    name_ar: "فن و ابداع",
+    icon: artCreativity,
+    link: "/products?itemStatus=AVAILABLE&catalog=WATER_COLORING_&_PAINTING,STICKERS,ART_&_CRAFTS,DOUGH_&_SAND_ART,PUTTY,SLIME"
+  },
+  {
+    name_en: "Guns",
+    name_ar: "مسدسات",
+    icon: guns,
+    link: "/products?itemStatus=AVAILABLE&catalog=GUNS,WATER_GUNS"
+  },
+  {
+    name_en: "Go & Play",
+    name_ar: "العاب ركوب",
+    icon: goPlay,
+    link: "/products?itemStatus=AVAILABLE&catalog=RIDE_ON,SCOOTERS,BIKES,SKATE_SHOES,BATTERY_OPERATED_CARS,SPORT_&_LEISURE"
+  },
+  {
+    name_en: "Makeup & Nails",
+    name_ar: "تجميل",
+    icon: makeupNails,
+    link: "/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE,BEAUTY_&_ACCESSORIES,SLIPPERS,MAKEUP_&_NAIL,FASHION"
+  },
+  {
+    name_en: "Outdoor",
+    name_ar: "العاب خارجية",
+    icon: outdoor,
+    link: "/products?itemStatus=AVAILABLE&catalog=SPORT_&_LEISURE,WATER_TOYS,PLAY_HOUSE,OUTDOOR"
+  },
+  {
+    name_en: "دمى محشوة",
+    name_ar: "Plush",
+    icon: plush,
+    link: "/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH,PURSE_&_BAGS,SOFT_PLUSH,TV_&_MOVIES_PLUSH"
+  },
+  {
+    name_en: "تجميع شخصيات و بطاقات",
+    name_ar: "المقتنيات",
+    icon: collectibleFigures,
+    link: "/products?itemStatus=AVAILABLE&catalog=TRADING_CARD,BOYS_COLLECTIBLE,TV_&_MOVIES_COLLECTIBLE"
+  },
+  {
+    name_en: "Doll World",
+    name_ar: "عالم دمى البنات",
+    icon: dollWorld,
+    link: "/products?itemStatus=AVAILABLE&catalog=BABY_DOLLS,DOLLS,GIRLS_FIGURES,GIRL_PLAYSET,GIRLS_COLLECTIBLE"
+  },
+  {
+    name_en: "Robots",
+    name_ar: "الروبوتات",
+    icon: robots,
+    link: "/products?itemStatus=AVAILABLE&catalog=ROBOTS"
+  }
+];
+
 

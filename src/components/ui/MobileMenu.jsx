@@ -29,11 +29,6 @@ export default function MobileMenu({ scroll, onGoTo }) {
   const [activeCategory, setActiveCategory] = useState("categories-dropdown-details-item-0");
   const pathname = usePathname();
   const isActive = (path) => pathname === path ? "active" : "";
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const staticCategoriesCatalogs = [
     { id: 1, name: translation.categoryDropdown.babyWorld },
@@ -98,7 +93,7 @@ export default function MobileMenu({ scroll, onGoTo }) {
               <Link href="/products?itemStatus=AVAILABLE">{translation.allProducts}</Link>
             </li>
             {
-              state.isCorporate ? (
+              state.isCorporate || profileData.hideTargetSOA ? (
                 <li onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
                   <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1">
                     {translation.categories}
@@ -116,13 +111,6 @@ export default function MobileMenu({ scroll, onGoTo }) {
                 <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
               </li>
             }
-            {isClient && (profileData?.isCorporate || profileData?.hideTargetSOA) && (
-              <li className={isActive("/terms-and-conditions")} onClick={() => onGoTo()}>
-                <Link href="/terms-and-conditions">
-                  {translation.termsAndConditions}
-                </Link>
-              </li>
-            )}
           </ul>
           {/* <hr /> */}
           {/* <MenuControl onGoTo={onGoTo} /> */}

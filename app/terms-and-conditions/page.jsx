@@ -70,7 +70,7 @@ export default function Page() {
                   <div className="specifications-table text-center lg:w-1/2 mb-6">
                     <div className="item flex w-full">
                       <div className="title w-1/2"><strong>العلامة التجارية</strong></div>
-                      <div className="info w-1/2">نسبة الخصم</div>
+                      <div className="info w-1/2"><strong>نسبة الخصم</strong></div>
                     </div>
                     <div className="item flex w-full">
                       <div className="title w-1/2"><strong>Dolu</strong></div>
@@ -163,7 +163,8 @@ export default function Page() {
                 <p>تخضع هذه الشروط والأحكام وتُفسر وفقًا للقوانين المعمول بها في المملكة الأردنية الهاشمية، وتكون محاكمها المختصة هي المرجع الحصري لأي نزاع.</p>
               </section>
               <section className="mb-8">
-                <p className='mb-2'><strong>إقرار وموافقة </strong> باستخدامك للموقع فإنك تقر بأنك قرأت هذه الشروط والأحكام وفهمتها وتوافق على الالتزام</p>
+                <h4 className='mb-2'><strong>إقرار وموافقة </strong></h4>
+                <p className='mb-2'> باستخدامك للموقع فإنك تقر بأنك قرأت هذه الشروط والأحكام وفهمتها وتوافق على الالتزام</p>
               </section>
             </>
           ) :
@@ -197,7 +198,7 @@ export default function Page() {
                   </p>
 
                   <div className="product-details p0">
-                    <div className="specifications-table lg:w-1/2 mb-6">
+                    <div className="specifications-table text-center lg:w-1/2 mb-6">
                       <div className="item flex w-full">
                         <div className="title w-1/2"><strong>Brand</strong></div>
                         <div className="info w-1/2"><strong>Discount Rate</strong></div>
@@ -325,8 +326,11 @@ export default function Page() {
                 </section>
 
                 <section className="mb-8">
+                  <h4>
+                    <strong>Acknowledgment and Acceptance:</strong>
+                  </h4>
                   <p>
-                    <strong>Acknowledgment and Acceptance:</strong> By using this website, you acknowledge that you have read and understood these terms and conditions and agree to be bound by them.
+                    By using this website, you acknowledge that you have read and understood these terms and conditions and agree to be bound by them.
                   </p>
                 </section>
               </>

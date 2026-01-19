@@ -19,12 +19,14 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import NotFound from '../../not-found';
 import ProductSwiperGallery from '@/components/ui/Mobile/ProductSwiperGallery';
+import { getProfile } from '@/actions/utils';
 
 let breadcrumbItems = [];
 export default function Page() {
   const [refresh, setRefresh] = useState(false);
   const params = useParams();
   const [productIdWithHash, setProductIdWithHash] = useState('');
+  const profileData = getProfile()
 
   useEffect(() => {
     const baseId = params.productId;
@@ -376,7 +378,7 @@ export default function Page() {
           {
             details?.catalogs.length ? (
               <>
-                <h3 className="sub-title mb-5">{translation.catalogs}</h3>
+                <h3 className="sub-title mb-5">{profileData.isCorporate || profileData.hideTargetSOA ? translation.categories : translation.catalogs}</h3>
                 <div className="badges flex flex-wrap gap-2">
                   {
                     details?.catalogs?.map(b => (

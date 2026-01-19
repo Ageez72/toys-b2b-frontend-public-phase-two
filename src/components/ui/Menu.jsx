@@ -92,7 +92,7 @@ export default function Menu({ scroll }) {
             </Link>
           </li>
           {
-            state.isCorporate ? (
+            state.isCorporate || profileData.hideTargetSOA ? (
               <li>
                 <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
                   {translation.categories}
@@ -111,15 +111,6 @@ export default function Menu({ scroll }) {
                 {translation.clearance}
               </Link>
             </li>
-          }
-          {
-            profileData.isCorporate || profileData.hideTargetSOA ? (
-              <li className={isActive("/terms-and-conditions")}>
-                <Link href="/terms-and-conditions" className="block py-2 px-3">
-                  {translation.termsAndConditions}
-                </Link>
-              </li>
-            ) : null
           }
           {/* <li>
             <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => setIsOpenSearch(!isOpenSearch)}></i>
@@ -153,7 +144,7 @@ export default function Menu({ scroll }) {
         <div className={`general-search-overlay ${isOpenCategoriesDropdown ? 'open' : ''}`} onClick={() => setIsOpenCategoriesDropdown(false)}></div>
         {isOpenCategoriesDropdown && (
           <div className={`general-search categories-dropdown-popup open`}>
-            <h2 className="sub-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
+            {/* <h2 className="sub-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2> */}
             <div className="flex">
               <div className="relative categories-dropdown-links">
                 <ul>
