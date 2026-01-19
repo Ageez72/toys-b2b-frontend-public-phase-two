@@ -1385,3 +1385,52 @@ $tablet-font-percent: 25%;
 .pointer-events-none {
     pointer-events: none;
 }
+
+.terms-page {
+    @media (max-width: $tablet-breakpoint) {
+        .main-title {
+            font-size: calc(20px + $tablet-font-percent);
+        }
+
+        h3 {
+            font-size: calc(16px + $tablet-font-percent);
+        }
+
+        h4 {
+            font-size: calc(14px + $tablet-font-percent);
+        }
+
+        p {
+            font-size: calc(12px + $tablet-font-percent);
+        }
+
+        .product-details .specifications-table .item div {
+            font-size: calc(12px + $tablet-font-percent);
+        }
+
+    }
+
+    @media (max-width: $max-mobile-breakpoint) {
+
+        .main-title {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 16px;
+        }
+
+        h4 {
+            font-size: 14px;
+        }
+
+        p {
+            font-size: 12px;
+        }
+
+        .product-details .specifications-table .item div {
+            font-size: 12px;
+        }
+    }
+
+}

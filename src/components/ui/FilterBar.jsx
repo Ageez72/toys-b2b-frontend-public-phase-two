@@ -13,11 +13,13 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { useAppContext } from '../../../context/AppContext';
 import Loader from './Loaders/Loader';
+import { getProfile } from '@/actions/utils';
 
 
 export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEndpoint, categoriesEndpoint, sortItem, pageSizeItem, searchTerm, onClose, count, filtersSections }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [translation, setTranslation] = useState(ar); // default fallback
+    const profileData = getProfile()
     useEffect(() => {
         setTranslation(state.LANG === "EN" ? en : ar);
     }, [state.LANG]);
@@ -72,9 +74,9 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     const useParams = useSearchParams();
     const lang = Cookies.get('lang') || 'AR';
 
-    const [fromPrice, setFromPrice] = useState(useParams.get('fromPrice') || 0); // نطاق السعر
+    const [fromPrice, setFromPrice] = useState(useParams.get('fromPrice') || -1); // نطاق السعر
     const [toPrice, setToPrice] = useState(useParams.get('toPrice') || 0); // نطاق السعر
-    const [fromAge, setFromAge] = useState(useParams.get('fromAge') || 0); // نطاق العمر
+    const [fromAge, setFromAge] = useState(useParams.get('fromAge') || -1); // نطاق العمر
     const [toAge, setToAge] = useState(useParams.get('toAge') || 0); // نطاق العمر
     const [itemType, setItemType] = useState(useParams.get('itemType') || ""); // الاقسام
     const [brand, setBrand] = useState(() => {
@@ -115,9 +117,9 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             const query = new URLSearchParams();
             const params = new URLSearchParams(window.location.search);
 
-            if (fromPrice) query.set('fromPrice', fromPrice);
+            if (fromPrice >= 0) query.set('fromPrice', fromPrice);
             if (toPrice) query.set('toPrice', toPrice);
-            if (fromAge) query.set('fromAge', fromAge);
+            if (fromAge >= 0) query.set('fromAge', fromAge);
             if (toAge) query.set('toAge', toAge);
             if (itemType) query.set('itemType', itemType);
             if (itemStatus) query.set('itemStatus', itemStatus);
@@ -169,12 +171,12 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             if (range === "price") {
                 query.delete('fromPrice');
                 query.delete('toPrice');
-                setFromPrice(0);
+                setFromPrice(-1);
                 setToPrice(0);
             } else if (range === "age") {
                 query.delete('fromAge');
                 query.delete('toAge');
-                setFromAge(0);
+                setFromAge(-1);
                 setToAge(0);
             }
             router.push(`/products?${query.toString()}`);
@@ -186,9 +188,9 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             Cookies.remove('pagesToken');
             query.set('page', '1');
             // Reset all filters
-            setFromPrice(0);
+            setFromPrice(-1);
             setToPrice(0);
-            setFromAge(0);
+            setFromAge(-1);
             setToAge(0);
             setItemType("");
             setItemStatus("");
@@ -399,7 +401,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 {
                                     catalogsAllOptions?.length > 0 ? (
                                         // catalogOpen && (
-                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={catalogsAllOptions.filter(item => catalog.includes(item.code)).map(item => ({
+                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.categories : translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={catalogsAllOptions.filter(item => catalog.includes(item.code)).map(item => ({
                                             label: item.name,
                                             value: item.code,
                                         }))} initiallyOpen={selectedCatalogsOptions.length > 0 || true} isProductsPage={isProductsPage} />
@@ -414,7 +416,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 {
                                     categoriesAllOptions?.length > 0 ? (
                                         // categoryOpen && (
-                                        <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0 || true} />
+                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.brandsCategories : translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0 || true} />
                                         // )
                                     ) : null
                                 }

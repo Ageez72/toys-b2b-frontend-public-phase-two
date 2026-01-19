@@ -27,8 +27,8 @@
     "phone_no": "Phone Number",
     "enter_phone_no": "Enter your phone number",
     "email": "Email",
-    "store_name": "Store Name",
-    "enter_store_name": "Enter store name",
+    "store_name": "Business Name",
+    "enter_store_name": "Enter Business Name",
     "password": "Password",
     "register_btn": "Register",
     "have_account": "Already have an account?",
@@ -117,6 +117,7 @@
   "ageRange": "Age Range",
   "sectors": "Deals & Highlights",
   "categories": "Categories",
+  "brandsCategories": "Brands Categories",
   "catalogs": "Usages",
   "apply": "Apply",
   "clear": "Clear",
@@ -357,7 +358,7 @@
     "collectibleAndFigures": "Collectible & Figures",
     "dollWorld": "Doll World",
     "robots": "Robots",
-    "": "",
+    "exploreOurCategories": "Explore Our Categories",
     "": "",
     "": "",
     "": "",
@@ -372,5 +373,7 @@
     "": "",
     "": "",
     "": ""
-  }
+  },
+  "termsAndConditions": "Terms and Conditions",
+  "termsAndConditionsPageTitle": "General Terms and Conditions"
 }

@@ -8,12 +8,19 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import SearchInput from "./SearchInput";
 import logo from "../../assets/imgs/logo.png";
+import { getProfile } from "@/actions/utils";
 import { staticCategoriesDropdown } from "../../../constant/endpoints";
+import { babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots } from "../../../constant/images";
 
 export default function Menu({ scroll }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
+  const [siteLocation, setSiteLocation] = useState(null);
   const pathname = usePathname();
-  const siteLocation = Cookies.get("siteLocation")
+  const profileData = getProfile()
+
+  useEffect(() => {
+    setSiteLocation(Cookies.get("siteLocation"));
+  }, []);
 
   const [cookiesState, setCookiesState] = useState({
     newArrivals: false,
@@ -69,6 +76,8 @@ export default function Menu({ scroll }) {
 
   const isActive = (path) => pathname === path ? "active" : "";
 
+  const catalogImages = [babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots]
+
   return (
     <>
       <ul className="menu-list font-medium flex items-center flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-4 md:mt-0 md:border-0 md:bg-white dark:border-gray-700">
@@ -82,7 +91,7 @@ export default function Menu({ scroll }) {
               {translation.allProducts}
             </Link>
           </li>
-          {/* {
+          {
             state.isCorporate ? (
               <li>
                 <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
@@ -91,7 +100,7 @@ export default function Menu({ scroll }) {
                 </a>
               </li>
             ) : null
-          } */}
+          }
           <li className={isActive("/brands")}>
             <Link href="/brands" className="block py-2 px-3">{translation.brands}</Link>
           </li>
@@ -102,6 +111,15 @@ export default function Menu({ scroll }) {
                 {translation.clearance}
               </Link>
             </li>
+          }
+          {
+            profileData.isCorporate || profileData.hideTargetSOA ? (
+              <li className={isActive("/terms-and-conditions")}>
+                <Link href="/terms-and-conditions" className="block py-2 px-3">
+                  {translation.termsAndConditions}
+                </Link>
+              </li>
+            ) : null
           }
           {/* <li>
             <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => setIsOpenSearch(!isOpenSearch)}></i>
@@ -135,6 +153,7 @@ export default function Menu({ scroll }) {
         <div className={`general-search-overlay ${isOpenCategoriesDropdown ? 'open' : ''}`} onClick={() => setIsOpenCategoriesDropdown(false)}></div>
         {isOpenCategoriesDropdown && (
           <div className={`general-search categories-dropdown-popup open`}>
+            <h2 className="sub-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
             <div className="flex">
               <div className="relative categories-dropdown-links">
                 <ul>
@@ -148,7 +167,7 @@ export default function Menu({ scroll }) {
                         }
                       >
                         <div className="flex items-center gap-2">
-                          <img src={logo.src} alt="image" />
+                          <img src={catalogImages[index]?.src || babyWorld.src} alt="image" />
                           <span>{category.name}</span>
                         </div>
                         <i className="icon-arrow-left-01-round px-3"></i>

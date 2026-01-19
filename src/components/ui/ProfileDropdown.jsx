@@ -119,6 +119,7 @@ export default function ProfileDropdown({ onGoTo }) {
             accountAddress: data?.data?.accountAddress,
             allQty: data?.data?.allQty,
             payment: data?.data?.payment,
+            hideTargetSOA: data?.data?.hideTargetSOA,
         }
         Cookies.set('profile', JSON.stringify(profile));
         if (data?.data?.active !== "Y" && data?.data?.viewOnly !== true) {
@@ -225,7 +226,7 @@ export default function ProfileDropdown({ onGoTo }) {
                                         </Link>
                                     </MenuItem>
                                     {
-                                        !state.isCorporate && state.isActive && (
+                                        !state.isCorporate && state.isActive || data?.data?.hideTargetSOA && (
                                             <>
                                                 <MenuItem>
                                                     <Link onClick={() => onGoTo && onGoTo()} href="/profile?statementOfAccount" className='profile-item flex items-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900'>

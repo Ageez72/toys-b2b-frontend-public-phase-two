@@ -8,12 +8,15 @@ import Cookies from 'js-cookie';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import logo from "../../assets/imgs/logo.png";
+import { getProfile } from "@/actions/utils";
 import { staticCategoriesDropdown } from "../../../constant/endpoints";
+import { babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots } from "../../../constant/images";
 
 export default function MobileMenu({ scroll, onGoTo }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [lang, setLang] = useState("AR"); // fallback
   const siteLocation = Cookies.get("siteLocation")
+  const profileData = getProfile()
   const [cookiesState, setCookiesState] = useState({
     newArrivals: false,
     clearance: false,
@@ -66,6 +69,8 @@ export default function MobileMenu({ scroll, onGoTo }) {
     };
   }, [state.LANG]);;
 
+  const catalogImages = [babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots]
+
   return (
     <>
       <div className="mobile-menu fix mb-3 mean-container">
@@ -87,13 +92,16 @@ export default function MobileMenu({ scroll, onGoTo }) {
             }}>
               <Link href="/products?itemStatus=AVAILABLE">{translation.allProducts}</Link>
             </li>
-            {/* {
+            {
               state.isCorporate ? (
                 <li onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
-                  <a href="javascript:void(0)" className="cursor-pointer"> {translation.categories}</a>
+                  <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1">
+                    {translation.categories}
+                    <i className="icon-arrow-down-01-round"></i>
+                  </a>
                 </li>
               ) : null
-            } */}
+            }
             <li className={isActive("/brands")} onClick={() => onGoTo()}>
               <Link href="/brands">{translation.brands}</Link>
             </li>
@@ -102,6 +110,15 @@ export default function MobileMenu({ scroll, onGoTo }) {
               <li className="clearanceTab" onClick={() => onGoTo()}>
                 <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
               </li>
+            }
+            {
+              profileData.isCorporate || profileData.hideTargetSOA ? (
+                <li className={isActive("/terms-and-conditions")} onClick={() => onGoTo()}>
+                  <Link href="/terms-and-conditions">
+                    {translation.termsAndConditions}
+                  </Link>
+                </li>
+              ) : null
             }
           </ul>
           {/* <hr /> */}
@@ -124,7 +141,7 @@ export default function MobileMenu({ scroll, onGoTo }) {
                     }}
                   >
                     <div className="flex items-center gap-2">
-                      <img src={logo.src} alt="image" />
+                      <img src={catalogImages[index]?.src || babyWorld.src} alt="image" />
                       <span>{category.name}</span>
                     </div>
                     <i className="icon-arrow-left-01-round px-3"></i>

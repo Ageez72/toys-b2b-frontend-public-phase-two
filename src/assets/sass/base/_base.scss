@@ -165,6 +165,10 @@ hr {
     @media (max-width: 600px) {
         width: 100%;
     }
+
+    @media (min-width: 992px) and (max-width: 1219px) {
+        width: 92%;
+    }
 }
 
 .brand-logo {

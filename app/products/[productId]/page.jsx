@@ -267,7 +267,7 @@ export default function Page() {
                   </div>
                 ) : null
             }
-            {/* {
+            {
               Array.isArray(details?.constants.COLOR) &&
               details.constants.COLOR.some(el => el.trim() !== "") && (
                 <div className="item flex w-full">
@@ -275,7 +275,7 @@ export default function Page() {
                   <div className="info w-1/2">{details?.constants.COLOR}</div>
                 </div>
               )
-            } */}
+            }
             {
               Array.isArray(details?.constants.B_TYPES) ?
                 details.constants.B_TYPES.some(el => el.trim() !== "") && (
@@ -330,7 +330,7 @@ export default function Page() {
                   </div>
                 ) : null
             }
-            {/* {
+            {
               Array.isArray(details?.constants.LANGUAGE) &&
               details.constants.LANGUAGE.some(el => el.trim() !== "") && (
                 <div className="item flex w-full">
@@ -338,7 +338,7 @@ export default function Page() {
                   <div className="info w-1/2">{details?.constants.LANGUAGE}</div>
                 </div>
               )
-            } */}
+            }
             {
               details?.dimensions ? (
                 <div className="item flex w-full">

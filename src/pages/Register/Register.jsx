@@ -162,7 +162,7 @@ export default function Register() {
                   <i className="icon-mobile"></i>
                 </div>
                 <input
-                  placeholder={"00962791234567"}
+                  placeholder={siteLocation === "primereach" ? "009647912345678" : "00962791234567"}
                   className='w-full px-10 p-2.5 phone-input'
                   {...register('phone', {
                     required: translation.register.errors.phone_no.required,

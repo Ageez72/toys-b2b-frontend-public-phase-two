@@ -136,7 +136,7 @@ export const staticCategoriesDropdown = [
       { name_en: "Bikes", name_ar: "دراجات", link: '/products?itemStatus=AVAILABLE&catalog=BIKES' },
       { name_en: "Skate Shoes", name_ar: "أحذية تزلج", link: '/products?itemStatus=AVAILABLE&catalog=SKATE_SHOES' },
       { name_en: "Battery Operated Cars and Ride-On", name_ar: "سيارات وألعاب ركوب تعمل بالبطارية", link: '/products?itemStatus=AVAILABLE&catalog=BATTERY_OPERATED_CARS' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Sport & Leisure", name_ar: "رياضة وترفيه", link: '/products?itemStatus=AVAILABLE&catalog=SPORT_&_LEISURE' },
     ]
   },
   {
@@ -161,24 +161,24 @@ export const staticCategoriesDropdown = [
       { name_en: "Animals Plush", name_ar: "حيوانات محشوة", link: '/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH' },
       { name_en: "Purses & Bags", name_ar: "حقائب ومحافظ", link: '/products?itemStatus=AVAILABLE&catalog=PURSE_&_BAGS' },
       { name_en: "Soft Plush", name_ar: "دمى ناعمة", link: '/products?itemStatus=AVAILABLE&catalog=SOFT_PLUSH' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "TV & Movies Plush", name_ar: "دمى محشوة أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_&_MOVIES_PLUSH' },
+    ]
+  },
+  {
+    links: [
+      { name_en: "Trading Card", name_ar: "ألعاب ورقية", link: '/products?itemStatus=AVAILABLE&catalog=TRADING_CARD' },
+      { name_en: "Boys Collectible", name_ar: "ألعاب تجميع للأولاد", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_COLLECTIBLE' },
+      { name_en: "Tv & Movies Collectible", name_ar: "للتجميع أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_&_MOVIES_COLLECTIBLE' },
     ]
   },
   {
     links: [
       { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-    ]
-  },
-  {
-    links: [
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
-      { name_en: "Boys", name_ar: "مفاجآت", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
+      { name_en: "Baby Dolls", name_ar: "دمى بيبي", link: '/products?itemStatus=AVAILABLE&catalog=BABY_DOLLS' },
+      { name_en: "Dolls", name_ar: "دمى", link: '/products?itemStatus=AVAILABLE&catalog=DOLLS' },
+      { name_en: "Girls Figures", name_ar: "شخصيات بنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRLS_FIGURES' },
+      { name_en: "Girls Playset", name_ar: "مجموعات ألعاب للبنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRL_PLAYSET' },
+      { name_en: "Girls Collectible", name_ar: "ألعاب تجميع للبنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRLS_COLLECTIBLE' },
     ]
   },
   {

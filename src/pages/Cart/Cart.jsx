@@ -1016,7 +1016,7 @@ function Cart() {
                 <p className="mb-0">{translation.deliveryFees}</p>
                 <p className="mb-0 flex items-center gap-1">
                   {/* <span>{cartItems.length ? Number(orderSummary?.DISCOUNT).toFixed(2) : 0}</span> */}
-                  <span>0</span>
+                  <span>{cartItems.length ? Number(orderSummary?.DeliveryFees).toFixed(2) : 0}</span>
                   <span>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </p>
               </div>

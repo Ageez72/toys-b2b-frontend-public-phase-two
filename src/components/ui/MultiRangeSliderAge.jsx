@@ -18,6 +18,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
   const toAge = Number(searchParams?.get("toAge"));
   const siteLocation = Cookies.get("siteLocation")
   const [error, setError] = useState("");
+  const [userChanged, setUserChanged] = useState(false);
 
   const STORAGE_KEY = "age_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -45,7 +46,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
     return max;
   });
 
-  const isError = minVal >= maxVal || minVal < 0 || maxVal < 0;
+  const isError = minVal >= maxVal || minVal < -1 || maxVal < 0;
 
   useEffect(() => {
     Cookies?.set(STORAGE_KEY, JSON.stringify({ minVal, maxVal }));
@@ -88,6 +89,18 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
     if (num >= 3 && num <= 10) return <span> {translation.yearss}</span>;
     return <span> {translation.year}</span>;
   };
+
+  const handleApplyRange = () => {
+    if (isError) return;
+    handleAgeFrom(minVal);
+    handleAgeTo(maxVal);
+    setUserChanged(!userChanged)
+    Cookies.set('filterstatus', "filter");
+  };
+
+  useEffect(() => {
+    onSubmitRange()
+  }, [userChanged])
 
   return (
     <Disclosure defaultOpen={open}>
@@ -213,16 +226,8 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
             {
               isProductsPage && (
                 <div className="flex justify-start gap-2">
-                  <button className={`primary-btn sm-primary-btn isDesktop`} onClick={() => {
-                    if (isError) return; // safety
-                    onSubmitRange();
-                    Cookies.set('filterstatus', "filter");
-                  }}>{translation.apply}</button>
-                  <button className={`primary-btn sm-primary-btn isMobile ${error ? 'disabled' : ''}`} disabled={isError} onClick={() => {
-                    if (isError) return; // safety
-                    onSubmitRange();
-                    Cookies.set('filterstatus', "filter");
-                  }}>{translation.apply}</button>
+                  <button className={`primary-btn sm-primary-btn isDesktop`} onClick={handleApplyRange}>{translation.apply}</button>
+                  <button className={`primary-btn sm-primary-btn isMobile ${error ? 'disabled' : ''}`} disabled={isError} onClick={handleApplyRange}>{translation.apply}</button>
                   {
                     isProductsPage && (
                       (fromAge || toAge) ? (

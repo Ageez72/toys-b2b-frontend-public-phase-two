@@ -844,6 +844,10 @@ img {
     @media (max-width: 600px) {
         width: 90px;
     }
+
+    @media (min-width: 992px) and (max-width: 1099px) {
+        width: 75px;
+    }
 }
 
 .profile-tabs-links {
@@ -900,4 +904,8 @@ img {
     &:hover {
         background: #207010;
     }
+}
+
+.p0 {
+    padding: 0 !important;
 }
