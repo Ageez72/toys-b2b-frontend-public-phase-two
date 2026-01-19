@@ -195,8 +195,8 @@ export const collections = [
     link: "/products?itemStatus=AVAILABLE&catalog=BABY_GEAR,BABY_PLAYSET,BABY_TOYS,BABY_LEARNING_TOYS,BABY_RC,MUSIC"
   },
   {
-    name_en: "عالم المغامرات",
-    name_ar: "Action World",
+    name_en: "Action World",
+    name_ar: "عالم المغامرات",
     icon: actionWorld,
     link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_&_MOVIES_ACTION_FIGURES"
   },
@@ -249,8 +249,8 @@ export const collections = [
     link: "/products?itemStatus=AVAILABLE&catalog=SPORT_&_LEISURE,WATER_TOYS,PLAY_HOUSE,OUTDOOR"
   },
   {
-    name_en: "دمى محشوة",
-    name_ar: "Plush",
+    name_en: "Plush",
+    name_ar: "دمى محشوة",
     icon: plush,
     link: "/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH,PURSE_&_BAGS,SOFT_PLUSH,TV_&_MOVIES_PLUSH"
   },
