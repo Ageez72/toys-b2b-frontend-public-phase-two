@@ -202,25 +202,25 @@ export const collections = [
   },
   {
     name_en: "Build & Create",
-    name_ar: "ابني و صمم",
+    name_ar: "ابني وصمم",
     icon: buildCreate,
     link: "/products?itemStatus=AVAILABLE&catalog=MECHANICS,BLOCKS,CONSTRUCTION_PLAYSETS"
   },
   {
     name_en: "Puzzle & Games",
-    name_ar: "العاب جماعية و بازل",
+    name_ar: "العاب جماعية وبازل",
     icon: puzzleGames,
     link: "/products?itemStatus=AVAILABLE&catalog=KIDS_PUZZLE,BOARD_GAMES_ZING,JUNIOR_GAMES,FAMILY_GAMES,ADULT_GAMES,DIGITAL"
   },
   {
     name_en: "Learning & Science",
-    name_ar: "تعلم و اختراع",
+    name_ar: "تعلم واختراع",
     icon: learningScience,
     link: "/products?itemStatus=AVAILABLE&catalog=EDUCATIONAL_TOYS,THINKING,SCIENCES_KIT,LEARNING,PRETEND_PLAY,ROBOTS,MAGNET_ACTIVITIES"
   },
   {
     name_en: "Art & Creativity",
-    name_ar: "فن و ابداع",
+    name_ar: "فن وابداع",
     icon: artCreativity,
     link: "/products?itemStatus=AVAILABLE&catalog=WATER_COLORING_&_PAINTING,STICKERS,ART_&_CRAFTS,DOUGH_&_SAND_ART,PUTTY,SLIME"
   },
@@ -256,7 +256,7 @@ export const collections = [
   },
   {
     name_en: "Collectible & Figures",
-    name_ar: "تجميع شخصيات و بطاقات",
+    name_ar: "تجميع شخصيات وبطاقات",
     icon: collectibleFigures,
     link: "/products?itemStatus=AVAILABLE&catalog=TRADING_CARD,BOYS_COLLECTIBLE,TV_&_MOVIES_COLLECTIBLE"
   },
