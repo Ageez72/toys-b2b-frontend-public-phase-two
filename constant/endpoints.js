@@ -255,8 +255,8 @@ export const collections = [
     link: "/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH,PURSE_&_BAGS,SOFT_PLUSH,TV_&_MOVIES_PLUSH"
   },
   {
-    name_en: "تجميع شخصيات و بطاقات",
-    name_ar: "المقتنيات",
+    name_en: "Collectible & Figures",
+    name_ar: "تجميع شخصيات و بطاقات",
     icon: collectibleFigures,
     link: "/products?itemStatus=AVAILABLE&catalog=TRADING_CARD,BOYS_COLLECTIBLE,TV_&_MOVIES_COLLECTIBLE"
   },
