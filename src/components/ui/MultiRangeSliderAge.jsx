@@ -99,7 +99,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
   };
 
   useEffect(() => {
-    onSubmitRange()
+    onSubmitRange && onSubmitRange()
   }, [userChanged])
 
   return (

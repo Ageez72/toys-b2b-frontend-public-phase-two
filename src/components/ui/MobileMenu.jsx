@@ -29,6 +29,11 @@ export default function MobileMenu({ scroll, onGoTo }) {
   const [activeCategory, setActiveCategory] = useState("categories-dropdown-details-item-0");
   const pathname = usePathname();
   const isActive = (path) => pathname === path ? "active" : "";
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const staticCategoriesCatalogs = [
     { id: 1, name: translation.categoryDropdown.babyWorld },
@@ -111,15 +116,13 @@ export default function MobileMenu({ scroll, onGoTo }) {
                 <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
               </li>
             }
-            {
-              profileData.isCorporate || profileData.hideTargetSOA ? (
-                <li className={isActive("/terms-and-conditions")} onClick={() => onGoTo()}>
-                  <Link href="/terms-and-conditions">
-                    {translation.termsAndConditions}
-                  </Link>
-                </li>
-              ) : null
-            }
+            {isClient && (profileData?.isCorporate || profileData?.hideTargetSOA) && (
+              <li className={isActive("/terms-and-conditions")} onClick={() => onGoTo()}>
+                <Link href="/terms-and-conditions">
+                  {translation.termsAndConditions}
+                </Link>
+              </li>
+            )}
           </ul>
           {/* <hr /> */}
           {/* <MenuControl onGoTo={onGoTo} /> */}

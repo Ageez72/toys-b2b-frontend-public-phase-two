@@ -97,7 +97,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
   };
 
   useEffect(() => {
-    onSubmitRange()
+    onSubmitRange && onSubmitRange()
   }, [userChanged])
 
   return (
