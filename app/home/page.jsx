@@ -16,6 +16,7 @@ import MobileCards from "@/components/ui/Mobile/MobileCards";
 import SearchInput from "@/components/ui/SearchInput";
 import { collections } from "../../constant/endpoints";
 import Link from "next/link";
+import { getProfile } from "@/actions/utils";
 
 // fallback images
 import fallbackDesktopImage from "@/assets/imgs/hero-bg.png";
@@ -26,6 +27,7 @@ export default function Home() {
   const [translation, setTranslation] = useState(ar);
   const [imagePairs, setImagePairs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [profileData, setProfileData] = useState("");
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
@@ -115,6 +117,10 @@ export default function Home() {
     mobile: fallbackMobileImage.src,
   };
 
+  useEffect(() => {
+    const profData = getProfile();
+    setProfileData(profData)
+  }, [state])
 
   return (
     <>
@@ -132,25 +138,29 @@ export default function Home() {
           <div className="custom-py-60">
             <BrandsSwiper />
           </div>
-          <div>
-            <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
-              <h2 className="main-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
-              <div className="grid grid-cols-7 gap-4 catalogs-list">
-                {
-                  collections.map((cat, index) => (
-                    <Link className="catalog-box text-center" key={index} href={cat.link}>
-                      <div className="catalog-icon">
-                        <img width={80} src={cat.icon.src} alt="image" className="m-auto" />
-                      </div>
-                      <div className="catalog-title">
-                        <h3>{state.LANG === "EN" ? cat.name_en : cat.name_ar}</h3>
-                      </div>
-                    </Link>
-                  ))
-                }
+          {
+            profileData.isCorporate || profileData.hideTargetSOA ? (
+              <div>
+                <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
+                  <h2 className="main-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
+                  <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 catalogs-list">
+                    {
+                      collections.map((cat, index) => (
+                        <Link className="catalog-box text-center" key={index} href={cat.link}>
+                          <div className="catalog-icon">
+                            <img width={80} src={cat.icon.src} alt="image" className="m-auto" />
+                          </div>
+                          <div className="catalog-title">
+                            <h3>{state.LANG === "EN" ? cat.name_en : cat.name_ar}</h3>
+                          </div>
+                        </Link>
+                      ))
+                    }
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            ) : null
+          }
           <ColumnsGridSwiper
             title={mostSelling.title}
             badgeType={mostSelling.badgeType}
