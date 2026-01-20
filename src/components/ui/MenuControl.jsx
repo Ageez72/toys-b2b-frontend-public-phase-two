@@ -7,11 +7,23 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
 import primereach from "../../assets/imgs/primereach.png";
+import en from "../../../locales/en.json";
+import ar from "../../../locales/ar.json";
 
 export default function MenuControl({ onGoTo }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
+  const [translation, setTranslation] = useState(ar);
   const cartLength = state?.STOREDITEMS?.length || 0;
   const siteLocation = Cookies.get("siteLocation")
+
+
+  useEffect(() => {
+    if (state.LANG === "EN") {
+      setTranslation(en);
+    } else {
+      setTranslation(ar);
+    }
+  }, [state.LANG]);
 
   return (
     <div className="flex items-center">
@@ -22,6 +34,7 @@ export default function MenuControl({ onGoTo }) {
           // href={state.isCorporate ? '/corporate-cart' : '/cart'}
           href={'/cart'}
           onClick={() => onGoTo && onGoTo()}
+          title={translation.cart}
         >
           <div className="circle-icon-container">
             <span className="cart-icon relative">

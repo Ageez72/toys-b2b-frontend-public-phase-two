@@ -129,7 +129,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             if (brand && brand.length > 0) query.set('brand', brand.join(','));
             if (category && category.length > 0) query.set('category', category.join(','));
             if (catalog && catalog.length > 0) query.set('catalog', catalog.join(','));
-            if (Cookies.remove('filterstatus') === "pagination") {
+            if (Cookies.get('filterstatus') === "pagination") {
                 if (params.has('page')) {
                     const pageValue = params.get('page');
                     query.set('page', pageValue);
@@ -401,7 +401,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 {
                                     catalogsAllOptions?.length > 0 ? (
                                         // catalogOpen && (
-                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.categories : translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={catalogsAllOptions.filter(item => catalog.includes(item.code)).map(item => ({
+                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.sections : translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={catalogsAllOptions.filter(item => catalog.includes(item.code)).map(item => ({
                                             label: item.name,
                                             value: item.code,
                                         }))} initiallyOpen={selectedCatalogsOptions.length > 0 || true} isProductsPage={isProductsPage} />
@@ -416,7 +416,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 {
                                     categoriesAllOptions?.length > 0 ? (
                                         // categoryOpen && (
-                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.brandsCategories : translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0 || true} />
+                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.categories : translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0 || true} />
                                         // )
                                     ) : null
                                 }
@@ -449,33 +449,33 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                             </>
                         ) : !isProductsPage ? (
                             <>
-                                <BrandsFilters selected={brand} parentOptions={parentOptions} />
+                                <FilterSingleItem title={translation.sectors} selected={itemType} options={itemTypeOptions} name="itemType" handleSingleItem={changeSingleItem} initiallyOpen={true} />
                                 {
-                                    categoryOpen && (
-                                        <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0} />
-                                    )
+                                    catalogOpen ? (
+                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.sections : translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0 || true} />
+                                    ) : null
                                 }
-                                <FilterSingleItem title={translation.sectors} selected={itemType} options={itemTypeOptions} name="itemType" handleSingleItem={changeSingleItem} />
+                                <BrandsFilters selected={brand} parentOptions={parentOptions} initiallyOpen={true} />
+                                {
+                                    categoriesAllOptions?.length > 0 ? (
+                                        <Select2Form title={translation.categories} options={categoriesAllOptions} name="categories" handleMultiItem={changeMultiItem} initSelected={selectedCategoriesOptions} initiallyOpen={selectedCategoriesOptions.length > 0 || true} />
+                                    ) : null
+                                }
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSlider title={translation.priceRange} min={0} max={1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={false} />
+                                    <MultiRangeSlider initiallyOpen={true} title={translation.priceRange} min={0} max={1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={false} />
                                 </Suspense>
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSliderAge title={translation.ageRange} min={0} max={18} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} />
+                                    <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={0} max={18} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} />
                                 </Suspense>
-                                {
-                                    catalogOpen && (
-                                        <Select2Form title={translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0} />
-                                    )
-                                }
                                 <FilterSingleItem title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
 
                                 <div className="action-btns flex gap-3 mt-4">
                                     <button className="primary-btn flex-1" onClick={handleApplyFilters}>{translation.apply}</button>
-                                    {showClearButton && (
+                                    {showClearButton ? (
                                         <button className="gray-btn flex-1" onClick={() => handleClearFilter(null)}>
                                             {translation.clear}
                                         </button>
-                                    )}
+                                    ) : null}
                                 </div>
                             </>
                         ) :

@@ -83,9 +83,16 @@ export default function ProductCard({ type, badgeType, related, item }) {
                     )
                 } */}
                     {
-                        !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount && (
+                        profileData.isCorporate || profileData.hideTargetSOA ? (
                             <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
-                        )
+                        ) : null
+                    }
+                    {
+                        !profileData.isCorporate || !profileData.hideTargetSOA ? (
+                            !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount ? (
+                                <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                            ) : null
+                        ) : null
                     }
                     {
                         item?.status !== "AVAILABLE" && !item.commingSoon ? (
@@ -163,9 +170,16 @@ export default function ProductCard({ type, badgeType, related, item }) {
                     )
                 } */}
                     {
-                        !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount && (
+                        profileData.isCorporate || profileData.hideTargetSOA ? (
                             <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
-                        )
+                        ) : null
+                    }
+                    {
+                        !profileData.isCorporate || !profileData.hideTargetSOA ? (
+                            !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount ? (
+                                <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                            ) : null
+                        ) : null
                     }
                     {
                         item?.status !== "AVAILABLE" && !item.commingSoon ? (

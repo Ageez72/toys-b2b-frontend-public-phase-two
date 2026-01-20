@@ -163,7 +163,7 @@ export default function ProfileDropdown({ onGoTo }) {
                     return (
                         <>
                             <div>
-                                <MenuButton className="inline-flex w-full lang-switcher">
+                                <MenuButton className="inline-flex w-full lang-switcher" title={translation.profile}>
                                     <span>
                                         <i className="icon-user"></i>
                                     </span>

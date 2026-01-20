@@ -10,10 +10,14 @@
     }
 
     .products-results-title {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
         color: #4A4A49;
         margin-bottom: 24px;
+
+        span {
+            color: var(--primary-color);
+        }
     }
 
     .products-filter-side {

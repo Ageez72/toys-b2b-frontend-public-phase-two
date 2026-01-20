@@ -378,7 +378,7 @@ export default function Page() {
           {
             details?.catalogs.length ? (
               <>
-                <h3 className="sub-title mb-5">{profileData.isCorporate || profileData.hideTargetSOA ? translation.categories : translation.catalogs}</h3>
+                <h3 className="sub-title mb-5">{profileData.isCorporate || profileData.hideTargetSOA ? translation.sections : translation.catalogs}</h3>
                 <div className="badges flex flex-wrap gap-2">
                   {
                     details?.catalogs?.map(b => (

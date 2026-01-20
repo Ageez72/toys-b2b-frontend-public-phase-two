@@ -273,7 +273,7 @@ export default function Page() {
             </div>
             {
               queryString !== '' && data?.data?.itemCount ? (
-                <h2 className="products-results-title">{translation.resultsFound} {data?.data?.itemCount} {translation.resultProducts}</h2>
+                <h2 className="products-results-title">{translation.resultsFound} <span>{Number(data?.data?.itemCount).toLocaleString("en-US")}</span> {translation.resultProducts}</h2>
               ) : ''
             }
             <div className={`${data?.data?.items?.length > 0 ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4" : ""} products-page-listing`}>
@@ -310,19 +310,19 @@ export default function Page() {
                 )
               }
             </div>
+            {
+              data?.data?.items?.length > 0 && (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Pagination
+                    currentPage={Number(data?.data?.page) || 1}
+                    pagesToken={data?.data?.pagesToken}
+                    totalPages={data?.data?.pages}
+                  />
+                </Suspense>
+              )
+            }
           </div>
         </div>
-        {
-          data?.data?.items?.length > 0 && (
-            <Suspense fallback={<div>Loading...</div>}>
-              <Pagination
-                currentPage={Number(data?.data?.page) || 1}
-                pagesToken={data?.data?.pagesToken}
-                totalPages={data?.data?.pages}
-              />
-            </Suspense>
-          )
-        }
       </div>
     </>
   )

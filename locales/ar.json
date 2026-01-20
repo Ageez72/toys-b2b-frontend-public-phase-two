@@ -117,6 +117,8 @@
     "ageRange": "نطاق العمر",
     "sectors": " عروض ومميزات",
     "categories": "التصنيفات",
+    "ourSections": "أقسامنا",
+    "sections": "الأقسام ",
     "brandsCategories": "تصنيفات العلامات التجارية",
     "catalogs": "الاستخدامات",
     "apply": "تطبيق",
@@ -361,7 +363,7 @@
         "collectibleAndFigures": "تجميع شخصيات و بطاقات",
         "dollWorld": "عالم دمى البنات",
         "robots": "الروبوتات",
-        "exploreOurCategories": "تصفح تصنيفاتنا الرئيسية",
+        "exploreOurCategories": "تصفح أقسامنا الرئيسية",
         "": "",
         "": "",
         "": "",
@@ -378,5 +380,6 @@
         "": ""
     },
     "termsAndConditions": "الشروط والأحكام",
-    "termsAndConditionsPageTitle": "الشروط والأحكام العامة"
+    "termsAndConditionsPageTitle": "الشروط والأحكام العامة",
+    "sortBy": "ترتيب حسب"
 }

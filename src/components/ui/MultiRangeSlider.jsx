@@ -98,6 +98,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
 
   useEffect(() => {
     onSubmitRange && onSubmitRange()
+    Cookies.set('filterstatus', "filter");
   }, [userChanged])
 
   return (

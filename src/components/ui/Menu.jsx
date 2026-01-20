@@ -91,16 +91,6 @@ export default function Menu({ scroll }) {
               {translation.allProducts}
             </Link>
           </li>
-          {
-            state.isCorporate || profileData.hideTargetSOA ? (
-              <li>
-                <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
-                  {translation.categories}
-                  <i className="icon-arrow-down-01-round"></i>
-                </a>
-              </li>
-            ) : null
-          }
           <li className={isActive("/brands")}>
             <Link href="/brands" className="block py-2 px-3">{translation.brands}</Link>
           </li>
@@ -111,6 +101,17 @@ export default function Menu({ scroll }) {
                 {translation.clearance}
               </Link>
             </li>
+          }
+          {
+            state.isCorporate || profileData.hideTargetSOA ? (
+              <li className="flex items-center gap-3">
+                <div className="divider"></div>
+                <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
+                  {translation.ourSections}
+                  <i className="icon-arrow-down-01-round"></i>
+                </a>
+              </li>
+            ) : null
           }
           {/* <li>
             <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => setIsOpenSearch(!isOpenSearch)}></i>

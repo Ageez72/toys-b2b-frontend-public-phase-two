@@ -117,6 +117,8 @@
   "ageRange": "Age Range",
   "sectors": "Deals & Highlights",
   "categories": "Categories",
+  "ourSections": "Sections",
+  "sections": "Sections",
   "brandsCategories": "Brands Categories",
   "catalogs": "Usages",
   "apply": "Apply",
@@ -358,7 +360,7 @@
     "collectibleAndFigures": "Collectible & Figures",
     "dollWorld": "Doll World",
     "robots": "Robots",
-    "exploreOurCategories": "Explore Our Categories",
+    "exploreOurCategories": "Explore Our Sections",
     "": "",
     "": "",
     "": "",
@@ -375,5 +377,6 @@
     "": ""
   },
   "termsAndConditions": "Terms and Conditions",
-  "termsAndConditionsPageTitle": "General Terms and Conditions"
+  "termsAndConditionsPageTitle": "General Terms and Conditions",
+  "sortBy": "Sort By"
 }

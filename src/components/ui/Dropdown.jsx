@@ -2,10 +2,21 @@
 import { useState, useEffect } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useAppContext } from "../../../context/AppContext";
+import en from "../../../locales/en.json";
+import ar from "../../../locales/ar.json";
 
 export default function Dropdown({ options = [], name, defaultValue = null, onChange }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [selected, setSelected] = useState("");
+    const [translation, setTranslation] = useState(ar);
+
+    useEffect(() => {
+        if (state.LANG === "EN") {
+            setTranslation(en);
+        } else {
+            setTranslation(ar);
+        }
+    }, [state.LANG]);
 
     useEffect(() => {
         // Notify parent about initial selection
@@ -26,7 +37,7 @@ export default function Dropdown({ options = [], name, defaultValue = null, onCh
                     className="inline-flex justify-between w-full text-start gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                     aria-label={`Dropdown for ${name}`}
                 >
-                    <span>{selected?.title}</span>
+                    <span>{`${name === 'sort' ? translation.sortBy + ': ' : ''}`}{selected?.title}</span>
                     <span className="icon-arrow-down-01-round"></span>
                 </MenuButton>
             </div>

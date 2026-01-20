@@ -96,7 +96,7 @@ export default function MobileMenu({ scroll, onGoTo }) {
               state.isCorporate || profileData.hideTargetSOA ? (
                 <li onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
                   <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1">
-                    {translation.categories}
+                    {translation.ourSections}
                     <i className="icon-arrow-down-01-round"></i>
                   </a>
                 </li>

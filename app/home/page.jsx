@@ -17,6 +17,7 @@ import SearchInput from "@/components/ui/SearchInput";
 import { collections } from "../../constant/endpoints";
 import Link from "next/link";
 import { getProfile } from "@/actions/utils";
+import Loader from "@/components/ui/Loaders/Loader";
 
 // fallback images
 import fallbackDesktopImage from "@/assets/imgs/hero-bg.png";
@@ -89,7 +90,6 @@ export default function Home() {
     queryFn: fetchHomeImages,
     retry: false
   });
-
   useEffect(() => {
     if (data?.data?.length > 0) {
       const validPairs = data.data
@@ -122,6 +122,7 @@ export default function Home() {
     setProfileData(profData)
   }, [state])
 
+  if (isLoading) return <Loader />;
   return (
     <>
       <main className="isDesktop">

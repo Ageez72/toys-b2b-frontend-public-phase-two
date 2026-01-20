@@ -3,10 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from "../../../context/AppContext";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import Cookies from 'js-cookie';
+import en from "../../../locales/en.json";
+import ar from "../../../locales/ar.json";
 
 export default function LangSwitcher({ top }) {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
     const [menuOpen, setMenuOpen] = useState(false);
+    const [translation, setTranslation] = useState(ar);
+
+    useEffect(() => {
+        if (state.LANG === "EN") {
+            setTranslation(en);
+        } else {
+            setTranslation(ar);
+        }
+    }, [state.LANG]);
 
     // Handle <html> overflow/padding on open
     useEffect(() => {
@@ -49,7 +60,7 @@ export default function LangSwitcher({ top }) {
 
                 return (
                     <>
-                        <MenuButton className="inline-flex w-full lang-switcher">
+                        <MenuButton className="inline-flex w-full lang-switcher" title={translation.language}>
                             <span>
                                 <i className="icon-global"></i>
                             </span>
