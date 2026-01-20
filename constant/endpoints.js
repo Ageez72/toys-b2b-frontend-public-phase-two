@@ -81,7 +81,7 @@ export const staticCategoriesDropdown = [
       { name_en: "Boys Surprise", name_ar: "مفاجآت للأولاد", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE' },
       { name_en: "Boys Playsets", name_ar: "مجموعات ألعاب للأولاد", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_PLAYSETS' },
       { name_en: "RC", name_ar: "تحكم عن بعد", link: '/products?itemStatus=AVAILABLE&catalog=RC' },
-      { name_en: "TV & Movies Action Figures", name_ar: "شخصيات أكشن أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_&_MOVIES_ACTION_FIGURES' },
+      { name_en: "TV & Movies Action Figures", name_ar: "شخصيات أكشن أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_ACTION_FIGURES' },
     ]
   },
   {
@@ -94,7 +94,7 @@ export const staticCategoriesDropdown = [
   {
     links: [
       { name_en: "Kids Puzzle", name_ar: "بازل للأطفال", link: '/products?itemStatus=AVAILABLE&catalog=KIDS_PUZZLE' },
-      { name_en: "Board Games", name_ar: "بورد جيمز", link: '/products?itemStatus=AVAILABLE&catalog=BOARD_GAMES_ZING' },
+      { name_en: "Board Games", name_ar: "بورد جيمز", link: '/products?itemStatus=AVAILABLE&catalog=BOARD_GAMES' },
       { name_en: "Junior Games", name_ar: "ألعاب للمبتدئين", link: '/products?itemStatus=AVAILABLE&catalog=JUNIOR_GAMES' },
       { name_en: "Family Games", name_ar: "ألعاب عائلية", link: '/products?itemStatus=AVAILABLE&catalog=FAMILY_GAMES' },
       { name_en: "Adult Games", name_ar: "ألعاب للكبار", link: '/products?itemStatus=AVAILABLE&catalog=ADULT_GAMES' },
@@ -109,17 +109,17 @@ export const staticCategoriesDropdown = [
       { name_en: "Sciences Kit", name_ar: "مجموعة علمية", link: '/products?itemStatus=AVAILABLE&catalog=SCIENCES_KIT' },
       { name_en: "Learning Toys", name_ar: "ألعاب علمية", link: '/products?itemStatus=AVAILABLE&catalog=LEARNING' },
       { name_en: "Pretend Play", name_ar: "لعب الأدوار", link: '/products?itemStatus=AVAILABLE&catalog=PRETEND_PLAY' },
-      { name_en: "Robots", name_ar: "روبوتات", link: '/products?itemStatus=AVAILABLE&catalog=ROBOTS' },
+      // { name_en: "Robots", name_ar: "روبوتات", link: '/products?itemStatus=AVAILABLE&catalog=ROBOTS' },
       { name_en: "Magnet Activities", name_ar: "أنشطة مغناطيسية", link: '/products?itemStatus=AVAILABLE&catalog=MAGNET_ACTIVITIES' },
 
     ]
   },
   {
     links: [
-      { name_en: "Water Coloring & Painting", name_ar: "رسم وألوان مائية", link: '/products?itemStatus=AVAILABLE&catalog=WATER_COLORING_&_PAINTING' },
+      { name_en: "Water Coloring & Painting", name_ar: "رسم وألوان مائية", link: '/products?itemStatus=AVAILABLE&catalog=WATER_COLORING_%26_PAINTING' },
       { name_en: "Stickers", name_ar: "ملصقات", link: '/products?itemStatus=AVAILABLE&catalog=STICKERS' },
-      { name_en: "Art & Crafts", name_ar: "فنون وحرف يدوية", link: '/products?itemStatus=AVAILABLE&catalog=ART_&_CRAFTS' },
-      { name_en: "Dough & Sand Art", name_ar: "معجون ورمال فنية", link: '/products?itemStatus=AVAILABLE&catalog=DOUGH_&_SAND_ART' },
+      { name_en: "Art & Crafts", name_ar: "فنون وحرف يدوية", link: '/products?itemStatus=AVAILABLE&catalog=ART_%26_CRAFTS' },
+      { name_en: "Dough & Sand Art", name_ar: "معجون ورمال فنية", link: '/products?itemStatus=AVAILABLE&catalog=DOUGH_%26_SAND_ART' },
       { name_en: "Putty", name_ar: "معجون", link: '/products?itemStatus=AVAILABLE&catalog=PUTTY' },
       { name_en: "Slime", name_ar: "سلايم", link: '/products?itemStatus=AVAILABLE&catalog=SLIME' },
     ]
@@ -132,26 +132,26 @@ export const staticCategoriesDropdown = [
   },
   {
     links: [
-      { name_en: "Ride On", name_ar: "مركبات", link: '/products?itemStatus=AVAILABLE&catalog=RIDE_ON' },
       { name_en: "Scooters", name_ar: "سكوترات", link: '/products?itemStatus=AVAILABLE&catalog=SCOOTERS' },
+      { name_en: "Ride On", name_ar: "مركبات", link: '/products?itemStatus=AVAILABLE&catalog=RIDE_ON' },
       { name_en: "Bikes", name_ar: "دراجات", link: '/products?itemStatus=AVAILABLE&catalog=BIKES' },
       { name_en: "Skate Shoes", name_ar: "أحذية تزلج", link: '/products?itemStatus=AVAILABLE&catalog=SKATE_SHOES' },
-      { name_en: "Battery Operated Cars and Ride-On", name_ar: "سيارات وألعاب ركوب تعمل بالبطارية", link: '/products?itemStatus=AVAILABLE&catalog=BATTERY_OPERATED_CARS' },
-      { name_en: "Sport & Leisure", name_ar: "رياضة وترفيه", link: '/products?itemStatus=AVAILABLE&catalog=SPORT_&_LEISURE' },
+      { name_en: "Battery Operated Cars and Ride-Ons", name_ar: "سيارات وألعاب ركوب تعمل بالبطارية", link: '/products?itemStatus=AVAILABLE&catalog=BATTERY_OPERATED_CARS' },
+      { name_en: "Sport & Leisure", name_ar: "رياضة وترفيه", link: '/products?itemStatus=AVAILABLE&catalog=SPORT_%26_LEISURE' },
     ]
   },
   {
     links: [
       { name_en: "Girls Surprise", name_ar: "مفاجآت للبنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE' },
-      { name_en: "Beauty & Accessories", name_ar: "الجمال ومستلزماته", link: '/products?itemStatus=AVAILABLE&catalog=BEAUTY_&_ACCESSORIES' },
+      { name_en: "Beauty & Accessories", name_ar: "الجمال ومستلزماته", link: '/products?itemStatus=AVAILABLE&catalog=BEAUTY_%26_ACCESSORIES' },
       { name_en: "Slippers", name_ar: "شباشب", link: '/products?itemStatus=AVAILABLE&catalog=SLIPPERS' },
-      { name_en: "Makeup & Nail", name_ar: "مكياج وأظافر", link: '/products?itemStatus=AVAILABLE&catalog=MAKEUP_&_NAIL' },
+      { name_en: "Makeup & Nail", name_ar: "مكياج وأظافر", link: '/products?itemStatus=AVAILABLE&catalog=MAKEUP_%26_NAIL' },
       { name_en: "Fashion", name_ar: "أزياء", link: '/products?itemStatus=AVAILABLE&catalog=FASHION' },
     ]
   },
   {
     links: [
-      { name_en: "Sport & Leisure", name_ar: "رياضة وترفيه", link: '/products?itemStatus=AVAILABLE&catalog=SPORT_&_LEISURE' },
+      { name_en: "Sport & Leisure", name_ar: "رياضة وترفيه", link: '/products?itemStatus=AVAILABLE&catalog=SPORT_%26_LEISURE' },
       { name_en: "Water Toys", name_ar: "ألعاب مائية", link: '/products?itemStatus=AVAILABLE&catalog=WATER_TOYS' },
       { name_en: "Play House", name_ar: "ألعاب منزلية", link: '/products?itemStatus=AVAILABLE&catalog=PLAY_HOUSE' },
       { name_en: "Outdoor", name_ar: "ألعاب خارجية", link: '/products?itemStatus=AVAILABLE&catalog=OUTDOOR' },
@@ -160,16 +160,16 @@ export const staticCategoriesDropdown = [
   {
     links: [
       { name_en: "Animals Plush", name_ar: "حيوانات محشوة", link: '/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH' },
-      { name_en: "Purses & Bags", name_ar: "حقائب ومحافظ", link: '/products?itemStatus=AVAILABLE&catalog=PURSE_&_BAGS' },
+      { name_en: "Purses & Bags", name_ar: "حقائب ومحافظ", link: '/products?itemStatus=AVAILABLE&catalog=PURSE_%26_BAGS' },
       { name_en: "Soft Plush", name_ar: "دمى ناعمة", link: '/products?itemStatus=AVAILABLE&catalog=SOFT_PLUSH' },
-      { name_en: "TV & Movies Plush", name_ar: "دمى محشوة أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_&_MOVIES_PLUSH' },
+      { name_en: "TV & Movies Plush", name_ar: "دمى محشوة أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_PLUSH' },
     ]
   },
   {
     links: [
       { name_en: "Trading Card", name_ar: "ألعاب ورقية", link: '/products?itemStatus=AVAILABLE&catalog=TRADING_CARD' },
       { name_en: "Boys Collectible", name_ar: "ألعاب تجميع للأولاد", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_COLLECTIBLE' },
-      { name_en: "Tv & Movies Collectible", name_ar: "للتجميع أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_&_MOVIES_COLLECTIBLE' },
+      { name_en: "TV & Movies Collectible Figures", name_ar: "للتجميع أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_COLLECTIBLE' },
     ]
   },
   {
@@ -198,7 +198,7 @@ export const collections = [
     name_en: "Action World",
     name_ar: "عالم المغامرات",
     icon: actionWorld,
-    link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_&_MOVIES_ACTION_FIGURES"
+    link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_%26_MOVIES_ACTION_FIGURES"
   },
   {
     name_en: "Build & Create",
@@ -210,11 +210,11 @@ export const collections = [
     name_en: "Puzzle & Games",
     name_ar: "العاب جماعية وبازل",
     icon: puzzleGames,
-    link: "/products?itemStatus=AVAILABLE&catalog=KIDS_PUZZLE,BOARD_GAMES_ZING,JUNIOR_GAMES,FAMILY_GAMES,ADULT_GAMES,DIGITAL"
+    link: "/products?itemStatus=AVAILABLE&catalog=KIDS_PUZZLE,BOARD_GAMES,JUNIOR_GAMES,FAMILY_GAMES,ADULT_GAMES,DIGITAL"
   },
   {
     name_en: "Learning & Science",
-    name_ar: "تعلم واختراع",
+    name_ar: "تعلم واخترع",
     icon: learningScience,
     link: "/products?itemStatus=AVAILABLE&catalog=EDUCATIONAL_TOYS,THINKING,SCIENCES_KIT,LEARNING,PRETEND_PLAY,ROBOTS,MAGNET_ACTIVITIES"
   },
@@ -222,7 +222,7 @@ export const collections = [
     name_en: "Art & Creativity",
     name_ar: "فن وابداع",
     icon: artCreativity,
-    link: "/products?itemStatus=AVAILABLE&catalog=WATER_COLORING_&_PAINTING,STICKERS,ART_&_CRAFTS,DOUGH_&_SAND_ART,PUTTY,SLIME"
+    link: "/products?itemStatus=AVAILABLE&catalog=WATER_COLORING_%26_PAINTING,STICKERS,ART_%26_CRAFTS,DOUGH_%26_SAND_ART,PUTTY,SLIME"
   },
   {
     name_en: "Guns",
@@ -234,31 +234,31 @@ export const collections = [
     name_en: "Go & Play",
     name_ar: "العاب ركوب",
     icon: goPlay,
-    link: "/products?itemStatus=AVAILABLE&catalog=RIDE_ON,SCOOTERS,BIKES,SKATE_SHOES,BATTERY_OPERATED_CARS,SPORT_&_LEISURE"
+    link: "/products?itemStatus=AVAILABLE&catalog=RIDE_ON,SCOOTERS,BIKES,SKATE_SHOES,BATTERY_OPERATED_CARS,SPORT_%26_LEISURE"
   },
   {
     name_en: "Makeup & Nails",
     name_ar: "تجميل",
     icon: makeupNails,
-    link: "/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE,BEAUTY_&_ACCESSORIES,SLIPPERS,MAKEUP_&_NAIL,FASHION"
+    link: "/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE,BEAUTY_%26_ACCESSORIES,SLIPPERS,MAKEUP_%26_NAIL,FASHION"
   },
   {
     name_en: "Outdoor",
     name_ar: "العاب خارجية",
     icon: outdoor,
-    link: "/products?itemStatus=AVAILABLE&catalog=SPORT_&_LEISURE,WATER_TOYS,PLAY_HOUSE,OUTDOOR"
+    link: "/products?itemStatus=AVAILABLE&catalog=SPORT_%26_LEISURE,WATER_TOYS,PLAY_HOUSE,OUTDOOR"
   },
   {
     name_en: "Plush",
     name_ar: "دمى محشوة",
     icon: plush,
-    link: "/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH,PURSE_&_BAGS,SOFT_PLUSH,TV_&_MOVIES_PLUSH"
+    link: "/products?itemStatus=AVAILABLE&catalog=ANIMALS_PLUSH,PURSE_%26_BAGS,SOFT_PLUSH,TV_%26_MOVIES_PLUSH"
   },
   {
     name_en: "Collectible & Figures",
     name_ar: "تجميع شخصيات وبطاقات",
     icon: collectibleFigures,
-    link: "/products?itemStatus=AVAILABLE&catalog=TRADING_CARD,BOYS_COLLECTIBLE,TV_&_MOVIES_COLLECTIBLE"
+    link: "/products?itemStatus=AVAILABLE&catalog=TRADING_CARD,BOYS_COLLECTIBLE,TV_%26_MOVIES_COLLECTIBLE"
   },
   {
     name_en: "Doll World",

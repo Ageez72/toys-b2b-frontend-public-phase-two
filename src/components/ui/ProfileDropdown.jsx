@@ -151,7 +151,6 @@ export default function ProfileDropdown({ onGoTo }) {
         location.reload()
     }
     const [firstInitial, lastInitial] = getInitials(data?.data?.name || JSON.parse(Cookies.get('profile'))?.name || '');
-
     return (
         <>
             <LogoutModal setOpen={() => setOpenLogoutModal(false)} open={openLogoutModal} />
@@ -227,8 +226,8 @@ export default function ProfileDropdown({ onGoTo }) {
                                     </MenuItem>
                                     {
                                         (
-                                            (!state.isCorporate && state.isActive) ||
-                                            data?.data?.hideTargetSOA
+                                            (data?.data?.isCorporate !== true && data?.data?.active !== "Y") &&
+                                            data?.data?.hideTargetSOA !== true
                                         ) && (
                                             <>
                                                 <MenuItem>
