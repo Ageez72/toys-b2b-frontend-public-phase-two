@@ -74,6 +74,7 @@ export const staticCategoriesDropdown = [
       { name_en: "Baby Learning Toys", name_ar: "ألعاب بيبي تعليمية", link: '/products?itemStatus=AVAILABLE&catalog=BABY_LEARNING_TOYS' },
       { name_en: "Remote Control for Baby", name_ar: "تحكم عن بعد للصغار", link: '/products?itemStatus=AVAILABLE&catalog=BABY_RC' },
       { name_en: "Music", name_ar: "ألعاب موسيقية", link: '/products?itemStatus=AVAILABLE&catalog=MUSIC' },
+      { name_en: "TV & Movies Figures", name_ar: "شخصيات أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_FIGURES' },
     ]
   },
   {
@@ -138,7 +139,7 @@ export const staticCategoriesDropdown = [
       { name_en: "Bikes", name_ar: "دراجات", link: '/products?itemStatus=AVAILABLE&catalog=BIKES' },
       { name_en: "Skate Shoes", name_ar: "أحذية تزلج", link: '/products?itemStatus=AVAILABLE&catalog=SKATE_SHOES' },
       { name_en: "Battery Operated Cars and Ride-Ons", name_ar: "سيارات وألعاب ركوب تعمل بالبطارية", link: '/products?itemStatus=AVAILABLE&catalog=BATTERY_OPERATED_CARS' },
-      // { name_en: "Sport & Leisure", name_ar: "رياضة وترفيه", link: '/products?itemStatus=AVAILABLE&catalog=SPORT_%26_LEISURE' },
+      { name_en: "Skate Boards", name_ar: "ألواح تزلج", link: '/products?itemStatus=AVAILABLE&catalog=SKATE_BOARDS' },
     ]
   },
   {
@@ -197,7 +198,7 @@ export const collections = [
     name_en: "Baby World",
     name_ar: "عالم الأطفال",
     icon: babyWorld,
-    link: "/products?itemStatus=AVAILABLE&catalog=BABY_GEAR,BABY_PLAYSET,BABY_TOYS,BABY_LEARNING_TOYS,BABY_RC,MUSIC"
+    link: "/products?itemStatus=AVAILABLE&catalog=BABY_GEAR,BABY_PLAYSET,BABY_TOYS,BABY_LEARNING_TOYS,BABY_RC,MUSIC,TV_%26_MOVIES_FIGURES"
   },
   {
     name_en: "Action World",
@@ -239,7 +240,7 @@ export const collections = [
     name_en: "Go & Play",
     name_ar: "ألعاب ركوب",
     icon: goPlay,
-    link: "/products?itemStatus=AVAILABLE&catalog=RIDE_ON,SCOOTERS,BIKES,SKATE_SHOES,BATTERY_OPERATED_CARS"
+    link: "/products?itemStatus=AVAILABLE&catalog=RIDE_ON,SCOOTERS,BIKES,SKATE_SHOES,BATTERY_OPERATED_CARS,SKATE_BOARDS"
   },
   {
     name_en: "Makeup & Nails",
