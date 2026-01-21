@@ -156,6 +156,7 @@ export const staticCategoriesDropdown = [
       { name_en: "Water Toys", name_ar: "ألعاب مائية", link: '/products?itemStatus=AVAILABLE&catalog=WATER_TOYS' },
       { name_en: "Play House", name_ar: "ألعاب منزلية", link: '/products?itemStatus=AVAILABLE&catalog=PLAY_HOUSE' },
       { name_en: "Outdoor", name_ar: "ألعاب خارجية", link: '/products?itemStatus=AVAILABLE&catalog=OUTDOOR' },
+      { name_en: "Trampoline", name_ar: "ألعاب ترامبولين", link: '/products?itemStatus=AVAILABLE&catalog=TRAMPOLINE' },
     ]
   },
   {
@@ -250,7 +251,7 @@ export const collections = [
     name_en: "Outdoor",
     name_ar: "ألعاب خارجية",
     icon: outdoor,
-    link: "/products?itemStatus=AVAILABLE&catalog=SPORT_%26_LEISURE,WATER_TOYS,PLAY_HOUSE,OUTDOOR"
+    link: "/products?itemStatus=AVAILABLE&catalog=SPORT_%26_LEISURE,WATER_TOYS,PLAY_HOUSE,OUTDOOR,TRAMPOLINE"
   },
   {
     name_en: "Plush",
