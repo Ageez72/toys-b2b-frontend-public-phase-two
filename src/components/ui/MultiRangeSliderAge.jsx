@@ -100,7 +100,9 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
 
   useEffect(() => {
     onSubmitRange && onSubmitRange()
-    Cookies.set('filterstatus', "filter");
+    if (!Cookies.get("filterstatus")) {
+      Cookies.set('filterstatus', "filter");
+    }
   }, [userChanged])
 
   return (

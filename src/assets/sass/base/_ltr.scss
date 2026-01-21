@@ -172,4 +172,8 @@
         right: auto;
         left: 0;
     }
+
+    .enter-icon-svg {
+        transform: scaleX(-1);
+    }
 }

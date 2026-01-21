@@ -139,7 +139,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             }
             // Clear pagination token when filters change
             Cookies.remove('pagesToken');
-            Cookies.remove('filterstatus');
+            // Cookies.remove('filterstatus');
             document.body.classList.remove("html-overflow");
             // Push new query to URL
             router.push(`/products?${query.toString()}`);

@@ -104,10 +104,10 @@ export default function Menu({ scroll }) {
           }
           {
             state.isCorporate || profileData.hideTargetSOA ? (
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-4">
                 <div className="divider"></div>
                 <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
-                  {translation.ourSections}
+                  {translation.sections}
                   <i className="icon-arrow-down-01-round"></i>
                 </a>
               </li>

@@ -68,9 +68,11 @@ export default function Select2Form({ title, name, initiallyOpen = false, isProd
             <div className='flex items-center gap-1'>
               {
                 name === 'categories' && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 64 64">
-                    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAHYAAAB2AH6XKZyAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAeNJREFUeJzt2buKFEEYxfGfoyiCRsq6YiAm4kOIpsKC2W7kamZoIIj4FoIKBmZG3l7AVzBYBS+RIMiqmCkLXtk2aBd21u6ZZqjuKpzvD5VUT9d3zpma6q4agiAIgiAIgiAI5pDduQUk5iCu4RL241VeOcOyB89QbWs3sioamNPGzVf4MO2mUc+ihuRox74x/qcAZiICyC0gNxFAbgG5iQByC8hN6gDO4gW+4jEOJx6/aJbw3fib2MMB6y/7902wGqp4k/kKX4YSgJWG+pvTbkrxE1jCE+xruPY2wfhdWWjo+9x30bZvvvrbf6ZvAdu41aBhrc+C5/CtoWiFHzjfZ/EdjPCuQUdva1BJ5mG1RctqH8VKM39Mve/fqeUnDqUuVqL5tRY9d1MXK8n8CBfwsUXPhg6HIdTnaF1YwX3sbbj2GzfVj8HljuPNyhGcVId9fMLnrqrDScIVzSmX2m6nMr5F27Qvsd3RfVZ3ZrMAY9PaBi6nNr7F+wIMtrVf6tW+04I3K6fU29vcZit8wnM8wEU9POfbWMDLCcLumYPDlQhBhIAIARECIgSwiDfaQ5iL/+cnzYRkG5LSaQthPaeooVnEa+MBXM+qqAO7Eo93QL19PoGneJR4/CAIgiAIgiAIgiAFfwDcLJMyIm8KRAAAAABJRU5ErkJggg==" width="64" height="64" />
-                  </svg>
+                  <div className='enter-icon-svg'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 64 64">
+                      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAHYAAAB2AH6XKZyAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAeNJREFUeJzt2buKFEEYxfGfoyiCRsq6YiAm4kOIpsKC2W7kamZoIIj4FoIKBmZG3l7AVzBYBS+RIMiqmCkLXtk2aBd21u6ZZqjuKpzvD5VUT9d3zpma6q4agiAIgiAIgiAI5pDduQUk5iCu4RL241VeOcOyB89QbWs3sioamNPGzVf4MO2mUc+ihuRox74x/qcAZiICyC0gNxFAbgG5iQByC8hN6gDO4gW+4jEOJx6/aJbw3fib2MMB6y/7902wGqp4k/kKX4YSgJWG+pvTbkrxE1jCE+xruPY2wfhdWWjo+9x30bZvvvrbf6ZvAdu41aBhrc+C5/CtoWiFHzjfZ/EdjPCuQUdva1BJ5mG1RctqH8VKM39Mve/fqeUnDqUuVqL5tRY9d1MXK8n8CBfwsUXPhg6HIdTnaF1YwX3sbbj2GzfVj8HljuPNyhGcVId9fMLnrqrDScIVzSmX2m6nMr5F27Qvsd3RfVZ3ZrMAY9PaBi6nNr7F+wIMtrVf6tW+04I3K6fU29vcZit8wnM8wEU9POfbWMDLCcLumYPDlQhBhIAIARECIgSwiDfaQ5iL/+cnzYRkG5LSaQthPaeooVnEa+MBXM+qqAO7Eo93QL19PoGneJR4/CAIgiAIgiAIgiAFfwDcLJMyIm8KRAAAAABJRU5ErkJggg==" width="64" height="64" />
+                    </svg>
+                  </div>
                 )
               }
               <span className="title">{title}</span>

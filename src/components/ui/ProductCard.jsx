@@ -84,11 +84,13 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 } */}
                     {
                         profileData.isCorporate || profileData.hideTargetSOA ? (
-                            <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                            item.itemdisc > 0 && (
+                                <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                            )
                         ) : null
                     }
                     {
-                        !profileData.isCorporate || !profileData.hideTargetSOA ? (
+                        !profileData.isCorporate && !profileData.hideTargetSOA ? (
                             !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount ? (
                                 <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
                             ) : null
@@ -171,11 +173,13 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 } */}
                     {
                         profileData.isCorporate || profileData.hideTargetSOA ? (
-                            <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                            item.itemdisc > 0 && (
+                                <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
+                            )
                         ) : null
                     }
                     {
-                        !profileData.isCorporate || !profileData.hideTargetSOA ? (
+                        !profileData.isCorporate && !profileData.hideTargetSOA ? (
                             !item.commingSoon && item.itemdisc > 0 && !item.hideDiscount ? (
                                 <Badge type={item.itemdisc > 0 && 'green'} text={`${translation.discount2} ${item.itemdisc} ${translation.percentage}`} />
                             ) : null

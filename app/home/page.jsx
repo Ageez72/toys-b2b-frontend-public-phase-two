@@ -162,12 +162,6 @@ export default function Home() {
               </div>
             ) : null
           }
-          <ColumnsGridSwiper
-            title={mostSelling.title}
-            badgeType={mostSelling.badgeType}
-            type={mostSelling.type}
-            id={mostSelling.id}
-          />
 
           {searchTypes.map((grid, i) => (
             <GridSwiper
@@ -185,6 +179,12 @@ export default function Home() {
             badgeType={featuredProducts.badgeType}
             type={featuredProducts.type}
             id={featuredProducts.id}
+          />
+          <ColumnsGridSwiper
+            title={mostSelling.title}
+            badgeType={mostSelling.badgeType}
+            type={mostSelling.type}
+            id={mostSelling.id}
           />
         </div>
       </main>
