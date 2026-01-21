@@ -28,6 +28,7 @@ function Login() {
   const [corpSuccessMessage, setCorpSuccessMessage] = useState('');
   const [corpErrorMessage, setCorpErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const translation = state.LANG === "EN" ? en : ar;
@@ -46,6 +47,7 @@ function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setIsSubmitting(true)
     try {
       const username = encodeURIComponent(data.identifier);
       const password = encodeURIComponent(data.password);
@@ -61,6 +63,8 @@ function Login() {
     } catch (err) {
       console.error('Error registering user:', err);
       setIsModalOpen(true);
+    } finally {
+      setIsSubmitting(false)
     }
   };
 
@@ -194,7 +198,10 @@ function Login() {
               <Link className='ms-1' href="/forget-password">{translation.forgetPassword}</Link>
             </div>
 
-            <button className='primary-btn w-full' type="submit">{translation.login.login_btn}</button>
+            <button className={`primary-btn w-full flex items-center justify-center gap-1 ${isSubmitting ? 'not-allowed' : null}`} type="submit">
+              {isSubmitting && <span className="spinner"></span>}
+              {translation.login.login_btn}
+            </button>
           </form>
 
           <div className='form-blow'>
