@@ -83,6 +83,7 @@ export const staticCategoriesDropdown = [
       { name_en: "Boys Playsets", name_ar: "مجموعة لعب للأولاد", link: '/products?itemStatus=AVAILABLE&catalog=BOYS_PLAYSETS' },
       { name_en: "RC", name_ar: "تحكم عن بعد", link: '/products?itemStatus=AVAILABLE&catalog=RC' },
       { name_en: "TV & Movies Action Figures", name_ar: "شخصيات أكشن أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_ACTION_FIGURES' },
+      { name_en: "TV & Movies Playset", name_ar: "مجموعة لعب أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_PLAYSETS"' },
     ]
   },
   {
@@ -204,7 +205,7 @@ export const collections = [
     name_en: "Action World",
     name_ar: "عالم المغامرات",
     icon: actionWorld,
-    link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_%26_MOVIES_ACTION_FIGURES"
+    link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_%26_MOVIES_ACTION_FIGURES,TV_%26_MOVIES_PLAYSETS"
   },
   {
     name_en: "Build & Create",
