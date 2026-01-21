@@ -74,7 +74,6 @@ export const staticCategoriesDropdown = [
       { name_en: "Baby Learning Toys", name_ar: "ألعاب بيبي تعليمية", link: '/products?itemStatus=AVAILABLE&catalog=BABY_LEARNING_TOYS' },
       { name_en: "Remote Control for Baby", name_ar: "تحكم عن بعد للصغار", link: '/products?itemStatus=AVAILABLE&catalog=BABY_RC' },
       { name_en: "Music", name_ar: "ألعاب موسيقية", link: '/products?itemStatus=AVAILABLE&catalog=MUSIC' },
-      { name_en: "TV & Movies Figures", name_ar: "شخصيات أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_FIGURES' },
     ]
   },
   {
@@ -84,6 +83,7 @@ export const staticCategoriesDropdown = [
       { name_en: "RC", name_ar: "تحكم عن بعد", link: '/products?itemStatus=AVAILABLE&catalog=RC' },
       { name_en: "TV & Movies Action Figures", name_ar: "شخصيات أكشن أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_ACTION_FIGURES' },
       { name_en: "TV & Movies Playset", name_ar: "مجموعة لعب أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_PLAYSETS"' },
+      { name_en: "TV & Movies Figures", name_ar: "شخصيات أفلام وتلفاز", link: '/products?itemStatus=AVAILABLE&catalog=TV_%26_MOVIES_FIGURES' },
     ]
   },
   {
@@ -145,7 +145,7 @@ export const staticCategoriesDropdown = [
   },
   {
     links: [
-      { name_en: "Girls Surprise", name_ar: "مفاجآت للبنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE' },
+      // { name_en: "Girls Surprise", name_ar: "مفاجآت للبنات", link: '/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE' },
       { name_en: "Beauty & Accessories", name_ar: "الجمال ومستلزماته", link: '/products?itemStatus=AVAILABLE&catalog=BEAUTY_%26_ACCESSORIES' },
       { name_en: "Slippers", name_ar: "شباشب", link: '/products?itemStatus=AVAILABLE&catalog=SLIPPERS' },
       { name_en: "Makeup & Nail", name_ar: "مكياج وأظافر", link: '/products?itemStatus=AVAILABLE&catalog=MAKEUP_%26_NAIL' },
@@ -199,17 +199,17 @@ export const collections = [
     name_en: "Baby World",
     name_ar: "عالم الأطفال",
     icon: babyWorld,
-    link: "/products?itemStatus=AVAILABLE&catalog=BABY_GEAR,BABY_PLAYSET,BABY_TOYS,BABY_LEARNING_TOYS,BABY_RC,MUSIC,TV_%26_MOVIES_FIGURES"
+    link: "/products?itemStatus=AVAILABLE&catalog=BABY_GEAR,BABY_PLAYSET,BABY_TOYS,BABY_LEARNING_TOYS,BABY_RC,MUSIC"
   },
   {
     name_en: "Action World",
     name_ar: "عالم المغامرات",
     icon: actionWorld,
-    link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_%26_MOVIES_ACTION_FIGURES,TV_%26_MOVIES_PLAYSETS"
+    link: "/products?itemStatus=AVAILABLE&catalog=BOYS_SURPRISE,BOYS_PLAYSETS,RC,TV_%26_MOVIES_ACTION_FIGURES,TV_%26_MOVIES_PLAYSETS,TV_%26_MOVIES_FIGURES"
   },
   {
     name_en: "Build & Create",
-    name_ar: "ابنٍ وصمم",
+    name_ar: "ابنِ وصمم",
     icon: buildCreate,
     link: "/products?itemStatus=AVAILABLE&catalog=MECHANICS,BLOCKS,CONSTRUCTION_PLAYSETS"
   },
@@ -247,7 +247,7 @@ export const collections = [
     name_en: "Makeup & Nails",
     name_ar: "تجميل",
     icon: makeupNails,
-    link: "/products?itemStatus=AVAILABLE&catalog=GIRLS_SURPRISE,BEAUTY_%26_ACCESSORIES,SLIPPERS,MAKEUP_%26_NAIL,FASHION"
+    link: "/products?itemStatus=AVAILABLE&catalog=BEAUTY_%26_ACCESSORIES,SLIPPERS,MAKEUP_%26_NAIL,FASHION"
   },
   {
     name_en: "Outdoor",
@@ -280,5 +280,3 @@ export const collections = [
     link: "/products?itemStatus=AVAILABLE&catalog=ROBOTS"
   }
 ];
-
-
