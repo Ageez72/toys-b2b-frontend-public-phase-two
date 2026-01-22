@@ -76,7 +76,7 @@ export default function Page() {
             data?.data.map((brand, i) => (
 
               <Link key={brand.brandID}
-                href={`/products?brand=${brand.brandID}&itemStatus=AVAILABLE`}
+                href={`/products?itemStatus=AVAILABLE&pageSize=12&brand=${brand.brandID}`}
                 className="block w-full h-full relative z-10"
               >
                 <div className="relative group brands card" style={{ height: "132px" }} onClick={() => toggleTooltip(brand.description)}>

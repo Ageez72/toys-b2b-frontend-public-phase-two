@@ -18,7 +18,7 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
   const toAge = Number(searchParams?.get("toAge"));
   const siteLocation = Cookies.get("siteLocation")
   const [error, setError] = useState("");
-  const [userChanged, setUserChanged] = useState(false);
+  const [userChanged, setUserChanged] = useState(0);
 
   const STORAGE_KEY = "age_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -94,14 +94,17 @@ const MultiRangeSliderAge = ({ min, max, isProductsPage, onSubmitRange, onClearR
     if (isError) return;
     handleAgeFrom(minVal);
     handleAgeTo(maxVal);
-    setUserChanged(!userChanged)
+    setUserChanged(prev => prev + 1);
     Cookies.set('filterstatus', "filter");
   };
 
   useEffect(() => {
-    onSubmitRange && onSubmitRange()
     if (!Cookies.get("filterstatus")) {
-      Cookies.set('filterstatus', "filter");
+      Cookies.set("filterstatus", "filter");
+    }
+
+    if (userChanged > 0) {
+      onSubmitRange && onSubmitRange()
     }
   }, [userChanged])
 

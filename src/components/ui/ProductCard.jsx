@@ -68,7 +68,7 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 message={translation.informYou}
             />
             <div className="product-card-image">
-                <Link href={`/products/${encodeURIComponent(item.id)}`} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
+                <Link href={`/products/${encodeURIComponent(item.id)}`} scroll={false} onClick={() => sessionStorage.setItem('scrollToProduct', item.id)}>
                     <img src={item?.images["800"]?.main} alt={item?.name} layout="responsive" title={item.name} />
                 </Link>
                 <div className='isMobile'>
@@ -270,19 +270,32 @@ export default function ProductCard({ type, badgeType, related, item }) {
                 <div className="price flex items-center gap-3">
                     {
                         !item.commingSoon ? (
-                            item.itemdisc > 0 && !item.hideDiscount ? (
+                            item.itemdisc > 0 &&
+                                (
+                                    profileData.isCorporate ||
+                                    profileData.hideTargetSOA ||
+                                    (!profileData.isCorporate && !profileData.hideTargetSOA && !item.hideDiscount)
+                                ) ? (
                                 <>
                                     <span className="product-card-price">
-                                        <span className="price-number">{Number(item?.priceAfterDisc).toFixed(2)}</span>
+                                        <span className="price-number">
+                                            {Number(item?.priceAfterDisc).toFixed(2)}
+                                        </span>
                                         <span className="price-unit mx-1">
                                             {siteLocation === "primereach" ? translation.iqd : translation.jod}
                                         </span>
                                     </span>
-                                    <span className="price-number discount">{Number(item?.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+
+                                    <span className="price-number discount">
+                                        {Number(item?.price).toFixed(2)}{" "}
+                                        {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                                    </span>
                                 </>
                             ) : (
                                 <span className="product-card-price">
-                                    <span className="price-number">{Number(item?.price).toFixed(2)}</span>
+                                    <span className="price-number">
+                                        {Number(item?.price).toFixed(2)}
+                                    </span>
                                     <span className="price-unit mx-1">
                                         {siteLocation === "primereach" ? translation.iqd : translation.jod}
                                     </span>
@@ -290,7 +303,6 @@ export default function ProductCard({ type, badgeType, related, item }) {
                             )
                         ) : null
                     }
-
                 </div>
                 {
                     item?.status === "AVAILABLE" && !item.commingSoon ? (

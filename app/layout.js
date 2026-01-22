@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
 
   return (
     <ReactQueryProvider>
-      <html lang="ar" dir="rtl">
+      <html lang="ar" dir="rtl" data-scroll-behavior="smooth">
         <head>
           {/* Google Analytics */}
           <Script
@@ -121,7 +121,7 @@ export default function RootLayout({ children }) {
             {!isAuthPage && <ContactTools />}
           </AppProvider>
         </body>
-      </html>
-    </ReactQueryProvider>
+      </html >
+    </ReactQueryProvider >
   );
 }

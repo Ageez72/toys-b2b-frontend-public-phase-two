@@ -22,7 +22,7 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
   const STORAGE_KEY = "price_range";
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [translation, setTranslation] = useState(ar); // default fallback
-  const [userChanged, setUserChanged] = useState(false);
+  const [userChanged, setUserChanged] = useState(0);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -92,14 +92,16 @@ const MultiRangeSlider = ({ min, max, isProductsPage, onSubmitRange, onClearRang
     if (isError) return;
     handlePriceFrom(minVal);
     handlePriceTo(maxVal);
-    setUserChanged(!userChanged)
+    setUserChanged(prev => prev + 1);
     Cookies.set('filterstatus', "filter");
   };
 
   useEffect(() => {
-    onSubmitRange && onSubmitRange()
     if (!Cookies.get("filterstatus")) {
       Cookies.set('filterstatus', "filter");
+    }
+    if (userChanged > 0) {
+      onSubmitRange && onSubmitRange()
     }
   }, [userChanged])
 
