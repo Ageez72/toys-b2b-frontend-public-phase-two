@@ -401,7 +401,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 {
                                     catalogsAllOptions?.length > 0 ? (
                                         // catalogOpen && (
-                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.sections : translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={catalogsAllOptions.filter(item => catalog.includes(item.code)).map(item => ({
+                                        <Select2Form title={translation.sections} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={catalogsAllOptions.filter(item => catalog.includes(item.code)).map(item => ({
                                             label: item.name,
                                             value: item.code,
                                         }))} initiallyOpen={selectedCatalogsOptions.length > 0 || true} isProductsPage={isProductsPage} />
@@ -452,7 +452,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 <FilterSingleItem title={translation.sectors} selected={itemType} options={itemTypeOptions} name="itemType" handleSingleItem={changeSingleItem} initiallyOpen={true} />
                                 {
                                     catalogOpen ? (
-                                        <Select2Form title={profileData.isCorporate || profileData.hideTargetSOA ? translation.sections : translation.catalogs} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0 || true} />
+                                        <Select2Form title={translation.sections} options={catalogsAllOptions} name="catalog" handleMultiItem={changeMultiItem} initSelected={selectedCatalogsOptions} initiallyOpen={selectedCatalogsOptions.length > 0 || true} />
                                     ) : null
                                 }
                                 <BrandsFilters selected={brand} parentOptions={parentOptions} initiallyOpen={true} />

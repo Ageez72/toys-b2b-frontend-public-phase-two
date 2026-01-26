@@ -92,12 +92,20 @@ export default function Page() {
   }, [apiParams])
 
 
+  // async function fetchProducts() {
+  //   if (searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge") || searchParams.get("catalog") || searchParams.get("brand")) {
+  //     const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
+  //     return res;
+  //   }
+  //   const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
+  //   return res;
+  // }
   async function fetchProducts() {
-    if (searchParams.get("page")) {
-      const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
-      return res;
-    }
-    const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
+    const b2bPagesToken = Cookies.get('b2bPagesToken');
+    // Only send pagesToken when filtering by page, price, age, or brand
+    const shouldSendToken = searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge") || searchParams.get("brand");
+    const tokenParam = (shouldSendToken && b2bPagesToken) ? `&pagesToken=${b2bPagesToken}` : '';
+    const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}${tokenParam}&lang=${lang}&token=${Cookies.get('token')}`, {});
     return res;
   }
   const { push } = useRouter();
