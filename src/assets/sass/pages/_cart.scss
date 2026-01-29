@@ -164,6 +164,17 @@
             input {
                 display: none;
 
+                &.search-input {
+                    display: block;
+                    font-size: calc(12px + 25%);
+
+                    &:focus {
+                        outline: none;
+                        box-shadow: none;
+                        border-color: #000;
+                    }
+                }
+
                 &:checked+label {
                     border-color: var(--primary-color);
                     background-color: #8D1A141F;

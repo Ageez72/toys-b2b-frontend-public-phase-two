@@ -68,7 +68,7 @@ export default function OrderCard({ order }) {
                             </div>
                         </div>
                         <div className="prod-price text-red-600 font-semibold text-sm">
-                            {el.net}
+                            {Number(el.net).toFixed(2)}
                             <span className='ms-1'>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                         </div>
                     </div>
@@ -89,7 +89,7 @@ export default function OrderCard({ order }) {
             <div className="flex justify-between items-center mt-4 font-bold text-sm">
                 <span className='order-total-title'>{translation.orderTotal}</span>
                 <span className='order-total-price'>
-                    {order.value}
+                    {Number(order.TOTAL).toFixed(2)}
                     <span className='ms-1'>{siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
                 </span>
             </div>

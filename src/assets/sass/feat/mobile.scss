@@ -881,47 +881,49 @@ $tablet-font-percent: 25%;
 
 .addresses-menu-wrapper {
 
+    .addresses-menu {
+        padding: 13px !important;
+
+        button {
+            border: none;
+
+            &:focus-visible {
+                box-shadow: none;
+                outline: none;
+            }
+        }
+
+        .address-title {
+            font-size: calc(12px + $tablet-font-percent);
+            color: rgba(126, 129, 142, 1);
+        }
+
+        .address-options {
+            border: 1px solid #e4e5e8;
+
+            .address-option {
+                color: #4a4a49;
+                font-size: calc(12px + $tablet-font-percent);
+
+                .icon-tick-circle {
+                    opacity: 0;
+                    font-size: calc(18px + $tablet-font-percent);
+                }
+
+                &[aria-selected="true"] {
+                    .icon-tick-circle {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
     @media (max-width: $tablet-breakpoint) {
         .card {
             padding: 5px 0 !important;
         }
 
-        .addresses-menu {
-
-            button {
-                border: none;
-
-                &:focus-visible {
-                    box-shadow: none;
-                    outline: none;
-                }
-            }
-
-            .address-title {
-                font-size: calc(12px + $tablet-font-percent);
-                color: rgba(126, 129, 142, 1);
-            }
-
-            .address-options {
-                border: 1px solid #e4e5e8;
-
-                .address-option {
-                    color: #4a4a49;
-                    font-size: calc(12px + $tablet-font-percent);
-
-                    .icon-tick-circle {
-                        opacity: 0;
-                        font-size: calc(18px + $tablet-font-percent);
-                    }
-
-                    &.active {
-                        .icon-tick-circle {
-                            opacity: 1;
-                        }
-                    }
-                }
-            }
-        }
 
         @media (max-width: $max-mobile-breakpoint) {
             .addresses-menu {
@@ -1433,4 +1435,14 @@ $tablet-font-percent: 25%;
         }
     }
 
+}
+
+.cart-page .addresses .card input.search-input {
+    @media (max-width: $tablet-breakpoint) {
+        font-size: calc(12px + $tablet-font-percent);
+    }
+
+    @media (max-width: $max-mobile-breakpoint) {
+        font-size: 12px;
+    }
 }

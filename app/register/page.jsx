@@ -21,6 +21,7 @@ export default function page() {
     queryKey: ['profile'],
     queryFn: fetchProfile,
     staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: false, // Prevent refetch when switching tabs
     retry: (failureCount, error) => {
       if (error?.response?.status === 401) return false;
       return failureCount < 3;

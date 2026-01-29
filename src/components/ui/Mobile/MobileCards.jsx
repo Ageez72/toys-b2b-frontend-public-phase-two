@@ -11,6 +11,9 @@ import img4 from "../../../assets/imgs/mobile/4.png";
 import img5 from "../../../assets/imgs/mobile/5.png";
 import img6 from "../../../assets/imgs/mobile/6.png";
 import Cookies from 'js-cookie';
+import Loader from '../Loaders/Loader';
+import MobileHomeLoader from '../Loaders/MobileHomeLoader';
+import { set } from 'react-hook-form';
 
 export default function MobileCards() {
     const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -25,6 +28,7 @@ export default function MobileCards() {
     const [giveaway, setGiveaway] = useState(false);
     const [newArivals, setNewArivals] = useState(false);
     const [topItems, setTopItems] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Update ALL values when context state changes
     useEffect(() => {
@@ -34,10 +38,16 @@ export default function MobileCards() {
         setGiveaway(state.has_items_GIVEAWAY);
         setNewArivals(state.has_items_NEW_ARRIVAL);
         setTopItems(state.has_items_y);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
     }, [state]);
 
-    return (
+    if (isLoading) {
+        return <MobileHomeLoader />;
+    }
 
+    return (
         <div className="mobile-card-boxes grid grid-cols-2 gap-4 my-8">
             {
                 topItems ? (

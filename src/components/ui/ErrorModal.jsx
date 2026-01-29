@@ -1,9 +1,13 @@
 'use client'
-import Link from 'next/link'
+import Link from 'next/link';
+import { useAppContext } from '../../../context/AppContext';
+import en from "../../../locales/en.json"
+import ar from "../../../locales/ar.json";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
 export default function ErrorModal({ title, open, onClose, message, style, summary, hasBtn, hasBtnVal }) {
-
+    const { state = {}, dispatch = () => { } } = useAppContext() || {};
+    const translation = state.LANG === "EN" ? en : ar;
     return (
         <Dialog open={open} onClose={onClose} className="relative z-10000">
             <DialogBackdrop
@@ -29,7 +33,7 @@ export default function ErrorModal({ title, open, onClose, message, style, summa
                                         </DialogTitle>
                                         <p className="text-sm text-gray-500 dialog-desc" style={style}>
                                             {
-                                                message ? message : " هذا الحساب غير مفعل حتى الآن ، يرجى الانتظار"
+                                                message ? message : translation.errorHappened
                                             }
                                         </p>
                                         {summary && Array.isArray(summary) && (
