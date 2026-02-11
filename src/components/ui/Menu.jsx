@@ -103,27 +103,27 @@ export default function Menu({ scroll }) {
             </li>
           }
           {
-            state.isCorporate || profileData.hideTargetSOA ? (
-              <li className="flex items-center gap-4">
-                <div className="divider"></div>
-                <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
-                  {translation.sections}
-                  <i className="icon-arrow-down-01-round"></i>
-                </a>
-              </li>
-            ) : null
+            // state.isCorporate || profileData.hideTargetSOA ? (
+            <li className="flex items-center gap-4">
+              <div className="divider"></div>
+              <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
+                {translation.sections}
+                <i className="icon-arrow-down-01-round"></i>
+              </a>
+            </li>
+            // ) : null
           }
-          {/* <li>
+          <li>
             <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => setIsOpenSearch(!isOpenSearch)}></i>
-          </li> */}
+          </li>
         </>
       </ul>
       <div className="isDesktop">
-        <div className={`general-search-overlay ${isOpenSearch ? 'open' : ''}`} onClick={() => setIsOpenSearch(false)}></div>
+        {/* <div className={`general-search-overlay ${isOpenSearch ? 'open' : ''}`} onClick={() => setIsOpenSearch(false)}></div> */}
         {isOpenSearch && (
-          <div className={`general-search open`}>
+          <div className={`general-search sm-search-popup open`}>
             <div className="">
-              <div className="flex justify-center">
+              <div className="flex justify-evenly">
                 <div className="relative w-3/4 search-me">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                     <i className="icon-search-normal"></i>
@@ -131,8 +131,7 @@ export default function Menu({ scroll }) {
 
                   <SearchInput bulk={false} />
                 </div>
-
-                <div className="w-1/4 flex items-center justify-center">
+                <div className="flex items-center justify-center">
                   <i
                     className="icon-multiplication-sign cursor-pointer"
                     onClick={() => setIsOpenSearch(false)}

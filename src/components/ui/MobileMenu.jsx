@@ -93,14 +93,14 @@ export default function MobileMenu({ scroll, onGoTo }) {
               <Link href="/products?itemStatus=AVAILABLE">{translation.allProducts}</Link>
             </li>
             {
-              state.isCorporate || profileData.hideTargetSOA ? (
-                <li onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
-                  <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1">
-                    {translation.ourSections}
-                    <i className="icon-arrow-down-01-round"></i>
-                  </a>
-                </li>
-              ) : null
+              // state.isCorporate || profileData.hideTargetSOA ? (
+              <li onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
+                <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1">
+                  {translation.ourSections}
+                  <i className="icon-arrow-down-01-round"></i>
+                </a>
+              </li>
+              // ) : null
             }
             <li className={isActive("/brands")} onClick={() => onGoTo()}>
               <Link href="/brands">{translation.brands}</Link>

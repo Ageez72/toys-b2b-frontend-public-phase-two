@@ -8,7 +8,7 @@ import BrandsFilters from './BrandsFilters';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { BASE_API } from '../../../constant/endpoints';
+import { BASE_API, endpoints } from '../../../constant/endpoints';
 import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { useAppContext } from '../../../context/AppContext';
@@ -88,8 +88,10 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     const [itemStatus, setItemStatus] = useState(useParams.get('itemStatus') || "AVAILABLE"); // حالة التوفر
     const [categoriesAllOptions, setCategoriesAllOptions] = useState(filtersSections?.categories || []);
     const [catalogsAllOptions, setCatalogsAllOptions] = useState(filtersSections?.catalogs?.catalogs || []);;
+    const [agesAllOptions, setAgesAllOptions] = useState([]);;
     const [selectedCategoriesOptions, setSelectedCategoriesOptions] = useState([]);
     const [selectedCatalogsOptions, setSelectedCatalogsOptions] = useState([]);
+    const [selectedAge, setSelectedAge] = useState(useParams.get('age') || null);
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [catalogOpen, setCatalogOpen] = useState(false);
 
@@ -119,8 +121,9 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
 
             if (fromPrice >= 0) query.set('fromPrice', fromPrice);
             if (toPrice) query.set('toPrice', toPrice);
-            if (fromAge >= 0) query.set('fromAge', fromAge);
-            if (toAge) query.set('toAge', toAge);
+            // if (fromAge >= 0) query.set('fromAge', fromAge);
+            // if (toAge) query.set('toAge', toAge);
+            if (selectedAge) query.set('age', selectedAge);
             if (itemType) query.set('itemType', itemType);
             if (itemStatus) query.set('itemStatus', itemStatus);
             if (sortItem) query.set('sort', sortItem);
@@ -147,8 +150,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             const searchParams = new URLSearchParams(); // This will be used for building query
             let searchItems = '';
 
-            if (fromAge) searchParams.append('fromAge', fromAge);
-            if (toAge) searchParams.append('toAge', toAge);
+            // if (fromAge) searchParams.append('fromAge', fromAge);
+            // if (toAge) searchParams.append('toAge', toAge);
             if (itemType) searchParams.append('itemType', itemType);
             if (itemStatus) searchParams.append('itemStatus', itemStatus);
             if (sortItem) searchParams.append('sort', sortItem);
@@ -157,6 +160,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             if (brand && brand.length > 0) searchParams.append('brand', brand.join(','));
             if (category && category.length > 0) searchParams.append('category', category.join(','));
             if (catalog && catalog.length > 0) searchParams.append('catalog', catalog.join(','));
+            if (selectedAge) searchParams.append('age', selectedAge);
             // console.log(searchParams.toString());
 
             searchItems = `${searchParams.toString()}`;
@@ -192,6 +196,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             setToPrice(0);
             setFromAge(-1);
             setToAge(0);
+            setSelectedAge(null);
             setItemType("");
             setItemStatus("");
             setBrand([]);
@@ -232,6 +237,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             setItemType(value)
         } else if (name === "itemStatus") {
             setItemStatus(value)
+        } else if (name === "age") {
+            setSelectedAge(value)
         }
     }
 
@@ -319,6 +326,27 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         }
     }
 
+    const fetchAgesOptions = async () => {
+        const lang = Cookies.get('lang') || 'AR';
+        try {
+            const res = await axios.get(`${BASE_API}${endpoints.products.getAges}&lang=${lang}&token=${Cookies.get('token')}`, {});
+            const formatted = res.data.map(item => {
+                return {
+                    id: item.id,
+                    title: item.desc,
+                    // desc: item.desc,
+                    value: item.id
+                };
+            });
+            setAgesAllOptions(formatted);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        fetchAgesOptions()
+    }, [])
+
     useEffect(() => {
         fetchCatalogsOptions()
         if (brand.length > 0) {
@@ -360,7 +388,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
         if (isProductsPage && filterstatus && filterstatus === "filter") {
             handleApplyFilters();
         }
-    }, [itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);
+    }, [selectedAge, itemType, brand, catalog, category, itemStatus, sortItem, pageSizeItem]);
 
     return (
         <>
@@ -430,10 +458,11 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                 }
 
                                 {
-                                    filtersSections?.age_min >= 0 && filtersSections?.age_max ? (
-                                        <Suspense fallback={<div>Loading...</div>}>
-                                            <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
-                                        </Suspense>
+                                    filtersSections?.age_min >= 0 && filtersSections?.age_max && agesAllOptions.length > 0 ? (
+                                        // <Suspense fallback={<div>Loading...</div>}>
+                                        //     <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
+                                        // </Suspense>
+                                        <FilterSingleItem inputType="radio" title={translation.ageRange} selected={selectedAge} options={agesAllOptions} initiallyOpen={true} name="age" handleSingleItem={changeSingleItem} />
                                     ) : null
                                 }
                                 <FilterSingleItem inputType="radio" initiallyOpen={true} title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
@@ -465,7 +494,8 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                     <MultiRangeSlider initiallyOpen={true} title={translation.priceRange} min={0} max={1600} selectedFrom={fromPrice} selectedTo={toPrice} handlePriceFrom={changePriceFrom} handlePriceTo={changePriceTo} isProductsPage={false} />
                                 </Suspense>
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={0} max={18} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} />
+                                    {/* <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={0} max={18} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={false} /> */}
+                                    <FilterSingleItem inputType="radio" title={translation.ageRange} selected={selectedAge} options={agesAllOptions} initiallyOpen={true} name="age" handleSingleItem={changeSingleItem} />
                                 </Suspense>
                                 <FilterSingleItem title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
 

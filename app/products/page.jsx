@@ -187,7 +187,7 @@ export default function Page() {
     }
 
     // age range (fromAge + toAge = 1)
-    if (params.has('fromAge') || params.has('toAge')) {
+    if (params.has('fromAge') || params.has('toAge') || params.has('age')) {
       count++;
     }
 
@@ -280,7 +280,7 @@ export default function Page() {
               </div>
             </div>
             {
-              queryString !== '' && data?.data?.itemCount ? (
+              queryString !== '' && data?.data?.itemCount !== "0" ? (
                 <h2 className="products-results-title">{translation.resultsFound} <span>{Number(data?.data?.itemCount).toLocaleString("en-US")}</span> {translation.resultProducts}</h2>
               ) : ''
             }

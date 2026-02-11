@@ -188,12 +188,22 @@ header {
         opacity: 1;
     }
 
+    &.sm-search-popup {
+        left: 50%;
+        max-width: 600px;
+        border-top: none;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+        transform: translateX(-50%);
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
     .container {
         padding: 0;
     }
 
     .search-me {
-        margin-inline-start: 50px;
+        // margin-inline-start: 50px;
     }
 
     input {

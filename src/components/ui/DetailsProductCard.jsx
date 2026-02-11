@@ -199,20 +199,23 @@ export default function DetailsProductCard({ item }) {
                                             {Number(item?.price).toFixed(2)}{" "}
                                             {siteLocation === "primereach" ? translation.iqd : translation.jod}
                                         </span>
+                                        <span>{(profileData.name === "MOHAMAD.KHIR" || profileData.name === "MOHAMAD.KHIR.PR") && item.cost > 0 ? `(${item.cost})` : null}</span>
                                     </>
                                 ) : (
-                                    <span className="product-card-price">
-                                        <span className="price-number">
-                                            {Number(item?.price).toFixed(2)}
+                                    <>
+                                        <span className="product-card-price">
+                                            <span className="price-number">
+                                                {Number(item?.price).toFixed(2)}
+                                            </span>
+                                            <span className="price-unit mx-1">
+                                                {siteLocation === "primereach" ? translation.iqd : translation.jod}
+                                            </span>
                                         </span>
-                                        <span className="price-unit mx-1">
-                                            {siteLocation === "primereach" ? translation.iqd : translation.jod}
-                                        </span>
-                                    </span>
+                                        <span>{(profileData.name === "MOHAMAD.KHIR" || profileData.name === "MOHAMAD.KHIR.PR") && item.cost > 0 ? `(${item.cost})` : null}</span>
+                                    </>
                                 )
                             ) : null
                         }
-
                     </div>
 
                     <div className="stars flex items-center gap-2">

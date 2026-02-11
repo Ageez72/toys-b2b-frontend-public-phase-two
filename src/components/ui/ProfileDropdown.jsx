@@ -226,7 +226,7 @@ export default function ProfileDropdown({ onGoTo }) {
                                     </MenuItem>
                                     {
                                         (
-                                            (data?.data?.isCorporate !== true && data?.data?.active !== "Y") &&
+                                            (data?.data?.isCorporate !== true && data?.data?.active === "Y") &&
                                             data?.data?.hideTargetSOA !== true
                                         ) && (
                                             <>
