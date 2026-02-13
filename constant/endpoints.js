@@ -61,6 +61,7 @@ export const endpoints = {
     requestOutOfStock: "?action=request.outofstock",
     getStatement: "?action=get.statement",
     getTarget: "?action=get.target&type=html&month=1",
+    getAges: "?action=get.ages",
   },
 
 };
@@ -139,7 +140,7 @@ export const staticCategoriesDropdown = [
       { name_en: "Ride On", name_ar: "مركبات", link: '/products?itemStatus=AVAILABLE&catalog=RIDE_ON' },
       { name_en: "Bikes", name_ar: "دراجات", link: '/products?itemStatus=AVAILABLE&catalog=BIKES' },
       { name_en: "Skate Shoes", name_ar: "أحذية تزلج", link: '/products?itemStatus=AVAILABLE&catalog=SKATE_SHOES' },
-      { name_en: "Battery Operated Cars and Ride-Ons", name_ar: "سيارات وألعاب ركوب تعمل بالبطارية", link: '/products?itemStatus=AVAILABLE&catalog=BATTERY_OPERATED_CARS' },
+      { name_en: "Battery Operated Ride-Ons", name_ar: "ألعاب ركوب تعمل بالبطارية", link: '/products?itemStatus=AVAILABLE&catalog=BATTERY_OPERATED_PRODUCTS' },
       { name_en: "Skate Boards", name_ar: "ألواح تزلج", link: '/products?itemStatus=AVAILABLE&catalog=SKATE_BOARDS' },
     ]
   },
@@ -241,7 +242,7 @@ export const collections = [
     name_en: "Go & Play",
     name_ar: "ألعاب ركوب",
     icon: goPlay,
-    link: "/products?itemStatus=AVAILABLE&catalog=RIDE_ON,SCOOTERS,BIKES,SKATE_SHOES,BATTERY_OPERATED_CARS,SKATE_BOARDS"
+    link: "/products?itemStatus=AVAILABLE&catalog=RIDE_ON,SCOOTERS,BIKES,SKATE_SHOES,BATTERY_OPERATED_PRODUCTS,SKATE_BOARDS"
   },
   {
     name_en: "Makeup & Nails",
