@@ -329,23 +329,35 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     const fetchAgesOptions = async () => {
         const lang = Cookies.get('lang') || 'AR';
         try {
-            const res = await axios.get(`${BASE_API}${endpoints.products.getAges}&lang=${lang}&token=${Cookies.get('token')}`, {});
-            const formatted = res.data.map(item => {
-                return {
-                    id: item.id,
-                    title: item.desc,
-                    // desc: item.desc,
-                    value: item.id
-                };
-            });
-            setAgesAllOptions(formatted);
+            if (isProductsPage) {
+                const formatted = filtersSections.ages.map(item => {
+                    return {
+                        id: item.id,
+                        title: item.desc,
+                        // desc: item.desc,
+                        value: item.id
+                    };
+                });
+                setAgesAllOptions(formatted);
+            } else {
+                const res = await axios.get(`${BASE_API}${endpoints.products.getAges}&lang=${lang}&token=${Cookies.get('token')}`, {});
+                const formatted = res.data.map(item => {
+                    return {
+                        id: item.id,
+                        title: item.desc,
+                        // desc: item.desc,
+                        value: item.id
+                    };
+                });
+                setAgesAllOptions(formatted);
+            }
         } catch (error) {
             console.log(error);
         }
     }
     useEffect(() => {
         fetchAgesOptions()
-    }, [])
+    }, [filtersSections])
 
     useEffect(() => {
         fetchCatalogsOptions()

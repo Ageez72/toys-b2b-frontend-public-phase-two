@@ -280,7 +280,7 @@ export default function Page() {
               </div>
             </div>
             {
-              queryString !== '' && data?.data?.itemCount !== "0" ? (
+              queryString !== '' && data?.data?.itemCount && data?.data?.itemCount !== "0" ? (
                 <h2 className="products-results-title">{translation.resultsFound} <span>{Number(data?.data?.itemCount).toLocaleString("en-US")}</span> {translation.resultProducts}</h2>
               ) : ''
             }
