@@ -119,24 +119,24 @@ export default function Menu({ scroll }) {
         </>
       </ul>
       <div className="isDesktop">
-        {/* <div className={`general-search-overlay ${isOpenSearch ? 'open' : ''}`} onClick={() => setIsOpenSearch(false)}></div> */}
+        <div className={`general-search-overlay ${isOpenSearch ? 'open' : ''}`} onClick={() => setIsOpenSearch(false)}></div>
         {isOpenSearch && (
           <div className={`general-search sm-search-popup open`}>
             <div className="">
-              <div className="flex justify-evenly">
-                <div className="relative w-3/4 search-me">
+              <div className="flex justify-evenly mx-3">
+                <div className="relative w-full search-me">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                     <i className="icon-search-normal"></i>
                   </div>
 
-                  <SearchInput bulk={false} />
+                  <SearchInput bulk={false} closeSearchPopup={() => setIsOpenSearch(false)} />
                 </div>
-                <div className="flex items-center justify-center">
+                {/* <div className="flex items-center justify-center">
                   <i
                     className="icon-multiplication-sign cursor-pointer"
                     onClick={() => setIsOpenSearch(false)}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

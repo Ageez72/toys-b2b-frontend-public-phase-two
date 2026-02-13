@@ -11,7 +11,7 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import { useAppContext } from '../../../context/AppContext';
 
-export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onCollectQuickAdd, resetTrigger, onResetDone }) {
+export default function SearchInput({ closeSearchPopup, bulk, onCollectBulkItems, pageSize, onCollectQuickAdd, resetTrigger, onResetDone }) {
     const { push } = useRouter();
     const [searchText, setSearchText] = useState('');
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -136,7 +136,8 @@ export default function SearchInput({ bulk, onCollectBulkItems, pageSize, onColl
                         <>
                             <hr />
                             <Link
-                                href={`/products?search=${searchText}&${filterItems ? filterItems : 'itemStatus=AVAILABLE'}`}
+                                onClick={closeSearchPopup ? closeSearchPopup : undefined}
+                                href={`/products?${filterItems ? filterItems + '&search=' + searchText : `itemStatus=AVAILABLE&pageSize=12` + '&search=' + searchText}`}
                                 className='flex items-center gap-2 all-products'
                             >
                                 <span>{translation.viewAllProducts}</span>
