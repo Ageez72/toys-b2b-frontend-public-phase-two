@@ -199,7 +199,7 @@ export default function DetailsProductCard({ item }) {
                                             {Number(item?.price).toFixed(2)}{" "}
                                             {siteLocation === "primereach" ? translation.iqd : translation.jod}
                                         </span>
-                                        <span>{(profileData.name === "MOHAMAD.KHIR" || profileData.name === "MOHAMAD.KHIR.PR") && item.cost > 0 ? `(${item.cost})` : null}</span>
+                                        <span>{(profileData.username === "MOHAMAD.KHIR" || profileData.username === "MOHAMAD.KHIR.PR") && item.cost > 0 ? `(${item.cost})` : null}</span>
                                     </>
                                 ) : (
                                     <>
