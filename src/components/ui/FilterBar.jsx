@@ -91,7 +91,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
     const [agesAllOptions, setAgesAllOptions] = useState([]);;
     const [selectedCategoriesOptions, setSelectedCategoriesOptions] = useState([]);
     const [selectedCatalogsOptions, setSelectedCatalogsOptions] = useState([]);
-    const [selectedAge, setSelectedAge] = useState(useParams.get('age') || null);
+    const [selectedAge, setSelectedAge] = useState(useParams.get('age') || "ALL");
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [catalogOpen, setCatalogOpen] = useState(false);
 
@@ -196,7 +196,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
             setToPrice(0);
             setFromAge(-1);
             setToAge(0);
-            setSelectedAge(null);
+            setSelectedAge("ALL");
             setItemType("");
             setItemStatus("");
             setBrand([]);
@@ -474,7 +474,7 @@ export default function FilterBar({ isProductsPage, resetUpperFilters, catalogEn
                                         // <Suspense fallback={<div>Loading...</div>}>
                                         //     <MultiRangeSliderAge initiallyOpen={true} title={translation.ageRange} min={Math.floor(parseFloat(filtersSections?.age_min))} max={Math.floor(parseFloat(filtersSections?.age_max))} selectedFrom={fromAge} selectedTo={toAge} handleAgeFrom={changeAgeFrom} handleAgeTo={changeAgeTo} isProductsPage={isProductsPage} onSubmitRange={handleApplyFilters} onClearRange={handleClearFilter} />
                                         // </Suspense>
-                                        <FilterSingleItem inputType="checkbox" title={translation.ageRange} selected={selectedAge} options={agesAllOptions} initiallyOpen={true} name="age" handleSingleItem={changeSingleItem} />
+                                        <FilterSingleItem inputType="radio" title={translation.ageRange} selected={selectedAge} options={agesAllOptions} initiallyOpen={true} name="age" handleSingleItem={changeSingleItem} />
                                     ) : null
                                 }
                                 <FilterSingleItem inputType="radio" initiallyOpen={true} title={translation.availablity} selected={itemStatus} options={StatusOptions} name="itemStatus" handleSingleItem={changeSingleItem} />
