@@ -140,27 +140,27 @@ export default function Home() {
             <BrandsSwiper />
           </div>
           {
-            profileData.isCorporate || profileData.hideTargetSOA ? (
-              <div>
-                <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
-                  <h2 className="main-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
-                  <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 catalogs-list">
-                    {
-                      collections.map((cat, index) => (
-                        <Link className="catalog-box text-center" key={index} href={cat.link}>
-                          <div className="catalog-icon">
-                            <img width={80} src={cat.icon.src} alt="image" className="m-auto" />
-                          </div>
-                          <div className="catalog-title">
-                            <h3>{state.LANG === "EN" ? cat.name_en : cat.name_ar}</h3>
-                          </div>
-                        </Link>
-                      ))
-                    }
-                  </div>
+            // profileData.isCorporate || profileData.hideTargetSOA ? (
+            <div>
+              <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
+                <h2 className="main-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
+                <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 catalogs-list">
+                  {
+                    collections.map((cat, index) => (
+                      <Link className="catalog-box text-center" key={index} href={cat.link}>
+                        <div className="catalog-icon">
+                          <img width={80} src={cat.icon.src} alt="image" className="m-auto" />
+                        </div>
+                        <div className="catalog-title">
+                          <h3>{state.LANG === "EN" ? cat.name_en : cat.name_ar}</h3>
+                        </div>
+                      </Link>
+                    ))
+                  }
                 </div>
               </div>
-            ) : null
+            </div>
+            // ) : null
           }
 
           {searchTypes.map((grid, i) => (
