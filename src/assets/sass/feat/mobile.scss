@@ -1297,6 +1297,16 @@ $tablet-font-percent: 25%;
     }
 }
 
+.all-products-container .products-header-filters .form-group i {
+    @media (max-width: $tablet-breakpoint) {
+        font-size: calc(16px + $tablet-font-percent);
+    }
+
+    @media (max-width: $max-mobile-breakpoint) {
+        font-size: 16px;
+    }
+}
+
 .all-products-container .products-results-title {
     @media (max-width: $tablet-breakpoint) {
         font-size: calc(14px + $tablet-font-percent);

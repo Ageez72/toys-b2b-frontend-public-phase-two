@@ -78,26 +78,36 @@ export default function Menu({ scroll }) {
 
   const catalogImages = [babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots]
 
+  const closeAllPopups = () => {
+    setIsOpenSearch(false);
+    setIsOpenCategoriesDropdown(false);
+  };
+  useEffect(() => {
+    closeAllPopups();
+  }, [pathname]);
   return (
     <>
       <ul className="menu-list font-medium flex items-center flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-4 md:mt-0 md:border-0 md:bg-white dark:border-gray-700">
         <>
           <li className={isActive("/home")}>
-            <Link href="/home" className="block py-2 px-3">{translation.home}</Link>
+            <Link href="/home" className="block py-2 px-3" onClick={closeAllPopups}>{translation.home}</Link>
           </li>
 
           <li className="allProductsTab">
-            <Link href="/products?itemStatus=AVAILABLE" className="block py-2 px-3" onClick={() => sessionStorage.removeItem('scrollToProduct')}>
+            <Link href="/products?itemStatus=AVAILABLE" className="block py-2 px-3" onClick={() => {
+              sessionStorage.removeItem('scrollToProduct');
+              closeAllPopups();
+            }}>
               {translation.allProducts}
             </Link>
           </li>
           <li className={isActive("/brands")}>
-            <Link href="/brands" className="block py-2 px-3">{translation.brands}</Link>
+            <Link href="/brands" className="block py-2 px-3" onClick={closeAllPopups}>{translation.brands}</Link>
           </li>
           {
             siteLocation !== "primereach" &&
             <li className="clearanceTab">
-              <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE" className="block py-2 px-3">
+              <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE" className="block py-2 px-3" onClick={closeAllPopups}>
                 {translation.clearance}
               </Link>
             </li>
@@ -106,15 +116,22 @@ export default function Menu({ scroll }) {
             // state.isCorporate || profileData.hideTargetSOA ? (
             <li className="flex items-center gap-4">
               <div className="divider"></div>
-              <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
+              <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1" onClick={() => {
+                setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)
+                setIsOpenSearch(false)
+              }}>
                 {translation.sections}
                 <i className="icon-arrow-down-01-round"></i>
               </a>
             </li>
             // ) : null
           }
-          <li>
-            <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => setIsOpenSearch(!isOpenSearch)}></i>
+          <li className="flex items-center gap-1">
+            <div className="divider"></div>
+            <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => {
+              setIsOpenSearch(!isOpenSearch)
+              setIsOpenCategoriesDropdown(false)
+            }}></i>
           </li>
         </>
       </ul>
