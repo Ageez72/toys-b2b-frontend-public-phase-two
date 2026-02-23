@@ -99,9 +99,9 @@ export default function SearchInput({ closeSearchPopup, bulk, onCollectBulkItems
                                     <span className='image'>
                                         <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
                                     </span>
-                                    <Link href={`products/${encodeURIComponent(item.id)}`} className='title'>
+                                    <button onClick={() => push(`/products/${encodeURIComponent(item.id)}`)} className='title cursor-pointer'>
                                         <span>{item.name}</span>
-                                    </Link>
+                                    </button>
                                     {
                                         item.commingSoon ? (<span className='price price-txt'>{translation.commingSoon}</span>) : (
                                             <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
@@ -122,11 +122,11 @@ export default function SearchInput({ closeSearchPopup, bulk, onCollectBulkItems
                                         <span className='image'>
                                             <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
                                         </span>
-                                        <Link href={`products/${encodeURIComponent(item.id)}`} className='title'>{item.name}</Link>
+                                        <button onClick={() => push(`/products/${encodeURIComponent(item.id)}`)} className='title'>{item.name}</button>
                                     </div>
-                                    <Link href={`products/${encodeURIComponent(item.id)}`} className='view-details flex items-center'>
+                                    <button onClick={() => push(`/products/${encodeURIComponent(item.id)}`)} className='view-details flex items-center' aria-label='arrow'>
                                         <span className="icon-arrow-left-01-round"></span>
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         </>
