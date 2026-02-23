@@ -136,8 +136,11 @@ export default function SearchInput({ closeSearchPopup, bulk, onCollectBulkItems
                         <>
                             <hr />
                             <Link
-                                onClick={closeSearchPopup ? closeSearchPopup : undefined}
-                                href={`/products?${filterItems ? filterItems + '&search=' + searchText : `itemStatus=AVAILABLE&pageSize=12` + '&search=' + searchText}`}
+                                onClick={closeSearchPopup ? () => {
+                                    closeSearchPopup();
+                                    window.reload();
+                                } : undefined}
+                                href={`/products?${filterItems ? filterItems + '&search=' + searchText : `age=ALL&itemStatus=AVAILABLE&pageSize=12` + '&search=' + searchText}`}
                                 className='flex items-center gap-2 all-products'
                             >
                                 <span>{translation.viewAllProducts}</span>

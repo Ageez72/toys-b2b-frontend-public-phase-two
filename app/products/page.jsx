@@ -86,10 +86,12 @@ export default function Page() {
   }, [apiParams]);
 
   useEffect(() => {
-    if (!apiParams.search) {
-      setSearchTerm("")
+    if (queryObject.search) {
+      setSearchTerm(queryObject.search);
+    } else {
+      setSearchTerm('');
     }
-  }, [apiParams])
+  }, [queryObject.search]);
 
 
   // async function fetchProducts() {
