@@ -118,11 +118,18 @@ export default function SearchInput({ closeSearchPopup, bulk, onCollectBulkItems
                             </div>
                             <div className="isMobile" key={item.id}>
                                 <div className='search-item flex items-center justify-between'>
-                                    <div className='flex items-center' style={{ width: "86%" }}>
+                                    <div className='flex items-center' style={{ width: `${!closeSearchPopup ? '86%' : '100%'}` }}>
                                         <span className='image'>
                                             <img width={40} height={40} src={item.images["50"].main} alt={item.name} />
                                         </span>
                                         <button onClick={() => push(`/products/${encodeURIComponent(item.id)}`)} className='title'>{item.name}</button>
+                                        {
+                                            closeSearchPopup && (
+                                                item.commingSoon ? (<span className='price price-txt'>{translation.commingSoon}</span>) : (
+                                                    <span className='price'>{Number(item.price).toFixed(2)} {siteLocation === "primereach" ? translation.iqd : translation.jod}</span>
+                                                )
+                                            )
+                                        }
                                     </div>
                                     <button onClick={() => push(`/products/${encodeURIComponent(item.id)}`)} className='view-details flex items-center' aria-label='arrow'>
                                         <span className="icon-arrow-left-01-round"></span>

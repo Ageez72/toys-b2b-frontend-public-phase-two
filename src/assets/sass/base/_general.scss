@@ -845,12 +845,17 @@ img {
     object-fit: contain;
     border-radius: 0;
 
+
+    @media (min-width: 992px) and (max-width: 1099px) {
+        width: 75px;
+    }
+
     @media (max-width: 600px) {
         width: 90px;
     }
 
-    @media (min-width: 992px) and (max-width: 1099px) {
-        width: 75px;
+    @media (max-width: 350px) {
+        width: 66px;
     }
 }
 

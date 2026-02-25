@@ -9,10 +9,10 @@ import ar from "../../../locales/ar.json";
 import SearchInput from "./SearchInput";
 import logo from "../../assets/imgs/logo.png";
 import { getProfile } from "@/actions/utils";
-import { staticCategoriesDropdown } from "../../../constant/endpoints";
-import { babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots } from "../../../constant/images";
+import { BASE_API, endpoints } from "../../../constant/endpoints";
+import axios from "axios";
 
-export default function Menu({ scroll }) {
+export default function Menu({ scroll, resetSignal }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const [siteLocation, setSiteLocation] = useState(null);
   const pathname = usePathname();
@@ -33,23 +33,23 @@ export default function Menu({ scroll }) {
   const [isOpenSearch, setIsOpenSearch] = useState(false);
   const [isOpenCategoriesDropdown, setIsOpenCategoriesDropdown] = useState(false);
   const [activeCategory, setActiveCategory] = useState("categories-dropdown-details-item-0");
+  const [catalogsList, setCatalogsList] = useState([]);
 
-  const staticCategoriesCatalogs = [
-    { id: 1, name: translation.categoryDropdown.babyWorld },
-    { id: 2, name: translation.categoryDropdown.actionWorld },
-    { id: 3, name: translation.categoryDropdown.buildAndCreate },
-    { id: 4, name: translation.categoryDropdown.puzzleAndGames },
-    { id: 5, name: translation.categoryDropdown.learningAndScience },
-    { id: 6, name: translation.categoryDropdown.artAndCreativity },
-    { id: 7, name: translation.categoryDropdown.guns },
-    { id: 8, name: translation.categoryDropdown.goAndPlay },
-    { id: 9, name: translation.categoryDropdown.makeupAndNails },
-    { id: 10, name: translation.categoryDropdown.outdoor },
-    { id: 11, name: translation.categoryDropdown.plush },
-    { id: 12, name: translation.categoryDropdown.collectibleAndFigures },
-    { id: 13, name: translation.categoryDropdown.dollWorld },
-    { id: 14, name: translation.categoryDropdown.robots },
-  ];
+  // fetch catalogs to get the names of categories and the links
+  useEffect(() => {
+    const fetchCatalogs = async () => {
+      try {
+        const response = await axios.get(`${BASE_API}${endpoints.products.getCatalogs}&lang=${state.LANG}&token=${Cookies.get('token')}`);
+        if (response.data) {
+          setCatalogsList(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching catalogs:", error);
+      }
+    };
+
+    fetchCatalogs();
+  }, [state.LANG]);
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
@@ -76,7 +76,6 @@ export default function Menu({ scroll }) {
 
   const isActive = (path) => pathname === path ? "active" : "";
 
-  const catalogImages = [babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots]
 
   const closeAllPopups = () => {
     setIsOpenSearch(false);
@@ -84,6 +83,25 @@ export default function Menu({ scroll }) {
   };
   useEffect(() => {
     closeAllPopups();
+  }, [pathname]);
+
+  useEffect(() => {
+    setIsOpenSearch(false);
+    setIsOpenCategoriesDropdown(false);
+  }, [resetSignal]);
+
+  useEffect(() => {
+    if (!pathname) return;
+
+    catalogsList.forEach((category, index) => {
+      const match = category.catalog_links?.some(linkItem =>
+        pathname.startsWith(linkItem.id)
+      );
+
+      if (match) {
+        setActiveCategory(`categories-dropdown-details-item-${index}`);
+      }
+    });
   }, [pathname]);
   return (
     <>
@@ -95,6 +113,7 @@ export default function Menu({ scroll }) {
 
           <li className="allProductsTab">
             <Link href="/products?itemStatus=AVAILABLE" className="block py-2 px-3" onClick={() => {
+              Cookies.remove('filterstatus')
               sessionStorage.removeItem('scrollToProduct');
               closeAllPopups();
             }}>
@@ -107,7 +126,11 @@ export default function Menu({ scroll }) {
           {
             siteLocation !== "primereach" &&
             <li className="clearanceTab">
-              <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE" className="block py-2 px-3" onClick={closeAllPopups}>
+              <Link href="/products?age=ALL&itemType=CLEARANCE&itemStatus=AVAILABLE&pageSize=12" className="block py-2 px-3" onClick={() => {
+                Cookies.remove('filterstatus')
+                closeAllPopups()
+                sessionStorage.removeItem('scrollToProduct');
+              }}>
                 {translation.clearance}
               </Link>
             </li>
@@ -126,12 +149,14 @@ export default function Menu({ scroll }) {
             </li>
             // ) : null
           }
-          <li className="flex items-center gap-1">
+          <li className="flex items-center gap-4">
             <div className="divider"></div>
-            <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => {
-              setIsOpenSearch(!isOpenSearch)
-              setIsOpenCategoriesDropdown(false)
-            }}></i>
+            <div className="circle-icon-container">
+              <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => {
+                setIsOpenSearch(!isOpenSearch)
+                setIsOpenCategoriesDropdown(false)
+              }}></i>
+            </div>
           </li>
         </>
       </ul>
@@ -166,17 +191,18 @@ export default function Menu({ scroll }) {
               <div className="relative categories-dropdown-links">
                 <ul>
                   {
-                    staticCategoriesCatalogs.map((category, index) => (
+                    catalogsList.map((category, index) => (
                       <li
-                        key={category.id}
-                        className="dropdown-item"
+                        key={index}
+                        className={`dropdown-item ${activeCategory === `categories-dropdown-details-item-${index}` ? "active" : ""
+                          }`}
                         onMouseEnter={() =>
                           setActiveCategory(`categories-dropdown-details-item-${index}`)
                         }
                       >
                         <div className="flex items-center gap-2">
-                          <img src={catalogImages[index]?.src || babyWorld.src} alt="image" />
-                          <span>{category.name}</span>
+                          <img src={category.catalog_image} alt="image" />
+                          <span>{category.catalog_title}</span>
                         </div>
                         <i className="icon-arrow-left-01-round px-3"></i>
                       </li>
@@ -187,7 +213,7 @@ export default function Menu({ scroll }) {
 
               <div className="categories-dropdown-details">
                 {
-                  staticCategoriesDropdown.map((category, index) => (
+                  catalogsList.map((category, index) => (
                     <div
                       key={index}
                       className={`relative categories-dropdown-details-item ${activeCategory === `categories-dropdown-details-item-${index}` ? "active" : ""
@@ -196,12 +222,11 @@ export default function Menu({ scroll }) {
                     >
                       <ul>
                         {
-                          category.links && category.links.length > 0 ? (
-                            category.links.map((linkItem, linkIndex) => (
+                          category.catalog_links && category.catalog_links.length > 0 ? (
+                            category.catalog_links.map((linkItem, linkIndex) => (
                               <li className="dropdown-item" key={linkIndex}>
-                                <Link href={linkItem.link} onClick={() => setIsOpenCategoriesDropdown(false)}>
-                                  {state.LANG === "EN" ? linkItem.name_en : linkItem.name_ar}
-                                  {/* <i className="icon-arrow-left-01-round"></i> */}
+                                <Link href={`/products?itemStatus=AVAILABLE&catalog=${linkItem.id}`} onClick={() => setIsOpenCategoriesDropdown(false)}>
+                                  {linkItem.name}
                                 </Link>
                               </li>
                             ))

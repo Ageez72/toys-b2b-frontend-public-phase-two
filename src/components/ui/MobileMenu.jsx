@@ -9,8 +9,8 @@ import en from "../../../locales/en.json";
 import ar from "../../../locales/ar.json";
 import logo from "../../assets/imgs/logo.png";
 import { getProfile } from "@/actions/utils";
-import { staticCategoriesDropdown } from "../../../constant/endpoints";
-import { babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots } from "../../../constant/images";
+import { BASE_API, endpoints } from "../../../constant/endpoints";
+import axios from "axios";
 
 export default function MobileMenu({ scroll, onGoTo }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -27,25 +27,10 @@ export default function MobileMenu({ scroll, onGoTo }) {
   const [isOpenCategoriesDropdown, setIsOpenCategoriesDropdown] = useState(false);
   const [isOpenActiveCategory, setIsOpenActiveCategory] = useState(false);
   const [activeCategory, setActiveCategory] = useState("categories-dropdown-details-item-0");
+  const [catalogsList, setCatalogsList] = useState([]);
+
   const pathname = usePathname();
   const isActive = (path) => pathname === path ? "active" : "";
-
-  const staticCategoriesCatalogs = [
-    { id: 1, name: translation.categoryDropdown.babyWorld },
-    { id: 2, name: translation.categoryDropdown.actionWorld },
-    { id: 3, name: translation.categoryDropdown.buildAndCreate },
-    { id: 4, name: translation.categoryDropdown.puzzleAndGames },
-    { id: 5, name: translation.categoryDropdown.learningAndScience },
-    { id: 6, name: translation.categoryDropdown.artAndCreativity },
-    { id: 7, name: translation.categoryDropdown.guns },
-    { id: 8, name: translation.categoryDropdown.goAndPlay },
-    { id: 9, name: translation.categoryDropdown.makeupAndNails },
-    { id: 10, name: translation.categoryDropdown.outdoor },
-    { id: 11, name: translation.categoryDropdown.plush },
-    { id: 12, name: translation.categoryDropdown.collectibleAndFigures },
-    { id: 13, name: translation.categoryDropdown.dollWorld },
-    { id: 14, name: translation.categoryDropdown.robots },
-  ];
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
@@ -69,8 +54,21 @@ export default function MobileMenu({ scroll, onGoTo }) {
     };
   }, [state.LANG]);;
 
-  const catalogImages = [babyWorld, actionWorld, buildCreate, puzzleGames, learningScience, artCreativity, guns, goPlay, makeupNails, outdoor, plush, collectibleFigures, dollWorld, robots]
+  // fetch catalogs to get the names of categories and the links
+  useEffect(() => {
+    const fetchCatalogs = async () => {
+      try {
+        const response = await axios.get(`${BASE_API}${endpoints.products.getCatalogs}&lang=${state.LANG}&token=${Cookies.get('token')}`);
+        if (response.data) {
+          setCatalogsList(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching catalogs:", error);
+      }
+    };
 
+    fetchCatalogs();
+  }, [state.LANG]);
   return (
     <>
       <div className="mobile-menu fix mb-3 mean-container">
@@ -88,28 +86,33 @@ export default function MobileMenu({ scroll, onGoTo }) {
             </li>
             <li className="allProductsTab" onClick={() => {
               sessionStorage.removeItem('scrollToProduct')
+              Cookies.remove('filterstatus')
               onGoTo()
             }}>
               <Link href="/products?itemStatus=AVAILABLE">{translation.allProducts}</Link>
             </li>
-            {
-              // state.isCorporate || profileData.hideTargetSOA ? (
-              <li onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
-                <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1">
-                  {translation.ourSections}
-                  <i className="icon-arrow-down-01-round"></i>
-                </a>
-              </li>
-              // ) : null
-            }
             <li className={isActive("/brands")} onClick={() => onGoTo()}>
               <Link href="/brands">{translation.brands}</Link>
             </li>
             {
               siteLocation !== "primereach" &&
-              <li className="clearanceTab" onClick={() => onGoTo()}>
+              <li className="clearanceTab" onClick={() => {
+                sessionStorage.removeItem('scrollToProduct')
+                Cookies.remove('filterstatus')
+                onGoTo()
+              }}>
                 <Link href="/products?itemType=CLEARANCE&itemStatus=AVAILABLE">{translation.clearance}</Link>
               </li>
+            }
+            {
+              // state.isCorporate || profileData.hideTargetSOA ? (
+              <li onClick={() => setIsOpenCategoriesDropdown(!isOpenCategoriesDropdown)}>
+                <a href="javascript:void(0)" className="cursor-pointer flex items-center gap-1">
+                  {translation.sections}
+                  <i className="icon-arrow-down-01-round"></i>
+                </a>
+              </li>
+              // ) : null
             }
           </ul>
           {/* <hr /> */}
@@ -122,9 +125,9 @@ export default function MobileMenu({ scroll, onGoTo }) {
           <div className="relative categories-dropdown-links">
             <ul>
               {
-                staticCategoriesCatalogs.map((category, index) => (
+                catalogsList.map((category, index) => (
                   <li
-                    key={category.id}
+                    key={index}
                     className="dropdown-item"
                     onClick={() => {
                       setIsOpenActiveCategory(true)
@@ -132,8 +135,8 @@ export default function MobileMenu({ scroll, onGoTo }) {
                     }}
                   >
                     <div className="flex items-center gap-2">
-                      <img src={catalogImages[index]?.src || babyWorld.src} alt="image" />
-                      <span>{category.name}</span>
+                      <img src={category.catalog_image} alt="image" />
+                      <span>{category.catalog_title}</span>
                     </div>
                     <i className="icon-arrow-left-01-round px-3"></i>
                   </li>
@@ -156,7 +159,7 @@ export default function MobileMenu({ scroll, onGoTo }) {
         <div className="flex">
           <div className="categories-dropdown-details">
             {
-              staticCategoriesDropdown.map((category, index) => (
+              catalogsList.map((category, index) => (
                 <div
                   key={index}
                   className={`relative categories-dropdown-details-item ${activeCategory === `categories-dropdown-details-item-${index}` ? "active" : ""
@@ -165,15 +168,15 @@ export default function MobileMenu({ scroll, onGoTo }) {
                 >
                   <ul>
                     {
-                      category.links && category.links.length > 0 ? (
-                        category.links.map((linkItem, linkIndex) => (
+                      category.catalog_links && category.catalog_links.length > 0 ? (
+                        category.catalog_links.map((linkItem, linkIndex) => (
                           <li className="dropdown-item" key={linkIndex}>
-                            <Link href={linkItem.link} onClick={() => {
+                            <Link href={`/products?itemStatus=AVAILABLE&catalog=${linkItem.id}`} onClick={() => {
                               setIsOpenCategoriesDropdown(false)
                               setIsOpenActiveCategory(false)
                               onGoTo()
                             }}>
-                              {state.LANG === "EN" ? linkItem.name_en : linkItem.name_ar}
+                              {linkItem.name}
                               <i className="icon-arrow-left-01-round"></i>
                             </Link>
                           </li>

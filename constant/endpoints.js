@@ -62,6 +62,7 @@ export const endpoints = {
     getStatement: "?action=get.statement",
     getTarget: "?action=get.target&type=html&month=1",
     getAges: "?action=get.ages",
+    getCatalogs: "?action=get.all.catalogs"
   },
 
 };

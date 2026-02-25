@@ -85,23 +85,7 @@ export default function Page() {
     return urlParams.toString();
   }, [apiParams]);
 
-  useEffect(() => {
-    if (queryObject.search) {
-      setSearchTerm(queryObject.search);
-    } else {
-      setSearchTerm('');
-    }
-  }, [queryObject.search]);
 
-
-  // async function fetchProducts() {
-  //   if (searchParams.get("page") || searchParams.get("fromPrice") || searchParams.get("toPrice") || searchParams.get("fromAge") || searchParams.get("toAge") || searchParams.get("catalog") || searchParams.get("brand")) {
-  //     const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&pagesToken=${Cookies.get('b2bPagesToken')}&lang=${lang}&token=${Cookies.get('token')}`, {});
-  //     return res;
-  //   }
-  //   const res = await axios.get(`${BASE_API}${endpoints.products.list}&${queryString}&lang=${lang}&token=${Cookies.get('token')}`, {});
-  //   return res;
-  // }
   async function fetchProducts() {
     const b2bPagesToken = Cookies.get('b2bPagesToken');
     // Only send pagesToken when filtering by page, price, age, or brand
@@ -114,6 +98,14 @@ export default function Page() {
   const [searchTerm, setSearchTerm] = useState(queryObject.search || '');
   const [sortItem, setSortItem] = useState(queryObject.sort || sortingOptions[0].value);
   const [pageSizeItem, setPageSizeItem] = useState(queryObject.pageSize || displayOptions[0].value);
+
+  useEffect(() => {
+    if (queryObject.search) {
+      setSearchTerm(queryObject.search);
+    } else {
+      setSearchTerm('');
+    }
+  }, [queryObject.search]);
 
   const handleSearchChange = (e) => {
     const value = e.target.value;

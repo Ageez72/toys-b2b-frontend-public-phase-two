@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Menu from "./Menu";
 import MenuControl from "./MenuControl";
@@ -11,8 +12,11 @@ import Cookies from "js-cookie";
 import primereach from "../../assets/imgs/primereach.png";
 import LangSwitcher from "./LangSwitcher";
 import FixedMobileMenu from "./Mobile/FixedMobileMenu";
+import SearchInput from "./SearchInput";
 
 export default function Header({ scroll, handleOffCanvas }) {
+  const [resetPopupsSignal, setResetPopupsSignal] = useState(0);
+  const [isOpenSearch, setIsOpenSearch] = useState(false);
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
   const pathname = usePathname();
   const isActive = (path) => {
@@ -20,6 +24,11 @@ export default function Header({ scroll, handleOffCanvas }) {
   };
 
   const siteLocation = Cookies.get("siteLocation")
+
+  const closeAllPopups = () => {
+    setIsOpenSearch(false); // mobile search
+    setResetPopupsSignal(prev => prev + 1); // notify Menu
+  };
 
   return (
     <>
@@ -34,6 +43,7 @@ export default function Header({ scroll, handleOffCanvas }) {
                 <Link
                   href="/home"
                   className={`flex items-center space-x-3 rtl:space-x-reverse`}
+                  onClick={closeAllPopups}
                 >
                   {
                     <Image
@@ -48,7 +58,7 @@ export default function Header({ scroll, handleOffCanvas }) {
 
                 <div className="hidden w-full lg:block lg:w-auto" id="navbar-default">
                   <Suspense fallback={<div>Loading menu...</div>}>
-                    <Menu scroll={scroll} />
+                    <Menu scroll={scroll} resetSignal={resetPopupsSignal} />
                   </Suspense>
                 </div>
                 {
@@ -71,6 +81,11 @@ export default function Header({ scroll, handleOffCanvas }) {
                 }
               </div>
               <div className="isMobile menu-mobile-controller">
+                <div className="circle-icon-container">
+                  <i className="icon-search-normal py-2 px-3 cursor-pointer" onClick={() => {
+                    setIsOpenSearch(!isOpenSearch)
+                  }}></i>
+                </div>
                 <LangSwitcher />
                 <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false" onClick={handleOffCanvas}>
                   <span className="sr-only">Open main menu</span>
@@ -90,6 +105,25 @@ export default function Header({ scroll, handleOffCanvas }) {
         </div>
       </header>
       <FixedMobileMenu />
+
+      <div className="isMobile">
+        <div className={`general-search-overlay ${isOpenSearch ? 'open' : ''}`} onClick={() => setIsOpenSearch(false)}></div>
+        {isOpenSearch && (
+          <div className={`general-search sm-search-popup open`}>
+            <div className="">
+              <div className="flex justify-evenly mx-3">
+                <div className="relative w-full search-me">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                    <i className="icon-search-normal"></i>
+                  </div>
+
+                  <SearchInput bulk={false} closeSearchPopup={() => setIsOpenSearch(false)} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }
