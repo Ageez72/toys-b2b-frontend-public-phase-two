@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useAppContext } from "../../../context/AppContext";
 import Cookies from 'js-cookie';
 import en from "../../../locales/en.json";
@@ -11,6 +10,7 @@ import logo from "../../assets/imgs/logo.png";
 import { getProfile } from "@/actions/utils";
 import { BASE_API, endpoints } from "../../../constant/endpoints";
 import axios from "axios";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Menu({ scroll, resetSignal }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
@@ -34,6 +34,8 @@ export default function Menu({ scroll, resetSignal }) {
   const [isOpenCategoriesDropdown, setIsOpenCategoriesDropdown] = useState(false);
   const [activeCategory, setActiveCategory] = useState("categories-dropdown-details-item-0");
   const [catalogsList, setCatalogsList] = useState([]);
+  const searchParams = useSearchParams();
+  const activeCatalog = searchParams.get("catalog");
 
   // fetch catalogs to get the names of categories and the links
   useEffect(() => {
@@ -184,69 +186,70 @@ export default function Menu({ scroll, resetSignal }) {
           </div>
         )}
         <div className={`general-search-overlay ${isOpenCategoriesDropdown ? 'open' : ''}`} onClick={() => setIsOpenCategoriesDropdown(false)}></div>
-        {isOpenCategoriesDropdown && (
-          <div className={`general-search categories-dropdown-popup open`}>
-            {/* <h2 className="sub-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2> */}
-            <div className="flex">
-              <div className="relative categories-dropdown-links">
-                <ul>
-                  {
-                    catalogsList.map((category, index) => (
-                      <li
-                        key={index}
-                        className={`dropdown-item ${activeCategory === `categories-dropdown-details-item-${index}` ? "active" : ""
-                          }`}
-                        onMouseEnter={() =>
-                          setActiveCategory(`categories-dropdown-details-item-${index}`)
-                        }
-                      >
-                        <div className="flex items-center gap-2">
-                          <img src={category.catalog_image} alt="image" />
-                          <span>{category.catalog_title}</span>
-                        </div>
-                        <i className="icon-arrow-left-01-round px-3"></i>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-
-              <div className="categories-dropdown-details">
+        {/* {isOpenCategoriesDropdown && ( */}
+        <div className={`general-search categories-dropdown-popup ${isOpenCategoriesDropdown ? 'open' : ''}`}>
+          {/* <h2 className="sub-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2> */}
+          <div className="flex">
+            <div className="relative categories-dropdown-links">
+              <ul>
                 {
                   catalogsList.map((category, index) => (
-                    <div
+                    <li
                       key={index}
-                      className={`relative categories-dropdown-details-item ${activeCategory === `categories-dropdown-details-item-${index}` ? "active" : ""
+                      className={`dropdown-item ${activeCategory === `categories-dropdown-details-item-${index}` ? "active" : ""
                         }`}
-                      id={`categories-dropdown-details-item-${index}`}
+                      onMouseEnter={() =>
+                        setActiveCategory(`categories-dropdown-details-item-${index}`)
+                      }
                     >
-                      <ul>
-                        {
-                          category.catalog_links && category.catalog_links.length > 0 ? (
-                            category.catalog_links.map((linkItem, linkIndex) => (
-                              <li className="dropdown-item" key={linkIndex}>
-                                <Link href={`/products?itemStatus=AVAILABLE&catalog=${linkItem.id}`} onClick={() => setIsOpenCategoriesDropdown(false)}>
-                                  {linkItem.name}
-                                </Link>
-                              </li>
-                            ))
-                          ) : null
-                        }
-                      </ul>
-                    </div>
+                      <div className="flex items-center gap-2">
+                        <img src={category.catalog_image} alt="image" />
+                        <span>{category.catalog_title}</span>
+                      </div>
+                      <i className="icon-arrow-left-01-round px-3"></i>
+                    </li>
                   ))
                 }
-              </div>
+              </ul>
+            </div>
 
-              <div className="close-categories-dropdown flex items-center justify-center">
-                <i
-                  className="icon-multiplication-sign cursor-pointer"
-                  onClick={() => setIsOpenCategoriesDropdown(false)}
-                />
-              </div>
+            <div className="categories-dropdown-details">
+              {
+                catalogsList.map((category, index) => (
+                  <div
+                    key={index}
+                    className={`relative categories-dropdown-details-item ${activeCategory === `categories-dropdown-details-item-${index}` ? "active" : ""
+                      }`}
+                    id={`categories-dropdown-details-item-${index}`}
+                  >
+                    <ul>
+                      {
+                        category.catalog_links && category.catalog_links.length > 0 ? (
+                          category.catalog_links.map((linkItem, linkIndex) => (
+                            <li className={`dropdown-item ${activeCatalog === linkItem.id ? "active" : ""
+                              }`} key={linkIndex}>
+                              <Link href={`/products?age=ALL&itemStatus=AVAILABLE&pageSize=12&catalog=${linkItem.id}`} onClick={() => setIsOpenCategoriesDropdown(false)}>
+                                {linkItem.name}
+                              </Link>
+                            </li>
+                          ))
+                        ) : null
+                      }
+                    </ul>
+                  </div>
+                ))
+              }
+            </div>
+
+            <div className="close-categories-dropdown flex items-center justify-center">
+              <i
+                className="icon-multiplication-sign cursor-pointer"
+                onClick={() => setIsOpenCategoriesDropdown(false)}
+              />
             </div>
           </div>
-        )}
+        </div>
+        {/* // )} */}
 
       </div >
     </>

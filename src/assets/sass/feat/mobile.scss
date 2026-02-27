@@ -1479,13 +1479,7 @@ $tablet-font-percent: 25%;
             position: absolute;
             inset: 0;
             background-color: #fff;
-            padding: 20px 1rem;
-        }
-
-        .categories-dropdown-details-item {
-            ul {
-                margin-top: 25px;
-            }
+            padding: 50px 1rem 20px;
         }
 
         // .close-categories-dropdown {
@@ -1566,5 +1560,19 @@ $tablet-font-percent: 25%;
 
     @media (max-width: $max-mobile-breakpoint) {
         font-size: 12px;
+    }
+}
+
+.sections-link {
+    @media (max-width: $tablet-breakpoint) {
+        i {
+            [dir="rtl"] & {
+                transform: rotate(90deg);
+            }
+
+            [dir="ltr"] & {
+                transform: rotate(-90deg);
+            }
+        }
     }
 }

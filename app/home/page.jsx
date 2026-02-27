@@ -18,6 +18,7 @@ import { collections } from "../../constant/endpoints";
 import Link from "next/link";
 import { getProfile } from "@/actions/utils";
 import Loader from "@/components/ui/Loaders/Loader";
+import CardLoader from "@/components/ui/Loaders/CardLoader";
 
 // fallback images
 import fallbackDesktopImage from "@/assets/imgs/hero-bg.png";
@@ -29,9 +30,26 @@ export default function Home() {
   const [imagePairs, setImagePairs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [profileData, setProfileData] = useState("");
+  const [catalogsList, setCatalogsList] = useState([]);
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
+  }, [state.LANG]);
+
+  // fetch catalogs to get the names of categories and the links
+  useEffect(() => {
+    const fetchCatalogs = async () => {
+      try {
+        const response = await axios.get(`${BASE_API}${endpoints.products.getCatalogs}&lang=${state.LANG}&token=${Cookies.get('token')}`);
+        if (response.data) {
+          setCatalogsList(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching catalogs:", error);
+      }
+    };
+
+    fetchCatalogs();
   }, [state.LANG]);
 
   const searchTypes = [
@@ -123,6 +141,7 @@ export default function Home() {
   }, [state])
 
   if (isLoading) return <Loader />;
+
   return (
     <>
       <main className="isDesktop">
@@ -140,27 +159,27 @@ export default function Home() {
             <BrandsSwiper />
           </div>
           {
-            // profileData.isCorporate || profileData.hideTargetSOA ? (
-            <div>
-              <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
-                <h2 className="main-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
-                <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 catalogs-list">
-                  {
-                    collections.map((cat, index) => (
-                      <Link className="catalog-box text-center" key={index} href={cat.link}>
-                        <div className="catalog-icon">
-                          <img width={80} src={cat.icon.src} alt="image" className="m-auto" />
-                        </div>
-                        <div className="catalog-title">
-                          <h3>{state.LANG === "EN" ? cat.name_en : cat.name_ar}</h3>
-                        </div>
-                      </Link>
-                    ))
-                  }
+            catalogsList && catalogsList.length > 0 ? (
+              <div>
+                <div className="max-w-screen-xl mx-auto px-4 custom-py-40">
+                  <h2 className="main-title mt-3 mb-6">{translation.categoryDropdown.exploreOurCategories}</h2>
+                  <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 catalogs-list">
+                    {
+                      catalogsList.map((cat, index) => (
+                        <Link className="catalog-box text-center" key={index} href={`/products?age=ALL&itemStatus=AVAILABLE&pageSize=12&catalog=${cat.allCatalogLink}`}>
+                          <div className="catalog-icon">
+                            <img width={80} src={cat.catalog_image} alt="image" className="m-auto" />
+                          </div>
+                          <div className="catalog-title">
+                            <h3>{cat.catalog_title}</h3>
+                          </div>
+                        </Link>
+                      ))
+                    }
+                  </div>
                 </div>
               </div>
-            </div>
-            // ) : null
+            ) : <CardLoader />
           }
 
           {searchTypes.map((grid, i) => (
