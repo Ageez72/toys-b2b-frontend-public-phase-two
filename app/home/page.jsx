@@ -14,7 +14,6 @@ import { BASE_API, endpoints } from "../../constant/endpoints";
 import { useQuery } from "@tanstack/react-query";
 import MobileCards from "@/components/ui/Mobile/MobileCards";
 import SearchInput from "@/components/ui/SearchInput";
-import { collections } from "../../constant/endpoints";
 import Link from "next/link";
 import { getProfile } from "@/actions/utils";
 import Loader from "@/components/ui/Loaders/Loader";
