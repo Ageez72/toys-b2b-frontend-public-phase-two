@@ -1,4 +1,5 @@
 "use client";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import logo from "../../assets/imgs/logo.png";
@@ -31,7 +32,9 @@ export default function Offcanvas({ isOffCanvas, handleOffCanvas, scroll }) {
                 </div>
               </div>
               <div className="">
-                <MobileMenu onGoTo={handleOffCanvas} />
+                <Suspense fallback={<div>Loading menu...</div>}>
+                  <MobileMenu onGoTo={handleOffCanvas} />
+                </Suspense>
               </div>
             </div>
           </div>
