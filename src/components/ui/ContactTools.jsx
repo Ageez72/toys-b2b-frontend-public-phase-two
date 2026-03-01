@@ -32,48 +32,44 @@ const ContactTools = () => {
     setMounted(true);
 
     let panelElement = null;
+    let intervalId = null;
 
-    const handleScroll = (e) => {
-      const target = e?.target || window;
-      const scrollTop = target === window ? window.scrollY : target.scrollTop;
+    const handleScroll = () => {
+      const scrollTop = panelElement
+        ? panelElement.scrollTop
+        : window.scrollY;
+
       setShowButton(scrollTop > 300);
     };
 
-    let interval;
-    const attachScrollListener = async () => {
-      const found = await waitForProfilePanel();
-      if (found) {
-        panelElement = document.querySelector('.profile-tab-panels');
-        panelElement?.addEventListener('scroll', handleScroll);
-      } else {
-        // fallback to window scroll
-        window.addEventListener('scroll', handleScroll);
-      }
-    };
+    // Always attach window scroll immediately
+    window.addEventListener('scroll', handleScroll);
 
-    attachScrollListener();
+    // Try to find panel for a limited time (2 seconds max)
+    let attempts = 0;
+    intervalId = setInterval(() => {
+      const panel = document.querySelector('.profile-tab-panels');
 
-    // Cookie polling
-    let previousCookie = Cookies.get('profile');
-    interval = setInterval(() => {
-      const currentCookie = Cookies.get('profile');
-      if (currentCookie !== previousCookie) {
-        previousCookie = currentCookie;
-        try {
-          setProfile(currentCookie ? JSON.parse(currentCookie) : null);
-        } catch {
-          setProfile(null);
-        }
+      if (panel) {
+        panelElement = panel;
+        panelElement.addEventListener('scroll', handleScroll);
+        clearInterval(intervalId);
       }
-    }, 1000);
+
+      attempts++;
+      if (attempts > 10) {  // 10 × 200ms = 2 seconds max
+        clearInterval(intervalId);
+      }
+    }, 200);
+
+    handleScroll(); // set initial state immediately
 
     return () => {
-      clearInterval(interval);
+      clearInterval(intervalId);
       window.removeEventListener('scroll', handleScroll);
       panelElement?.removeEventListener('scroll', handleScroll);
     };
   }, [pathname]);
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
