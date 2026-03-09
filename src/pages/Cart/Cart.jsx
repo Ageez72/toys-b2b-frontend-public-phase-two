@@ -84,7 +84,34 @@ function Cart() {
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
-    setSelectedPaymentMethod(state.corporatePayment ? state.corporatePayment : "Cash")
+
+    const corporatePayment = state.corporatePayment;
+
+    if (Array.isArray(corporatePayment) && corporatePayment.length > 0) {
+      const firstMethod = corporatePayment[0];
+      if (firstMethod === "Employee Balance") {
+        setSelectedPaymentMethod("EB");
+      } else if (firstMethod === "Online") {
+        setSelectedPaymentMethod("Online");
+      } else if (firstMethod === "Cash") {
+        setSelectedPaymentMethod("Cash");
+      } else {
+        setSelectedPaymentMethod("Cash");
+      }
+    } else if (typeof corporatePayment === "string" && corporatePayment) {
+      if (corporatePayment === "Employee Balance") {
+        setSelectedPaymentMethod("EB");
+      } else if (corporatePayment === "Online") {
+        setSelectedPaymentMethod("Online");
+      } else if (corporatePayment === "Cash") {
+        setSelectedPaymentMethod("Cash");
+      } else {
+        setSelectedPaymentMethod("Cash");
+      }
+    } else {
+      setSelectedPaymentMethod("Cash");
+    }
+
     document.title = state.LANG === 'AR' ? ar.cart : en.cart;
   }, [state.LANG, state.corporatePayment]);
 
@@ -187,6 +214,7 @@ function Cart() {
     const data = {
       notes: notes,
       deliveryDate: "",
+      paymentMethod: selectedPaymentMethod,
       payOnline: selectedPaymentMethod === "Online" ? true : false,
       branchNo: profileData?.accountAddress === selectedAddressId ? "" : selectedAddressId.id,
       address: profileData?.accountAddress === selectedAddressId ? selectedAddressId : selectedAddressId.address,
@@ -870,14 +898,16 @@ function Cart() {
                   {
                     state.isCorporate && (
                       <>
-                        {
-                          (state.corporatePayment === "Cash" || state.corporatePayment === "Online" || state.corporatePayment === "") && (
+                        {(
+                          !state.corporatePayment ||
+                          (Array.isArray(state.corporatePayment) && state.corporatePayment.length > 0)
+                        ) && (
                             <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
-                          )
-                        }
+                          )}
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
-                            (state.corporatePayment === "Cash" || state.corporatePayment === "") && (
+                            (!Array.isArray(state.corporatePayment) && (!state.corporatePayment || state.corporatePayment === "Cash")) ||
+                              (Array.isArray(state.corporatePayment) && (state.corporatePayment.length === 0 || state.corporatePayment.includes("Cash"))) ? (
                               <label htmlFor="cashOnDelivery" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Cash" ? 'selected' : ''}`}>
                                   <div className="payment-method">
@@ -896,10 +926,34 @@ function Cart() {
                                   </div>
                                 </div>
                               </label>
-                            )
+                            ) : null
                           }
                           {
-                            (state.corporatePayment === "Online" || state.corporatePayment === "") && (
+                            (!Array.isArray(state.corporatePayment) && state.corporatePayment === "Employee Balance") ||
+                              (Array.isArray(state.corporatePayment) && (state.corporatePayment.length === 0 || state.corporatePayment.includes("Employee Balance"))) ? (
+                              <label htmlFor="employeeBalance" className="block w-full lg:w-1/2">
+                                <div className={`card ${selectedPaymentMethod === "EB" ? 'selected' : ''}`}>
+                                  <div className="payment-method">
+                                    <i className="icon-money-3"></i>
+                                    <span className="icon-tick-circle"></span>
+                                    <input
+                                      className="hidden"
+                                      type="radio"
+                                      name="paymentMethod"
+                                      id="employeeBalance"
+                                      value="EB"
+                                      checked={selectedPaymentMethod === "EB"}
+                                      onChange={() => setSelectedPaymentMethod("EB")}
+                                    />
+                                    <span className="block mt-2 method-title">{translation.employeeBalance}</span>
+                                  </div>
+                                </div>
+                              </label>
+                            ) : null
+                          }
+                          {
+                            (!Array.isArray(state.corporatePayment) && state.corporatePayment === "Online") ||
+                              (Array.isArray(state.corporatePayment) && (state.corporatePayment.length === 0 || state.corporatePayment.includes("Online"))) ? (
                               <label htmlFor="creditCardPayment" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Online" ? 'selected' : ''}`}>
                                   <div className="payment-method">
@@ -918,7 +972,7 @@ function Cart() {
                                   </div>
                                 </div>
                               </label>
-                            )
+                            ) : null
                           }
                         </div>
                       </>
@@ -927,13 +981,16 @@ function Cart() {
                   {
                     !state.isCorporate && (
                       <>
-                        {
-                          (state.corporatePayment === "Cash" || state.corporatePayment === "Online" || state.corporatePayment === "Both") && (
+                        {(
+                          !state.corporatePayment ||
+                          (Array.isArray(state.corporatePayment) && state.corporatePayment.length > 0)
+                        ) && (
                             <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
                           )}
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
-                            (state.corporatePayment === "Cash" || state.corporatePayment === "Both") && (
+                            (!Array.isArray(state.corporatePayment) && (!state.corporatePayment || state.corporatePayment === "Cash" || state.corporatePayment === "Both")) ||
+                              (Array.isArray(state.corporatePayment) && (state.corporatePayment.length === 0 || state.corporatePayment.includes("Cash"))) ? (
                               <label htmlFor="cashOnDelivery" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Cash" ? 'selected' : ''}`}>
                                   <div className="payment-method">
@@ -952,10 +1009,34 @@ function Cart() {
                                   </div>
                                 </div>
                               </label>
-                            )
+                            ) : null
                           }
                           {
-                            (state.corporatePayment === "Online" || state.corporatePayment === "Both") && (
+                            (!Array.isArray(state.corporatePayment) && (!state.corporatePayment || state.corporatePayment === "Employee Balance" || state.corporatePayment === "Both")) ||
+                              (Array.isArray(state.corporatePayment) && (state.corporatePayment.length === 0 || state.corporatePayment.includes("Employee Balance"))) ? (
+                              <label htmlFor="employeeBalance" className="block w-full lg:w-1/2">
+                                <div className={`card ${selectedPaymentMethod === "Employee Balance" ? 'selected' : ''}`}>
+                                  <div className="payment-method">
+                                    <i className="icon-money-3"></i>
+                                    <span className="icon-tick-circle"></span>
+                                    <input
+                                      className="hidden"
+                                      type="radio"
+                                      name="paymentMethod"
+                                      id="employeeBalance"
+                                      value="EP"
+                                      checked={selectedPaymentMethod === "EB"}
+                                      onChange={() => setSelectedPaymentMethod("EB")}
+                                    />
+                                    <span className="block mt-2 method-title">{translation.employeeBalance}</span>
+                                  </div>
+                                </div>
+                              </label>
+                            ) : null
+                          }
+                          {
+                            (!Array.isArray(state.corporatePayment) && (state.corporatePayment === "Online" || state.corporatePayment === "Both")) ||
+                              (Array.isArray(state.corporatePayment) && (state.corporatePayment.length === 0 || state.corporatePayment.includes("Online"))) ? (
                               <label htmlFor="creditCardPayment" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "Online" ? 'selected' : ''}`}>
                                   <div className="payment-method">
@@ -974,7 +1055,7 @@ function Cart() {
                                   </div>
                                 </div>
                               </label>
-                            )
+                            ) : null
                           }
                         </div>
                       </>

@@ -21,10 +21,42 @@ export default function BrandsSwiper() {
 
   // API call to fetch brands
   async function fetchHomeBrands() {
-    const lang = Cookies.get('lang') || 'AR';
-    const token = Cookies.get('token');
-    const res = await axios.get(`${BASE_API}${endpoints.home.brandsSwiper}&lang=${lang}&token=${token}`);
-    return res;
+    const CACHE_KEY = "homeBrands";
+    const TWO_DAYS = 2 * 24 * 60 * 60 * 1000; // milliseconds
+
+    const cached = localStorage.getItem(CACHE_KEY);
+
+    if (cached) {
+      const parsed = JSON.parse(cached);
+
+      const isExpired = Date.now() - parsed.timestamp > TWO_DAYS;
+
+      if (!isExpired) {
+        // return cached data
+        return { data: parsed.data };
+      } else {
+        // remove expired cache
+        localStorage.removeItem(CACHE_KEY);
+      }
+    }
+
+    const lang = Cookies.get("lang") || "AR";
+    const token = Cookies.get("token");
+
+    const res = await axios.get(
+      `${BASE_API}${endpoints.home.brandsSwiper}&lang=${lang}&token=${token}`
+    );
+
+    // store in localStorage
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        data: res.data,
+        timestamp: Date.now(),
+      })
+    );
+
+    return { data: res.data };
   }
 
   const { data, isLoading, error } = useQuery({
@@ -47,7 +79,7 @@ export default function BrandsSwiper() {
     setActiveTooltip(activeTooltip === key ? null : key);
   };
 
-  if(data?.data.length === 0) return null;
+  if (data?.data.length === 0) return null;
 
   return (
     <Swiper
@@ -55,7 +87,7 @@ export default function BrandsSwiper() {
       modules={[Autoplay]}
       slidesPerView={2}
       spaceBetween={10}
-      centeredSlides={true} 
+      centeredSlides={true}
       autoplay={{
         delay: 5000,
         disableOnInteraction: false,

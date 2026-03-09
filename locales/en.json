@@ -305,6 +305,7 @@
   "to": "To",
   "paymentMethod": "Payment Method",
   "cashOnDelivery": "Cash on Delivery",
+  "employeeBalance": "Employee Balance",
   "creditCardPayment": "Credit Card Payment (Master Card - Visa)",
   "gotoPayment": "Go to Payment",
   "noFileFound": "No Data Found to Download for the Selected Period.",

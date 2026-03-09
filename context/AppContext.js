@@ -98,6 +98,7 @@ const appReducer = (state, action) => {
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const token = Cookies.get("token");
 
   // keep lang cookie in sync
   useEffect(() => {
@@ -118,6 +119,8 @@ const AppProvider = ({ children }) => {
     const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
 
     const fetchCatalogs = async () => {
+      if (!token) return;
+
       try {
         const raw = localStorage.getItem(CATALOGS_CACHE_KEY);
 
@@ -170,7 +173,7 @@ const AppProvider = ({ children }) => {
     };
 
     fetchCatalogs();
-  }, [state.LANG]);
+  }, [state.LANG, token]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
