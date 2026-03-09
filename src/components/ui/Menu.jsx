@@ -14,6 +14,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Menu({ scroll, resetSignal }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
+  const catalogsList = state.catalogsList || [];
   const [siteLocation, setSiteLocation] = useState(null);
   const pathname = usePathname();
   const profileData = getProfile()
@@ -33,25 +34,8 @@ export default function Menu({ scroll, resetSignal }) {
   const [isOpenSearch, setIsOpenSearch] = useState(false);
   const [isOpenCategoriesDropdown, setIsOpenCategoriesDropdown] = useState(false);
   const [activeCategory, setActiveCategory] = useState("categories-dropdown-details-item-0");
-  const [catalogsList, setCatalogsList] = useState([]);
   const searchParams = useSearchParams();
   const activeCatalog = searchParams.get("catalog");
-
-  // fetch catalogs to get the names of categories and the links
-  useEffect(() => {
-    const fetchCatalogs = async () => {
-      try {
-        const response = await axios.get(`${BASE_API}${endpoints.products.getCatalogs}&lang=${state.LANG}&token=${Cookies.get('token')}`);
-        if (response.data) {
-          setCatalogsList(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching catalogs:", error);
-      }
-    };
-
-    fetchCatalogs();
-  }, [state.LANG]);
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);

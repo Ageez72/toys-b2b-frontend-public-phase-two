@@ -25,30 +25,14 @@ import fallbackMobileImage from "@/assets/imgs/hero-bg.png";
 
 export default function Home() {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
+  const catalogsList = state.catalogsList || [];
   const [translation, setTranslation] = useState(ar);
   const [imagePairs, setImagePairs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [profileData, setProfileData] = useState("");
-  const [catalogsList, setCatalogsList] = useState([]);
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
-  }, [state.LANG]);
-
-  // fetch catalogs to get the names of categories and the links
-  useEffect(() => {
-    const fetchCatalogs = async () => {
-      try {
-        const response = await axios.get(`${BASE_API}${endpoints.products.getCatalogs}&lang=${state.LANG}&token=${Cookies.get('token')}`);
-        if (response.data) {
-          setCatalogsList(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching catalogs:", error);
-      }
-    };
-
-    fetchCatalogs();
   }, [state.LANG]);
 
   const searchTypes = [

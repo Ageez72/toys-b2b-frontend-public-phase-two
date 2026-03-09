@@ -14,6 +14,7 @@ import axios from "axios";
 
 export default function MobileMenu({ scroll, onGoTo }) {
   const { state = {}, dispatch = () => { } } = useAppContext() || {};
+  const catalogsList = state.catalogsList || [];
   const [lang, setLang] = useState("AR"); // fallback
   const siteLocation = Cookies.get("siteLocation")
   const profileData = getProfile()
@@ -27,7 +28,6 @@ export default function MobileMenu({ scroll, onGoTo }) {
   const [isOpenCategoriesDropdown, setIsOpenCategoriesDropdown] = useState(false);
   const [isOpenActiveCategory, setIsOpenActiveCategory] = useState(false);
   const [activeCategory, setActiveCategory] = useState("categories-dropdown-details-item-0");
-  const [catalogsList, setCatalogsList] = useState([]);
   const searchParams = useSearchParams();
   const activeCatalog = searchParams.get("catalog");
 
@@ -56,21 +56,6 @@ export default function MobileMenu({ scroll, onGoTo }) {
     };
   }, [state.LANG]);;
 
-  // fetch catalogs to get the names of categories and the links
-  useEffect(() => {
-    const fetchCatalogs = async () => {
-      try {
-        const response = await axios.get(`${BASE_API}${endpoints.products.getCatalogs}&lang=${state.LANG}&token=${Cookies.get('token')}`);
-        if (response.data) {
-          setCatalogsList(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching catalogs:", error);
-      }
-    };
-
-    fetchCatalogs();
-  }, [state.LANG]);
   return (
     <>
       <div className="mobile-menu fix mb-3 mean-container">

@@ -1,6 +1,8 @@
 "use client";
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { BASE_API, endpoints } from "../constant/endpoints";
 
 let initialLang = Cookies?.get("lang") || "AR";
 
@@ -21,6 +23,7 @@ const initialState = {
   has_items_NEW_ARRIVAL: false,
   has_items_y: false,
   has_items_FEATURED: false,
+  catalogsList: [],
 };
 
 const AppContext = createContext();
@@ -85,6 +88,9 @@ const appReducer = (state, action) => {
     case "has_items_FEATURED":
       return { ...state, has_items_FEATURED: action.payload };
 
+    case "SET_CATALOGS_LIST":
+      return { ...state, catalogsList: action.payload };
+
     default:
       return state;
   }
@@ -105,6 +111,66 @@ const AppProvider = ({ children }) => {
       dispatch({ type: "STORED-ITEMS", payload: JSON.parse(storedCart) });
     }
   }, []);
+
+  // fetch catalogs once and share via context
+  useEffect(() => {
+    const CATALOGS_CACHE_KEY = "catalogsList";
+    const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
+
+    const fetchCatalogs = async () => {
+      try {
+        const raw = localStorage.getItem(CATALOGS_CACHE_KEY);
+
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw);
+
+            // Support old format (pure array without metadata)
+            if (Array.isArray(parsed)) {
+              dispatch({
+                type: "SET_CATALOGS_LIST",
+                payload: parsed,
+              });
+            } else if (parsed?.data && parsed?.timestamp && parsed?.lang) {
+              const isFresh = Date.now() - parsed.timestamp < TWO_DAYS_MS;
+              const sameLang = parsed.lang === state.LANG;
+
+              if (isFresh && sameLang) {
+                dispatch({
+                  type: "SET_CATALOGS_LIST",
+                  payload: parsed.data,
+                });
+                return; // cache is valid, no need to hit API
+              }
+            }
+          } catch {
+            // if parsing fails, ignore and refetch from API
+          }
+        }
+
+        // Either no cache, expired cache, different lang, or invalid format → fetch from API
+        const response = await axios.get(
+          `${BASE_API}${endpoints.products.getCatalogs}&lang=${state.LANG}&token=${Cookies.get("token")}`
+        );
+        if (response.data) {
+          const toStore = {
+            data: response.data,
+            lang: state.LANG,
+            timestamp: Date.now(),
+          };
+          localStorage.setItem(CATALOGS_CACHE_KEY, JSON.stringify(toStore));
+          dispatch({
+            type: "SET_CATALOGS_LIST",
+            payload: response.data,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching catalogs:", error);
+      }
+    };
+
+    fetchCatalogs();
+  }, [state.LANG]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
