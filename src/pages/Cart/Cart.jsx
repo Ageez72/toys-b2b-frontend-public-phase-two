@@ -902,7 +902,7 @@ function Cart() {
                           !state.corporatePayment ||
                           (Array.isArray(state.corporatePayment) && state.corporatePayment.length > 0)
                         ) && (
-                            <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
+                            <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod} <span className="required">*</span></h3>
                           )}
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
@@ -934,7 +934,7 @@ function Cart() {
                               <label htmlFor="employeeBalance" className="block w-full lg:w-1/2">
                                 <div className={`card ${selectedPaymentMethod === "EB" ? 'selected' : ''}`}>
                                   <div className="payment-method">
-                                    <i className="icon-money-3"></i>
+                                    <i className="icon-wallet-money"></i>
                                     <span className="icon-tick-circle"></span>
                                     <input
                                       className="hidden"
@@ -985,7 +985,7 @@ function Cart() {
                           !state.corporatePayment ||
                           (Array.isArray(state.corporatePayment) && state.corporatePayment.length > 0)
                         ) && (
-                            <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod}</h3>
+                            <h3 className="sub-title no-edit mb-4 mt-8">{translation.paymentMethod} <span className="required">*</span></h3>
                           )}
                         <div className="payment-methods flex flex-wrap lg:flex-nowrap gap-3">
                           {
@@ -1015,9 +1015,9 @@ function Cart() {
                             (!Array.isArray(state.corporatePayment) && (!state.corporatePayment || state.corporatePayment === "Employee Balance" || state.corporatePayment === "Both")) ||
                               (Array.isArray(state.corporatePayment) && (state.corporatePayment.length === 0 || state.corporatePayment.includes("Employee Balance"))) ? (
                               <label htmlFor="employeeBalance" className="block w-full lg:w-1/2">
-                                <div className={`card ${selectedPaymentMethod === "Employee Balance" ? 'selected' : ''}`}>
+                                <div className={`card ${selectedPaymentMethod === "EB" ? 'selected' : ''}`}>
                                   <div className="payment-method">
-                                    <i className="icon-money-3"></i>
+                                    <i className="icon-wallet-money"></i>
                                     <span className="icon-tick-circle"></span>
                                     <input
                                       className="hidden"
