@@ -19,6 +19,7 @@ export default function Page() {
   const [translation, setTranslation] = useState(ar);
   const [profileData, setProfileData] = useState(null);
   const router = useRouter();
+  const profileDataList = getProfile();
 
   useEffect(() => {
     setTranslation(state.LANG === "EN" ? en : ar);
@@ -72,38 +73,36 @@ export default function Page() {
                       <div className="title w-1/2"><strong>العلامة التجارية</strong></div>
                       <div className="info w-1/2"><strong>نسبة الخصم</strong></div>
                     </div>
-                    <div className="item flex w-full">
-                      <div className="title w-1/2"><strong>Dolu</strong></div>
-                      <div className="info w-1/2">0%</div>
-                    </div>
-                    <div className="item flex w-full">
-                      <div className="title w-1/2"><strong>Kids Supplies & Ride On</strong></div>
-                      <div className="info w-1/2">0%</div>
-                    </div>
-                    <div className="item flex w-full">
-                      <div className="title w-1/2"><strong>Speedstar</strong></div>
-                      <div className="info w-1/2">0%</div>
-                    </div>
-                    <div className="item flex w-full">
-                      <div className="title w-1/2"><strong>Razor</strong></div>
-                      <div className="info w-1/2">15%</div>
-                    </div>
-                    <div className="item flex w-full">
-                      <div className="title w-1/2"><strong>Little Tikes</strong></div>
-                      <div className="info w-1/2">15%</div>
-                    </div>
-                    <div className="item flex w-full">
-                      <div className="title w-1/2"><strong>LEGO</strong></div>
-                      <div className="info w-1/2">15%</div>
-                    </div>
+                    {Array.isArray(profileDataList?.brandDiscounts) &&
+                      profileDataList.brandDiscounts.map((item, index) => {
+                        const entry = Object.entries(item)[0];
+                        if (!entry) return null;
+
+                        const [key, value] = entry;
+
+                        return (
+                          <div key={index} className="item flex w-full">
+                            <div className="title w-1/2">
+                              <strong>{key}</strong>
+                            </div>
+                            <div className="info w-1/2">
+                              {value}%
+                            </div>
+                          </div>
+                        );
+                      })}
                     <div className="item flex w-full">
                       <div className="title w-1/2"><strong>باقي العلامات التجارية</strong></div>
-                      <div className="info w-1/2">25%</div>
+                      <div className="info w-1/2">{profileDataList.discount}%</div>
                     </div>
-                    <div className="item flex w-full">
-                      <div className="title w-1/2"><strong>عروض التصفية</strong></div>
-                      <div className="info w-1/2">50%</div>
-                    </div>
+                    {
+                      profileDataList.clearanceItemsMaxDiscount > 0 && (
+                        <div className="item flex w-full">
+                          <div className="title w-1/2"><strong>عروض التصفية</strong></div>
+                          <div className="info w-1/2">{profileDataList.clearanceItemsMaxDiscount}%</div>
+                        </div>
+                      )
+                    }
                   </div>
                 </div>
                 <p>2.	يظهر السعر قبل الخصم وبعد الخصم بوضوح لكل منتج.</p>
@@ -204,45 +203,37 @@ export default function Page() {
                         <div className="info w-1/2"><strong>Discount Rate</strong></div>
                       </div>
 
-                      <div className="item flex w-full">
-                        <div className="title w-1/2"><strong>Dolu</strong></div>
-                        <div className="info w-1/2">0%</div>
-                      </div>
+                      {Array.isArray(profileDataList?.brandDiscounts) &&
+                        profileDataList.brandDiscounts.map((item, index) => {
+                          const entry = Object.entries(item)[0];
+                          if (!entry) return null;
 
-                      <div className="item flex w-full">
-                        <div className="title w-1/2"><strong>Kids Supplies & Ride On</strong></div>
-                        <div className="info w-1/2">0%</div>
-                      </div>
+                          const [key, value] = entry;
 
-                      <div className="item flex w-full">
-                        <div className="title w-1/2"><strong>Speedstar</strong></div>
-                        <div className="info w-1/2">0%</div>
-                      </div>
-
-                      <div className="item flex w-full">
-                        <div className="title w-1/2"><strong>Razor</strong></div>
-                        <div className="info w-1/2">15%</div>
-                      </div>
-
-                      <div className="item flex w-full">
-                        <div className="title w-1/2"><strong>Little Tikes</strong></div>
-                        <div className="info w-1/2">15%</div>
-                      </div>
-
-                      <div className="item flex w-full">
-                        <div className="title w-1/2"><strong>LEGO</strong></div>
-                        <div className="info w-1/2">15%</div>
-                      </div>
+                          return (
+                            <div key={index} className="item flex w-full">
+                              <div className="title w-1/2">
+                                <strong>{key}</strong>
+                              </div>
+                              <div className="info w-1/2">
+                                {value}%
+                              </div>
+                            </div>
+                          );
+                        })}
 
                       <div className="item flex w-full">
                         <div className="title w-1/2"><strong>Other Brands</strong></div>
-                        <div className="info w-1/2">25%</div>
+                        <div className="info w-1/2">{profileDataList.discount}%</div>
                       </div>
-
-                      <div className="item flex w-full">
-                        <div className="title w-1/2"><strong>Clearance</strong></div>
-                        <div className="info w-1/2">50%</div>
-                      </div>
+                      {
+                        profileDataList.clearanceItemsMaxDiscount > 0 && (
+                          <div className="item flex w-full">
+                            <div className="title w-1/2"><strong>Clearance</strong></div>
+                            <div className="info w-1/2">{profileDataList.clearanceItemsMaxDiscount}%</div>
+                          </div>
+                        )
+                      }
                     </div>
                   </div>
 

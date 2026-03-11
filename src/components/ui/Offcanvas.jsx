@@ -3,9 +3,12 @@ import React, { Suspense } from "react";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import logo from "../../assets/imgs/logo.png";
+import iqLogo from "../../assets/imgs/iq-logo.png";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 export default function Offcanvas({ isOffCanvas, handleOffCanvas, scroll }) {
+  const siteLocation = Cookies.get("siteLocation")
   return (
     <>
       <div className="fix-area">
@@ -20,7 +23,7 @@ export default function Offcanvas({ isOffCanvas, handleOffCanvas, scroll }) {
                   <Link href="/home" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <Image
                       className="logo-img"
-                      src={logo}
+                      src={siteLocation === "primereach" ? iqLogo : logo}
                       alt="My Image"
                       width={166}
                       height={54}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Menu from "./Menu";
 import MenuControl from "./MenuControl";
 import logo from "../../assets/imgs/logo.png";
+import iqLogo from "../../assets/imgs/iq-logo.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Suspense } from 'react';
@@ -48,7 +49,7 @@ export default function Header({ scroll, handleOffCanvas }) {
                   {
                     <Image
                       className={`logo-img`}
-                      src={logo}
+                      src={siteLocation === "primereach" ? iqLogo : logo}
                       alt="My Image"
                       width={166}
                       height={54}

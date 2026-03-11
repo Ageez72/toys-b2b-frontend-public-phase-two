@@ -120,6 +120,9 @@ export default function ProfileDropdown({ onGoTo }) {
             allQty: data?.data?.allQty,
             payment: data?.data?.payment,
             hideTargetSOA: data?.data?.hideTargetSOA,
+            brandDiscounts: data?.data?.brandDiscounts,
+            discount: data?.data?.discount,
+            clearanceItemsMaxDiscount: data?.data?.clearanceItemsMaxDiscount,
         }
         Cookies.set('profile', JSON.stringify(profile));
         if (data?.data?.active !== "Y" && data?.data?.viewOnly !== true) {
